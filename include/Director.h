@@ -40,7 +40,6 @@ public:
     {}
     
     static void functionalDirector(Director &director);
-    static void getAllOtherData();
     static void addNewEmployeeData();
     template <class T>
     static void setOtherData(T &object);

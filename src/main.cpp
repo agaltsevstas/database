@@ -66,7 +66,9 @@ typedef union
 
 int main()      
 {
+    setlocale(LC_ALL,"ru_RU.UTF-8");
     Logger::createInstance();
+
     Director director;
     ChiefAccountant chiefAccountant;
     ChiefLegalCounsel chiefLegalCounsel;
@@ -254,9 +256,9 @@ tryAgain_menu:
         case FIELD_POSITION:
         {
 //            trading_company_object = trading_company_vector.at(index);
-//            for(iter = data.tradingCompanyVector_.begin(); iter != data.tradingCompanyVector_.end(); iter++)
-//                cout << *iter << endl;
-//            break;
+            for(iter = data.tradingCompanyVector_.begin(); iter != data.tradingCompanyVector_.end(); iter++)
+                cout << *iter << endl;
+            break;
         }
 //        case surname:
 //        {

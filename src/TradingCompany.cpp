@@ -621,17 +621,17 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
     return TradingCompany::empty;
 }
 
-void TradingCompany::getAllOtherData()
+void TradingCompany::getAllOtherData() const
 {
     Data &data = Data::getInstance();
 
     for (const auto &tradingCompany: data.tradingCompanyVector_)
     {
-        cout << tradingCompany << endl;
+        cout << *tradingCompany << endl;
     }
 }
 
-ostream& operator << (ostream& stream, const TradingCompany &tradingCompany)
+ostream& operator << (ostream &stream, const TradingCompany &tradingCompany)
 {
     stream << tradingCompany.id_ << " ";
     stream << tradingCompany.position_ << " ";

@@ -6,7 +6,7 @@ void Logger::createInstance()
     delete logger_;
     logger_ = new Logger;
     debugLevel_ = DEBUG_LEVEL_INFO;
-    logFile_.open("log123.txt");
+    logFile_.open("log.txt");
 }
 
 /// deletes instance of logger and closes log file ('log.txt')

@@ -42,25 +42,17 @@ void Director::functionalDirector(Director &director)
             switch (str(input))
             {
                 case str("1") :
-                {
                     TradingCompany::changePersonalData(director);
                     break;
-                }
                 case str("2") :
-                {
-                    Director::getAllOtherData();
+                    director.getAllOtherData();
                     break;
-                }
                 case str("3") :
-                {
                     Director::addNewEmployeeData();
                     break;
-                }
                 case str("4") :
-                {
                     Director::addNewEmployeeData();
                     break;
-                }
                 case str("B") :
                 case str("b") :
                     return;
@@ -81,16 +73,6 @@ void Director::functionalDirector(Director &director)
             cout << "Вы ввели: " << ex << " - неверная команда! Попробуйте ввести заново: "<< endl;
         }
     }
-}
-
-void Director::getAllOtherData()
-{
-//    Data &data = Data::getInstance();
-//
-//    for (const auto &tradingCompany: data.tradingCompanyVector_)
-//    {
-//        cout << tradingCompany << endl;
-//    }
 }
 
 void Director::addNewEmployeeData()

@@ -27,6 +27,12 @@ inline unsigned constexpr str(char const *input)
     5381;
 }
 
+//string& operator >> (string &str, const string & rhs)
+//{
+//    transform(str.begin(), str.end(), str.begin(), ::tolower);
+//    return str;
+//}
+
 enum Field
 {
     FIELD_ID = 0,
@@ -220,7 +226,7 @@ public:
     friend class Stevedore;
     friend class Driver;
     friend class Vector;
-    friend ostream& operator << (const ostream &stream, const TradingCompany &tradingCompany);
+    friend ostream& operator << (ostream &stream, const TradingCompany &tradingCompany);
     friend void operator >> (const string &line, TradingCompany &tradingCompany);
     friend istream& operator >> (istream &stream, TradingCompany &tradingCompany);
     
@@ -240,7 +246,7 @@ protected:
     uint salary_;
     string password_;
     
-    void getAllOtherData();
+    void getAllOtherData() const;
     
 private:
     template<typename T> T get(string &value, const Field field);
