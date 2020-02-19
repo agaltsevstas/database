@@ -15,6 +15,7 @@
 #include <fstream>
 #include <memory>
 #include <map>
+#include <codecvt>
 
 #include "Logger.h"
 
@@ -23,8 +24,7 @@ using namespace std;
 inline unsigned constexpr str(char const *input)
 {
     return *input ?
-    static_cast<unsigned int>(*input) + 33 * str(input + 1) :
-    5381;
+    static_cast<unsigned int>(*input) + 33 * str(input + 1) : 5381;
 }
 
 //string& operator >> (string &str, const string & rhs)
@@ -55,13 +55,13 @@ enum Status
 {
     /// Успех
     ST_OK = 0,
-    
+
     /// Неудача
     ST_FAIL,
-    
+
     /// Пусто
     ST_EMPTY,
-    
+
     /// Проблема с данными
     ST_WRONGDATA,
 };
