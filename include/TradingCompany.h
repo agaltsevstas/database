@@ -21,17 +21,11 @@
 
 using namespace std;
 
-inline unsigned constexpr str(char const *input)
+inline unsigned constexpr str(const char *input)
 {
     return *input ?
     static_cast<unsigned int>(*input) + 33 * str(input + 1) : 5381;
 }
-
-//string& operator >> (string &str, const string & rhs)
-//{
-//    transform(str.begin(), str.end(), str.begin(), ::tolower);
-//    return str;
-//}
 
 enum Field
 {
@@ -226,9 +220,9 @@ public:
     friend class Stevedore;
     friend class Driver;
     friend class Vector;
-    friend ostream& operator << (ostream &stream, const TradingCompany &tradingCompany);
+    friend ostream& operator << (ostream &output, const TradingCompany &tradingCompany);
     friend void operator >> (const string &line, TradingCompany &tradingCompany);
-    friend istream& operator >> (istream &stream, TradingCompany &tradingCompany);
+    friend istream& operator >> (istream &input, TradingCompany &tradingCompany);
     
 protected:
     uint id_;
@@ -245,9 +239,7 @@ protected:
     string workingHours_;
     uint salary_;
     string password_;
-    
-    void getAllOtherData() const;
-    
+
 private:
     template<typename T> T get(string &value, const Field field);
     /// Пустое поле для возврата в качестве отсутствия результата поиска

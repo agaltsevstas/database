@@ -4,7 +4,6 @@
 #include <boost/algorithm/string.hpp>
 
 #include "TradingCompany.h"
-#include "Data.h"
 #include "Utils.h"
 
 using namespace boost;
@@ -13,15 +12,15 @@ using namespace utils;
 // convert wstring to UTF-8 string
 string wstringToUtf8(const wstring &str)
 {
-    wstring_convert<codecvt_utf8<wchar_t>> myconv;
-    return myconv.to_bytes(str);
+    wstring_convert<codecvt_utf8<wchar_t>> convert;
+    return convert.to_bytes(str);
 }
 
 // convert UTF-8 string to wstring
 wstring utf8ToWstring(const string &str)
 {
-    wstring_convert<codecvt_utf8<wchar_t>> myconv;
-    return myconv.from_bytes(str);
+    wstring_convert<codecvt_utf8<wchar_t>> convert;
+    return convert.from_bytes(str);
 }
 
 void toUpperAndToLower(string &str)
@@ -278,7 +277,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
         {
             case FIELD_ID :
             {
-                type.uintValue = stoi(value);
+                type.uintValue = atoi(value.c_str());
                 regex regular ("^[0-9]{1,4}$");
                 if (value.empty())
                 {
@@ -458,7 +457,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
 
             case FIELD_PASSPORT :
             {
-                type.ulonglongValue = stoi(value);
+                type.ulonglongValue = atoi(value.c_str());
                 regex regular ("^[0-9]{10}$");
                 regex_match(value, regular);
                 if (value.empty())
@@ -482,7 +481,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_PHONE :
             {
-                type.ulonglongValue = stoi(value);
+                type.ulonglongValue = atoi(value.c_str());
                 regex regular ("^[0-9]{10}$");
                 regex_match(value, regular);
                 if (value.empty())
@@ -580,7 +579,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_SALARY :
             {
-                type.uintValue = stoi(value);
+                type.uintValue = atoi(value.c_str());
                 regex regular ("[0-9]+");
                 if (value.empty())
                 {
@@ -643,32 +642,22 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
     return TradingCompany::empty;
 }
 
-void TradingCompany::getAllOtherData() const
+ostream& operator << (ostream &output, const TradingCompany &tradingCompany)
 {
-    Data &data = Data::getInstance();
-
-    for (const auto &tradingCompany: data.tradingCompanyVector_)
-    {
-        cout << *tradingCompany << endl;
-    }
-}
-
-ostream& operator << (ostream &stream, const TradingCompany &tradingCompany)
-{
-    stream << tradingCompany.id_ << " ";
-    stream << tradingCompany.position_ << " ";
-    stream << tradingCompany.surname_ << " ";
-    stream << tradingCompany.name_ << " ";
-    stream << tradingCompany.patronymic_ << " ";
-    stream << tradingCompany.sex_ << " ";
-    stream << tradingCompany.dateOfBirth_ << " ";
-    stream << tradingCompany.phone_ << " ";
-    stream << tradingCompany.dateOfHiring_ << " ";
-    stream << tradingCompany.workingHours_ << " ";
-    stream << tradingCompany.passport_ << " ";
-    stream << tradingCompany.salary_ << " ";
-    stream << tradingCompany.password_;
-    return stream;
+    output << tradingCompany.id_ << " ";
+    output << tradingCompany.position_ << " ";
+    output << tradingCompany.surname_ << " ";
+    output << tradingCompany.name_ << " ";
+    output << tradingCompany.patronymic_ << " ";
+    output << tradingCompany.sex_ << " ";
+    output << tradingCompany.dateOfBirth_ << " ";
+    output << tradingCompany.phone_ << " ";
+    output << tradingCompany.dateOfHiring_ << " ";
+    output << tradingCompany.workingHours_ << " ";
+    output << tradingCompany.passport_ << " ";
+    output << tradingCompany.salary_ << " ";
+    output << tradingCompany.password_;
+    return output;
 }
 
 void operator >> (const string &line, TradingCompany &tradingCompany)

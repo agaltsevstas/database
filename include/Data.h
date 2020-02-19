@@ -71,12 +71,11 @@ public:
 //        object.setId(to_string(++maxId));
         tradingCompanyVector_.insert(it, make_shared<T>(object));
     }
+
+    void getAllOtherData() const;
     
 private:
-    
-    int intValue = 0;
-    string stringValue;
-    
+
     Data() {}
     Data(const Data&) = delete;
     Data& operator=(Data&) = delete;

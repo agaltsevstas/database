@@ -1,5 +1,14 @@
 #include "Director.h"
 
+istream &operator >> (istream &in, char *input)
+{
+    string str(input);
+    transform(str.begin(), str.end(), str.begin(), ::tolower);
+    input = &str[0];
+    in >> input;
+    return in;
+}
+
 void Director::setPremium(int premium)
 {
     salary_ += premium;
@@ -27,6 +36,7 @@ void Director::setFine(int fine)
 
 void Director::functionalDirector(Director &director)
 {
+    Data &data = Data::getInstance();
     cout << "Хотите изменить личные данные? - нажмите 1" << endl;
     cout << "Хотите вывести данные данные всех сотрудников? - нажмите 2" << endl;
     cout << "Хотите изменить чужие данные? - нажмите 3" << endl;
@@ -45,7 +55,7 @@ void Director::functionalDirector(Director &director)
                     TradingCompany::changePersonalData(director);
                     break;
                 case str("2") :
-                    director.getAllOtherData();
+                    data.getAllOtherData();
                     break;
                 case str("3") :
                     Director::addNewEmployeeData();
@@ -53,15 +63,8 @@ void Director::functionalDirector(Director &director)
                 case str("4") :
                     Director::addNewEmployeeData();
                     break;
-                case str("B") :
                 case str("b") :
                     return;
-                case str("ESC") :
-                case str("Esc") :
-                case str("ESc") :
-                case str("EsC") :
-                case str("eSC") :
-                case str("esC") :
                 case str("esc") :
                     cout << "Вы вышли из программы!" << endl;
                     exit(0);
@@ -71,6 +74,10 @@ void Director::functionalDirector(Director &director)
         catch (const string &ex)
         {
             cout << "Вы ввели: " << ex << " - неверная команда! Попробуйте ввести заново: "<< endl;
+        }
+        catch(...)
+        {
+            cout << "Неизвестная ошибка!";
         }
     }
 }

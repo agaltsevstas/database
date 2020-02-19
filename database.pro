@@ -27,40 +27,40 @@ DEFINES += DEBUG_BUILD
 
 INCLUDEPATH += include/
 HEADERS += \
-    include/Accountant.h \
-    include/Cashier.h \
-    include/ChiefAccountant.h \
-    include/ChiefLegalCounsel.h \
+#    include/Accountant.h \
+#    include/Cashier.h \
+#    include/ChiefAccountant.h \
+#    include/ChiefLegalCounsel.h \
     include/Data.h \
     include/Director.h \
-    include/Driver.h \
-    include/HeadOfProcurement.h \
-    include/HeadOfWarehouse.h \
-    include/Lawyer.h \
+#    include/Driver.h \
+#    include/HeadOfProcurement.h \
+#    include/HeadOfWarehouse.h \
+#    include/Lawyer.h \
     include/Logger.h \
-    include/Logistician.h \
-    include/PurchasingManager.h \
-    include/SalesManager.h \
-    include/Stevedore.h \
+#    include/Logistician.h \
+#    include/PurchasingManager.h \
+#    include/SalesManager.h \
+#    include/Stevedore.h \
     include/TradingCompany.h \
     include/Utils.h
 
 SOURCES += \
-    src/Accountant.cpp \
-    src/Cashier.cpp \
-    src/ChiefAccountant.cpp \
-    src/ChiefLegalCounsel.cpp \
+#    src/Accountant.cpp \
+#    src/Cashier.cpp \
+#    src/ChiefAccountant.cpp \
+#    src/ChiefLegalCounsel.cpp \
     src/Data.cpp \
     src/Director.cpp \
-    src/Driver.cpp \
-    src/HeadOfProcurement.cpp \
-    src/HeadOfWarehouse.cpp \
-    src/Lawyer.cpp \
+#    src/Driver.cpp \
+#    src/HeadOfProcurement.cpp \
+#    src/HeadOfWarehouse.cpp \
+#    src/Lawyer.cpp \
     src/Logger.cpp \
-    src/Logistician.cpp \
-    src/PurchasingManager.cpp \
-    src/SalesManager.cpp \
-    src/Stevedore.cpp \
+#    src/Logistician.cpp \
+#    src/PurchasingManager.cpp \
+#    src/SalesManager.cpp \
+#    src/Stevedore.cpp \
     src/TradingCompany.cpp \
     src/main.cpp
 
