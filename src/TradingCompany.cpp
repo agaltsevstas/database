@@ -1,5 +1,4 @@
 #include <boost/regex.hpp>
-#include <boost/algorithm/string.hpp>
 
 #include "TradingCompany.h"
 #include "Utils.h"
@@ -169,7 +168,7 @@ void TradingCompany::displayUser(TradingCompany& tradingCompany)
     << tradingCompany.getPatronymic() << "!" << endl;
 }
 
-void TradingCompany::changePersonalData(TradingCompany& tradingCompany)
+void TradingCompany::changePersonalData()
 {
     cout << ("Изменить свою должность - нажмите 1") << endl;
     cout << ("Изменить свою фамилию - нажмите 2") << endl;
@@ -187,58 +186,58 @@ void TradingCompany::changePersonalData(TradingCompany& tradingCompany)
     switch(stoi(input))
     {
         case FIELD_POSITION:
-            cout << "Текущее значение: " << tradingCompany.getPosition() << endl;
+            cout << "Текущее значение: " << getPosition() << endl;
             cout << "Введите свое значение: " << endl;
             cin >> input;
-            tradingCompany.setPosition(input);
+            setPosition(input);
             break;
         case FIELD_SURNAME:
-            cout << "Текущее значение: " << tradingCompany.getSurname() << endl;
+            cout << "Текущее значение: " << getSurname() << endl;
             cout << "Введите свое значение: " << endl;
             cin >> input;
-            tradingCompany.setSurname(input);
+            setSurname(input);
             break;
         case FIELD_NAME:
-            cout << "Текущее значение: " << tradingCompany.getName() << endl;
+            cout << "Текущее значение: " << getName() << endl;
             cout << "Введите свое значение: " << endl;
             cin >> input;
-            tradingCompany.setName(input);
+            setName(input);
             break;
         case FIELD_PATRONYMIC:
-            cout << "Текущее значение: " <<  tradingCompany.getPatronymic() << endl;
+            cout << "Текущее значение: " <<  getPatronymic() << endl;
             cout << "Введите свое значение: " << endl;
             cin >> input;
-            tradingCompany.setPatronymic(input);
+            setPatronymic(input);
             break;
         case FIELD_SEX:
-            cout << "Текущее значение: " <<  tradingCompany.getSex() << endl;
+            cout << "Текущее значение: " <<  getSex() << endl;
             cout << "Введите свое значение: " << endl;
             cin >> input;
-            tradingCompany.setSex(input);
+            setSex(input);
             break;
         case FIELD_DATE_OF_BIRTH:
-            cout << "Текущее значение: " <<  tradingCompany.getDateOfBirth() << endl;
+            cout << "Текущее значение: " <<  getDateOfBirth() << endl;
             cout << "Введите свое значение: " << endl;
             cin >> input;
-            tradingCompany.setDateOfHiring(input);
+            setDateOfHiring(input);
             break;
         case FIELD_PASSPORT:
-            cout << "Текущее значение: " <<  tradingCompany.getPassport() << endl;
+            cout << "Текущее значение: " <<  getPassport() << endl;
             cout << "Введите свое значение: " << endl;
             cin >> input;
-            tradingCompany.setPassport(input);
+            setPassport(input);
             break;
         case FIELD_PHONE:
-            cout << "Текущее значение: " <<  tradingCompany.getPhone() << endl;
+            cout << "Текущее значение: " <<  getPhone() << endl;
             cout << "Введите свое значение: " << endl;
             cin >> input;
-            tradingCompany.setPhone(input);
+            setPhone(input);
             break;
         case FIELD_PASSWORD:
-            cout << "Текущее значение: " <<  tradingCompany.getPassword() << endl;
+            cout << "Текущее значение: " <<  getPassword() << endl;
             cout << "Введите свое значение: " << endl;
             cin >> input;
-            tradingCompany.setPassword(input);
+            setPassword(input);
             break;
     }
 }
@@ -276,7 +275,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_POSITION :
             {
-//                toUpperAndToLower(value);
+                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("(Бухгалтер|Водитель|Главный_бухгалтер|Главный_юрист-консультант|Грузчик|Директор|Кассир|Логист|"
                                "Менеджер_по_закупкам|Менеджер_по_продажам|Начальник_отдела_закупок|Начальник_склада|Юрист)");
@@ -301,7 +300,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_SURNAME :
             {
-//                toUpperAndToLower(value);
+                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
@@ -325,7 +324,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_NAME :
             {
-//                toUpperAndToLower(value);
+                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
@@ -349,7 +348,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
 
             case FIELD_PATRONYMIC :
             {
-//                toUpperAndToLower(value);
+                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
@@ -373,7 +372,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
     
             case FIELD_SEX :
             {
-//                toUpperAndToLower(value);
+                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("^(Муж|Жен)$");
                 if (value.empty())
@@ -723,42 +722,6 @@ void operator >> (const string &line, TradingCompany &tradingCompany)
     }
 }
 
-//istream& operator >> (istream& stream, TradingCompany& tradingCompany)
-//{
-//    string parameter;
-//    cout << "Начало загрузки данных сотрудника" << endl;
-//    stream >> parameter;
-//    tradingCompany.id_ = tradingCompany.get<uint>(parameter, FIELD_ID);
-//    stream >> parameter;
-//    tradingCompany.position_ = tradingCompany.get<string>(parameter, FIELD_POSITION);
-//    stream >> parameter;
-//    tradingCompany.surname_ = tradingCompany.get<string>(parameter, FIELD_SURNAME);
-//    stream >> parameter;
-//    tradingCompany.name_ = tradingCompany.get<string>(parameter, FIELD_NAME);
-//    stream >> parameter;
-//    tradingCompany.patronymic_ = tradingCompany.get<string>(parameter, FIELD_PATRONYMIC);
-//    stream >> parameter;
-//    tradingCompany.sex_ = tradingCompany.get<string>(parameter, FIELD_SEX);
-//    stream >> parameter;
-//    tradingCompany.dateOfBirth_ = tradingCompany.get<string>(parameter, FIELD_DATE_OF_BIRTH);
-//    stream >> parameter;
-//    tradingCompany.passport_ = tradingCompany.get<unsigned long long>(parameter, FIELD_PASSPORT);
-//    stream >> parameter;
-//    tradingCompany.phone_ = tradingCompany.get<unsigned long long>(parameter, FIELD_PHONE);
-//    stream >> parameter;
-//    tradingCompany.email_ = tradingCompany.get<string>(parameter, FIELD_EMAIL);
-//    stream >> parameter;
-//    tradingCompany.dateOfHiring_ = tradingCompany.get<string>(parameter, FIELD_DATE_OF_HIRING);
-//    stream >> parameter;
-//    tradingCompany.workingHours_ = tradingCompany.get<string>(parameter, FIELD_WORKING_HOURS);
-//    stream >> parameter;
-//    tradingCompany.salary_ = tradingCompany.get<uint>(parameter, FIELD_SALARY);
-//    stream >> parameter;
-//    tradingCompany.password_ = tradingCompany.get<string>(parameter, FIELD_PASSWORD);
-//    cout << "Конец загрузки данных сотрудника" << endl;
-//    cout << "--------------------------------" << endl;
-//    return stream;
-//}
 //trading_company &trading_company::operator = (const trading_company &trading_company, const directors &directors)
 //{
 //    vector <trading_company> trading_company_vector, *trading_company_pointer_vector, trading_company_for_pointer_to_vector;

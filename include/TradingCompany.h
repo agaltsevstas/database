@@ -12,7 +12,6 @@
 #include <cmath>
 #include <memory>
 #include <map>
-#include <codecvt>
 
 #include "Logger.h"
 
@@ -37,21 +36,6 @@ enum Field
     FIELD_WORKING_HOURS,
     FIELD_SALARY,
     FIELD_PASSWORD,
-};
-
-enum Status
-{
-    /// Успех
-    ST_OK = 0,
-
-    /// Неудача
-    ST_FAIL,
-
-    /// Пусто
-    ST_EMPTY,
-
-    /// Проблема с данными
-    ST_WRONGDATA,
 };
 
 enum Numbers
@@ -85,6 +69,21 @@ class Vector;
 class TradingCompany
 {
 private:
+
+    enum Status
+    {
+        /// Успех
+        ST_OK = 0,
+
+        /// Неудача
+        ST_FAIL,
+
+        /// Пусто
+        ST_EMPTY,
+
+        /// Проблема с данными
+        ST_WRONGDATA,
+    };
     /*
      * Внутренняя структура параметра
      */
@@ -190,8 +189,8 @@ public:
     uint               getPremium();
     uint               getFine();
     
-    static void        displayUser(TradingCompany& tradingCompany);
-    static void        changePersonalData(TradingCompany& tradingCompany);
+    static void displayUser(TradingCompany& tradingCompany);
+    void changePersonalData();
 
 //    template <class T>
 //    vector <T> get_reading_data_from_file(string);
@@ -216,7 +215,6 @@ public:
     friend class Vector;
     friend ostream& operator << (ostream &output, const TradingCompany &tradingCompany);
     friend void operator >> (const string &line, TradingCompany &tradingCompany);
-    friend istream& operator >> (istream &input, TradingCompany &tradingCompany);
     
 protected:
     uint id_;

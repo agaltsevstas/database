@@ -1,4 +1,17 @@
-#include "Data.h"
+#include "TradingCompany.h"
+#include "Director.h"
+#include "ChiefAccountant.h"
+#include "ChiefLegalCounsel.h"
+#include "HeadOfProcurement.h"
+#include "HeadOfWarehouse.h"
+#include "SalesManager.h"
+#include "Cashier.h"
+#include "Accountant.h"
+#include "Logistician.h"
+#include "Lawyer.h"
+#include "PurchasingManager.h"
+#include "Stevedore.h"
+#include "Driver.h"
 
 static string directorPath = "director.txt";
 static string chiefAccountantPath = "chief_accountant.txt";
@@ -133,7 +146,7 @@ tryAgain_password:
             cout << "Вы вышли из программы!" << endl;
             exit(0);
         }
-        for (const auto &tradingCompany: data.tradingCompanyVector_)
+        for (const auto &tradingCompany: data.getObject())
         {
             if (input_string == tradingCompany->getPassword())
             {
@@ -207,7 +220,7 @@ tryAgain_password:
                 break;
             }
         }
-        if ((input_string != "ESC") && (input_string != "esc") && (input_string != data.tradingCompanyVector_[index]->getPassword()))
+        if ((input_string != "ESC") && (input_string != "esc") && (input_string != data.getObject()[index]->getPassword()))
             throw input_string;
     }
     catch (const string &ex)
@@ -256,7 +269,7 @@ tryAgain_menu:
         case FIELD_POSITION:
         {
 //            trading_company_object = trading_company_vector.at(index);
-            for(iter = data.tradingCompanyVector_.begin(); iter != data.tradingCompanyVector_.end(); iter++)
+            for(iter = data.getObject().begin(); iter != data.getObject().end(); iter++)
                 cout << *iter << endl;
             break;
         }
