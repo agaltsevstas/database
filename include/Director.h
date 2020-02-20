@@ -3,8 +3,6 @@
 
 #include "Data.h"
 
-istream &operator >> (istream &in, char *input);
-
 class Director : public TradingCompany
 {
 public:

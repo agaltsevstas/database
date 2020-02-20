@@ -1,13 +1,7 @@
 #include "Director.h"
+//#include "Utils.h"
 
-istream &operator >> (istream &in, char *input)
-{
-    string str(input);
-    transform(str.begin(), str.end(), str.begin(), ::tolower);
-    input = &str[0];
-    in >> input;
-    return in;
-}
+//using namespace utils;
 
 void Director::setPremium(int premium)
 {
@@ -49,6 +43,8 @@ void Director::functionalDirector(Director &director)
         try
         {
             cin >> input;
+//            auto suka = toLower(input);
+//            input = toLower(input);
             switch (str(input))
             {
                 case str("1") :
@@ -71,13 +67,14 @@ void Director::functionalDirector(Director &director)
                 default: throw input;
             }
         }
-        catch (const string &ex)
+        catch (const char *ex)
         {
             cout << "Вы ввели: " << ex << " - неверная команда! Попробуйте ввести заново: "<< endl;
         }
         catch(...)
         {
             cout << "Неизвестная ошибка!";
+            exit(0);
         }
     }
 }

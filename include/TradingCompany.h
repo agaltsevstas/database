@@ -3,28 +3,22 @@
 
 #pragma once
 
-#include <iostream>
 #include <vector>
-#include <string>
 #include <cstdlib>
 #include <ctime>
 #include <iomanip>
 #include <iterator>
 #include <algorithm>
 #include <cmath>
-#include <fstream>
 #include <memory>
 #include <map>
 #include <codecvt>
 
 #include "Logger.h"
 
-using namespace std;
-
 inline unsigned constexpr str(const char *input)
 {
-    return *input ?
-    static_cast<unsigned int>(*input) + 33 * str(input + 1) : 5381;
+    return *input ? static_cast<unsigned int>(*input) + 33 * str(input + 1) : 5381;
 }
 
 enum Field

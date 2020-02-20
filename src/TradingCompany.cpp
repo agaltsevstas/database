@@ -1,5 +1,3 @@
-#include <cstdlib>
-#include <locale>
 #include <boost/regex.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -8,28 +6,6 @@
 
 using namespace boost;
 using namespace utils;
-
-// convert wstring to UTF-8 string
-string wstringToUtf8(const wstring &str)
-{
-    wstring_convert<codecvt_utf8<wchar_t>> convert;
-    return convert.to_bytes(str);
-}
-
-// convert UTF-8 string to wstring
-wstring utf8ToWstring(const string &str)
-{
-    wstring_convert<codecvt_utf8<wchar_t>> convert;
-    return convert.from_bytes(str);
-}
-
-void toUpperAndToLower(string &str)
-{
-    wstring wstr = utf8ToWstring(str);
-    wstr[0] = towupper(wstr[0]);
-    transform(wstr.begin() + 1, wstr.end(), wstr.begin() + 1, towlower);
-    str = wstringToUtf8(wstr);
-}
 
 template<>
 uint TradingCompany::get<uint>(string &value, const Field field)
@@ -300,7 +276,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_POSITION :
             {
-                toUpperAndToLower(value);
+//                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("(Бухгалтер|Водитель|Главный_бухгалтер|Главный_юрист-консультант|Грузчик|Директор|Кассир|Логист|"
                                "Менеджер_по_закупкам|Менеджер_по_продажам|Начальник_отдела_закупок|Начальник_склада|Юрист)");
@@ -325,7 +301,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_SURNAME :
             {
-                toUpperAndToLower(value);
+//                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
@@ -349,7 +325,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_NAME :
             {
-                toUpperAndToLower(value);
+//                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
@@ -373,7 +349,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
 
             case FIELD_PATRONYMIC :
             {
-                toUpperAndToLower(value);
+//                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
@@ -397,7 +373,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
     
             case FIELD_SEX :
             {
-                toUpperAndToLower(value);
+//                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("^(Муж|Жен)$");
                 if (value.empty())

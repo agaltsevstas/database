@@ -2,12 +2,10 @@
 #define Logger_h
 
 #include <iostream>
-#include <stdio.h>
 #include <string>
 #include <fstream>
 #include <streambuf>
 #include <sstream>
-#include <assert.h>
 #include <thread>
 #include <mutex>
 

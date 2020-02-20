@@ -7,6 +7,14 @@
 
 namespace utils
 {
+//    inline char* toLower(char *input)
+//    {
+//        std::string str(input);
+//        std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+//        input = &str[0];
+//        return input;
+//    }
+    
     inline vector<string> splitString(string source, string delim)
     {
         vector<string> result;
@@ -51,6 +59,28 @@ namespace utils
         vector<uint> age = { calculatedYear, calculatedMonth, calculatedDay };
         return age;
     }
+    
+//    // convert wstring to UTF-8 string
+//    inline string wstringToUtf8(const wstring &str)
+//    {
+//        wstring_convert<codecvt_utf8<wchar_t>> convert;
+//        return convert.to_bytes(str);
+//    }
+//
+//    // convert UTF-8 string to wstring
+//    inline wstring utf8ToWstring(const string &str)
+//    {
+//        wstring_convert<codecvt_utf8<wchar_t>> convert;
+//        return convert.from_bytes(str);
+//    }
+//
+//    inline void toUpperAndToLower(string &str)
+//    {
+//        wstring wstr = utf8ToWstring(str);
+//        wstr[0] = towupper(wstr[0]);
+//        transform(wstr.begin() + 1, wstr.end(), wstr.begin() + 1, towlower);
+//        str = wstringToUtf8(wstr);
+//    }
 }
 
 #endif // Utils_h
