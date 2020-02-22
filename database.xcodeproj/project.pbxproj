@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04AB475E24011C2200D6FF4F /* Driver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475224011C2000D6FF4F /* Driver.cpp */; };
+		04AB475F24011C2200D6FF4F /* ChiefLegalCounsel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475324011C2100D6FF4F /* ChiefLegalCounsel.cpp */; };
+		04AB476024011C2200D6FF4F /* HeadOfProcurement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475424011C2100D6FF4F /* HeadOfProcurement.cpp */; };
+		04AB476124011C2200D6FF4F /* Lawyer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475524011C2100D6FF4F /* Lawyer.cpp */; };
+		04AB476224011C2200D6FF4F /* SalesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475624011C2100D6FF4F /* SalesManager.cpp */; };
+		04AB476324011C2200D6FF4F /* ChiefAccountant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475724011C2100D6FF4F /* ChiefAccountant.cpp */; };
+		04AB476424011C2200D6FF4F /* Stevedore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475824011C2100D6FF4F /* Stevedore.cpp */; };
+		04AB476524011C2200D6FF4F /* Accountant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475924011C2100D6FF4F /* Accountant.cpp */; };
+		04AB476624011C2200D6FF4F /* PurchasingManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475A24011C2100D6FF4F /* PurchasingManager.cpp */; };
+		04AB476724011C2200D6FF4F /* HeadOfWarehouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475B24011C2100D6FF4F /* HeadOfWarehouse.cpp */; };
+		04AB476824011C2200D6FF4F /* Logistician.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475C24011C2200D6FF4F /* Logistician.cpp */; };
+		04AB476924011C2200D6FF4F /* Cashier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475D24011C2200D6FF4F /* Cashier.cpp */; };
 		04BF8F7A23F5CA3100857AB1 /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04BF8F6923F5CA3100857AB1 /* Data.cpp */; };
 		04BF8F7B23F5CA3100857AB1 /* Director.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04BF8F6A23F5CA3100857AB1 /* Director.cpp */; };
 		04BF8F8023F5CA3100857AB1 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04BF8F6F23F5CA3100857AB1 /* Logger.cpp */; };
@@ -28,6 +40,31 @@
 
 /* Begin PBXFileReference section */
 		04A428CE2018FCF4004E1124 /* database */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = database; sourceTree = BUILT_PRODUCTS_DIR; };
+		04AB475224011C2000D6FF4F /* Driver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Driver.cpp; sourceTree = "<group>"; };
+		04AB475324011C2100D6FF4F /* ChiefLegalCounsel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChiefLegalCounsel.cpp; sourceTree = "<group>"; };
+		04AB475424011C2100D6FF4F /* HeadOfProcurement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HeadOfProcurement.cpp; sourceTree = "<group>"; };
+		04AB475524011C2100D6FF4F /* Lawyer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lawyer.cpp; sourceTree = "<group>"; };
+		04AB475624011C2100D6FF4F /* SalesManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SalesManager.cpp; sourceTree = "<group>"; };
+		04AB475724011C2100D6FF4F /* ChiefAccountant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChiefAccountant.cpp; sourceTree = "<group>"; };
+		04AB475824011C2100D6FF4F /* Stevedore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stevedore.cpp; sourceTree = "<group>"; };
+		04AB475924011C2100D6FF4F /* Accountant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Accountant.cpp; sourceTree = "<group>"; };
+		04AB475A24011C2100D6FF4F /* PurchasingManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PurchasingManager.cpp; sourceTree = "<group>"; };
+		04AB475B24011C2100D6FF4F /* HeadOfWarehouse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HeadOfWarehouse.cpp; sourceTree = "<group>"; };
+		04AB475C24011C2200D6FF4F /* Logistician.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logistician.cpp; sourceTree = "<group>"; };
+		04AB475D24011C2200D6FF4F /* Cashier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cashier.cpp; sourceTree = "<group>"; };
+		04AB476A24011C2C00D6FF4F /* ChiefLegalCounsel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChiefLegalCounsel.h; sourceTree = "<group>"; };
+		04AB476B24011C2C00D6FF4F /* Accountant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Accountant.h; sourceTree = "<group>"; };
+		04AB476C24011C2C00D6FF4F /* SalesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesManager.h; sourceTree = "<group>"; };
+		04AB476D24011C2C00D6FF4F /* Stevedore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stevedore.h; sourceTree = "<group>"; };
+		04AB476E24011C2C00D6FF4F /* Logistician.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logistician.h; sourceTree = "<group>"; };
+		04AB476F24011C2C00D6FF4F /* Lawyer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lawyer.h; sourceTree = "<group>"; };
+		04AB477024011C2C00D6FF4F /* ChiefAccountant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChiefAccountant.h; sourceTree = "<group>"; };
+		04AB477124011C2C00D6FF4F /* Cashier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cashier.h; sourceTree = "<group>"; };
+		04AB477224011C2D00D6FF4F /* Driver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Driver.h; sourceTree = "<group>"; };
+		04AB477324011C2D00D6FF4F /* HeadOfProcurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadOfProcurement.h; sourceTree = "<group>"; };
+		04AB477424011C2D00D6FF4F /* HeadOfWarehouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadOfWarehouse.h; sourceTree = "<group>"; };
+		04AB477524011C2D00D6FF4F /* PurchasingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchasingManager.h; sourceTree = "<group>"; };
+		04AB47762401255500D6FF4F /* Delete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delete.h; sourceTree = "<group>"; };
 		04BF8F4423F5CA3000857AB1 /* accountant.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = accountant.txt; sourceTree = "<group>"; };
 		04BF8F4523F5CA3000857AB1 /* cashier.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cashier.txt; sourceTree = "<group>"; };
 		04BF8F4623F5CA3000857AB1 /* chief_accountant.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chief_accountant.txt; sourceTree = "<group>"; };
@@ -105,6 +142,19 @@
 		04BF8F5223F5CA3000857AB1 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				04AB47762401255500D6FF4F /* Delete.h */,
+				04AB476B24011C2C00D6FF4F /* Accountant.h */,
+				04AB477124011C2C00D6FF4F /* Cashier.h */,
+				04AB477024011C2C00D6FF4F /* ChiefAccountant.h */,
+				04AB476A24011C2C00D6FF4F /* ChiefLegalCounsel.h */,
+				04AB477224011C2D00D6FF4F /* Driver.h */,
+				04AB477324011C2D00D6FF4F /* HeadOfProcurement.h */,
+				04AB477424011C2D00D6FF4F /* HeadOfWarehouse.h */,
+				04AB476F24011C2C00D6FF4F /* Lawyer.h */,
+				04AB476E24011C2C00D6FF4F /* Logistician.h */,
+				04AB477524011C2D00D6FF4F /* PurchasingManager.h */,
+				04AB476C24011C2C00D6FF4F /* SalesManager.h */,
+				04AB476D24011C2C00D6FF4F /* Stevedore.h */,
 				04BF8F5723F5CA3000857AB1 /* Data.h */,
 				04BF8F5823F5CA3000857AB1 /* Director.h */,
 				04BF8F5D23F5CA3000857AB1 /* Logger.h */,
@@ -117,6 +167,18 @@
 		04BF8F6423F5CA3100857AB1 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				04AB475924011C2100D6FF4F /* Accountant.cpp */,
+				04AB475D24011C2200D6FF4F /* Cashier.cpp */,
+				04AB475724011C2100D6FF4F /* ChiefAccountant.cpp */,
+				04AB475324011C2100D6FF4F /* ChiefLegalCounsel.cpp */,
+				04AB475224011C2000D6FF4F /* Driver.cpp */,
+				04AB475424011C2100D6FF4F /* HeadOfProcurement.cpp */,
+				04AB475B24011C2100D6FF4F /* HeadOfWarehouse.cpp */,
+				04AB475524011C2100D6FF4F /* Lawyer.cpp */,
+				04AB475C24011C2200D6FF4F /* Logistician.cpp */,
+				04AB475A24011C2100D6FF4F /* PurchasingManager.cpp */,
+				04AB475624011C2100D6FF4F /* SalesManager.cpp */,
+				04AB475824011C2100D6FF4F /* Stevedore.cpp */,
 				04BF8F6923F5CA3100857AB1 /* Data.cpp */,
 				04BF8F6A23F5CA3100857AB1 /* Director.cpp */,
 				04BF8F6F23F5CA3100857AB1 /* Logger.cpp */,
@@ -184,8 +246,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				04BF8F7A23F5CA3100857AB1 /* Data.cpp in Sources */,
+				04AB476024011C2200D6FF4F /* HeadOfProcurement.cpp in Sources */,
+				04AB475F24011C2200D6FF4F /* ChiefLegalCounsel.cpp in Sources */,
+				04AB476624011C2200D6FF4F /* PurchasingManager.cpp in Sources */,
+				04AB476424011C2200D6FF4F /* Stevedore.cpp in Sources */,
 				04BF8F8623F5CA3100857AB1 /* TradingCompany.cpp in Sources */,
+				04AB476824011C2200D6FF4F /* Logistician.cpp in Sources */,
+				04AB476524011C2200D6FF4F /* Accountant.cpp in Sources */,
+				04AB476224011C2200D6FF4F /* SalesManager.cpp in Sources */,
+				04AB476124011C2200D6FF4F /* Lawyer.cpp in Sources */,
 				04BF8F7B23F5CA3100857AB1 /* Director.cpp in Sources */,
+				04AB476724011C2200D6FF4F /* HeadOfWarehouse.cpp in Sources */,
+				04AB475E24011C2200D6FF4F /* Driver.cpp in Sources */,
+				04AB476324011C2200D6FF4F /* ChiefAccountant.cpp in Sources */,
+				04AB476924011C2200D6FF4F /* Cashier.cpp in Sources */,
 				04BF8F8023F5CA3100857AB1 /* Logger.cpp in Sources */,
 				04BF8F8223F5CA3100857AB1 /* main.cpp in Sources */,
 			);
@@ -306,6 +380,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_LDFLAGS = (
@@ -326,6 +401,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_LDFLAGS = (

@@ -1,10 +1,11 @@
 #include <boost/regex.hpp>
 
 #include "TradingCompany.h"
-#include "Utils.h"
+#include "Delete.h"
+//#include "Utils.h"
 
 using namespace boost;
-using namespace utils;
+//using namespace utils;
 
 template<>
 uint TradingCompany::get<uint>(string &value, const Field field)
@@ -275,7 +276,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_POSITION :
             {
-                toUpperAndToLower(value);
+//                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("(Бухгалтер|Водитель|Главный_бухгалтер|Главный_юрист-консультант|Грузчик|Директор|Кассир|Логист|"
                                "Менеджер_по_закупкам|Менеджер_по_продажам|Начальник_отдела_закупок|Начальник_склада|Юрист)");
@@ -300,7 +301,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_SURNAME :
             {
-                toUpperAndToLower(value);
+//                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
@@ -324,7 +325,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_NAME :
             {
-                toUpperAndToLower(value);
+//                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
@@ -348,7 +349,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
 
             case FIELD_PATRONYMIC :
             {
-                toUpperAndToLower(value);
+//                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
@@ -372,7 +373,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
     
             case FIELD_SEX :
             {
-                toUpperAndToLower(value);
+//                toUpperAndToLower(value);
                 type.stringValue = value;
                 regex regular ("^(Муж|Жен)$");
                 if (value.empty())
@@ -396,38 +397,38 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_DATE_OF_BIRTH :
             {
-                type.stringValue = value;
-                vector<string> data = utils::splitString(date(), " .-");
-                vector<string> dateOfBirth = utils::splitString(value, " .-");
-                auto age = findAge(data, dateOfBirth);
-                uint year = age[0];
-                uint month = age[1];
-                uint day = age[2];
-                regex regular ("^(((0[1-9]|[12][0-9]|30)[-/.]?(0[13-9]|1[012])|31[-/.]?(0[13578]|1[02])|(0[1-9]|"
-                               "1[0-9]|2[0-8])[-/.]?02)[-/.]?[0-9]{4}|29[-/.]?02[-/.]?([0-9]{2}(([2468][048]|"
-                               "[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$");
-                if (value.empty())
-                {
-                    Logger::error << "Пустая дата рождения >> " << value << endl;
-                    type.status = ST_EMPTY;
-                }
-                else if (year < 18)
-                {
-                    Logger::warning << "Неудовлетворительный возраст >> " << "Лет: " << year << "Месяцев: " << month << "Дней: " << day << endl;
-                    type.status = ST_WRONGDATA;
-                }
-                else if (!regex_match(value, regular))
-                {
-                    Logger::warning << "Некорретная дата рождения >> " << value << endl;
-                    type.status = ST_WRONGDATA;
-                }
-                else
-                {
-                    Logger::info << "Дата рождения >> " << value << endl;
-                    type.status = ST_OK;
-                }
-                fieldStatus_[field] = type.status;
-                return type;
+//                type.stringValue = value;
+//                vector<string> data = utils::splitString(date(), " .-");
+//                vector<string> dateOfBirth = utils::splitString(value, " .-");
+//                auto age = findAge(data, dateOfBirth);
+//                uint year = age[0];
+//                uint month = age[1];
+//                uint day = age[2];
+//                regex regular ("^(((0[1-9]|[12][0-9]|30)[-/.]?(0[13-9]|1[012])|31[-/.]?(0[13578]|1[02])|(0[1-9]|"
+//                               "1[0-9]|2[0-8])[-/.]?02)[-/.]?[0-9]{4}|29[-/.]?02[-/.]?([0-9]{2}(([2468][048]|"
+//                               "[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$");
+//                if (value.empty())
+//                {
+//                    Logger::error << "Пустая дата рождения >> " << value << endl;
+//                    type.status = ST_EMPTY;
+//                }
+//                else if (year < 18)
+//                {
+//                    Logger::warning << "Неудовлетворительный возраст >> " << "Лет: " << year << "Месяцев: " << month << "Дней: " << day << endl;
+//                    type.status = ST_WRONGDATA;
+//                }
+//                else if (!regex_match(value, regular))
+//                {
+//                    Logger::warning << "Некорретная дата рождения >> " << value << endl;
+//                    type.status = ST_WRONGDATA;
+//                }
+//                else
+//                {
+//                    Logger::info << "Дата рождения >> " << value << endl;
+//                    type.status = ST_OK;
+//                }
+//                fieldStatus_[field] = type.status;
+//                return type;
             }
 
             case FIELD_PASSPORT :
