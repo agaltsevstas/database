@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
 #include <iomanip>
 #include <codecvt>
 #include <boost/algorithm/string.hpp>

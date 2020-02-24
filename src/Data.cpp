@@ -48,17 +48,17 @@ void Data::getAllOtherData() const
 void Data::addNewEmployeeData()
 {
     Data &data = Data::getInstance();
-    vector<string> positions;
-
-    cout << "Выберите одну из предложенных должности: " << endl;
-
-    for (const auto &tradingCompany: data.tradingCompanyVector_)
-    {
-        positions.push_back(tradingCompany->getPosition());
-    }
-
-    auto last = unique(positions.begin(), positions.end());
-    positions.erase(last, positions.end());
+//    vector<string> positions;
+//
+//    cout << "Выберите одну из предложенных должности: " << endl;
+//
+//    for (const auto &tradingCompany: data.tradingCompanyVector_)
+//    {
+//        positions.push_back(tradingCompany->getPosition());
+//    }
+//
+//    auto last = unique(positions.begin(), positions.end());
+//    positions.erase(last, positions.end());
     copy(positions.begin(), positions.end(), ostream_iterator<string>(cout, "\n"));
 
     cout << "Введите должность сотрудника: " << endl;

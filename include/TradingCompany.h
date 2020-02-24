@@ -12,9 +12,24 @@
 #include <cmath>
 #include <memory>
 #include <map>
-#include <set>
+#include <list>
 
 #include "Logger.h"
+
+class Director;
+class ChiefAccountant;
+class ChiefLegalCounsel;
+class HeadOfProcurement;
+class HeadOfWarehouse;
+class SalesManager;
+class Cashier;
+class Accountant;
+class Logistician;
+class Lawyer;
+class PurchasingManager;
+class Stevedore;
+class Driver;
+class Vector;
 
 enum Field
 {
@@ -47,20 +62,22 @@ enum Numbers
     NINE,
 };
 
-class Director;
-class ChiefAccountant;
-class ChiefLegalCounsel;
-class HeadOfProcurement;
-class HeadOfWarehouse;
-class SalesManager;
-class Cashier;
-class Accountant;
-class Logistician;
-class Lawyer;
-class PurchasingManager;
-class Stevedore;
-class Driver;
-class Vector;
+const list<string> positions
+{
+    "Бухгалтер",
+    "Водитель",
+    "Главный_бухгалтер",
+    "Главный_юрист-консультант",
+    "Грузчик",
+    "Директор",
+    "Логист",
+    "Менеджер_по_закупкам",
+    "Менеджер_по_продажам",
+    "Кассир",
+    "Начальник_отдела_закупок",
+    "Начальник_склада",
+    "Юрист"
+};
 
 class TradingCompany
 {
@@ -130,23 +147,6 @@ private:
         {FIELD_WORKING_HOURS,  ST_EMPTY},
         {FIELD_SALARY,         ST_EMPTY},
         {FIELD_PASSWORD,       ST_EMPTY},
-    };
-public:
-    set<string> positions_
-    {
-        "Бухгалтер",
-        "Водитель",
-        "Главный_бухгалтер",
-        "Главный_юрист-консультант",
-        "Грузчик",
-        "Директор",
-        "Логист",
-        "Менеджер_по_закупкам",
-        "Менеджер_по_продажам",
-        "Кассир",
-        "Начальник_отдела_закупок",
-        "Начальник_склада",
-        "Юрист"
     };
 
 public:
