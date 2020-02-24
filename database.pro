@@ -62,7 +62,8 @@ SOURCES += \
 #    src/SalesManager.cpp \
 #    src/Stevedore.cpp \
     src/TradingCompany.cpp \
-    src/main.cpp
+    src/main.cpp \
+    src/Utils.cpp
 
 # Boost and common
 LIBS += -L/usr/lib/x86_64-linux-gnu \

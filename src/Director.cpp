@@ -1,8 +1,7 @@
 #include "Director.h"
-//#include "Delete.h"
-//#include "Utils.h"
+#include "Utils.h"
 
-//using namespace utils;
+using namespace utils;
 
 void Director::setPremium(int premium)
 {
@@ -22,7 +21,8 @@ void Director::setFine(int fine)
 //        for(iter = directors_vector.begin(); iter != directors_vector.end(); iter++)
 //        {
 //            directors_file << *iter;
-//            cout << *iter << endl;
+//            cout << *iter << endl;+
+
 //        }
 //        directors_file.clear();
 //        directors_file.close();
@@ -38,14 +38,14 @@ void Director::functionalDirector(Director &director)
     cout << "Хотите добавить нового сотрудника? - нажмите 4" << endl;
     cout << "Хотите вернуться назад? - введите B: " << endl;
     cout << "Хотите выйти из программы? - введите ESC: " << endl;
-    char input [3];
+    string input;
     while (true)
     {
         try
         {
             cin >> input;
-//            input = toLower(input);
-            switch (str(input))
+            toLower(input);
+            switch (str(input.c_str()))
             {
                 case str("1") :
                     director.changePersonalData();
@@ -67,7 +67,7 @@ void Director::functionalDirector(Director &director)
                 default: throw input;
             }
         }
-        catch (const char *ex)
+        catch (const string &ex)
         {
             cout << "Вы ввели: " << ex << " - неверная команда! Попробуйте ввести заново: "<< endl;
         }

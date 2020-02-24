@@ -12,6 +12,9 @@
 #include "PurchasingManager.h"
 #include "Stevedore.h"
 #include "Driver.h"
+#include "Utils.h"
+
+using namespace utils;
 
 static string directorPath = "director.txt";
 static string chiefAccountantPath = "chief_accountant.txt";
@@ -127,107 +130,107 @@ int main()
     
     vector <shared_ptr<TradingCompany>>::iterator iter;
     Field input_fields;
-    string input_string;
+    string input;
     unsigned int input_int = 0;
-    TradingCompany tradingCompany;
 //    vector<trading_company*> List; // если нет родительского класса vector<void*> List;
 //    List.push_back(new directors);
 //    trading_company *p = List[0];
 //    directors *t1 = nullptr;
 //    t1 = dynamic_cast<directors*>(p));
     cout << ("Введите пароль для получения доступа к базе данных или закончите выполнение программы, введите ESC: ") << endl;
-    cin >> input_string;
-tryAgain_password:
-    int index = 0;
-    try
+    cin >> input;
+    while (true)
     {
-        if(input_string == "ESC" || input_string == "esc")
+        try
         {
-            cout << "Вы вышли из программы!" << endl;
-            exit(0);
-        }
-        for (const auto &tradingCompany: data.getObject())
-        {
-            if (input_string == tradingCompany->getPassword())
+            for (const auto &tradingCompany: data.getObject())
             {
-                if ((directorPtr = dynamic_pointer_cast<Director>(tradingCompany)))
+                if (input == tradingCompany->getPassword())
                 {
-                    TradingCompany::displayUser(*directorPtr);
-                    
-//                    trading_company::change_personal_data(*directors_pointer);
-                    Director::functionalDirector(*directorPtr);
+                    if ((directorPtr = dynamic_pointer_cast<Director>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*directorPtr);
+
+    //                    trading_company::change_personal_data(*directors_pointer);
+                        Director::functionalDirector(*directorPtr);
+                    }
+                    if ((chiefAccountantPtr = dynamic_pointer_cast<ChiefAccountant>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*chiefAccountantPtr);
+    //                    trading_company::change_personal_data(*chief_accountant_pointer);
+                    }
+                    if ((chiefLegalCounselPtr = dynamic_pointer_cast<ChiefLegalCounsel>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*chiefLegalCounselPtr);
+    //                    trading_company::change_personal_data(*chief_legal_counsel_pointer);
+                    }
+                    if ((headOfProcurementPtr = dynamic_pointer_cast<HeadOfProcurement>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*headOfProcurementPtr);
+    //                    trading_company::change_personal_data(*head_of_procurement_pointer);
+                    }
+                    if ((headOfWarehousePtr = dynamic_pointer_cast<HeadOfWarehouse>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*headOfWarehousePtr);
+    //                    trading_company::change_personal_data(*head_of_warehouses_pointer);
+                    }
+                    if ((salesManagerPtr = dynamic_pointer_cast<SalesManager>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*salesManagerPtr);
+    //                    trading_company::change_personal_data(*sales_managers_pointer);
+                    }
+                    if ((cashierPtr = dynamic_pointer_cast<Cashier>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*cashierPtr);
+    //                    trading_company::change_personal_data(*cashier_pointer);
+                    }
+                    if ((accountantPtr = dynamic_pointer_cast<Accountant>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*accountantPtr);
+    //                    trading_company::change_personal_data(*accountants_pointer);
+                    }
+                    if ((logisticianPtr = dynamic_pointer_cast<Logistician>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*logisticianPtr);
+    //                    trading_company::change_personal_data(*logisticians_pointer);
+                    }
+                    if ((lawyerPtr = dynamic_pointer_cast<Lawyer>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*lawyerPtr);
+    //                    trading_company::change_personal_data(*lawyer_pointer);
+                    }
+                    if ((purchasingManagerPtr = dynamic_pointer_cast<PurchasingManager>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*purchasingManagerPtr);
+    //                    trading_company::change_personal_data(*purchasing_managers_pointer);
+                    }
+                    if ((stevedorePtr = dynamic_pointer_cast<Stevedore>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*stevedorePtr);
+    //                    trading_company::change_personal_data(*stevedores_pointer);
+                    }
+                    if ((driverPtr = dynamic_pointer_cast<Driver>(tradingCompany)))
+                    {
+                        TradingCompany::displayUser(*driverPtr);
+    //                    trading_company::change_personal_data(*drivers_pointer);
+                    }
+                    break;
                 }
-                if ((chiefAccountantPtr = dynamic_pointer_cast<ChiefAccountant>(tradingCompany)))
-                {
-                    TradingCompany::displayUser(*chiefAccountantPtr);
-//                    trading_company::change_personal_data(*chief_accountant_pointer);
-                }
-                if ((chiefLegalCounselPtr = dynamic_pointer_cast<ChiefLegalCounsel>(tradingCompany)))
-                {
-                    TradingCompany::displayUser(*chiefLegalCounselPtr);
-//                    trading_company::change_personal_data(*chief_legal_counsel_pointer);
-                }
-                if ((headOfProcurementPtr = dynamic_pointer_cast<HeadOfProcurement>(tradingCompany)))
-                {
-                    TradingCompany::displayUser(*headOfProcurementPtr);
-//                    trading_company::change_personal_data(*head_of_procurement_pointer);
-                }
-                if ((headOfWarehousePtr = dynamic_pointer_cast<HeadOfWarehouse>(tradingCompany)))
-                {
-                    TradingCompany::displayUser(*headOfWarehousePtr);
-//                    trading_company::change_personal_data(*head_of_warehouses_pointer);
-                }
-                if ((salesManagerPtr = dynamic_pointer_cast<SalesManager>(tradingCompany)))
-                {
-                    TradingCompany::displayUser(*salesManagerPtr);
-//                    trading_company::change_personal_data(*sales_managers_pointer);
-                }
-                if ((cashierPtr = dynamic_pointer_cast<Cashier>(tradingCompany)))
-                {
-                    TradingCompany::displayUser(*cashierPtr);
-//                    trading_company::change_personal_data(*cashier_pointer);
-                }
-                if ((accountantPtr = dynamic_pointer_cast<Accountant>(tradingCompany)))
-                {
-                    TradingCompany::displayUser(*accountantPtr);
-//                    trading_company::change_personal_data(*accountants_pointer);
-                }
-                if ((logisticianPtr = dynamic_pointer_cast<Logistician>(tradingCompany)))
-                {
-                    TradingCompany::displayUser(*logisticianPtr);
-//                    trading_company::change_personal_data(*logisticians_pointer);
-                }
-                if ((lawyerPtr = dynamic_pointer_cast<Lawyer>(tradingCompany)))
-                {
-                    TradingCompany::displayUser(*lawyerPtr);
-//                    trading_company::change_personal_data(*lawyer_pointer);
-                }
-                if ((purchasingManagerPtr = dynamic_pointer_cast<PurchasingManager>(tradingCompany)))
-                {
-                    TradingCompany::displayUser(*purchasingManagerPtr);
-//                    trading_company::change_personal_data(*purchasing_managers_pointer);
-                }
-                if ((stevedorePtr = dynamic_pointer_cast<Stevedore>(tradingCompany)))
-                {
-                    TradingCompany::displayUser(*stevedorePtr);
-//                    trading_company::change_personal_data(*stevedores_pointer);
-                }
-                if ((driverPtr = dynamic_pointer_cast<Driver>(tradingCompany)))
-                {
-                    TradingCompany::displayUser(*driverPtr);
-//                    trading_company::change_personal_data(*drivers_pointer);
-                }
-                break;
             }
+            toLower(input);
+            if(input == "esc")
+            {
+                cout << "Вы вышли из программы!" << endl;
+                exit(0);
+            }
+            else
+                throw input;
         }
-        if ((input_string != "ESC") && (input_string != "esc") && (input_string != data.getObject()[index]->getPassword()))
-            throw input_string;
-    }
-    catch (const string &ex)
-    {
-        cout << "Вы ввели: " << ex << " - неверный пароль! Попробуйте ввести заново или закончите выполнение программы, введя ESC: "<< endl;
-        cin >> input_string;
-        goto tryAgain_password;
+        catch (const string &ex)
+        {
+            cout << "Вы ввели: " << ex << " - неверный пароль! Попробуйте ввести заново или закончите выполнение программы, введя ESC: "<< endl;
+            cin >> input;
+        }
     }
 tryAgain_menu:
     cout << ("Хотите изменить данные?") << endl;
@@ -249,16 +252,15 @@ tryAgain_menu:
             {
                 try
                 {
-                    cin >> input_string;
-                    if(input_string == "B" || input_string == "b")
+                    cin >> input;
+                    if(input == "B" || input == "b")
                     {
                         goto tryAgain_menu;
                     }
-                    else if(input_string == "ESC" || input_string == "esc")
+                    else if(input == "ESC" || input == "esc")
                     {
-                        goto tryAgain_password;
                     }
-                    else throw input_string;
+                    else throw input;
                 }
                 catch(const string &ex)
                 {

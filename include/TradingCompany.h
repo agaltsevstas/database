@@ -213,7 +213,7 @@ public:
     friend class Stevedore;
     friend class Driver;
     friend class Vector;
-    friend ostream& operator << (ostream &output, const TradingCompany &tradingCompany);
+    friend ostream& operator << (ostream &out, const TradingCompany &tradingCompany);
     friend void operator >> (const string &line, TradingCompany &tradingCompany);
     
 protected:
