@@ -12,13 +12,9 @@
 #include <cmath>
 #include <memory>
 #include <map>
+#include <set>
 
 #include "Logger.h"
-
-inline unsigned constexpr str(const char *input)
-{
-    return *input ? static_cast<unsigned int>(*input) + 33 * str(input + 1) : 5381;
-}
 
 enum Field
 {
@@ -136,25 +132,27 @@ private:
         {FIELD_PASSWORD,       ST_EMPTY},
     };
 public:
-    TradingCompany()
-    {}
-    TradingCompany(uint number,
-                   string position,
-                   string surname,
-                   string name,
-                   string patronymic,
-                   string sex,
-                   string dateOfBirth,
-                   unsigned long long passport,
-                   unsigned long long phone,
-                   string email,
-                   string dateOfHiring,
-                   string workingHours,
-                   uint salary,
-                   string password,
-                   string fileName)
-    {}
+    set<string> positions_
+    {
+        "Бухгалтер",
+        "Водитель",
+        "Главный_бухгалтер",
+        "Главный_юрист-консультант",
+        "Грузчик",
+        "Директор",
+        "Логист",
+        "Менеджер_по_закупкам",
+        "Менеджер_по_продажам",
+        "Кассир",
+        "Начальник_отдела_закупок",
+        "Начальник_склада",
+        "Юрист"
+    };
+
+public:
+//    TradingCompany() {}
     virtual ~TradingCompany() {}
+//    virtual void functional();
 //    ~TradingCompany();
     void setId(string &id);
     void setPosition(string &position);
@@ -189,15 +187,8 @@ public:
     uint               getPremium();
     uint               getFine();
     
-    static void displayUser(TradingCompany& tradingCompany);
+    void displayUser();
     void changePersonalData();
-
-//    template <class T>
-//    vector <T> get_reading_data_from_file(string);
-//
-//    friend trading_company<T> operator=(const trading_company<T> &a, const trading_company<T> &b) {
-//        return operator+(a, -b);
-//    }
     
     friend class Director;
     friend class ChiefSccountant;

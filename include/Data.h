@@ -5,6 +5,7 @@
 
 class Data
 {
+    friend class TradingCompany;
 public:
     
     static Data &getInstance()

@@ -14,6 +14,11 @@ using namespace std;
 
 namespace utils
 {
+    inline unsigned constexpr str(const char *input)
+    {
+        return *input ? static_cast<unsigned int>(*input) + 33 * str(input + 1) : 5381;
+    }
+
     inline void toLower(string &str)
     {
         std::transform(str.begin(), str.end(), str.begin(), ::tolower);
