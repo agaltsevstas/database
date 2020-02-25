@@ -108,7 +108,7 @@ private:
         /// Целочисленное значение
         uint uintValue = 0;
         
-        unsigned long long ulonglongValue = 0;
+        uint64_t ulonglongValue = 0;
         
         /// Строковое значение
         string stringValue;
@@ -170,22 +170,22 @@ public:
     void setSalary(string &salary);
     void setPassword(string &password);
     
-    uint               getId();
-    string             getPosition();
-    string             getSurname();
-    string             getName();
-    string             getPatronymic();
-    string             getSex();
-    string             getDateOfBirth();
-    string             getAge();
-    unsigned long long getPhone();
-    string             getDateOfHiring();
-    string             getWorkingHours();
-    unsigned long long getPassport();
-    uint               getSalary();
-    string             getPassword();
-    uint               getPremium();
-    uint               getFine();
+    uint     getId();
+    string   getPosition();
+    string   getSurname();
+    string   getName();
+    string   getPatronymic();
+    string   getSex();
+    string   getDateOfBirth();
+    string   getAge();
+    uint64_t getPhone();
+    string   getDateOfHiring();
+    string   getWorkingHours();
+    uint64_t getPassport();
+    uint     getSalary();
+    string   getPassword();
+    uint     getPremium();
+    uint     getFine();
     
     void displayUser();
     void changePersonalData();
@@ -208,20 +208,20 @@ public:
     friend void operator >> (const string &line, TradingCompany &tradingCompany);
     
 protected:
-    uint id_;
-    string position_;
-    string surname_;
-    string name_;
-    string patronymic_;
-    string sex_;
-    string dateOfBirth_;
-    unsigned long long passport_;
-    unsigned long long phone_;
-    string email_;
-    string dateOfHiring_;
-    string workingHours_;
-    uint salary_;
-    string password_;
+    uint     id_;
+    string   position_;
+    string   surname_;
+    string   name_;
+    string   patronymic_;
+    string   sex_;
+    string   dateOfBirth_;
+    uint64_t passport_;
+    uint64_t phone_;
+    string   email_;
+    string   dateOfHiring_;
+    string   workingHours_;
+    uint     salary_;
+    string   password_;
 
 private:
     template<typename T> T get(string &value, const Field field);

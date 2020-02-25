@@ -13,12 +13,31 @@
 #include "Stevedore.h"
 #include "Driver.h"
 
+void Data::getAllOtherData() const
+{
+    for (const auto &tradingCompany: tradingCompanyVector_)
+    {
+        cout << *tradingCompany << endl;
+    }
+}
+
+void Data::checkData()
+{
+    std::sort(ids_.begin(), ids_.end());
+    auto last = unique(ids_.begin(), ids_.end());
+    ids_.erase(last, ids_.end());
+    unique(phones_.begin(), phones_.end());
+    unique(passports_.begin(), passports_.end());
+    unique(passwords_.begin(), passwords_.end());
+    int suka = 0;
+}
+
 template <class T> void Data::pushBack(T &object)
 {
     uint maxId = 0;
     shared_ptr<T> pointer;
     vector<shared_ptr<TradingCompany>>::iterator it;
-
+    
     for (it = tradingCompanyVector_.begin(); it != tradingCompanyVector_.end(); ++it)
     {
         if ((pointer = dynamic_pointer_cast<T>(*it)) && (*it)->getId() > maxId)
@@ -30,19 +49,9 @@ template <class T> void Data::pushBack(T &object)
             break;
         }
     }
-
-//        object.setId(to_string(++maxId));
+    
+    //        object.setId(to_string(++maxId));
     tradingCompanyVector_.insert(it, make_shared<T>(object));
-}
-
-void Data::getAllOtherData() const
-{
-    Data &data = Data::getInstance();
-
-    for (const auto &tradingCompany: data.tradingCompanyVector_)
-    {
-        cout << *tradingCompany << endl;
-    }
 }
 
 void Data::addNewEmployeeData()

@@ -13,7 +13,7 @@ uint TradingCompany::get<uint>(string &value, const Field field)
 }
 
 template<>
-unsigned long long TradingCompany::get<unsigned long long>(string &value, const Field field)
+uint64_t TradingCompany::get<uint64_t>(string &value, const Field field)
 {
     return checkField(value, field).ulonglongValue;
 }
@@ -61,7 +61,7 @@ void TradingCompany::setDateOfBirth(string &dateOfBirth)
 
 void TradingCompany::setPhone(string &phone)
 {
-    phone_ = get<unsigned long long>(phone, FIELD_PHONE);
+    phone_ = get<uint64_t>(phone, FIELD_PHONE);
 }
 
 void TradingCompany::setEmail(string &email)
@@ -81,7 +81,7 @@ void TradingCompany::setWorkingHours(string &workingHours)
 
 void TradingCompany::setPassport(string &passport)
 {
-    passport_ = get<unsigned long long>(passport, FIELD_PASSPORT);
+    passport_ = get<uint64_t>(passport, FIELD_PASSPORT);
 }
 
 void TradingCompany::setSalary(string &salary)
@@ -129,12 +129,12 @@ string TradingCompany::getDateOfBirth()
     return dateOfBirth_;
 }
 
-unsigned long long TradingCompany::getPassport()
+uint64_t TradingCompany::getPassport()
 {
     return passport_;
 }
 
-unsigned long long TradingCompany::getPhone()
+uint64_t TradingCompany::getPhone()
 {
     return phone_;
 }
@@ -455,7 +455,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
 
             case FIELD_PASSPORT :
             {
-                type.ulonglongValue = atoi(value.c_str());
+                type.ulonglongValue = strtoul(value.c_str(), NULL, 0);
                 regex regular ("^[0-9]{10}$");
                 regex_match(value, regular);
                 if (value.empty())
@@ -479,7 +479,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_PHONE :
             {
-                type.ulonglongValue = atoi(value.c_str());
+                type.ulonglongValue = strtoul(value.c_str(), NULL, 0);
                 regex regular ("^[0-9]{10}$");
                 regex_match(value, regular);
                 if (value.empty())
