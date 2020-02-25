@@ -5,7 +5,6 @@
 
 class Data
 {
-    friend class TradingCompany;
 public:
     
     static Data &getInstance()
@@ -14,7 +13,7 @@ public:
         return data;
     }
 
-    template <class T> void getReadingDataFromFile(T &object, const string &fileName)
+    template <typename T> void getReadingDataFromFile(T &object, const string &fileName)
     {
         ifstream file(fileName);
 
@@ -36,11 +35,15 @@ public:
         }
     }
     
-    vector<shared_ptr<TradingCompany>> getObject() { return  tradingCompanyVector_ ;}
-    template <class T> void pushBack(T &object);
+    inline vector<shared_ptr<TradingCompany>> getObject() { return  tradingCompanyVector_ ;}
+    template <typename T> void pushBack(T &object);
+    template <typename T> void changePersonalData(T *object)
+    {
+        object->changePersonalData();
+    }
     void getAllOtherData() const;
     void addNewEmployeeData();
-    template <class T> void setOtherData(T &object);
+    template <typename T> void setOtherData(T &object);
     
 private:
     vector<shared_ptr<TradingCompany>> tradingCompanyVector_;

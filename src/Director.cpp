@@ -14,6 +14,7 @@ void Director::setFine(int fine)
 
 void Director::functional()
 {
+    cout << this << endl;
     Data &data = Data::getInstance();
     string input;
     while (true)
@@ -32,7 +33,7 @@ void Director::functional()
             switch (str(input.c_str()))
             {
                 case str("1") :
-                    changePersonalData();
+                    data.changePersonalData(this);
                     break;
                 case str("2") :
                     data.getAllOtherData();

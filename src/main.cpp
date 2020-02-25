@@ -98,21 +98,23 @@ int main()
     PurchasingManager purchasingManager;
     Stevedore stevedore;
     Driver driver;
+    string path = dataPath + "/" + directorPath;
     
     Data &data = Data::getInstance();
-    data.getReadingDataFromFile(director, dataPath + "/" + directorPath);
-    data.getReadingDataFromFile(chiefAccountant, dataPath + "/" + chiefAccountantPath);
-    data.getReadingDataFromFile(chiefLegalCounsel, dataPath + "/" + chiefLegalCounselPath);
-    data.getReadingDataFromFile(headOfProcurement, dataPath + "/" + headOfProcurementPath);
-    data.getReadingDataFromFile(headOfWarehouse, dataPath + "/" + headOfWarehousePath);
-    data.getReadingDataFromFile(salesManager, dataPath + "/" + salesManagerPath);
-    data.getReadingDataFromFile(cashier, dataPath + "/" + cashierPath);
-    data.getReadingDataFromFile(accountant, dataPath + "/" + accountantPath);
-    data.getReadingDataFromFile(logistician, dataPath + "/" + logisticianPath);
-    data.getReadingDataFromFile(lawyer, dataPath + "/" + lawyerPath);
-    data.getReadingDataFromFile(purchasingManager, dataPath + "/" + purchasingManagerPath);
-    data.getReadingDataFromFile(stevedore, dataPath + "/" + stevedorePath);
-    data.getReadingDataFromFile(driver, dataPath + "/" + driverPath);
+    data.getReadingDataFromFile(director, path);
+//    data.getReadingDataFromFile(director, dataPath + "/" + directorPath);
+//    data.getReadingDataFromFile(chiefAccountant, dataPath + "/" + chiefAccountantPath);
+//    data.getReadingDataFromFile(chiefLegalCounsel, dataPath + "/" + chiefLegalCounselPath);
+//    data.getReadingDataFromFile(headOfProcurement, dataPath + "/" + headOfProcurementPath);
+//    data.getReadingDataFromFile(headOfWarehouse, dataPath + "/" + headOfWarehousePath);
+//    data.getReadingDataFromFile(salesManager, dataPath + "/" + salesManagerPath);
+//    data.getReadingDataFromFile(cashier, dataPath + "/" + cashierPath);
+//    data.getReadingDataFromFile(accountant, dataPath + "/" + accountantPath);
+//    data.getReadingDataFromFile(logistician, dataPath + "/" + logisticianPath);
+//    data.getReadingDataFromFile(lawyer, dataPath + "/" + lawyerPath);
+//    data.getReadingDataFromFile(purchasingManager, dataPath + "/" + purchasingManagerPath);
+//    data.getReadingDataFromFile(stevedore, dataPath + "/" + stevedorePath);
+//    data.getReadingDataFromFile(driver, dataPath + "/" + driverPath);
     
     shared_ptr<Director> directorPtr;
     shared_ptr<ChiefAccountant> chiefAccountantPtr;
