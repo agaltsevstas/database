@@ -15,7 +15,7 @@ uint TradingCompany::get<uint>(string &value, const Field field)
 template<>
 uint64_t TradingCompany::get<uint64_t>(string &value, const Field field)
 {
-    return checkField(value, field).ulonglongValue;
+    return checkField(value, field).uint64Value;
 }
 
 template<>
@@ -157,6 +157,32 @@ uint TradingCompany::getSalary()
 string TradingCompany::getPassword()
 {
     return password_;
+}
+
+void TradingCompany::checkId()
+{
+    fieldStatus_[FIELD_ID] = ST_DUBLICATE;
+}
+
+void TradingCompany::checkPassport()
+{
+    Logger::warning << "Повторяющийся паспорт >> " << getPassport() << endl;
+    fieldStatus_[FIELD_PASSPORT] = ST_DUBLICATE;
+}
+
+void TradingCompany::checkPhone()
+{
+    Logger::warning << "Повторяющийся телефон >> " << getPhone() << endl;
+    fieldStatus_[FIELD_PHONE] = ST_DUBLICATE;
+}
+
+void TradingCompany::checkPassword(bool isWrite)
+{
+    if (isWrite)
+    {
+        Logger::error << "Повторяющийся пароль >> " << getPassword() << endl;
+    }
+    fieldStatus_[FIELD_PASSWORD] = ST_DUBLICATE;
 }
 
 void TradingCompany::displayUser()
@@ -455,7 +481,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
 
             case FIELD_PASSPORT :
             {
-                type.ulonglongValue = strtoul(value.c_str(), NULL, 0);
+                type.uint64Value = strtoul(value.c_str(), NULL, 0);
                 regex regular ("^[0-9]{10}$");
                 regex_match(value, regular);
                 if (value.empty())
@@ -479,7 +505,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_PHONE :
             {
-                type.ulonglongValue = strtoul(value.c_str(), NULL, 0);
+                type.uint64Value = strtoul(value.c_str(), NULL, 0);
                 regex regular ("^[0-9]{10}$");
                 regex_match(value, regular);
                 if (value.empty())

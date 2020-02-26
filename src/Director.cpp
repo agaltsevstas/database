@@ -14,7 +14,6 @@ void Director::setFine(int fine)
 
 void Director::functional()
 {
-    cout << this << endl;
     Data &data = Data::getInstance();
     string input;
     while (true)

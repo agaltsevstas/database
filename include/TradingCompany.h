@@ -29,7 +29,6 @@ class Lawyer;
 class PurchasingManager;
 class Stevedore;
 class Driver;
-class Vector;
 
 enum Field
 {
@@ -96,6 +95,9 @@ private:
 
         /// Проблема с данными
         ST_WRONGDATA,
+
+        /// Дублирование данных
+        ST_DUBLICATE
     };
     /*
      * Внутренняя структура параметра
@@ -108,7 +110,7 @@ private:
         /// Целочисленное значение
         uint uintValue = 0;
         
-        uint64_t ulonglongValue = 0;
+        uint64_t uint64Value = 0;
         
         /// Строковое значение
         string stringValue;
@@ -187,6 +189,10 @@ public:
     uint     getPremium();
     uint     getFine();
     
+    void checkId();
+    void checkPassport();
+    void checkPhone();
+    void checkPassword(bool isWrite);
     void displayUser();
     void changePersonalData();
     
@@ -203,7 +209,6 @@ public:
     friend class PurchasingManager;
     friend class Stevedore;
     friend class Driver;
-    friend class Vector;
     friend ostream& operator << (ostream &out, const TradingCompany &tradingCompany);
     friend void operator >> (const string &line, TradingCompany &tradingCompany);
     

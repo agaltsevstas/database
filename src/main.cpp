@@ -102,7 +102,6 @@ int main()
     
     Data &data = Data::getInstance();
     data.getReadingDataFromFile(director, path);
-    data.checkData();
 //    data.getReadingDataFromFile(director, dataPath + "/" + directorPath);
 //    data.getReadingDataFromFile(chiefAccountant, dataPath + "/" + chiefAccountantPath);
 //    data.getReadingDataFromFile(chiefLegalCounsel, dataPath + "/" + chiefLegalCounselPath);

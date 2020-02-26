@@ -24,10 +24,7 @@ public:
             {
                 Logger::info << " ---------- Считывание данных сотрудника ---------- " << endl;
                 line >> object;
-                ids_.push_back(object.getId());
-                phones_.push_back(object.getPhone());
-                passports_.push_back(object.getPassport());
-                passwords_.push_back(object.getPassword());
+                checkData(object);
                 tradingCompanyVector_.push_back(make_shared<T>(object));
                 if (file.eof())
                     break;
@@ -38,23 +35,17 @@ public:
             Logger::warning << "Невозможно открыть файл >> " << fileName << endl;
         }
     }
-    
-    void checkData();
+        
     inline vector<shared_ptr<TradingCompany>> getObject() { return  tradingCompanyVector_; }
     template <typename T> void changePersonalData(T *object)
     {
         object->changePersonalData();
     }
-    void getAllOtherData() const;
-    template <typename T> void pushBack(T &object);
+    void getAllOtherData() const;    
     void addNewEmployeeData();
     template <typename T> void setOtherData(T &object);
     
 private:
-    vector<uint> ids_;
-    vector<uint64_t> phones_;
-    vector<uint64_t> passports_;
-    vector<string> passwords_;
     vector<shared_ptr<TradingCompany>> tradingCompanyVector_;
     shared_ptr<Director> directorPtr_;
     shared_ptr<ChiefAccountant> chiefAccountantPtr_;
@@ -72,6 +63,31 @@ private:
     Data() {}
     Data(const Data&) = delete;
     Data& operator=(Data&) = delete;
+    template <class T> void checkData(T &object)
+    {
+        for (const auto &tradingCompany: tradingCompanyVector_)
+        {
+            if (object.getId() == tradingCompany->getId())
+            {
+                object.checkId();
+            }
+            if (object.getPassport() == tradingCompany->getPassport())
+            {
+                object.checkPassport();
+            }
+            if (object.getPhone() == tradingCompany->getPhone())
+            {
+                object.checkPhone();
+            }
+            if (object.getPassword() == tradingCompany->getPassword())
+            {
+                tradingCompany->checkPassword(false);
+                object.checkPassword(true);
+            }
+            break;
+        }
+    }
+    template <typename T> void pushBack(T &object);
 };
 
 #endif // Data_h

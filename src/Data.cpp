@@ -21,17 +21,6 @@ void Data::getAllOtherData() const
     }
 }
 
-void Data::checkData()
-{
-    std::sort(ids_.begin(), ids_.end());
-    auto last = unique(ids_.begin(), ids_.end());
-    ids_.erase(last, ids_.end());
-    unique(phones_.begin(), phones_.end());
-    unique(passports_.begin(), passports_.end());
-    unique(passwords_.begin(), passwords_.end());
-    int suka = 0;
-}
-
 template <class T> void Data::pushBack(T &object)
 {
     uint maxId = 0;
@@ -50,7 +39,7 @@ template <class T> void Data::pushBack(T &object)
         }
     }
     
-    //        object.setId(to_string(++maxId));
+    // object.setId(to_string(++maxId));
     tradingCompanyVector_.insert(it, make_shared<T>(object));
 }
 
