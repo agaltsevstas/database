@@ -7,8 +7,11 @@ class HeadOfProcurement : public TradingCompany
 {
 public:
     HeadOfProcurement(): TradingCompany() {}
-    void setPremium(int);
-    void setFine(int);
+    void functional() override;
+
+private:
+    void setPremium(int premium);
+    void setFine(int fine);
 };
 
 #endif // HeadOfProcurement_h

@@ -32,7 +32,7 @@ public:
         }
         else
         {
-            Logger::warning << "Невозможно открыть файл >> " << fileName << endl;
+            Logger::error << "Невозможно открыть файл >> " << fileName << endl;
         }
     }
         

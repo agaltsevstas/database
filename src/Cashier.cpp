@@ -1,5 +1,10 @@
 #include "Cashier.h"
 
+void Cashier::functional()
+{
+
+}
+
 void Cashier::setPremium(int premium)
 {
     salary_ += premium;

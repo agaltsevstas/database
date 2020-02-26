@@ -154,7 +154,7 @@ private:
 public:
 //    TradingCompany() {}
     virtual ~TradingCompany() {}
-//    virtual void functional();
+    virtual void functional() = 0;
 //    ~TradingCompany();
     void setId(string &id);
     void setPosition(string &position);

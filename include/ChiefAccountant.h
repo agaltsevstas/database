@@ -7,7 +7,10 @@ class ChiefAccountant : public TradingCompany
 {
 public:
     ChiefAccountant(): TradingCompany() {}
-    void setPremium(int);
-    void setFine(int);
+    void functional() override;
+
+private:
+    void setPremium(int premium);
+    void setFine(int fine);
 };
 #endif // ChiefAccoutant_h

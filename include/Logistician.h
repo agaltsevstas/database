@@ -7,8 +7,11 @@ class Logistician : public TradingCompany
 {
 public:
     Logistician(): TradingCompany() {}
-    void setPremium(int);
-    void setFine(int);
+    void functional() override;
+
+private:
+    void setPremium(int premium);
+    void setFine(int fine);
 };
 
 #endif // Logistician_h

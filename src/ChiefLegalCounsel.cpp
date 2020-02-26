@@ -12,3 +12,8 @@ void ChiefLegalCounsel::setFine(int fine)
 
 
 
+
+void ChiefLegalCounsel::functional()
+{
+
+}

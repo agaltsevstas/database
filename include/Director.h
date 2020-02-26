@@ -7,12 +7,10 @@ class Director : public TradingCompany
 {
 public:
     Director() : TradingCompany() {}
-    
-//    void functional() override;
-    void functional();
+    void functional() override;
     
 private:
-    void setPremium(int);
-    void setFine(int);
+    void setPremium(int premium);
+    void setFine(int fine);
 };
 #endif // Director_h

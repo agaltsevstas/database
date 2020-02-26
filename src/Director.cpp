@@ -3,15 +3,6 @@
 
 using namespace utils;
 
-void Director::setPremium(int premium)
-{
-    salary_ += premium;
-}
-void Director::setFine(int fine)
-{
-    salary_ -= fine;
-}
-
 void Director::functional()
 {
     Data &data = Data::getInstance();
@@ -64,6 +55,14 @@ void Director::functional()
     }
 }
 
+void Director::setPremium(int premium)
+{
+    salary_ += premium;
+}
+void Director::setFine(int fine)
+{
+    salary_ -= fine;
+}
 
 
 

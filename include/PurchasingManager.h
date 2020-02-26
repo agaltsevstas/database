@@ -7,8 +7,11 @@ class PurchasingManager : public TradingCompany
 {
 public:
     PurchasingManager(): TradingCompany() {}
-    void setPremium(int);
-    void setFine(int);
+    void functional() override;
+
+private:
+    void setPremium(int premium);
+    void setFine(int fine);
 };
 
 #endif // PurchasingManager_h

@@ -7,8 +7,11 @@ class HeadOfWarehouse : public TradingCompany
 {
 public:
     HeadOfWarehouse(): TradingCompany() {}
-    void setPremium(int);
-    void setFine(int);
+    void functional() override;
+
+private:
+    void setPremium(int premium);
+    void setFine(int fine);
 };
 
 #endif // HeadOfWarehouse_h
