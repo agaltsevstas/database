@@ -139,6 +139,11 @@ uint64_t TradingCompany::getPhone()
     return phone_;
 }
 
+string TradingCompany::getEmail()
+{
+    return email_;
+}
+
 string TradingCompany::getDateOfHiring()
 {
     return dateOfHiring_;
@@ -159,30 +164,176 @@ string TradingCompany::getPassword()
     return password_;
 }
 
-void TradingCompany::checkId()
+void TradingCompany::changeStatusId()
 {
+    Logger::warning << "Повторяющийся id >> " << id_ << endl;
     fieldStatus_[FIELD_ID] = ST_DUBLICATE;
 }
 
-void TradingCompany::checkPassport()
+void TradingCompany::changeStatusPassport()
 {
-    Logger::warning << "Повторяющийся паспорт >> " << getPassport() << endl;
+    Logger::warning << "Повторяющийся паспорт >> " << passport_ << endl;
     fieldStatus_[FIELD_PASSPORT] = ST_DUBLICATE;
 }
 
-void TradingCompany::checkPhone()
+void TradingCompany::changeStatusPhone()
 {
-    Logger::warning << "Повторяющийся телефон >> " << getPhone() << endl;
+    Logger::warning << "Повторяющийся телефон >> " << phone_ << endl;
     fieldStatus_[FIELD_PHONE] = ST_DUBLICATE;
 }
 
-void TradingCompany::checkPassword(bool isWrite)
+void TradingCompany::changeStatusPassword(bool isWrite)
 {
     if (isWrite)
     {
-        Logger::error << "Повторяющийся пароль >> " << getPassword() << endl;
+        Logger::error << "Повторяющийся пароль >> " << password_ << endl;
     }
     fieldStatus_[FIELD_PASSWORD] = ST_DUBLICATE;
+}
+
+void checkId()
+{
+    
+}
+
+void checkPosition()
+{
+    
+}
+
+void checkSurname()
+{
+    
+}
+
+void checkName()
+{
+    
+}
+
+void checkPatronymic()
+{
+    
+}
+
+void checkSex()
+{
+    
+}
+
+void checkDateOfBirth()
+{
+    
+}
+
+void checkAge()
+{
+    
+}
+
+void checkPhone()
+{
+    
+}
+
+void checkEmail()
+{
+    
+}
+
+void checkDateOfHiring()
+{
+    
+}
+
+void checkWorkingHours()
+{
+    
+}
+
+void checkPassport()
+{
+    
+}
+
+void checkSalary()
+{
+    
+}
+
+void checkPassword()
+{
+    
+}
+
+void TradingCompany::checkData()
+{
+    for (const auto &[key, value]: fieldStatus_)
+    {
+        string input;
+        if (value != ST_OK)
+        {
+            switch (key)
+            {
+                case FIELD_ID :
+                    cout << "Измените свой текущий ID " << id_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_POSITION :
+                    cout << "Измените свой текущую должность  " << position_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_SURNAME :
+                    cout << "Измените свою текущую фамилию  " << surname_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_NAME :
+                    cout << "Измените свое текущее имя << " << name_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_PATRONYMIC :
+                    cout << "Измените свое текущее отчество << " << patronymic_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_SEX :
+                    cout << "Измените свой текущий пол << " << sex_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_DATE_OF_BIRTH :
+                    cout << "Измените свою текущую дату рождения << " << dateOfBirth_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_PASSPORT :
+                    cout << "Измените свой текущий паспорт << " << passport_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_PHONE :
+                    cout << "Измените свой текущий телефон << " << phone_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_EMAIL :
+                    cout << "Измените свою текущую почту << " << email_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_DATE_OF_HIRING :
+                    cout << "Измените свою текущую дату принятия на работу << " << dateOfHiring_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_WORKING_HOURS :
+                    cout << "Измените свои текущие часы работы << " << workingHours_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_SALARY :
+                    cout << "Измените свою текущую зарплату << " << salary_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+                case FIELD_PASSWORD :
+                    cout << "Измените свой текущий пароль << " << password_ << " на >> " << endl;
+                    cin >> input;
+                    setId(input);
+            }
+        }
+    }
 }
 
 void TradingCompany::displayUser()

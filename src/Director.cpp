@@ -9,6 +9,7 @@ void Director::functional()
     string input;
     while (true)
     {
+        data.checkData(this);
         displayUser();
         cout << "Хотите изменить личные данные? - нажмите 1" << endl;
         cout << "Хотите вывести данные данные всех сотрудников? - нажмите 2" << endl;

@@ -181,6 +181,7 @@ public:
     string   getDateOfBirth();
     string   getAge();
     uint64_t getPhone();
+    string   getEmail();
     string   getDateOfHiring();
     string   getWorkingHours();
     uint64_t getPassport();
@@ -189,10 +190,26 @@ public:
     uint     getPremium();
     uint     getFine();
     
+    void changeStatusId();
+    void changeStatusPassport();
+    void changeStatusPhone();
+    void changeStatusPassword(bool isWrite);
+    void checkData();
     void checkId();
-    void checkPassport();
+    void checkPosition();
+    void checkSurname();
+    void checkName();
+    void checkPatronymic();
+    void checkSex();
+    void checkDateOfBirth();
+    void checkAge();
     void checkPhone();
-    void checkPassword(bool isWrite);
+    void checkEmail();
+    void checkDateOfHiring();
+    void checkWorkingHours();
+    void checkPassport();
+    void checkSalary();
+    void checkPassword();
     void displayUser();
     void changePersonalData();
     

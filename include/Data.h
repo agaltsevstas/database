@@ -37,6 +37,10 @@ public:
     }
         
     inline vector<shared_ptr<TradingCompany>> getObject() { return  tradingCompanyVector_; }
+    template <typename T> void checkData(T *object)
+    {
+        object->checkData();
+    }
     template <typename T> void changePersonalData(T *object)
     {
         object->changePersonalData();
@@ -69,20 +73,20 @@ private:
         {
             if (object.getId() == tradingCompany->getId())
             {
-                object.checkId();
+                object.changeStatusId();
             }
             if (object.getPassport() == tradingCompany->getPassport())
             {
-                object.checkPassport();
+                object.changeStatusPassport();
             }
             if (object.getPhone() == tradingCompany->getPhone())
             {
-                object.checkPhone();
+                object.changeStatusPhone();
             }
             if (object.getPassword() == tradingCompany->getPassword())
             {
-                tradingCompany->checkPassword(false);
-                object.checkPassword(true);
+                tradingCompany->changeStatusPassword(false);
+                object.changeStatusPassword(true);
             }
             break;
         }

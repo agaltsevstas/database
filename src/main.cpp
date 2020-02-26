@@ -129,19 +129,12 @@ int main()
     shared_ptr<Driver> driverPtr;
     
     string input;
-    unsigned int input_int = 0;
-//    vector<trading_company*> List; // если нет родительского класса vector<void*> List;
-//    List.push_back(new directors);
-//    trading_company *p = List[0];
-//    directors *t1 = nullptr;
-//    t1 = dynamic_cast<directors*>(p));
     cout << ("Введите пароль для получения доступа к базе данных или закончите выполнение программы, введите ESC: ") << endl;
     cin >> input;
     while (true)
     {
         try
         {
-            RetType retType;
             for (const auto &tradingCompany: data.getObject())
             {
                 if (input == tradingCompany->getPassword())
