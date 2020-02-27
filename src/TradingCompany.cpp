@@ -191,79 +191,104 @@ void TradingCompany::changeStatusPassword(bool isWrite)
     fieldStatus_[FIELD_PASSWORD] = ST_DUBLICATE;
 }
 
-void checkId()
+template <typename T> bool TradingCompany::recursion(const Field& field,
+                                                     const string &message,
+                                                     const T &parameter)
 {
-    
+    string input;
+    if (fieldStatus_[field] != ST_OK)
+    {
+        cout << message << parameter << endl;
+        cin >> input;
+        setId(input);
+        recursion(field, "Некорректно введен параметр : ", parameter);
+    }
+    return true;
 }
 
-void checkPosition()
+void TradingCompany::checkId()
 {
-    
+    const string message = "Измените свой текущий ID : ";
+    recursion(FIELD_ID, message, id_);
 }
 
-void checkSurname()
+void TradingCompany::checkPosition()
 {
-    
+    const string message = "Измените свой текущую должность : ";
+    recursion(FIELD_POSITION, message, position_);
 }
 
-void checkName()
+void TradingCompany::checkSurname()
 {
-    
+    const string message = "Измените свою текущую фамилию : ";
+    recursion(FIELD_SURNAME, message, surname_);
 }
 
-void checkPatronymic()
+void TradingCompany::checkName()
 {
-    
+    const string message = "Измените свое текущее имя : ";
+    recursion(FIELD_NAME, message, name_);
 }
 
-void checkSex()
+void TradingCompany::checkPatronymic()
 {
-    
+    const string message = "Измените свое текущее отчество : ";
+    recursion(FIELD_PATRONYMIC, message, patronymic_);
 }
 
-void checkDateOfBirth()
+void TradingCompany::checkSex()
 {
-    
+    const string message = "Измените свой текущий пол : ";
+    recursion(FIELD_SEX, message, sex_);
 }
 
-void checkAge()
+void TradingCompany::checkDateOfBirth()
 {
-    
+    const string message = "Измените свою текущую дату рождения : ";
+    recursion(FIELD_DATE_OF_BIRTH, message, dateOfBirth_);
 }
 
-void checkPhone()
+void TradingCompany::checkPassport()
 {
-    
+    const string message = "Измените свой текущий паспорт : ";
+    recursion(FIELD_PASSPORT, message, passport_);
 }
 
-void checkEmail()
+void TradingCompany::checkPhone()
 {
-    
+    const string message = "Измените свой текущий телефон : ";
+    recursion(FIELD_PHONE, message, phone_);
 }
 
-void checkDateOfHiring()
+void TradingCompany::checkEmail()
 {
-    
+    const string message = "Измените свою текущую почту : ";
+    recursion(FIELD_EMAIL, message, email_);
 }
 
-void checkWorkingHours()
+void TradingCompany::checkDateOfHiring()
 {
-    
+    const string message = "Измените свою текущую дату принятия на работу : ";
+    recursion(FIELD_DATE_OF_BIRTH, message, dateOfHiring_);
 }
 
-void checkPassport()
+void TradingCompany::checkWorkingHours()
 {
-    
+    const string message = "Измените свои текущие часы работы : ";
+    recursion(FIELD_WORKING_HOURS, message, workingHours_);
 }
 
-void checkSalary()
+void TradingCompany::checkSalary()
 {
-    
+
+    const string message = "Измените свою текущую зарплату : ";
+    recursion(FIELD_SALARY, message, salary_);
 }
 
-void checkPassword()
+void TradingCompany::checkPassword()
 {
-    
+    const string message = "Измените свой текущий пароль : ";
+    recursion(FIELD_PASSWORD, message, password_);
 }
 
 void TradingCompany::checkData()

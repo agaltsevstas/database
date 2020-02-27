@@ -195,20 +195,8 @@ public:
     void changeStatusPhone();
     void changeStatusPassword(bool isWrite);
     void checkData();
-    void checkId();
-    void checkPosition();
-    void checkSurname();
-    void checkName();
-    void checkPatronymic();
-    void checkSex();
-    void checkDateOfBirth();
-    void checkAge();
     void checkPhone();
     void checkEmail();
-    void checkDateOfHiring();
-    void checkWorkingHours();
-    void checkPassport();
-    void checkSalary();
     void checkPassword();
     void displayUser();
     void changePersonalData();
@@ -245,7 +233,20 @@ protected:
     uint     salary_;
     string   password_;
 
+    void checkId();
+    void checkPosition();
+    void checkSurname();
+    void checkName();
+    void checkPatronymic();
+    void checkSex();
+    void checkDateOfBirth();
+    void checkPassport();
+    void checkDateOfHiring();
+    void checkWorkingHours();
+    void checkSalary();
+
 private:
+    template <typename T> bool recursion(const Field& field, const string &message, const T &parameter);
     template<typename T> T get(string &value, const Field field);
     /// Пустое поле для возврата в качестве отсутствия результата поиска
     const Type empty = Type();
