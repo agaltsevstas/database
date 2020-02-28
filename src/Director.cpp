@@ -9,8 +9,21 @@ void Director::functional()
     string input;
     while (true)
     {
+        checkId();
+        checkPosition();
+        checkSurname();
+        checkName();
+        checkPatronymic();
+        checkSex();
+        checkDateOfBirth();
+        checkPhone();
+        checkEmail();
+        checkPassport();
+        checkDateOfHiring();
+        checkWorkingHours();
+        checkSalary();
         checkPassword();
-//        data.checkData(this);
+        data.checkData(this);
         displayUser();
         cout << "Хотите изменить личные данные? - нажмите 1" << endl;
         cout << "Хотите вывести данные данные всех сотрудников? - нажмите 2" << endl;

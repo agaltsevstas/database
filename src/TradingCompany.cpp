@@ -191,7 +191,7 @@ void TradingCompany::changeStatusPassword(bool isWrite)
     fieldStatus_[FIELD_PASSWORD] = ST_DUBLICATE;
 }
 
-template <typename T> bool TradingCompany::recursion(const Field& field,
+template <typename T> bool TradingCompany::recursion(const Field &field,
                                                      const string &message,
                                                      const T &parameter)
 {
@@ -289,76 +289,6 @@ void TradingCompany::checkPassword()
 {
     const string message = "Измените свой текущий пароль : ";
     recursion(FIELD_PASSWORD, message, password_);
-}
-
-void TradingCompany::checkData()
-{
-    for (const auto &[key, value]: fieldStatus_)
-    {
-        string input;
-        if (value != ST_OK)
-        {
-            switch (key)
-            {
-                case FIELD_ID :
-                    cout << "Измените свой текущий ID " << id_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_POSITION :
-                    cout << "Измените свой текущую должность  " << position_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_SURNAME :
-                    cout << "Измените свою текущую фамилию  " << surname_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_NAME :
-                    cout << "Измените свое текущее имя << " << name_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_PATRONYMIC :
-                    cout << "Измените свое текущее отчество << " << patronymic_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_SEX :
-                    cout << "Измените свой текущий пол << " << sex_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_DATE_OF_BIRTH :
-                    cout << "Измените свою текущую дату рождения << " << dateOfBirth_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_PASSPORT :
-                    cout << "Измените свой текущий паспорт << " << passport_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_PHONE :
-                    cout << "Измените свой текущий телефон << " << phone_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_EMAIL :
-                    cout << "Измените свою текущую почту << " << email_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_DATE_OF_HIRING :
-                    cout << "Измените свою текущую дату принятия на работу << " << dateOfHiring_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_WORKING_HOURS :
-                    cout << "Измените свои текущие часы работы << " << workingHours_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_SALARY :
-                    cout << "Измените свою текущую зарплату << " << salary_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-                case FIELD_PASSWORD :
-                    cout << "Измените свой текущий пароль << " << password_ << " на >> " << endl;
-                    cin >> input;
-                    setId(input);
-            }
-        }
-    }
 }
 
 void TradingCompany::displayUser()

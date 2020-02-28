@@ -3,6 +3,20 @@
 
 #include "TradingCompany.h"
 
+class Director;
+class ChiefAccountant;
+class ChiefLegalCounsel;
+class HeadOfProcurement;
+class HeadOfWarehouse;
+class SalesManager;
+class Cashier;
+class Accountant;
+class Logistician;
+class Lawyer;
+class PurchasingManager;
+class Stevedore;
+class Driver;
+
 class Data
 {
 public:
@@ -39,7 +53,7 @@ public:
     inline vector<shared_ptr<TradingCompany>> getObject() { return  tradingCompanyVector_; }
     template <typename T> void checkData(T *object)
     {
-        object->checkData();
+        
     }
     template <typename T> void changePersonalData(T *object)
     {

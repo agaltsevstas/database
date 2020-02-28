@@ -16,20 +16,6 @@
 
 #include "Logger.h"
 
-class Director;
-class ChiefAccountant;
-class ChiefLegalCounsel;
-class HeadOfProcurement;
-class HeadOfWarehouse;
-class SalesManager;
-class Cashier;
-class Accountant;
-class Logistician;
-class Lawyer;
-class PurchasingManager;
-class Stevedore;
-class Driver;
-
 enum Field
 {
     FIELD_ID = 0,
@@ -179,7 +165,6 @@ public:
     string   getPatronymic();
     string   getSex();
     string   getDateOfBirth();
-    string   getAge();
     uint64_t getPhone();
     string   getEmail();
     string   getDateOfHiring();
@@ -194,7 +179,6 @@ public:
     void changeStatusPassport();
     void changeStatusPhone();
     void changeStatusPassword(bool isWrite);
-    void checkData();
     void checkPhone();
     void checkEmail();
     void checkPassword();
@@ -202,18 +186,6 @@ public:
     void changePersonalData();
     
     friend class Director;
-    friend class ChiefSccountant;
-    friend class ChiefLegalCounsel;
-    friend class HeadOfProcurement;
-    friend class HeadOfWarehouse;
-    friend class SalesManager;
-    friend class Cashier;
-    friend class Accountant;
-    friend class Logistician;
-    friend class Lawyer;
-    friend class PurchasingManager;
-    friend class Stevedore;
-    friend class Driver;
     friend ostream& operator << (ostream &out, const TradingCompany &tradingCompany);
     friend void operator >> (const string &line, TradingCompany &tradingCompany);
     
@@ -233,6 +205,7 @@ protected:
     uint     salary_;
     string   password_;
 
+private:
     void checkId();
     void checkPosition();
     void checkSurname();
@@ -244,9 +217,7 @@ protected:
     void checkDateOfHiring();
     void checkWorkingHours();
     void checkSalary();
-
-private:
-    template <typename T> bool recursion(const Field& field, const string &message, const T &parameter);
+    template <typename T> bool recursion(const Field &field, const string &message, const T &parameter);
     template<typename T> T get(string &value, const Field field);
     /// Пустое поле для возврата в качестве отсутствия результата поиска
     const Type empty = Type();
