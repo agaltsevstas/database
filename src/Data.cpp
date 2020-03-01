@@ -1,17 +1,4 @@
 #include "Data.h"
-#include "Director.h"
-#include "ChiefAccountant.h"
-#include "ChiefLegalCounsel.h"
-#include "HeadOfProcurement.h"
-#include "HeadOfWarehouse.h"
-#include "SalesManager.h"
-#include "Cashier.h"
-#include "Accountant.h"
-#include "Logistician.h"
-#include "Lawyer.h"
-#include "PurchasingManager.h"
-#include "Stevedore.h"
-#include "Driver.h"
 
 void Data::getAllOtherData() const
 {
@@ -21,7 +8,7 @@ void Data::getAllOtherData() const
     }
 }
 
-template <class T> void Data::pushBack(T &object)
+template<class T> void Data::pushBack(T &object)
 {
     uint maxId = 0;
     shared_ptr<T> pointer;
@@ -135,7 +122,7 @@ void Data::addNewEmployeeData()
     }
 }
 
-template <class T> void Data::setOtherData(T &object)
+template<class T> void Data::setOtherData(T &object)
 {
     string input;
     Data &data = Data::getInstance();

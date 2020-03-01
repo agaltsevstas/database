@@ -2,6 +2,19 @@
 #define Data_h
 
 #include "TradingCompany.h"
+#include "Director.h"
+#include "ChiefAccountant.h"
+#include "ChiefLegalCounsel.h"
+#include "HeadOfProcurement.h"
+#include "HeadOfWarehouse.h"
+#include "SalesManager.h"
+#include "Cashier.h"
+#include "Accountant.h"
+#include "Logistician.h"
+#include "Lawyer.h"
+#include "PurchasingManager.h"
+#include "Stevedore.h"
+#include "Driver.h"
 
 class Director;
 class ChiefAccountant;
@@ -27,7 +40,7 @@ public:
         return data;
     }
 
-    template <typename T> void getReadingDataFromFile(T &object, const string &fileName)
+    template<typename T> void getReadingDataFromFile(T &object, const string &fileName)
     {
         ifstream file(fileName);
 
@@ -51,17 +64,16 @@ public:
     }
         
     inline vector<shared_ptr<TradingCompany>> getObject() { return  tradingCompanyVector_; }
-    template <typename T> void checkData(T *object)
+    template<typename T> void checkData(T *object)
     {
-        
+        object->checkData();
     }
-    template <typename T> void changePersonalData(T *object)
+    template<typename T> void changePersonalData(T *object)
     {
         object->changePersonalData();
     }
-    void getAllOtherData() const;    
-    void addNewEmployeeData();
-    template <typename T> void setOtherData(T &object);
+    
+    friend class Director;
     
 private:
     vector<shared_ptr<TradingCompany>> tradingCompanyVector_;
@@ -81,7 +93,7 @@ private:
     Data() {}
     Data(const Data&) = delete;
     Data& operator=(Data&) = delete;
-    template <class T> void checkData(T &object)
+    template<class T> void checkData(T &object)
     {
         for (const auto &tradingCompany: tradingCompanyVector_)
         {
@@ -105,7 +117,10 @@ private:
             break;
         }
     }
-    template <typename T> void pushBack(T &object);
+    void getAllOtherData() const;
+    void addNewEmployeeData();
+    template<typename T> void setOtherData(T &object);
+    template<typename T> void pushBack(T &object);
 };
 
 #endif // Data_h

@@ -164,6 +164,68 @@ string TradingCompany::getPassword()
     return password_;
 }
 
+void TradingCompany::switchCaseParameter(string &parameter, const Field &field)
+{
+    switch (field)
+    {
+        case FIELD_ID :
+            setId(parameter);
+            break;
+            
+        case FIELD_POSITION :
+            setPosition(parameter);
+            break;
+            
+        case FIELD_SURNAME :
+            setSurname(parameter);
+            break;
+            
+        case FIELD_NAME :
+            setName(parameter);
+            break;
+            
+        case FIELD_PATRONYMIC :
+            setPatronymic(parameter);
+            break;
+            
+        case FIELD_SEX :
+            setSex(parameter);
+            break;
+            
+        case FIELD_DATE_OF_BIRTH :
+            setDateOfBirth(parameter);
+            break;
+            
+        case FIELD_PASSPORT :
+            setPassport(parameter);
+            break;
+            
+        case FIELD_PHONE :
+            setPhone(parameter);
+            break;
+            
+        case FIELD_EMAIL :
+            setEmail(parameter);
+            break;
+            
+        case FIELD_DATE_OF_HIRING :
+            setDateOfHiring(parameter);
+            break;
+            
+        case FIELD_WORKING_HOURS :
+            setWorkingHours(parameter);
+            break;
+            
+        case FIELD_SALARY :
+            setSalary(parameter);
+            break;
+            
+        case FIELD_PASSWORD :
+            setPassword(parameter);
+            break;
+    }
+}
+
 void TradingCompany::changeStatusId()
 {
     Logger::warning << "Повторяющийся id >> " << id_ << endl;
@@ -191,103 +253,134 @@ void TradingCompany::changeStatusPassword(bool isWrite)
     fieldStatus_[FIELD_PASSWORD] = ST_DUBLICATE;
 }
 
-template <typename T> bool TradingCompany::recursion(const Field &field,
+template <typename T> void TradingCompany::recursion(const Field &field,
                                                      const string &message,
                                                      const T &parameter)
 {
     string input;
     if (fieldStatus_[field] != ST_OK)
     {
+        auto condition = message.find("(");
         cout << message << parameter << endl;
+        cout << "Ввод: ";
         cin >> input;
-        setId(input);
-        recursion(field, "Некорректно введен параметр : ", parameter);
+        switchCaseParameter(input, field);
+        recursion(field, "Некорректно введен параметр " + message.substr(condition) + ": ", parameter);
     }
-    return true;
 }
 
-void TradingCompany::checkId()
+void TradingCompany::checkId(const string &warning)
 {
-    const string message = "Измените свой текущий ID : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите ID (например, 100) ";
     recursion(FIELD_ID, message, id_);
 }
 
-void TradingCompany::checkPosition()
+void TradingCompany::checkPosition(const string &warning)
 {
-    const string message = "Измените свой текущую должность : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите должность ";
     recursion(FIELD_POSITION, message, position_);
 }
 
-void TradingCompany::checkSurname()
+void TradingCompany::checkSurname(const string &warning)
 {
-    const string message = "Измените свою текущую фамилию : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите фамилию ";
     recursion(FIELD_SURNAME, message, surname_);
 }
 
-void TradingCompany::checkName()
+void TradingCompany::checkName(const string &warning)
 {
-    const string message = "Измените свое текущее имя : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите имя ";
     recursion(FIELD_NAME, message, name_);
 }
 
-void TradingCompany::checkPatronymic()
+void TradingCompany::checkPatronymic(const string &warning)
 {
-    const string message = "Измените свое текущее отчество : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите отчество ";
     recursion(FIELD_PATRONYMIC, message, patronymic_);
 }
 
-void TradingCompany::checkSex()
+void TradingCompany::checkSex(const string &warning)
 {
-    const string message = "Измените свой текущий пол : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите пол (например, Муж) ";
     recursion(FIELD_SEX, message, sex_);
 }
 
-void TradingCompany::checkDateOfBirth()
+void TradingCompany::checkDateOfBirth(const string &warning)
 {
-    const string message = "Измените свою текущую дату рождения : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите дату рождения (например, 16.12.1995) ";
     recursion(FIELD_DATE_OF_BIRTH, message, dateOfBirth_);
 }
 
-void TradingCompany::checkPassport()
+void TradingCompany::checkPassport(const string &warning)
 {
-    const string message = "Измените свой текущий паспорт : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите номер паспорта (например, 4516561974) ";
     recursion(FIELD_PASSPORT, message, passport_);
 }
 
-void TradingCompany::checkPhone()
+void TradingCompany::checkPhone(const string &warning)
 {
-    const string message = "Измените свой текущий телефон : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите номер телефона (например, 9032697963) ";
     recursion(FIELD_PHONE, message, phone_);
 }
 
-void TradingCompany::checkEmail()
+void TradingCompany::checkEmail(const string &warning)
 {
-    const string message = "Измените свою текущую почту : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите почту (например, surname.name.patronymic@tradingcompany.ru) ";
     recursion(FIELD_EMAIL, message, email_);
 }
 
-void TradingCompany::checkDateOfHiring()
+void TradingCompany::checkDateOfHiring(const string &warning)
 {
-    const string message = "Измените свою текущую дату принятия на работу : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите дату принятия на работу (например, 16.04.2018) ";
     recursion(FIELD_DATE_OF_BIRTH, message, dateOfHiring_);
 }
 
-void TradingCompany::checkWorkingHours()
+void TradingCompany::checkWorkingHours(const string &warning)
 {
-    const string message = "Измените свои текущие часы работы : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите время работы (например, Понедельник-Пятница=09:00-18:00) ";
     recursion(FIELD_WORKING_HOURS, message, workingHours_);
 }
 
-void TradingCompany::checkSalary()
+void TradingCompany::checkSalary(const string &warning)
 {
-
-    const string message = "Измените свою текущую зарплату : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите зарплату (в рублях) ";
     recursion(FIELD_SALARY, message, salary_);
 }
 
-void TradingCompany::checkPassword()
+void TradingCompany::checkPassword(const string &warning)
 {
-    const string message = "Измените свой текущий пароль : ";
+    if (!warning.empty())
+        cout << warning << endl;
+    const string message = "Введите пароль (пароль должен содержать:\n-не менее 6 символов\n"
+                                                                     "-хотя бы одну прописную латинскую букву\n"
+                                                                     "-хотя бы одну строчную латинскую букву\n"
+                                                                     "-хотя бы одну цифру) ";
     recursion(FIELD_PASSWORD, message, password_);
 }
 
@@ -759,11 +852,11 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
     }
     catch (const string &ex)
     {
-        cout << "Неверный параметр: " << ex << endl;
+        cout << "Неверный uint64_tметр: " << ex << endl;
     }
     catch(const Field &ex)
     {
-        cout << "Введен неверный параметр поля >> " + to_string(ex) << endl;
+        cout << "Введен неверный uint64_tметр поля >> " + to_string(ex) << endl;
     }
     catch(...)
     {
@@ -793,85 +886,28 @@ ostream& operator << (ostream &out, const TradingCompany &tradingCompany)
 void operator >> (const string &line, TradingCompany &tradingCompany)
 {
     bool isRecord = false;
-    string word;
+    string input;
     Field field;
     
     istringstream is(line);
-    while (is >> word)
+    while (is >> input)
     {
-        string parameter = regex_replace(word, regex("[^A-Za-z]"), "");
+        string parameter = regex_replace(input, regex("[^A-Za-z]"), "");
         auto found = tradingCompany.parameters.find(parameter);
 
         if (found != tradingCompany.parameters.end())
         {
             field = found->second;
-            is >> word;
+            is >> input;
             isRecord = true;
         }
         if (isRecord)
         {
-            if (*word.begin() != ('\"') && *(word.end() - 1) != ('\"'))
-                word.clear();
+            if (*input.begin() != ('\"') && *(input.end() - 1) != ('\"'))
+                input.clear();
             else
-                word = word.substr(1, word.length() - 2);
-            switch (field)
-            {
-                case FIELD_ID :
-                    tradingCompany.setId(word);
-                    break;
-                    
-                case FIELD_POSITION :
-                    tradingCompany.setPosition(word);
-                    break;
-                    
-                case FIELD_SURNAME :
-                    tradingCompany.setSurname(word);
-                    break;
-                    
-                case FIELD_NAME :
-                    tradingCompany.setName(word);
-                    break;
-                    
-                case FIELD_PATRONYMIC :
-                    tradingCompany.setPatronymic(word);
-                    break;
-                    
-                case FIELD_SEX :
-                    tradingCompany.setSex(word);
-                    break;
-                    
-                case FIELD_DATE_OF_BIRTH :
-                    tradingCompany.setDateOfBirth(word);
-                    break;
-                    
-                case FIELD_PASSPORT :
-                    tradingCompany.setPassport(word);
-                    break;
-                    
-                case FIELD_PHONE :
-                    tradingCompany.setPhone(word);
-                    break;
-                    
-                case FIELD_EMAIL :
-                    tradingCompany.setEmail(word);
-                    break;
-                    
-                case FIELD_DATE_OF_HIRING :
-                    tradingCompany.setDateOfHiring(word);
-                    break;
-                    
-                case FIELD_WORKING_HOURS :
-                    tradingCompany.setWorkingHours(word);
-                    break;
-                    
-                case FIELD_SALARY :
-                    tradingCompany.setSalary(word);
-                    break;
-                    
-                case FIELD_PASSWORD :
-                    tradingCompany.setPassword(word);
-                    break;
-            }
+                input = input.substr(1, input.length() - 2);
+            tradingCompany.switchCaseParameter(input, field);
             isRecord = false;
         }
     }

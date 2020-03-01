@@ -179,17 +179,17 @@ public:
     void changeStatusPassport();
     void changeStatusPhone();
     void changeStatusPassword(bool isWrite);
-    void checkPhone();
-    void checkEmail();
-    void checkPassword();
+    void checkPhone(const string &warning = {});
+    void checkEmail(const string &warning = {});
+    void checkPassword(const string &warning = {});
     void displayUser();
     void changePersonalData();
     
     friend class Director;
     friend ostream& operator << (ostream &out, const TradingCompany &tradingCompany);
     friend void operator >> (const string &line, TradingCompany &tradingCompany);
-    
-protected:
+
+private:
     uint     id_;
     string   position_;
     string   surname_;
@@ -204,20 +204,20 @@ protected:
     string   workingHours_;
     uint     salary_;
     string   password_;
-
-private:
-    void checkId();
-    void checkPosition();
-    void checkSurname();
-    void checkName();
-    void checkPatronymic();
-    void checkSex();
-    void checkDateOfBirth();
-    void checkPassport();
-    void checkDateOfHiring();
-    void checkWorkingHours();
-    void checkSalary();
-    template <typename T> bool recursion(const Field &field, const string &message, const T &parameter);
+    
+    void switchCaseParameter(string &parameter, const Field &field);
+    void checkId(const string &warning = {});
+    void checkPosition(const string &warning = {});
+    void checkSurname(const string &warning = {});
+    void checkName(const string &warning = {});
+    void checkPatronymic(const string &warning = {});
+    void checkSex(const string &warning = {});
+    void checkDateOfBirth(const string &warning = {});
+    void checkPassport(const string &warning = {});
+    void checkDateOfHiring(const string &warning = {});
+    void checkWorkingHours(const string &warning = {});
+    void checkSalary(const string &warning = {});
+    template <typename T> void recursion(const Field &field, const string &message, const T &parameter);
     template<typename T> T get(string &value, const Field field);
     /// Пустое поле для возврата в качестве отсутствия результата поиска
     const Type empty = Type();

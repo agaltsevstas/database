@@ -8,10 +8,6 @@ class Cashier : public TradingCompany
 public:
     Cashier(): TradingCompany() {}
     void functional() override;
-
-private:
-    void setPremium(int premium);
-    void setFine(int fine);
 };
 
 #endif // Cashier_h

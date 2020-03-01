@@ -7,6 +7,8 @@ class Director : public TradingCompany
 {
 public:
     Director() : TradingCompany() {}
+    void checkData();
+    void changePersonalData();
     void functional() override;
     
 private:

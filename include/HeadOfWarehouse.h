@@ -8,10 +8,6 @@ class HeadOfWarehouse : public TradingCompany
 public:
     HeadOfWarehouse(): TradingCompany() {}
     void functional() override;
-
-private:
-    void setPremium(int premium);
-    void setFine(int fine);
 };
 
 #endif // HeadOfWarehouse_h
