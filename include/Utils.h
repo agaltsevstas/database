@@ -44,12 +44,13 @@ namespace utils
         {"ц", "ts"},
         {"ч", "ch"},
         {"ш", "sh"},
+        {"щ", "sch"},
         {"ъ", ""},
         {"ы", "j"},
         {"ь", ""},
         {"э", "e"},
         {"ю", "ju"},
-        {"я", "e"},
+        {"я", "ja"},
     };
     
     string translit(const string& ru_word);

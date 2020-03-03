@@ -2,15 +2,21 @@
 
 namespace utils
 {
-    string translit(const string& ru_word)
+    string translit(const string& textRussian)
     {
-        string en_word;
-        for (const char letterChar: ru_word)
+        string textEnglish;
+        for(size_t i = 0; i <= textRussian.length(); ++i)
         {
-            const string letterString(1, letterChar);
-            cout << translitSymbols.find(letterString)->second << endl;
+            char space = textRussian[i];
+            string letter = textRussian.substr(i, 2);
+            if (space == ' ')
+                        textEnglish += " ";
+            else if (translitSymbols.find(letter) != translitSymbols.end())
+            {
+                textEnglish += translitSymbols.find(letter)->second;
+            }
         }
-        return en_word;
+        return textEnglish;
     }
     
     vector<string> splitString(string source, string delim)
