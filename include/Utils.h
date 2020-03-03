@@ -53,7 +53,9 @@ namespace utils
         {"я", "ja"},
     };
     
-    string translit(const string& ru_word);
+    string translit(const string &textRussian);
+    
+    string createEmail(const vector<string> &anthroponym);
     
     inline unsigned constexpr str(const char *input)
     {
@@ -85,7 +87,7 @@ namespace utils
         return convert.from_bytes(str);
     }
 
-    void toUpperAndToLower(string &str);
+    void toUpperAndToLower(string &str, uint numberUpper = 1);
 }
 
 #endif // Utils_h

@@ -728,6 +728,10 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 
             case FIELD_EMAIL :
             {
+                if (fieldStatus_[FIELD_SURNAME] == ST_OK && fieldStatus_[FIELD_NAME] == ST_OK && fieldStatus_[FIELD_PATRONYMIC] == ST_OK)
+                {
+                    value = createEmail(vector<string>{surname_, name_, patronymic_});
+                }
                 type.stringValue = value;
                 regex regular ("^([a-z0-9]+)(\\.)([a-z0-9]+)(\\.)([a-z0-9]+)(@)(tradingcompany)(\\.)(ru)$");
                 if (value.empty())

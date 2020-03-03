@@ -2,10 +2,10 @@
 
 namespace utils
 {
-    string translit(const string& textRussian)
+    string translit(const string &textRussian)
     {
         string textEnglish;
-        for(size_t i = 0; i <= textRussian.length(); ++i)
+        for (size_t i = 0; i <= textRussian.length(); ++i)
         {
             char space = textRussian[i];
             string letter = textRussian.substr(i, 2);
@@ -17,6 +17,18 @@ namespace utils
             }
         }
         return textEnglish;
+    }
+    
+    string createEmail(const vector<string> &anthroponym)
+    {
+        string email;
+        for (auto part: anthroponym)
+        {
+            toUpperAndToLower(part, 0);
+            email += translit(part) + ".";
+        }
+        email.pop_back();
+        return email += "@tradingcompany.ru";
     }
     
     vector<string> splitString(string source, string delim)
@@ -64,11 +76,15 @@ namespace utils
         return age;
     }
 
-    void toUpperAndToLower(string &str)
+    void toUpperAndToLower(string &str, uint numberUpper)
     {
+        for (size_t i = 0; i < numberUpper; ++i)
+        {
+            toupper(str[i]);
+        }
         wstring wstr = utf8ToWstring(str);
         wstr[0] = towupper(wstr[0]);
-        transform(wstr.begin() + 1, wstr.end(), wstr.begin() + 1, towlower);
+        transform(wstr.begin() + numberUpper, wstr.end(), wstr.begin() + numberUpper, towlower);
         str = wstringToUtf8(wstr);
     }
 }
