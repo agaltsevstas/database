@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+#include <map>
 #include <vector>
 #include <sstream>
 #include <iomanip>
@@ -15,6 +16,44 @@ using namespace std;
 
 namespace utils
 {
+    const map<string, string> translitSymbols =
+    {
+        {"а", "a"},
+        {"б", "b"},
+        {"в", "v"},
+        {"г", "g"},
+        {"д", "d"},
+        {"е", "e"},
+        {"ё", "e"},
+        {"ж", "zh"},
+        {"з", "z"},
+        {"и", "i"},
+        {"й", "j"},
+        {"к", "k"},
+        {"л", "l"},
+        {"м", "m"},
+        {"н", "n"},
+        {"о", "o"},
+        {"п", "p"},
+        {"р", "r"},
+        {"с", "s"},
+        {"т", "t"},
+        {"у", "u"},
+        {"ф", "f"},
+        {"х", "h"},
+        {"ц", "ts"},
+        {"ч", "ch"},
+        {"ш", "sh"},
+        {"ъ", ""},
+        {"ы", "j"},
+        {"ь", ""},
+        {"э", "e"},
+        {"ю", "ju"},
+        {"я", "e"},
+    };
+    
+    string translit(const string& ru_word);
+    
     inline unsigned constexpr str(const char *input)
     {
         return *input ? static_cast<unsigned int>(*input) + 33 * str(input + 1) : 5381;

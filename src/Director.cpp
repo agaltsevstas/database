@@ -51,7 +51,7 @@ void Director::changePersonalData()
                 case str("1") :
                     checkId();
                     break;
-                case str("2") :
+                case str("2") :  
                     checkPosition();
                     break;
                 case str("3") :

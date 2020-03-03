@@ -2,6 +2,17 @@
 
 namespace utils
 {
+    string translit(const string& ru_word)
+    {
+        string en_word;
+        for (const char letterChar: ru_word)
+        {
+            const string letterString(1, letterChar);
+            cout << translitSymbols.find(letterString)->second << endl;
+        }
+        return en_word;
+    }
+    
     vector<string> splitString(string source, string delim)
     {
         vector<string> result;
