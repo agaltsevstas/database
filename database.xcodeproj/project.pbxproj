@@ -160,6 +160,7 @@
 				04BF8F5D23F5CA3000857AB1 /* Logger.h */,
 				04BF8F6223F5CA3000857AB1 /* TradingCompany.h */,
 				04BF8F6323F5CA3000857AB1 /* Utils.h */,
+				04AB477724045E3100D6FF4F /* Utils.cpp */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -167,7 +168,6 @@
 		04BF8F6423F5CA3100857AB1 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				04AB477724045E3100D6FF4F /* Utils.cpp */,
 				04AB475924011C2100D6FF4F /* Accountant.cpp */,
 				04AB475D24011C2200D6FF4F /* Cashier.cpp */,
 				04AB475724011C2100D6FF4F /* ChiefAccountant.cpp */,

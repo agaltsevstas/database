@@ -500,7 +500,6 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
         {
             case FIELD_ID :
             {
-                type.uintValue = atoi(value.c_str());
                 regex regular ("^[0-9]{1,4}$");
                 if (value.empty())
                 {
@@ -517,6 +516,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "ID >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.uintValue = atoi(value.c_str());
                 fieldStatus_[field] = type.status;
                 return type;
             }
@@ -524,7 +524,6 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             case FIELD_POSITION :
             {
                 toUpperAndToLower(value);
-                type.stringValue = value;
                 regex regular ("(Бухгалтер|Водитель|Главный_бухгалтер|Главный_юрист-консультант|Грузчик|Директор|Кассир|Логист|"
                                "Менеджер_по_закупкам|Менеджер_по_продажам|Начальник_отдела_закупок|Начальник_склада|Юрист)");
                 if (value.empty())
@@ -534,7 +533,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else if (!regex_match(value, regular))
                 {
-                    Logger::warning << "Некорретная должность >> " << value << endl;
+                    Logger::warning << "Некорректная должность >> " << value << endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
@@ -542,6 +541,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Должность >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.stringValue = value;
                 fieldStatus_[field] = type.status;
                 return type;
             }
@@ -549,7 +549,6 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             case FIELD_SURNAME :
             {
                 toUpperAndToLower(value);
-                type.stringValue = value;
                 regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
                 {
@@ -558,7 +557,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else if (!regex_match(value, regular))
                 {
-                    Logger::warning << "Некорретная фамилия >> " << value << endl;
+                    Logger::warning << "Некорректная фамилия >> " << value << endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
@@ -566,6 +565,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Фамилия >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.stringValue = value;
                 fieldStatus_[field] = type.status;
                 return type;
             }
@@ -573,7 +573,6 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             case FIELD_NAME :
             {
                 toUpperAndToLower(value);
-                type.stringValue = value;
                 regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
                 {
@@ -590,6 +589,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Имя >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.stringValue = value;
                 fieldStatus_[field] = type.status;
                 return type;
             }
@@ -597,7 +597,6 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             case FIELD_PATRONYMIC :
             {
                 toUpperAndToLower(value);
-                type.stringValue = value;
                 regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
                 {
@@ -614,6 +613,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Отчество >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.stringValue = value;
                 fieldStatus_[field] = type.status;
                 return type;
             }
@@ -621,7 +621,6 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             case FIELD_SEX :
             {
                 toUpperAndToLower(value);
-                type.stringValue = value;
                 regex regular ("^(Муж|Жен)$");
                 if (value.empty())
                 {
@@ -638,13 +637,13 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Пол >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.stringValue = value;
                 fieldStatus_[field] = type.status;
                 return type;
             }
             
             case FIELD_DATE_OF_BIRTH :
             {
-                type.stringValue = value;
                 vector<string> data = utils::splitString(date(), " .-");
                 vector<string> dateOfBirth = utils::splitString(value, " .-");
                 auto age = findAge(data, dateOfBirth);
@@ -666,7 +665,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else if (!regex_match(value, regular))
                 {
-                    Logger::warning << "Некорретная дата рождения >> " << value << endl;
+                    Logger::warning << "Некорректная дата рождения >> " << value << endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
@@ -674,13 +673,13 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Дата рождения >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.stringValue = value;
                 fieldStatus_[field] = type.status;
                 return type;
             }
 
             case FIELD_PASSPORT :
             {
-                type.uint64Value = strtoul(value.c_str(), NULL, 0);
                 regex regular ("^[0-9]{10}$");
                 regex_match(value, regular);
                 if (value.empty())
@@ -698,13 +697,13 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Паспорт >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.uint64Value = strtoul(value.c_str(), NULL, 0);
                 fieldStatus_[field] = type.status;
                 return type;
             }
             
             case FIELD_PHONE :
             {
-                type.uint64Value = strtoul(value.c_str(), NULL, 0);
                 regex regular ("^[0-9]{10}$");
                 regex_match(value, regular);
                 if (value.empty())
@@ -722,26 +721,29 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Телефон >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.uint64Value = strtoul(value.c_str(), NULL, 0);
                 fieldStatus_[field] = type.status;
                 return type;
             }
                 
             case FIELD_EMAIL :
             {
-                if (fieldStatus_[FIELD_SURNAME] == ST_OK && fieldStatus_[FIELD_NAME] == ST_OK && fieldStatus_[FIELD_PATRONYMIC] == ST_OK)
-                {
-                    value = createEmail(vector<string>{surname_, name_, patronymic_});
-                }
-                type.stringValue = value;
+                string email = createEmail(vector<string>{surname_, name_, patronymic_});
                 regex regular ("^([a-z0-9]+)(\\.)([a-z0-9]+)(\\.)([a-z0-9]+)(@)(tradingcompany)(\\.)(ru)$");
-                if (value.empty())
+                if (regex_match(email, regular))
+                {
+                    value = email;
+                    Logger::info << "Почта >> " << value << endl;
+                    type.status = ST_OK;
+                }
+                else if (value.empty())
                 {
                     Logger::error << "Пустая почта >> " << value << endl;
                     type.status = ST_EMPTY;
                 }
                 else if (!regex_match(value, regular))
                 {
-                    Logger::warning << "Некорретная почта >> " << value << endl;
+                    Logger::warning << "Некорректная почта >> " << value << endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
@@ -749,13 +751,13 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Почта >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.stringValue = value;
                 fieldStatus_[field] = type.status;
                 return type;
             }
             
             case FIELD_DATE_OF_HIRING :
             {
-                type.stringValue = value;
                 regex regular ("^(((0[1-9]|[12][0-9]|30)[-/.]?(0[13-9]|1[012])|31[-/.]?(0[13578]|1[02])|(0[1-9]|"
                                "1[0-9]|2[0-8])[-/.]?02)[-/.]?[0-9]{4}|29[-/.]?02[-/.]?([0-9]{2}(([2468][048]|"
                                "[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$");
@@ -766,7 +768,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else if (!regex_match(value, regular))
                 {
-                    Logger::warning << "Некорретная дата принятия на работу >> " << value << endl;
+                    Logger::warning << "Некорректная дата принятия на работу >> " << value << endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
@@ -774,13 +776,13 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Дата принятия на работу >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.stringValue = value;
                 fieldStatus_[field] = type.status;
                 return type;
             }
             
             case FIELD_WORKING_HOURS :
             {
-                type.stringValue = value;
                 regex regular ("(((((Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье),*)+)|"
                                "(Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье)-"
                                "(Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье))="
@@ -800,13 +802,13 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Часы работы >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.stringValue = value;
                 fieldStatus_[field] = type.status;
                 return type;
             }
             
             case FIELD_SALARY :
             {
-                type.uintValue = atoi(value.c_str());
                 regex regular ("[0-9]+");
                 if (value.empty())
                 {
@@ -823,13 +825,13 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Зарплата >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.uintValue = atoi(value.c_str());
                 fieldStatus_[field] = type.status;
                 return type;
             }
         
             case FIELD_PASSWORD :
             {
-                type.stringValue = value;
                 regex regular ("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}");
                 if (value.empty())
                 {
@@ -846,6 +848,7 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                     Logger::info << "Пароль >> " << value << endl;
                     type.status = ST_OK;
                 }
+                type.stringValue = value;
                 fieldStatus_[field] = type.status;
                 return type;
             }
