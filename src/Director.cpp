@@ -5,7 +5,9 @@ using namespace utils;
 
 void Director::checkData()
 {
-    checkId();
+    parameterUint_ = bind(&TradingCompany::getId, this);
+    checkParameter_ = bind(&TradingCompany::checkId, this, "");
+    checkParameter(parameterUint_, checkParameter_);
     checkPosition();
     checkSurname();
     checkName();
@@ -158,6 +160,21 @@ void Director::functional()
             cout << "Неизвестная ошибка!";
             exit(0);
         }
+    }
+}
+
+template<typename T>
+void Director::checkParameter(function<T()> parameter, function<void()> checkParameter)
+{
+    Data &data = Data::getInstance();
+    for (const auto &object: data.tradingCompanyVector_)
+    {
+        auto delet = object->parameterUint_;
+        parameter();
+//        if (object->parameterUint_ == parameter())
+//        {
+            checkParameter();
+//        }
     }
 }
 
