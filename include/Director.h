@@ -12,7 +12,6 @@ public:
     void functional() override;
     
 private:
-    function<void()>checkParameter_ = nullptr;
 //    void(*checkParameter_)() = nullptr;
     void setPremium(int premium);
     void setFine(int fine);

@@ -6,9 +6,9 @@ using namespace utils;
 void Director::checkData()
 {
     Data &data = Data::getInstance();
-    checkParameter_ = bind(&TradingCompany::checkId, this, "");
     parameterUint_ = &TradingCompany::getId;
-    data.checkParameter(parameterUint_, checkParameter_);
+    parameterString_ = &TradingCompany::getSex;
+    data.checkParameter(id_, parameterUint_, bind(&TradingCompany::checkId, this, ""));
     checkPosition();
     checkSurname();
     checkName();

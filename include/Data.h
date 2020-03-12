@@ -64,11 +64,15 @@ public:
     }
         
     inline vector<shared_ptr<TradingCompany>> getObject() { return  tradingCompanyVector_; }
-    void checkParameter(function<uint(TradingCompany&)> parameter, function<void()> checkParameter)
+    template<typename T> void checkParameter(T &parameter, function<T (TradingCompany&)> getParameter, function<void()> checkParameter)
     {
-        for (const auto &object: tradingCompanyVector_)
+        for (auto it = tradingCompanyVector_.begin(); it != tradingCompanyVector_.end(); ++it)
         {
-            cout << parameter(object) << endl;
+            if (getParameter(*(*it)) == parameter)
+            {
+                checkParameter();
+                it = tradingCompanyVector_.begin();
+            }
         }
     }
     template<typename T> void changePersonalData(T *object)
