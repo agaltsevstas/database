@@ -5,9 +5,10 @@ using namespace utils;
 
 void Director::checkData()
 {
-    parameterUint_ = bind(&TradingCompany::getId, this);
+    Data &data = Data::getInstance();
     checkParameter_ = bind(&TradingCompany::checkId, this, "");
-    checkParameter(parameterUint_, checkParameter_);
+    parameterUint_ = &TradingCompany::getId;
+    data.checkParameter(parameterUint_, checkParameter_);
     checkPosition();
     checkSurname();
     checkName();
@@ -116,7 +117,7 @@ void Director::functional()
     string input;
     while (true)
     {
-        data.checkData(this);
+        checkData();
         displayUser();
         cout << "Хотите изменить личные данные? - нажмите 1" << endl;
         cout << "Хотите вывести данные данные всех сотрудников? - нажмите 2" << endl;
@@ -160,21 +161,6 @@ void Director::functional()
             cout << "Неизвестная ошибка!";
             exit(0);
         }
-    }
-}
-
-template<typename T>
-void Director::checkParameter(function<T()> parameter, function<void()> checkParameter)
-{
-    Data &data = Data::getInstance();
-    for (const auto &object: data.tradingCompanyVector_)
-    {
-        auto delet = object->parameterUint_;
-        parameter();
-//        if (object->parameterUint_ == parameter())
-//        {
-            checkParameter();
-//        }
     }
 }
 

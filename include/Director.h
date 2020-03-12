@@ -14,7 +14,6 @@ public:
 private:
     function<void()>checkParameter_ = nullptr;
 //    void(*checkParameter_)() = nullptr;
-    template<typename T> void checkParameter(function<T()> parameter, function<void()> checkParameter);
     void setPremium(int premium);
     void setFine(int fine);
 };
