@@ -6,22 +6,48 @@ using namespace utils;
 void Director::checkData()
 {
     Data &data = Data::getInstance();
-    parameterUint_ = &TradingCompany::getId;
-    parameterString_ = &TradingCompany::getSex;
-    data.checkParameter(id_, parameterUint_, bind(&TradingCompany::checkId, this, ""));
-    checkPosition();
-    checkSurname();
-    checkName();
-    checkPatronymic();
-    checkSex();
-    checkDateOfBirth();
-    checkPhone();
-    checkEmail();
-    checkPassport();
-    checkDateOfHiring();
-    checkWorkingHours();
-    checkSalary();
-    checkPassword();
+    data.checkParameter(id_,
+                        function<uint(TradingCompany&)>{&TradingCompany::getId},
+                        bind(&TradingCompany::checkId, this, ""), this);
+    data.checkParameter(position_,
+                        function<string(TradingCompany&)>{&TradingCompany::getPosition},
+                        bind(&TradingCompany::checkPosition, this, ""), this);
+    data.checkParameter(surname_,
+                        function<string(TradingCompany&)>{&TradingCompany::getSurname},
+                        bind(&TradingCompany::checkSurname, this, ""), this);
+    data.checkParameter(name_,
+                        function<string(TradingCompany&)>{&TradingCompany::getName},
+                        bind(&TradingCompany::checkName, this, ""), this);
+    data.checkParameter(patronymic_,
+                        function<string(TradingCompany&)>{&TradingCompany::getPatronymic},
+                        bind(&TradingCompany::checkPatronymic, this, ""), this);
+    data.checkParameter(sex_,
+                        function<string(TradingCompany&)>{&TradingCompany::getSex},
+                        bind(&TradingCompany::checkSex, this, ""), this);
+    data.checkParameter(dateOfBirth_,
+                        function<string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
+                        bind(&TradingCompany::checkDateOfBirth, this, ""), this);
+    data.checkParameter(passport_,
+                        function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
+                        bind(&TradingCompany::checkPassport, this, ""), this);
+    data.checkParameter(phone_,
+                        function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
+                        bind(&TradingCompany::checkPhone, this, ""), this);
+    data.checkParameter(email_,
+                        function<string(TradingCompany&)>{&TradingCompany::getEmail},
+                        bind(&TradingCompany::checkEmail, this, ""), this);
+    data.checkParameter(dateOfHiring_,
+                        function<string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
+                        bind(&TradingCompany::checkDateOfHiring, this, ""), this);
+    data.checkParameter(workingHours_,
+                        function<string(TradingCompany&)>{&TradingCompany::getWorkingHours},
+                        bind(&TradingCompany::checkWorkingHours, this, ""), this);
+    data.checkParameter(salary_,
+                        function<uint(TradingCompany&)>{&TradingCompany::getSalary},
+                        bind(&TradingCompany::checkSalary, this, ""), this);
+    data.checkParameter(password_,
+                        function<string(TradingCompany&)>{&TradingCompany::getPassword},
+                        bind(&TradingCompany::checkPassword, this, ""), this);
 }
 
 void Director::changePersonalData()
@@ -99,9 +125,9 @@ void Director::changePersonalData()
                     throw input;
             }
         }
-        catch (const string &ex)
+        catch (const string &exception)
         {
-            cout << "Вы ввели: " << ex << " - неверная команда! Попробуйте ввести заново: "<< endl;
+            cout << "Вы ввели: " << exception << " - неверная команда! Попробуйте ввести заново: "<< endl;
         }
         catch(...)
         {
@@ -152,9 +178,9 @@ void Director::functional()
                     throw input;
             }
         }
-        catch (const string &ex)
+        catch (const string &exception)
         {
-            cout << "Вы ввели: " << ex << " - неверная команда! Попробуйте ввести заново: "<< endl;
+            cout << "Вы ввели: " << exception << " - неверная команда! Попробуйте ввести заново: "<< endl;
         }
         catch(...)
         {

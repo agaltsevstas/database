@@ -185,10 +185,6 @@ public:
     void checkPassword(const string &warning = {});
     void displayUser();
     void changePersonalData();
-
-    function<uint(TradingCompany&)> parameterUint_ = nullptr;
-    function<uint64_t()> parameterUint64_t_ = nullptr;
-    function<string(TradingCompany&)> parameterString_ = nullptr;
     
     friend class Director;
     friend ostream& operator << (ostream &out, const TradingCompany &tradingCompany);
