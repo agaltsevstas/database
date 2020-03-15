@@ -478,9 +478,9 @@ void TradingCompany::changePersonalData()
                     throw input;
             }
         }
-        catch (const string &ex)
+        catch (const string &exception)
         {
-            cout << "Вы ввели: " << ex << " - неверная команда! Попробуйте ввести заново: "<< endl;
+            cout << "Вы ввели: " << exception << " - неверная команда! Попробуйте ввести заново: "<< endl;
         }
         catch(...)
         {
@@ -857,37 +857,19 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 throw (field);
         }
     }
-    catch (const string &ex)
+    catch (const string &exception)
     {
-        cout << "Неверный uint64_tметр: " << ex << endl;
+        cout << "Неверный uint64_tметр: " << exception << endl;
     }
-    catch(const Field &ex)
+    catch(const Field &field)
     {
-        cout << "Введен неверный uint64_tметр поля >> " + to_string(ex) << endl;
+        cout << "Введен неверный uint64_tметр поля >> " + to_string(field) << endl;
     }
     catch(...)
     {
         cout << "Неизвестная ошибка!";
     }
     return TradingCompany::empty;
-}
-
-ostream& operator << (ostream &out, const TradingCompany &tradingCompany)
-{
-    out << tradingCompany.id_ << " ";
-    out << tradingCompany.position_ << " ";
-    out << tradingCompany.surname_ << " ";
-    out << tradingCompany.name_ << " ";
-    out << tradingCompany.patronymic_ << " ";
-    out << tradingCompany.sex_ << " ";
-    out << tradingCompany.dateOfBirth_ << " ";
-    out << tradingCompany.phone_ << " ";
-    out << tradingCompany.dateOfHiring_ << " ";
-    out << tradingCompany.workingHours_ << " ";
-    out << tradingCompany.passport_ << " ";
-    out << tradingCompany.salary_ << " ";
-    out << tradingCompany.password_;
-    return out;
 }
 
 void operator >> (const string &line, TradingCompany &tradingCompany)
@@ -918,6 +900,42 @@ void operator >> (const string &line, TradingCompany &tradingCompany)
             isRecord = false;
         }
     }
+}
+
+ostream& operator << (ostream &out, const TradingCompany &tradingCompany)
+{
+    out << tradingCompany.id_ << " ";
+    out << tradingCompany.position_ << " ";
+    out << tradingCompany.surname_ << " ";
+    out << tradingCompany.name_ << " ";
+    out << tradingCompany.patronymic_ << " ";
+    out << tradingCompany.sex_ << " ";
+    out << tradingCompany.dateOfBirth_ << " ";
+    out << tradingCompany.phone_ << " ";
+    out << tradingCompany.dateOfHiring_ << " ";
+    out << tradingCompany.workingHours_ << " ";
+    out << tradingCompany.passport_ << " ";
+    out << tradingCompany.salary_ << " ";
+    out << tradingCompany.password_;
+    return out;
+}
+
+bool operator == (const TradingCompany &first, const TradingCompany &second)
+{
+    return (first.id_ == second.id_) &&
+           (first.position_ == second.position_) &&
+           (first.surname_ == second.surname_) &&
+           (first.name_ == second.name_) &&
+           (first.patronymic_ == second.patronymic_) &&
+           (first.sex_ == second.sex_) &&
+           (first.dateOfBirth_ == second.dateOfBirth_) &&
+           (first.phone_ == second.phone_) &&
+           (first.email_ == second.email_) &&
+           (first.dateOfHiring_ == second.dateOfHiring_) &&
+           (first.workingHours_ == second.workingHours_) &&
+           (first.passport_ == second.passport_) &&
+           (first.salary_ == second.salary_) &&
+           (first.password_ == second.password_);
 }
 
 

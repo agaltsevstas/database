@@ -3,11 +3,16 @@
 
 #include "TradingCompany.h"
 
+class Data;
+
 class Driver : public TradingCompany
 {
 public:
-    Driver(): TradingCompany() {}
+    Driver();
     void functional() override;
+    
+private:
+    Data* data_ = nullptr;
 };
 
 #endif // Driver_h

@@ -3,11 +3,16 @@
 
 #include "TradingCompany.h"
 
+class Data;
+
 class SalesManager : public TradingCompany
 {
 public:
-    SalesManager(): TradingCompany() {}
+    SalesManager();
     void functional() override;
+    
+private:
+    Data* data_ = nullptr;
 };
 
 #endif // SalesManager_h

@@ -3,11 +3,16 @@
 
 #include "TradingCompany.h"
 
+class Data;
+
 class Stevedore : public TradingCompany
 {
 public:
-    Stevedore(): TradingCompany() {}
+    Stevedore();
     void functional() override;
+    
+private:
+    Data* data_ = nullptr;
 };
 
 #endif // Stevedore_h

@@ -3,11 +3,16 @@
 
 #include "TradingCompany.h"
 
+class Data;
+
 class PurchasingManager : public TradingCompany
 {
 public:
-    PurchasingManager(): TradingCompany() {}
+    PurchasingManager();
     void functional() override;
+    
+private:
+    Data* data_ = nullptr;
 };
 
 #endif // PurchasingManager_h

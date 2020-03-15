@@ -3,11 +3,16 @@
 
 #include "TradingCompany.h"
 
+class Data;
+
 class Lawyer : public TradingCompany
 {
 public:
-    Lawyer(): TradingCompany() {}
+    Lawyer();
     void functional() override;
+    
+private:
+    Data* data_ = nullptr;
 };
 
 #endif // Lawyer_h

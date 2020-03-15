@@ -1,8 +1,25 @@
 #include "Data.h"
 
+const list<string> positions
+{
+    "Бухгалтер",
+    "Водитель",
+    "Главный_бухгалтер",
+    "Главный_юрист-консультант",
+    "Грузчик",
+    "Директор",
+    "Логист",
+    "Менеджер_по_закупкам",
+    "Менеджер_по_продажам",
+    "Кассир",
+    "Начальник_отдела_закупок",
+    "Начальник_склада",
+    "Юрист"
+};
+
 void Data::getAllOtherData() const
 {
-    for (const auto &tradingCompany: tradingCompanyVector_)
+    for (const auto &tradingCompany: tradingCompanyObjects_)
     {
         cout << *tradingCompany << endl;
     }
@@ -14,7 +31,7 @@ template<class T> void Data::pushBack(T &object)
     shared_ptr<T> pointer;
     vector<shared_ptr<TradingCompany>>::iterator it;
     
-    for (it = tradingCompanyVector_.begin(); it != tradingCompanyVector_.end(); ++it)
+    for (it = tradingCompanyObjects_.begin(); it != tradingCompanyObjects_.end(); ++it)
     {
         if ((pointer = dynamic_pointer_cast<T>(*it)) && (*it)->getId() > maxId)
         {
@@ -27,7 +44,7 @@ template<class T> void Data::pushBack(T &object)
     }
     
     // object.setId(to_string(++maxId));
-    tradingCompanyVector_.insert(it, make_shared<T>(object));
+    tradingCompanyObjects_.insert(it, make_shared<T>(object));
 }
 
 void Data::addNewEmployeeData()
@@ -37,7 +54,7 @@ void Data::addNewEmployeeData()
 //
 //    cout << "Выберите одну из предложенных должности: " << endl;
 //
-//    for (const auto &tradingCompany: data.tradingCompanyVector_)
+//    for (const auto &tradingCompany: data.tradingCompanyObjects_)
 //    {
 //        positions.push_back(tradingCompany->getPosition());
 //    }
@@ -49,7 +66,7 @@ void Data::addNewEmployeeData()
     cout << "Введите должность сотрудника: " << endl;
     string input;
     cin >> input;
-    for (const auto &object: data.tradingCompanyVector_)
+    for (const auto &object: data.tradingCompanyObjects_)
     {
         if (input == object->getPosition())
         {

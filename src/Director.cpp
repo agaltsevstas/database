@@ -1,51 +1,52 @@
 #include "Director.h"
+#include "Data.h"
 #include "Utils.h"
 
 using namespace utils;
 
+Director::Director() : data_(&Data::getInstance()) {}
 void Director::checkData()
 {
-    Data &data = Data::getInstance();
-    data.checkParameter(id_,
+    data_->checkParameter(id_,
                         function<uint(TradingCompany&)>{&TradingCompany::getId},
                         bind(&TradingCompany::checkId, this, ""), this);
-    data.checkParameter(position_,
+    data_->checkParameter(position_,
                         function<string(TradingCompany&)>{&TradingCompany::getPosition},
                         bind(&TradingCompany::checkPosition, this, ""), this);
-    data.checkParameter(surname_,
+    data_->checkParameter(surname_,
                         function<string(TradingCompany&)>{&TradingCompany::getSurname},
                         bind(&TradingCompany::checkSurname, this, ""), this);
-    data.checkParameter(name_,
+    data_->checkParameter(name_,
                         function<string(TradingCompany&)>{&TradingCompany::getName},
                         bind(&TradingCompany::checkName, this, ""), this);
-    data.checkParameter(patronymic_,
+    data_->checkParameter(patronymic_,
                         function<string(TradingCompany&)>{&TradingCompany::getPatronymic},
                         bind(&TradingCompany::checkPatronymic, this, ""), this);
-    data.checkParameter(sex_,
+    data_->checkParameter(sex_,
                         function<string(TradingCompany&)>{&TradingCompany::getSex},
                         bind(&TradingCompany::checkSex, this, ""), this);
-    data.checkParameter(dateOfBirth_,
+    data_->checkParameter(dateOfBirth_,
                         function<string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
                         bind(&TradingCompany::checkDateOfBirth, this, ""), this);
-    data.checkParameter(passport_,
+    data_->checkParameter(passport_,
                         function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
                         bind(&TradingCompany::checkPassport, this, ""), this);
-    data.checkParameter(phone_,
+    data_->checkParameter(phone_,
                         function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
                         bind(&TradingCompany::checkPhone, this, ""), this);
-    data.checkParameter(email_,
+    data_->checkParameter(email_,
                         function<string(TradingCompany&)>{&TradingCompany::getEmail},
                         bind(&TradingCompany::checkEmail, this, ""), this);
-    data.checkParameter(dateOfHiring_,
+    data_->checkParameter(dateOfHiring_,
                         function<string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
                         bind(&TradingCompany::checkDateOfHiring, this, ""), this);
-    data.checkParameter(workingHours_,
+    data_->checkParameter(workingHours_,
                         function<string(TradingCompany&)>{&TradingCompany::getWorkingHours},
                         bind(&TradingCompany::checkWorkingHours, this, ""), this);
-    data.checkParameter(salary_,
+    data_->checkParameter(salary_,
                         function<uint(TradingCompany&)>{&TradingCompany::getSalary},
                         bind(&TradingCompany::checkSalary, this, ""), this);
-    data.checkParameter(password_,
+    data_->checkParameter(password_,
                         function<string(TradingCompany&)>{&TradingCompany::getPassword},
                         bind(&TradingCompany::checkPassword, this, ""), this);
 }
@@ -139,7 +140,6 @@ void Director::changePersonalData()
 
 void Director::functional()
 {
-    Data &data = Data::getInstance();
     string input;
     while (true)
     {
@@ -158,16 +158,16 @@ void Director::functional()
             switch (str(input.c_str()))
             {
                 case str("1") :
-                    data.changePersonalData(this);
+                    data_->changePersonalData(this);
                     break;
                 case str("2") :
-                    data.getAllOtherData();
+                    data_->getAllOtherData();
                     break;
                 case str("3") :
-                    data.addNewEmployeeData();
+                    data_->addNewEmployeeData();
                     break;
                 case str("4") :
-                    data.addNewEmployeeData();
+                    data_->addNewEmployeeData();
                     break;
                 case str("b") :
                     return;

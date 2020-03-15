@@ -16,22 +16,24 @@
 #include "Stevedore.h"
 #include "Driver.h"
 
-class Director;
-class ChiefAccountant;
-class ChiefLegalCounsel;
-class HeadOfProcurement;
-class HeadOfWarehouse;
-class SalesManager;
-class Cashier;
-class Accountant;
-class Logistician;
-class Lawyer;
-class PurchasingManager;
-class Stevedore;
-class Driver;
+//class Director;
+//class ChiefAccountant;
+//class ChiefLegalCounsel;
+//class HeadOfProcurement;
+//class HeadOfWarehouse;
+//class SalesManager;
+//class Cashier;
+//class Accountant;
+//class Logistician;
+//class Lawyer;
+//class PurchasingManager;
+//class Stevedore;
+//class Driver;
 
 class Data
 {
+    friend class Director;
+    
 public:
     
     static Data &getInstance()
@@ -51,10 +53,22 @@ public:
             {
                 Logger::info << " ---------- Считывание данных сотрудника ---------- " << endl;
                 line >> object;
+                auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
+                                      [&object](shared_ptr<TradingCompany> &tradingCompanyObject)
+                {
+                    return object == *tradingCompanyObject;
+                    
+                });
+                if (result != tradingCompanyObjects_.end())
+                {
+                    return;
+                }
                 checkData(object);
-                tradingCompanyVector_.push_back(make_shared<T>(object));
+                tradingCompanyObjects_.push_back(make_shared<T>(object));
                 if (file.eof())
+                {
                     break;
+                }
             }
         }
         else
@@ -63,17 +77,18 @@ public:
         }
     }
         
-    inline vector<shared_ptr<TradingCompany>> getObject() { return  tradingCompanyVector_; }
+    inline vector<shared_ptr<TradingCompany>> getObject() { return  tradingCompanyObjects_; }
     template<typename T, class C> void checkParameter(T &parameter,
-                                             function<T(TradingCompany&)> getParameter,
-                                             function<void()> checkParameter, C object)
+                                                      function<T(TradingCompany&)> getParameter,
+                                                      function<void()> checkParameter,
+                                                      C object)
     {
-        for (auto it = tradingCompanyVector_.begin(); it != tradingCompanyVector_.end(); ++it)
+        for (auto it = tradingCompanyObjects_.begin(); it != tradingCompanyObjects_.end(); ++it)
         {
             if (getParameter(*(*it)) == parameter && (&(*(*it)) != &(*object)))
             {
                 checkParameter();
-                it = tradingCompanyVector_.begin();
+                it = tradingCompanyObjects_.begin();
             }
         }
     }
@@ -82,10 +97,8 @@ public:
         object->changePersonalData();
     }
     
-    friend class Director;
-    
 private:
-    vector<shared_ptr<TradingCompany>> tradingCompanyVector_;
+    vector<shared_ptr<TradingCompany>> tradingCompanyObjects_;
     shared_ptr<Director> directorPtr_;
     shared_ptr<ChiefAccountant> chiefAccountantPtr_;
     shared_ptr<ChiefLegalCounsel> chiefLegalCounselPtr_;
@@ -104,7 +117,7 @@ private:
     Data& operator=(Data&) = delete;
     template<class T> void checkData(T &object)
     {
-        for (const auto &tradingCompany: tradingCompanyVector_)
+        for (const auto &tradingCompany: tradingCompanyObjects_)
         {
             if (object.getId() == tradingCompany->getId())
             {

@@ -1,17 +1,20 @@
 #ifndef Director_h
 #define Director_h
 
-#include "Data.h"
+#include "TradingCompany.h"
+
+class Data;
 
 class Director : public TradingCompany
 {
 public:
-    Director() : TradingCompany() {}
+    Director();
     void checkData();
     void changePersonalData();
     void functional() override;
     
 private:
+    Data* data_ = nullptr;
     void setPremium(int premium);
     void setFine(int fine);
 };

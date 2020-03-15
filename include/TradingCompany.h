@@ -48,25 +48,10 @@ enum Numbers
     NINE,
 };
 
-const list<string> positions
-{
-    "Бухгалтер",
-    "Водитель",
-    "Главный_бухгалтер",
-    "Главный_юрист-консультант",
-    "Грузчик",
-    "Директор",
-    "Логист",
-    "Менеджер_по_закупкам",
-    "Менеджер_по_продажам",
-    "Кассир",
-    "Начальник_отдела_закупок",
-    "Начальник_склада",
-    "Юрист"
-};
-
 class TradingCompany
 {
+    friend class Director;
+    
 private:
 
     enum Status
@@ -186,9 +171,9 @@ public:
     void displayUser();
     void changePersonalData();
     
-    friend class Director;
-    friend ostream& operator << (ostream &out, const TradingCompany &tradingCompany);
     friend void operator >> (const string &line, TradingCompany &tradingCompany);
+    friend ostream& operator << (ostream &out, const TradingCompany &tradingCompany);
+    friend bool operator == (const TradingCompany &first, const TradingCompany &second);
 
 private:
     uint     id_;
