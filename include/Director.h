@@ -13,7 +13,7 @@ public:
     void changePersonalData();
     void functional() override;
     
-private:
+private:    
     Data* data_ = nullptr;
     void setPremium(int premium);
     void setFine(int fine);
