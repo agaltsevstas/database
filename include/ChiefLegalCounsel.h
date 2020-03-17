@@ -9,6 +9,7 @@ class ChiefLegalCounsel : public TradingCompany
 {
 public:
     ChiefLegalCounsel();
+    ~ChiefLegalCounsel();
     void functional() override;
     
 private:

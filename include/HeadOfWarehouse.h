@@ -9,6 +9,7 @@ class HeadOfWarehouse : public TradingCompany
 {
 public:
     HeadOfWarehouse();
+    ~HeadOfWarehouse();
     void functional() override;
     
 private:

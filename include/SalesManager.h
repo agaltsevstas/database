@@ -9,6 +9,7 @@ class SalesManager : public TradingCompany
 {
 public:
     SalesManager();
+    ~SalesManager();
     void functional() override;
     
 private:

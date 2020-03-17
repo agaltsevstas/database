@@ -6,14 +6,13 @@ using namespace utils;
 
 Director::Director() : data_(&Data::getInstance()) {}
 
+Director::~Director()
+{
+    delete data_;
+}
+
 void Director::checkData()
 {
-//    unique_ptr<Data> data1 = make_unique<Data>();
-//    unique_ptr<Director> director1;
-//    std::unique_ptr<Data> Data::getInstance;
-//    director1 = std::make_unique<Director>()
-//    auto temp = &Data::getInstance();
-//    data1(data_);
     data_->checkParameter(id_,
                         function<uint(TradingCompany&)>{&TradingCompany::getId},
                         bind(&TradingCompany::checkId, this, ""), this);

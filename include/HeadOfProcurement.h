@@ -9,6 +9,7 @@ class HeadOfProcurement : public TradingCompany
 {
 public:
     HeadOfProcurement();
+    ~HeadOfProcurement();
     void functional() override;
     
 private:

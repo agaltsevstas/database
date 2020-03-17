@@ -9,6 +9,7 @@ class Logistician : public TradingCompany
 {
 public:
     Logistician();
+    ~Logistician();
     void functional() override;
     
 private:

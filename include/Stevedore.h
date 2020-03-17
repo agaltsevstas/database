@@ -9,6 +9,7 @@ class Stevedore : public TradingCompany
 {
 public:
     Stevedore();
+    ~Stevedore();
     void functional() override;
     
 private:

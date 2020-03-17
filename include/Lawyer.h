@@ -9,6 +9,7 @@ class Lawyer : public TradingCompany
 {
 public:
     Lawyer();
+    ~Lawyer();
     void functional() override;
     
 private:

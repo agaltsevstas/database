@@ -3,6 +3,11 @@
 
 HeadOfWarehouse::HeadOfWarehouse() : data_(&Data::getInstance()) {}
 
+HeadOfWarehouse::~HeadOfWarehouse()
+{
+    delete data_;
+}
+
 void HeadOfWarehouse::functional()
 {
 

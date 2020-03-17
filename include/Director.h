@@ -9,6 +9,7 @@ class Director : public TradingCompany
 {
 public:
     Director();
+    ~Director();
     void checkData();
     void changePersonalData();
     void functional() override;

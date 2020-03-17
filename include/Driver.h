@@ -9,6 +9,7 @@ class Driver : public TradingCompany
 {
 public:
     Driver();
+    ~Driver();
     void functional() override;
     
 private:

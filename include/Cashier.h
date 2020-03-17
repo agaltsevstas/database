@@ -9,6 +9,7 @@ class Cashier : public TradingCompany
 {
 public:
     Cashier();
+    ~Cashier();
     void functional() override;
     
 private:

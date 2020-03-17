@@ -9,6 +9,7 @@ class PurchasingManager : public TradingCompany
 {
 public:
     PurchasingManager();
+    ~PurchasingManager();
     void functional() override;
     
 private:

@@ -35,11 +35,8 @@ class Data
     friend class Director;
     
 public:
-    
     static Data &getInstance()
     {
-//        static auto const singleton = make_unique<Data>();
-//            return singleton.get();
         static Data data;
         return data;
     }
