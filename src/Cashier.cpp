@@ -10,7 +10,7 @@ Cashier::~Cashier()
 
 void Cashier::functional()
 {
-
+    
 }
 
 

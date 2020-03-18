@@ -203,7 +203,7 @@ private:
     void checkDateOfHiring(const string &warning = {});
     void checkWorkingHours(const string &warning = {});
     void checkSalary(const string &warning = {});
-    template <typename T> void recursion(const Field &field, const string &message, const T &parameter);
+    void recursion(const Field &field, const string &message);
     template<typename T> T get(string &value, const Field field);
     /// Пустое поле для возврата в качестве отсутствия результата поиска
     const Type empty = Type();
