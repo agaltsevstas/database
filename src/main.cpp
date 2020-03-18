@@ -85,8 +85,9 @@ int main()
     Stevedore stevedore;
     Driver driver;
     
-    Data &data = Data::getInstance();
+    Data &data = Data::instance();
     data.getReadingDataFromFile(director, dataPath + "/" + directorPath);
+
 //    data.getReadingDataFromFile(chiefAccountant, dataPath + "/" + chiefAccountantPath);
 //    data.getReadingDataFromFile(chiefLegalCounsel, dataPath + "/" + chiefLegalCounselPath);
 //    data.getReadingDataFromFile(headOfProcurement, dataPath + "/" + headOfProcurementPath);
@@ -99,101 +100,8 @@ int main()
 //    data.getReadingDataFromFile(purchasingManager, dataPath + "/" + purchasingManagerPath);
 //    data.getReadingDataFromFile(stevedore, dataPath + "/" + stevedorePath);
 //    data.getReadingDataFromFile(driver, dataPath + "/" + driverPath);
-    
-    shared_ptr<Director> directorPtr;
-    shared_ptr<ChiefAccountant> chiefAccountantPtr;
-    shared_ptr<ChiefLegalCounsel> chiefLegalCounselPtr;
-    shared_ptr<HeadOfProcurement> headOfProcurementPtr;
-    shared_ptr<HeadOfWarehouse> headOfWarehousePtr;
-    shared_ptr<SalesManager> salesManagerPtr;
-    shared_ptr<Cashier> cashierPtr;
-    shared_ptr<Accountant> accountantPtr;
-    shared_ptr<Logistician> logisticianPtr;
-    shared_ptr<PurchasingManager> purchasingManagerPtr;
-    shared_ptr<Stevedore> stevedorePtr;
-    shared_ptr<Lawyer> lawyerPtr;
-    shared_ptr<Driver> driverPtr;
-    
-    string input;
-    cout << ("Введите пароль для получения доступа к базе данных или закончите выполнение программы, введите ESC: ") << endl;
-    cin >> input;
-    while (true)
-    {
-        try
-        {
-            for (const auto &object: data.getObject())
-            {
-                if (input == object->getPassword())
-                {
-                    if ((directorPtr = dynamic_pointer_cast<Director>(object)))
-                    {
-                        directorPtr->functional();
-                    }
-                    if ((chiefAccountantPtr = dynamic_pointer_cast<ChiefAccountant>(object)))
-                    {
-    //                    trading_company::change_personal_data(*chief_accountant_pointer);
-                    }
-                    if ((chiefLegalCounselPtr = dynamic_pointer_cast<ChiefLegalCounsel>(object)))
-                    {
-    //                    trading_company::change_personal_data(*chief_legal_counsel_pointer);
-                    }
-                    if ((headOfProcurementPtr = dynamic_pointer_cast<HeadOfProcurement>(object)))
-                    {
-    //                    trading_company::change_personal_data(*head_of_procurement_pointer);
-                    }
-                    if ((headOfWarehousePtr = dynamic_pointer_cast<HeadOfWarehouse>(object)))
-                    {
-    //                    trading_company::change_personal_data(*head_of_warehouses_pointer);
-                    }
-                    if ((salesManagerPtr = dynamic_pointer_cast<SalesManager>(object)))
-                    {
-    //                    trading_company::change_personal_data(*sales_managers_pointer);
-                    }
-                    if ((cashierPtr = dynamic_pointer_cast<Cashier>(object)))
-                    {
-    //                    trading_company::change_personal_data(*cashier_pointer);
-                    }
-                    if ((accountantPtr = dynamic_pointer_cast<Accountant>(object)))
-                    {
-    //                    trading_company::change_personal_data(*accountants_pointer);
-                    }
-                    if ((logisticianPtr = dynamic_pointer_cast<Logistician>(object)))
-                    {
-    //                    trading_company::change_personal_data(*logisticians_pointer);
-                    }
-                    if ((lawyerPtr = dynamic_pointer_cast<Lawyer>(object)))
-                    {
-    //                    trading_company::change_personal_data(*lawyer_pointer);
-                    }
-                    if ((purchasingManagerPtr = dynamic_pointer_cast<PurchasingManager>(object)))
-                    {
-    //                    trading_company::change_personal_data(*purchasing_managers_pointer);
-                    }
-                    if ((stevedorePtr = dynamic_pointer_cast<Stevedore>(object)))
-                    {
-    //                    trading_company::change_personal_data(*stevedores_pointer);
-                    }
-                    if ((driverPtr = dynamic_pointer_cast<Driver>(object)))
-                    {
-    //                    trading_company::change_personal_data(*drivers_pointer);
-                    }
-                }
-            }
-            toLower(input);
-            if(input == "esc")
-            {
-                cout << "Вы вышли из программы!" << endl;
-                exit(0);
-            }
-            else
-                throw input;
-        }
-        catch (const string &exception)
-        {
-            cout << "Вы ввели: " << exception << " - неверный пароль! Попробуйте ввести заново или закончите выполнение программы, введя ESC: "<< endl;
-            cin >> input;
-        }
-    }
+    data.setPassword();
+
     return 0;
 }
 

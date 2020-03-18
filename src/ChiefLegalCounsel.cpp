@@ -1,7 +1,7 @@
 #include "ChiefLegalCounsel.h"
 #include "Data.h"
 
-ChiefLegalCounsel::ChiefLegalCounsel() : data_(&Data::getInstance()) {}
+ChiefLegalCounsel::ChiefLegalCounsel() : data_(&Data::instance()) {}
 
 ChiefLegalCounsel::~ChiefLegalCounsel()
 {

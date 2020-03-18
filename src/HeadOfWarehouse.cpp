@@ -1,7 +1,7 @@
 #include "HeadOfWarehouse.h"
 #include "Data.h"
 
-HeadOfWarehouse::HeadOfWarehouse() : data_(&Data::getInstance()) {}
+HeadOfWarehouse::HeadOfWarehouse() : data_(&Data::instance()) {}
 
 HeadOfWarehouse::~HeadOfWarehouse()
 {

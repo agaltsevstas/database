@@ -1,7 +1,7 @@
 #include "PurchasingManager.h"
 #include "Data.h"
 
-PurchasingManager::PurchasingManager() : data_(&Data::getInstance()) {}
+PurchasingManager::PurchasingManager() : data_(&Data::instance()) {}
 
 PurchasingManager::~PurchasingManager()
 {

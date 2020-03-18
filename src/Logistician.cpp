@@ -1,7 +1,7 @@
 #include "Logistician.h"
 #include "Data.h"
 
-Logistician::Logistician() : data_(&Data::getInstance()) {}
+Logistician::Logistician() : data_(&Data::instance()) {}
 
 Logistician::~Logistician()
 {

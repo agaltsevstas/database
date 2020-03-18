@@ -1,7 +1,7 @@
 #include "SalesManager.h"
 #include "Data.h"
 
-SalesManager::SalesManager() : data_(&Data::getInstance()) {}
+SalesManager::SalesManager() : data_(&Data::instance()) {}
 
 SalesManager::~SalesManager()
 {

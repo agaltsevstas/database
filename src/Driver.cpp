@@ -1,7 +1,7 @@
 #include "Driver.h"
 #include "Data.h"
 
-Driver::Driver() : data_(&Data::getInstance()) {}
+Driver::Driver() : data_(&Data::instance()) {}
 
 Driver::~Driver()
 {

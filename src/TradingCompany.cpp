@@ -260,12 +260,15 @@ template <typename T> void TradingCompany::recursion(const Field &field,
     string input;
     if (fieldStatus_[field] != ST_OK)
     {
-        auto condition = message.find("(");
+        auto conditionFirst = message.find("(");
+        auto conditionSecond = message.find(")");
         cout << message << parameter << endl;
-        cout << "Ввод: ";
+        cout << "Ввод: " << endl;
         cin >> input;
         switchCaseParameter(input, field);
-        recursion(field, "Некорректно введен параметр " + message.substr(condition) + ": ", parameter);
+        recursion(field, "Некорректно введен параметр" +
+                  message.substr(conditionFirst, conditionSecond - conditionFirst + 1) +
+                  "\nТекущее значение: ", parameter);
     }
 }
 
@@ -273,7 +276,7 @@ void TradingCompany::checkId(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите ID (например, 100) ";
+    const string message = "Введите ID (например, 100)";
     recursion(FIELD_ID, message, id_);
 }
 
@@ -281,7 +284,7 @@ void TradingCompany::checkPosition(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите должность ";
+    const string message = "Введите должность";
     recursion(FIELD_POSITION, message, position_);
 }
 
@@ -289,7 +292,7 @@ void TradingCompany::checkSurname(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите фамилию ";
+    const string message = "Введите фамилию";
     recursion(FIELD_SURNAME, message, surname_);
 }
 
@@ -297,7 +300,7 @@ void TradingCompany::checkName(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите имя ";
+    const string message = "Введите имя";
     recursion(FIELD_NAME, message, name_);
 }
 
@@ -305,7 +308,7 @@ void TradingCompany::checkPatronymic(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите отчество ";
+    const string message = "Введите отчество";
     recursion(FIELD_PATRONYMIC, message, patronymic_);
 }
 
@@ -313,7 +316,7 @@ void TradingCompany::checkSex(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите пол (например, Муж) ";
+    const string message = "Введите пол (например, Муж)";
     recursion(FIELD_SEX, message, sex_);
 }
 
@@ -321,7 +324,7 @@ void TradingCompany::checkDateOfBirth(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите дату рождения (например, 16.12.1995) ";
+    const string message = "Введите дату рождения (например, 16.12.1995)";
     recursion(FIELD_DATE_OF_BIRTH, message, dateOfBirth_);
 }
 
@@ -329,7 +332,7 @@ void TradingCompany::checkPassport(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите номер паспорта (например, 4516561974) ";
+    const string message = "Введите номер паспорта (например, 4516561974)";
     recursion(FIELD_PASSPORT, message, passport_);
 }
 
@@ -337,7 +340,7 @@ void TradingCompany::checkPhone(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите номер телефона (например, 9032697963) ";
+    const string message = "Введите номер телефона (например, 9032697963)";
     recursion(FIELD_PHONE, message, phone_);
 }
 
@@ -345,7 +348,7 @@ void TradingCompany::checkEmail(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите почту (например, surname.name.patronymic@tradingcompany.ru) ";
+    const string message = "Введите почту (например, surname.name.patronymic@tradingcompany.ru)";
     recursion(FIELD_EMAIL, message, email_);
 }
 
@@ -353,7 +356,7 @@ void TradingCompany::checkDateOfHiring(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите дату принятия на работу (например, 16.04.2018) ";
+    const string message = "Введите дату принятия на работу (например, 16.04.2018)";
     recursion(FIELD_DATE_OF_BIRTH, message, dateOfHiring_);
 }
 
@@ -361,7 +364,7 @@ void TradingCompany::checkWorkingHours(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите время работы (например, Понедельник-Пятница=09:00-18:00) ";
+    const string message = "Введите время работы (например, Понедельник-Пятница=09:00-18:00)";
     recursion(FIELD_WORKING_HOURS, message, workingHours_);
 }
 
@@ -369,7 +372,7 @@ void TradingCompany::checkSalary(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите зарплату (в рублях) ";
+    const string message = "Введите зарплату (в рублях)";
     recursion(FIELD_SALARY, message, salary_);
 }
 
@@ -377,10 +380,10 @@ void TradingCompany::checkPassword(const string &warning)
 {
     if (!warning.empty())
         cout << warning << endl;
-    const string message = "Введите пароль (пароль должен содержать:\n-не менее 6 символов\n"
+    const string message = "Введите новый пароль (пароль должен содержать:\n-не менее 6 символов\n"
                                                                      "-хотя бы одну прописную латинскую букву\n"
                                                                      "-хотя бы одну строчную латинскую букву\n"
-                                                                     "-хотя бы одну цифру) ";
+                                                                     "-хотя бы одну цифру)";
     recursion(FIELD_PASSWORD, message, password_);
 }
 

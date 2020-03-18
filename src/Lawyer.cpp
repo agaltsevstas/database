@@ -1,7 +1,7 @@
 #include "Lawyer.h"
 #include "Data.h"
 
-Lawyer::Lawyer() : data_(&Data::getInstance()) {}
+Lawyer::Lawyer() : data_(&Data::instance()) {}
 
 Lawyer::~Lawyer()
 {

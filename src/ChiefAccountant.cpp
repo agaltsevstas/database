@@ -1,7 +1,7 @@
 #include "ChiefAccountant.h"
 #include "Data.h"
 
-ChiefAccountant::ChiefAccountant() : data_(&Data::getInstance()) {}
+ChiefAccountant::ChiefAccountant() : data_(&Data::instance()) {}
 
 ChiefAccountant::~ChiefAccountant()
 {

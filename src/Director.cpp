@@ -4,7 +4,7 @@
 
 using namespace utils;
 
-Director::Director() : data_(&Data::getInstance()) {}
+Director::Director() : data_(&Data::instance()) {}
 
 Director::~Director()
 {
@@ -15,7 +15,7 @@ void Director::checkData()
 {
     data_->checkParameter(id_,
                         function<uint(TradingCompany&)>{&TradingCompany::getId},
-                        bind(&TradingCompany::checkId, this, ""), this);
+                        bind(&TradingCompany::checkId, this, ""), this, true);
     data_->checkParameter(position_,
                         function<string(TradingCompany&)>{&TradingCompany::getPosition},
                         bind(&TradingCompany::checkPosition, this, ""), this);
@@ -36,13 +36,13 @@ void Director::checkData()
                         bind(&TradingCompany::checkDateOfBirth, this, ""), this);
     data_->checkParameter(passport_,
                         function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
-                        bind(&TradingCompany::checkPassport, this, ""), this);
+                        bind(&TradingCompany::checkPassport, this, ""), this, true);
     data_->checkParameter(phone_,
                         function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
-                        bind(&TradingCompany::checkPhone, this, ""), this);
+                        bind(&TradingCompany::checkPhone, this, ""), this, true);
     data_->checkParameter(email_,
                         function<string(TradingCompany&)>{&TradingCompany::getEmail},
-                        bind(&TradingCompany::checkEmail, this, ""), this);
+                        bind(&TradingCompany::checkEmail, this, ""), this, true);
     data_->checkParameter(dateOfHiring_,
                         function<string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
                         bind(&TradingCompany::checkDateOfHiring, this, ""), this);
@@ -54,7 +54,7 @@ void Director::checkData()
                         bind(&TradingCompany::checkSalary, this, ""), this);
     data_->checkParameter(password_,
                         function<string(TradingCompany&)>{&TradingCompany::getPassword},
-                        bind(&TradingCompany::checkPassword, this, ""), this);
+                        bind(&TradingCompany::checkPassword, this, "Ваш пароль неудовлетворяет требованиям!"), this, true);
 }
 
 void Director::changePersonalData()

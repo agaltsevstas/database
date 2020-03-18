@@ -35,11 +35,13 @@ class Data
     friend class Director;
     
 public:
-    static Data &getInstance()
+    static Data &instance()
     {
         static Data data;
         return data;
     }
+
+    void setPassword();
 
     template<typename T> void getReadingDataFromFile(T &object, const string &fileName)
     {
@@ -60,7 +62,7 @@ public:
                 });
                 if (result != tradingCompanyObjects_.end())
                 {
-                    return;
+                    continue;
                 }
                 checkData(object);
                 tradingCompanyObjects_.push_back(make_shared<T>(object));
@@ -76,20 +78,23 @@ public:
         }
     }
         
-    inline vector<shared_ptr<TradingCompany>> getObject() { return  tradingCompanyObjects_; }
     template<typename T, class C> void checkParameter(T &parameter,
                                                       function<T(TradingCompany&)> getParameter,
                                                       function<void()> checkParameter,
-                                                      C object)
+                                                      C object, bool isMatchCheck = false)
     {
-        for (auto it = tradingCompanyObjects_.begin(); it != tradingCompanyObjects_.end(); ++it)
+        if (isMatchCheck)
         {
-            if (getParameter(*(*it)) == parameter && (&(*(*it)) != &(*object)))
+            for (auto it = tradingCompanyObjects_.begin(); it != tradingCompanyObjects_.end(); ++it)
             {
-                checkParameter();
-                it = tradingCompanyObjects_.begin();
+                if (getParameter(*(*it)) == parameter && (&(*(*it)) != &(*object)))
+                {
+                    checkParameter();
+                    it = tradingCompanyObjects_.begin();
+                }
             }
         }
+        checkParameter();
     }
     template<typename T> void changePersonalData(T *object)
     {

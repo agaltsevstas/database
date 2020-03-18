@@ -1,7 +1,7 @@
 #include "Stevedore.h"
 #include "Data.h"
 
-Stevedore::Stevedore() : data_(&Data::getInstance()) {}
+Stevedore::Stevedore() : data_(&Data::instance()) {}
 
 Stevedore::~Stevedore()
 {
