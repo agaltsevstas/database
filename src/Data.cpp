@@ -115,7 +115,7 @@ void Data::addNewEmployeeData()
         {
             if ((directorPtr_ = dynamic_pointer_cast<Director>(tradingCompanyObject)))
             {
-                Director director;
+                shared_ptr<Director> director;
                 setOtherData(director);
             }
 //            if ((chiefAccountantPtr__ = dynamic_pointer_cast<ChiefAccountant>(tradingCompanyObject)))
@@ -182,46 +182,48 @@ void Data::addNewEmployeeData()
     }
 }
 
-template<class C> void Data::setOtherData(C &tradingCompanyObject)
+template<class C> void Data::setOtherData(C &object)
 {
-    string input;
-    Data &data = Data::instance();
-    cout << ("Введите должность сотрудника") << endl;
-    cin >> input;
-    tradingCompanyObject.setPosition(input);
-    cout << ("Введите фамилию сотрудника") << endl;
-    cin >> input;
-    tradingCompanyObject.setSurname(input);
-    cout << ("Введите имя сотрудника") << endl;
-    cin >> input;
-    tradingCompanyObject.setName(input);
-    cout << ("Введите отчество сотрудника") << endl;
-    cin >> input;
-    tradingCompanyObject.setPatronymic(input);
-    cout << ("Введите пол сотрудника (например, Муж)") << endl;
-    cin >> input;
-    tradingCompanyObject.setSex(input);
-    cout << ("Введите дату рождения сотрудника (например, 16.12.1995)") << endl;
-    cin >> input;
-    tradingCompanyObject.setDateOfBirth(input);
-    cout << ("Введите номер паспорта сотрудника (например, 4516561974)") << endl;
-    cin >> input;
-    tradingCompanyObject.setPassport(input);
-    cout << ("Введите номер телефона сотрудника (например, 9032697963)") << endl;
-    cin >> input;
-    tradingCompanyObject.setPhone(input);
-    cout << ("Введите дату принятия сотрудника (например, 16.04.2018)") << endl;
-    cin >> input;
-    tradingCompanyObject.setDateOfHiring(input);
-    cout << ("Введите время работы сотрудника (например, Понедельник-Пятница=09:00-18:00)") << endl;
-    cin >> input;
-    tradingCompanyObject.setWorkingHours(input);
-    cout << ("Введите зарплату сотрудника (в рублях)") << endl;
-    cin >> input;
-    tradingCompanyObject.setSalary(input);
-    cout << ("Введите пароль к доступу сотрудника") << endl;
-    cin >> input;
-    tradingCompanyObject.setPassword(input);
-
-    data.pushBack(tradingCompanyObject);
+//    checkParameter(object->getId(),
+//                   function<uint(TradingCompany&)>{&TradingCompany::getId},
+//                   bind(&TradingCompany::checkId, object, ""), object, true);
+//    checkParameter(object->getPosition(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getPosition},
+//                   bind(&TradingCompany::checkPosition, object, ""), object);
+//    checkParameter(object->getSurname(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getSurname},
+//                   bind(&TradingCompany::checkSurname, object, ""), object);
+//    checkParameter(object->getName(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getName},
+//                   bind(&TradingCompany::checkName, object, ""), object);
+//    checkParameter(object->getPatronymic(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getPatronymic},
+//                   bind(&TradingCompany::checkPatronymic, object, ""), object);
+//    checkParameter(object->getSex()),
+//                   function<string(TradingCompany&)>{&TradingCompany::getSex},
+//                   bind(&TradingCompany::checkSex, object, ""), object);
+//    checkParameter(object->getDateOfBirth(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
+//                   bind(&TradingCompany::checkDateOfBirth, object, ""), object);
+//    checkParameter(object->getPassport(),
+//                   function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
+//                   bind(&TradingCompany::checkPassport, object, ""), object, true);
+    checkParameter(object->getPhone(),
+                   function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
+                   bind(&TradingCompany::checkPhone, object, ""), object, true);
+    checkParameter(object->getEmail(),
+                   function<string(TradingCompany&)>{&TradingCompany::getEmail},
+                   bind(&TradingCompany::checkEmail, object, ""), object, true);
+//    checkParameter(object->getDateOfHiring(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
+//                    bind(&TradingCompany::checkDateOfHiring, object, ""), object);
+//    checkParameter(object->getWorkingHours(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getWorkingHours},
+//                   bind(&TradingCompany::checkWorkingHours, object, ""), object);
+//    checkParameter(object->getSalary(),
+//                   function<uint(TradingCompany&)>{&TradingCompany::getSalary},
+//                   bind(&TradingCompany::checkSalary, object, ""), object);
+    checkParameter(object->getPassword(),
+                   function<string(TradingCompany&)>{&TradingCompany::getPassword},
+                   bind(&TradingCompany::checkPassword, object, "Ваш пароль неудовлетворяет требованиям!"), object, true);
 }
