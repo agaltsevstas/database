@@ -264,7 +264,7 @@ void TradingCompany::recursion(const Field &field, const string &message)
         cout << "Ввод: " << endl;
         cin >> input;
         switchCaseParameter(input, field);
-        recursion(field, "Некорректно введен параметр" +
+        recursion(field, "Некорректно введен параметр " +
                   message.substr(conditionFirst, conditionSecond - conditionFirst + 1));
     }
 }

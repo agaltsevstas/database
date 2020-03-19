@@ -29,12 +29,11 @@ void Data::setPassword()
         try
         {
             cin >> input;
-            for (auto &tradingCompanyObject: tradingCompanyObjects_)
+            for (const auto &tradingCompanyObject: tradingCompanyObjects_)
             {
                 if (input == tradingCompanyObject->getPassword())
                 {
-                    tradingCompanyObject->getPassword();
-                    checkData(&tradingCompanyObject);
+                    checkPassword(tradingCompanyObject);
                     tradingCompanyObject->functional();
                 }
             }
@@ -56,6 +55,11 @@ void Data::setPassword()
     }
 }
 
+template<class C> void Data::checkPassword(C &object)
+{
+    object->checkEmail();
+}
+
 void Data::getAllOtherData() const
 {
     for (const auto &tradingCompany: tradingCompanyObjects_)
@@ -64,15 +68,15 @@ void Data::getAllOtherData() const
     }
 }
 
-template<class T> void Data::pushBack(T &tradingCompanyObject)
+template<class C> void Data::pushBack(C &object)
 {
     uint maxId = 0;
-    shared_ptr<T> pointer;
+    shared_ptr<C> pointer;
     vector<shared_ptr<TradingCompany>>::iterator it;
     
     for (it = tradingCompanyObjects_.begin(); it != tradingCompanyObjects_.end(); ++it)
     {
-        if ((pointer = dynamic_pointer_cast<T>(*it)) && (*it)->getId() > maxId)
+        if ((pointer = dynamic_pointer_cast<C>(*it)) && (*it)->getId() > maxId)
         {
             maxId = (*it)->getId();
         }
@@ -82,8 +86,8 @@ template<class T> void Data::pushBack(T &tradingCompanyObject)
         }
     }
     
-    // tradingCompanyObject.setId(to_string(++maxId));
-    tradingCompanyObjects_.insert(it, make_shared<T>(tradingCompanyObject));
+    // object.setId(to_string(++maxId));
+    tradingCompanyObjects_.insert(it, make_shared<C>(object));
 }
 
 void Data::addNewEmployeeData()
@@ -178,7 +182,7 @@ void Data::addNewEmployeeData()
     }
 }
 
-template<class T> void Data::setOtherData(T &tradingCompanyObject)
+template<class C> void Data::setOtherData(C &tradingCompanyObject)
 {
     string input;
     Data &data = Data::instance();

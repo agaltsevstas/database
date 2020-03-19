@@ -9,13 +9,13 @@ class Director : public TradingCompany
 {
 public:
     Director();
-    ~Director();
-    void checkData();
+    ~Director();    
     void changePersonalData();
     void functional() override;
     
 private:    
     Data* data_ = nullptr;
+    void checkData();
     void setPremium(int premium);
     void setFine(int fine);
 };

@@ -128,21 +128,6 @@ public:
     virtual ~TradingCompany() {}
     virtual void functional() = 0;
 //    ~TradingCompany();
-    void setId(string &id);
-    void setPosition(string &position);
-    void setSurname(string &surname);
-    void setName(string &name);
-    void setPatronymic(string &patronymic);
-    void setSex(string &sex);
-    void setDateOfBirth(string &dateOfBirth);
-    void setAge(string &dateOfBirth);
-    void setPhone(string &phone);
-    void setEmail(string &phone);
-    void setDateOfHiring(string &dateOfHiring);
-    void setWorkingHours(string &workingHours);
-    void setPassport(string &passport);
-    void setSalary(string &salary);
-    void setPassword(string &password);
     
     uint     getId();
     string   getPosition();
@@ -192,6 +177,21 @@ private:
     string   password_;
     
     void switchCaseParameter(string &parameter, const Field &field);
+    void setId(string &id);
+    void setPosition(string &position);
+    void setSurname(string &surname);
+    void setName(string &name);
+    void setPatronymic(string &patronymic);
+    void setSex(string &sex);
+    void setDateOfBirth(string &dateOfBirth);
+    void setAge(string &dateOfBirth);
+    void setPhone(string &phone);
+    void setEmail(string &phone);
+    void setDateOfHiring(string &dateOfHiring);
+    void setWorkingHours(string &workingHours);
+    void setPassport(string &passport);
+    void setSalary(string &salary);
+    void setPassword(string &password);
     void checkId(const string &warning = {});
     void checkPosition(const string &warning = {});
     void checkSurname(const string &warning = {});

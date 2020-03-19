@@ -60,7 +60,7 @@ public:
 
     void setPassword();
 
-    template<typename T> void getReadingDataFromFile(T &object, const string &fileName)
+    template<typename C> void getReadingDataFromFile(C &object, const string &fileName)
     {
         ifstream file(fileName);
 
@@ -82,7 +82,7 @@ public:
                     continue;
                 }
                 checkData(object);
-                tradingCompanyObjects_.push_back(make_shared<T>(object));
+                tradingCompanyObjects_.push_back(make_shared<C>(object));
                 if (file.eof())
                 {
                     break;
@@ -98,7 +98,7 @@ public:
     template<typename T, class C> void checkParameter(T &parameter,
                                                       function<T(TradingCompany&)> getParameter,
                                                       function<void()> checkParameter,
-                                                      C object, bool isMatchCheck = false, bool isPassword = false)
+                                                      C object, bool isMatchCheck = false)
     {
         if (isMatchCheck)
         {
@@ -113,7 +113,7 @@ public:
         }
         checkParameter();
     }
-    template<typename T> void changePersonalData(T *object)
+    template<typename C> void changePersonalData(C *object)
     {
         object->changePersonalData();
     }
@@ -136,35 +136,36 @@ private:
     Data() {}
     Data(const Data&) = delete;
     Data& operator=(Data&) = delete;
-    template<class T> void checkData(T &object)
+    template<class C> void checkData(C &object)
     {
         for (const auto &tradingCompanyObject: tradingCompanyObjects_)
         {
-            int k = 0;
-//            if (object->getId() == tradingCompanyObject->getId())
-//            {
-//                object->changeStatusId();
-//            }
-//            if (object->getPassport() == tradingCompanyObject->getPassport())
-//            {
-//                object->changeStatusPassport();
-//            }
-//            if (object->getPhone() == tradingCompanyObject->getPhone())
-//            {
-//                object->changeStatusPhone();
-//            }
-//            if (object->getPassword() == tradingCompanyObject->getPassword())
-//            {
-//                tradingCompanyObject->changeStatusPassword(false);
-//                object->changeStatusPassword(true);
-//            }
+            object.getId();
+            if (object.getId() == tradingCompanyObject->getId())
+            {
+                object.changeStatusId();
+            }
+            if (object.getPassport() == tradingCompanyObject->getPassport())
+            {
+                object.changeStatusPassport();
+            }
+            if (object.getPhone() == tradingCompanyObject->getPhone())
+            {
+                object.changeStatusPhone();
+            }
+            if (object.getPassword() == tradingCompanyObject->getPassword())
+            {
+                tradingCompanyObject->changeStatusPassword(false);
+                object.changeStatusPassword(true);
+            }
             break;
         }
     }
+    template<class C> void checkPassword(C &object);
     void getAllOtherData() const;
     void addNewEmployeeData();
-    template<typename T> void setOtherData(T &object);
-    template<typename T> void pushBack(T &object);
+    template<typename C> void setOtherData(C &object);
+    template<typename C> void pushBack(C &object);
 };
 
 #endif // Data_h
