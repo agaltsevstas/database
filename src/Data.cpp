@@ -208,12 +208,12 @@ template<class C> void Data::setOtherData(C &object)
 //    checkParameter(object->getPassport(),
 //                   function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
 //                   bind(&TradingCompany::checkPassport, object, ""), object, true);
-    checkParameter(object->getPhone(),
-                   function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
-                   bind(&TradingCompany::checkPhone, object, ""), object, true);
-    checkParameter(object->getEmail(),
-                   function<string(TradingCompany&)>{&TradingCompany::getEmail},
-                   bind(&TradingCompany::checkEmail, object, ""), object, true);
+//    checkParameter(object->getPhone(),
+//                   function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
+//                   bind(&TradingCompany::checkPhone, object, ""), object, true);
+//    checkParameter(object->getEmail(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getEmail},
+//                   bind(&TradingCompany::checkEmail, object, ""), object, true);
 //    checkParameter(object->getDateOfHiring(),
 //                   function<string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
 //                    bind(&TradingCompany::checkDateOfHiring, object, ""), object);
@@ -223,7 +223,7 @@ template<class C> void Data::setOtherData(C &object)
 //    checkParameter(object->getSalary(),
 //                   function<uint(TradingCompany&)>{&TradingCompany::getSalary},
 //                   bind(&TradingCompany::checkSalary, object, ""), object);
-    checkParameter(object->getPassword(),
-                   function<string(TradingCompany&)>{&TradingCompany::getPassword},
-                   bind(&TradingCompany::checkPassword, object, "Ваш пароль неудовлетворяет требованиям!"), object, true);
+//    checkParameter(object->getPassword(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getPassword},
+//                   bind(&TradingCompany::checkPassword, object, "Ваш пароль неудовлетворяет требованиям!"), object, true);
 }

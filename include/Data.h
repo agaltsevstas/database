@@ -153,6 +153,10 @@ private:
             {
                 object.changeStatusPhone();
             }
+            if (object.getEmail() == tradingCompanyObject->getEmail())
+            {
+                object.changeStatusEmail();
+            }
             if (object.getPassword() == tradingCompanyObject->getPassword())
             {
                 tradingCompanyObject->changeStatusPassword(false);

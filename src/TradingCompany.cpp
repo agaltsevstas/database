@@ -244,6 +244,12 @@ void TradingCompany::changeStatusPhone()
     fieldStatus_[FIELD_PHONE] = ST_DUBLICATE;
 }
 
+void TradingCompany::changeStatusEmail()
+{
+    Logger::warning << "Повторяющаяся почта >> " << email_ << endl;
+    fieldStatus_[FIELD_EMAIL] = ST_DUBLICATE;
+}
+
 void TradingCompany::changeStatusPassword(bool isWrite)
 {
     if (isWrite)

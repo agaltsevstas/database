@@ -149,11 +149,12 @@ public:
     void changeStatusId();
     void changeStatusPassport();
     void changeStatusPhone();
+    void changeStatusEmail();
     void changeStatusPassword(bool isWrite);
     void checkPhone(const string &warning = {});
     void checkEmail(const string &warning = {});
     void checkPassword(const string &warning = {});
-    Field checkPassword();
+//    Field checkPassword();
     void displayUser();
     void changePersonalData();
     

@@ -25,15 +25,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "void Data::pushBack&lt;Director&gt;(Director&amp;)::&apos;lambda&apos;(std::__1::shared_ptr&lt;TradingCompany&gt; const&amp;)::operator()(std::__1::shared_ptr&lt;TradingCompany&gt; const&amp;) const:Data.h">
-      </ContextState>
-      <ContextState
          contextName = "void Data::checkParameter&lt;unsigned int, Director*&gt;(unsigned int&amp;, std::__1::function&lt;unsigned int (TradingCompany&amp;)&gt;, std::__1::function&lt;void ()&gt;, Director*):Data.h">
          <PersistentStrings>
             <PersistentString
                value = "tradingCompanyObjects_">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "void Data::pushBack&lt;Director&gt;(Director&amp;)::&apos;lambda&apos;(std::__1::shared_ptr&lt;TradingCompany&gt; const&amp;)::operator()(std::__1::shared_ptr&lt;TradingCompany&gt; const&amp;) const:Data.h">
       </ContextState>
       <ContextState
          contextName = "main:main.cpp">
@@ -52,23 +52,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "void Data::checkData&lt;Director&gt;(Director&amp;):Data.h">
+      </ContextState>
+      <ContextState
          contextName = "void Data::getReadingDataFromFile&lt;Directors&gt;(Directors&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
          <PersistentStrings>
             <PersistentString
                value = "tradingCompanyVector_">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "utils::createEmail(std::__1::vector&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, std::__1::allocator&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; &gt; &gt; const&amp;):Utils.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "anthroponym">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "void Data::getReadingDataFromFile&lt;std::__1::shared_ptr&lt;Directors&gt; &gt;(std::__1::shared_ptr&lt;Directors&gt;*, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
       </ContextState>
       <ContextState
          contextName = "Logger::writeWarning(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Logger.cpp">
@@ -79,10 +71,32 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "void Data::getReadingDataFromFile&lt;std::__1::shared_ptr&lt;Directors&gt; &gt;(std::__1::shared_ptr&lt;Directors&gt;*, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
+      </ContextState>
+      <ContextState
+         contextName = "utils::createEmail(std::__1::vector&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, std::__1::allocator&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; &gt; &gt; const&amp;):Utils.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "anthroponym">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "void Data::checkParameter&lt;unsigned int, Director*&gt;(unsigned int&amp;, std::__1::function&lt;unsigned int (TradingCompany&amp;)&gt;, std::__1::function&lt;void ()&gt;, Director*, bool):Data.h">
+      </ContextState>
+      <ContextState
          contextName = "function_directors():directors.cpp">
          <PersistentStrings>
             <PersistentString
                value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "void Data::checkParameter&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, Director*&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;&amp;, std::__1::function&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (TradingCompany&amp;)&gt;, std::__1::function&lt;void ()&gt;, Director*, bool):Data.h">
+         <PersistentStrings>
+            <PersistentString
+               value = "parameter">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
