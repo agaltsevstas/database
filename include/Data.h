@@ -30,6 +30,23 @@
 //class Stevedore;
 //class Driver;
 
+typedef union
+{
+    class Director;
+    class ChiefAccountant;
+    class ChiefLegalCounsel;
+    class HeadOfProcurement;
+    class HeadOfWarehouse;
+    class SalesManager;
+    class Cashier;
+    class Accountant;
+    class Logistician;
+    class Lawyer;
+    class PurchasingManager;
+    class Stevedore;
+    class Driver;
+} RetType;
+
 class Data
 {
     friend class Director;
@@ -81,7 +98,7 @@ public:
     template<typename T, class C> void checkParameter(T &parameter,
                                                       function<T(TradingCompany&)> getParameter,
                                                       function<void()> checkParameter,
-                                                      C object, bool isMatchCheck = false)
+                                                      C object, bool isMatchCheck = false, bool isPassword = false)
     {
         if (isMatchCheck)
         {
@@ -121,25 +138,26 @@ private:
     Data& operator=(Data&) = delete;
     template<class T> void checkData(T &object)
     {
-        for (const auto &tradingCompany: tradingCompanyObjects_)
+        for (const auto &tradingCompanyObject: tradingCompanyObjects_)
         {
-            if (object.getId() == tradingCompany->getId())
-            {
-                object.changeStatusId();
-            }
-            if (object.getPassport() == tradingCompany->getPassport())
-            {
-                object.changeStatusPassport();
-            }
-            if (object.getPhone() == tradingCompany->getPhone())
-            {
-                object.changeStatusPhone();
-            }
-            if (object.getPassword() == tradingCompany->getPassword())
-            {
-                tradingCompany->changeStatusPassword(false);
-                object.changeStatusPassword(true);
-            }
+            int k = 0;
+//            if (object->getId() == tradingCompanyObject->getId())
+//            {
+//                object->changeStatusId();
+//            }
+//            if (object->getPassport() == tradingCompanyObject->getPassport())
+//            {
+//                object->changeStatusPassport();
+//            }
+//            if (object->getPhone() == tradingCompanyObject->getPhone())
+//            {
+//                object->changeStatusPhone();
+//            }
+//            if (object->getPassword() == tradingCompanyObject->getPassword())
+//            {
+//                tradingCompanyObject->changeStatusPassword(false);
+//                object->changeStatusPassword(true);
+//            }
             break;
         }
     }

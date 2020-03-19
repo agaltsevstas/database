@@ -18,24 +18,6 @@ static string stevedorePath = "stevedore.txt";
 static string driverPath = "driver.txt";
 static string dataPath = "data";
 
-typedef union
-{
-    class Director;
-    class ChiefAccountant;
-    class ChiefLegalCounsel;
-    class HeadOfProcurement;
-    class HeadOfWarehouse;
-    class SalesManager;
-    class Cashier;
-    class Accountant;
-    class Logistician;
-    class Lawyer;
-    class PurchasingManager;
-    class Stevedore;
-    class Driver;
-} RetType;
-
-
 //void reading_data_from_file(string directors_location, fstream directors_file, directors directors_object, vector <directors> directors_vector)
 //{
 //    directors_file.open(directors_location, ios::in);

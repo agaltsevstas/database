@@ -29,62 +29,13 @@ void Data::setPassword()
         try
         {
             cin >> input;
-            for (const auto tradingCompanyObject: tradingCompanyObjects_)
+            for (auto &tradingCompanyObject: tradingCompanyObjects_)
             {
                 if (input == tradingCompanyObject->getPassword())
                 {
-                    if ((directorPtr_ = dynamic_pointer_cast<Director>(tradingCompanyObject)))
-                    {
-                        directorPtr_->functional();
-                    }
-                    if ((chiefAccountantPtr_ = dynamic_pointer_cast<ChiefAccountant>(tradingCompanyObject)))
-                    {
-    //                    trading_company::change_personal_data(*chief_accountant_pointer);
-                    }
-                    if ((chiefLegalCounselPtr_ = dynamic_pointer_cast<ChiefLegalCounsel>(tradingCompanyObject)))
-                    {
-    //                    trading_company::change_personal_data(*chief_legal_counsel_pointer);
-                    }
-                    if ((headOfProcurementPtr_ = dynamic_pointer_cast<HeadOfProcurement>(tradingCompanyObject)))
-                    {
-    //                    trading_company::change_personal_data(*head_of_procurement_pointer);
-                    }
-                    if ((headOfWarehousePtr_ = dynamic_pointer_cast<HeadOfWarehouse>(tradingCompanyObject)))
-                    {
-    //                    trading_company::change_personal_data(*head_of_warehouses_pointer);
-                    }
-                    if ((salesManagerPtr_ = dynamic_pointer_cast<SalesManager>(tradingCompanyObject)))
-                    {
-    //                    trading_company::change_personal_data(*sales_managers_pointer);
-                    }
-                    if ((cashierPtr_ = dynamic_pointer_cast<Cashier>(tradingCompanyObject)))
-                    {
-    //                    trading_company::change_personal_data(*cashier_pointer);
-                    }
-                    if ((accountantPtr_ = dynamic_pointer_cast<Accountant>(tradingCompanyObject)))
-                    {
-    //                    trading_company::change_personal_data(*accountants_pointer);
-                    }
-                    if ((logisticianPtr_ = dynamic_pointer_cast<Logistician>(tradingCompanyObject)))
-                    {
-    //                    trading_company::change_personal_data(*logisticians_pointer);
-                    }
-                    if ((lawyerPtr_ = dynamic_pointer_cast<Lawyer>(tradingCompanyObject)))
-                    {
-    //                    trading_company::change_personal_data(*lawyer_pointer);
-                    }
-                    if ((purchasingManagerPtr_ = dynamic_pointer_cast<PurchasingManager>(tradingCompanyObject)))
-                    {
-    //                    trading_company::change_personal_data(*purchasing_managers_pointer);
-                    }
-                    if ((stevedorePtr_ = dynamic_pointer_cast<Stevedore>(tradingCompanyObject)))
-                    {
-    //                    trading_company::change_personal_data(*stevedores_pointer);
-                    }
-                    if ((driverPtr_ = dynamic_pointer_cast<Driver>(tradingCompanyObject)))
-                    {
-    //                    trading_company::change_personal_data(*drivers_pointer);
-                    }
+                    tradingCompanyObject->getPassword();
+                    checkData(&tradingCompanyObject);
+                    tradingCompanyObject->functional();
                 }
             }
             toLower(input);
@@ -94,7 +45,9 @@ void Data::setPassword()
                 exit(0);
             }
             else
+            {
                 throw input;
+            }
         }
         catch (const string &exception)
         {
