@@ -228,24 +228,28 @@ void TradingCompany::switchCaseParameter(string &parameter, const Field &field)
 
 void TradingCompany::changeStatusId()
 {
+    id_ = rand();
     Logger::warning << "Повторяющийся id >> " << id_ << endl;
     fieldStatus_[FIELD_ID] = ST_DUBLICATE;
 }
 
 void TradingCompany::changeStatusPassport()
 {
+    passport_ = rand();
     Logger::warning << "Повторяющийся паспорт >> " << passport_ << endl;
     fieldStatus_[FIELD_PASSPORT] = ST_DUBLICATE;
 }
 
 void TradingCompany::changeStatusPhone()
 {
+    phone_ = rand();
     Logger::warning << "Повторяющийся телефон >> " << phone_ << endl;
     fieldStatus_[FIELD_PHONE] = ST_DUBLICATE;
 }
 
 void TradingCompany::changeStatusEmail()
 {
+    email_ += to_string(rand());
     Logger::warning << "Повторяющаяся почта >> " << email_ << endl;
     fieldStatus_[FIELD_EMAIL] = ST_DUBLICATE;
 }

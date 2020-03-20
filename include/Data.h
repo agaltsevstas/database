@@ -60,7 +60,7 @@ public:
 
     void setPassword();
 
-    template<typename C> void getReadingDataFromFile(C &object, const string &fileName)
+    template<class C> void getReadingDataFromFile(C &object, const string &fileName)
     {
         ifstream file(fileName);
 
@@ -113,7 +113,7 @@ public:
         }
         checkParameter();
     }
-    template<typename C> void changePersonalData(C *object)
+    template<class C> void changePersonalData(C *object)
     {
         object->changePersonalData();
     }
@@ -168,8 +168,8 @@ private:
     template<class C> void checkPassword(C &object);
     void getAllOtherData() const;
     void addNewEmployeeData();
-    template<typename C> void setOtherData(C &object);
-    template<typename C> void pushBack(C &object);
+    template<class C> void setOtherData(C &object);
+    template<class C> void pushBack(C &object);
 };
 
 #endif // Data_h
