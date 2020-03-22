@@ -87,23 +87,25 @@ private:
         /// Строковое значение
         string stringValue;
     };
-    const map<string, Field> parameters =
+    
+    const map<string, std::function<void(TradingCompany&, string&)>> parameters_ =
     {
-        {"id",           FIELD_ID},
-        {"position",     FIELD_POSITION},
-        {"surname",      FIELD_SURNAME},
-        {"name",         FIELD_NAME},
-        {"patronymic",   FIELD_PATRONYMIC},
-        {"sex",          FIELD_SEX},
-        {"dateOfBirth",  FIELD_DATE_OF_BIRTH},
-        {"passport",     FIELD_PASSPORT},
-        {"phone",        FIELD_PHONE},
-        {"email",        FIELD_EMAIL},
-        {"dateOfHiring", FIELD_DATE_OF_HIRING},
-        {"workingHours", FIELD_WORKING_HOURS},
-        {"salary",       FIELD_SALARY},
-        {"password",     FIELD_PASSWORD}
+        {"id",           &TradingCompany::setId},
+        {"position",     &TradingCompany::setPosition},
+        {"surname",      &TradingCompany::setSurname},
+        {"name",         &TradingCompany::setName},
+        {"patronymic",   &TradingCompany::setPatronymic},
+        {"sex",          &TradingCompany::setSex},
+        {"dateOfBirth",  &TradingCompany::setDateOfBirth},
+        {"passport",     &TradingCompany::setPassport},
+        {"phone",        &TradingCompany::setPhone},
+        {"email",        &TradingCompany::setEmail},
+        {"dateOfHiring", &TradingCompany::setDateOfHiring},
+        {"workingHours", &TradingCompany::setWorkingHours},
+        {"salary",       &TradingCompany::setSalary},
+        {"password",     &TradingCompany::setPassword}
     };
+    
     /// Карта параметров
     map<Field, Status> fieldStatus_
     {
@@ -151,10 +153,10 @@ public:
     void changeStatusPhone();
     void changeStatusEmail();
     void changeStatusPassword(bool isWrite);
+    bool hasDublicatePassword();
     void checkPhone(const string &warning = {});
     void checkEmail(const string &warning = {});
     void checkPassword(const string &warning = {});
-//    Field checkPassword();
     void displayUser();
     void changePersonalData();
     
@@ -178,7 +180,6 @@ private:
     uint     salary_;
     string   password_;
     
-    void switchCaseParameter(string &parameter, const Field &field);
     void setId(string &id);
     void setPosition(string &position);
     void setSurname(string &surname);
@@ -205,7 +206,9 @@ private:
     void checkDateOfHiring(const string &warning = {});
     void checkWorkingHours(const string &warning = {});
     void checkSalary(const string &warning = {});
-    void recursion(const Field &field, const string &message);
+    void recursion(const Field &field,
+                   std::function<void(TradingCompany&, string&)> setParameter,
+                   const string &message);
     template<typename T> T get(string &value, const Field field);
     /// Пустое поле для возврата в качестве отсутствия результата поиска
     const Type empty = Type();

@@ -33,6 +33,10 @@ void Data::setPassword()
             {
                 if (input == tradingCompanyObject->getPassword())
                 {
+                    if (tradingCompanyObject->hasDublicatePassword())
+                    {
+                        
+                    }
                     checkPassword(tradingCompanyObject);
                     tradingCompanyObject->functional();
                 }

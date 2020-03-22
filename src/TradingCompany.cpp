@@ -164,68 +164,6 @@ string TradingCompany::getPassword()
     return password_;
 }
 
-void TradingCompany::switchCaseParameter(string &parameter, const Field &field)
-{
-    switch (field)
-    {
-        case FIELD_ID :
-            setId(parameter);
-            break;
-            
-        case FIELD_POSITION :
-            setPosition(parameter);
-            break;
-            
-        case FIELD_SURNAME :
-            setSurname(parameter);
-            break;
-            
-        case FIELD_NAME :
-            setName(parameter);
-            break;
-            
-        case FIELD_PATRONYMIC :
-            setPatronymic(parameter);
-            break;
-            
-        case FIELD_SEX :
-            setSex(parameter);
-            break;
-            
-        case FIELD_DATE_OF_BIRTH :
-            setDateOfBirth(parameter);
-            break;
-            
-        case FIELD_PASSPORT :
-            setPassport(parameter);
-            break;
-            
-        case FIELD_PHONE :
-            setPhone(parameter);
-            break;
-            
-        case FIELD_EMAIL :
-            setEmail(parameter);
-            break;
-            
-        case FIELD_DATE_OF_HIRING :
-            setDateOfHiring(parameter);
-            break;
-            
-        case FIELD_WORKING_HOURS :
-            setWorkingHours(parameter);
-            break;
-            
-        case FIELD_SALARY :
-            setSalary(parameter);
-            break;
-            
-        case FIELD_PASSWORD :
-            setPassword(parameter);
-            break;
-    }
-}
-
 void TradingCompany::changeStatusId()
 {
     id_ = rand();
@@ -263,7 +201,14 @@ void TradingCompany::changeStatusPassword(bool isWrite)
     fieldStatus_[FIELD_PASSWORD] = ST_DUBLICATE;
 }
 
-void TradingCompany::recursion(const Field &field, const string &message)
+bool TradingCompany::hasDublicatePassword()
+{
+    return fieldStatus_[FIELD_PASSWORD] == ST_DUBLICATE;
+}
+
+void TradingCompany::recursion(const Field &field,
+                               std::function<void(TradingCompany&, string&)> setParameter,
+                               const string &message)
 {
     string input;
     if (fieldStatus_[field] != ST_OK)
@@ -271,11 +216,12 @@ void TradingCompany::recursion(const Field &field, const string &message)
         auto conditionFirst = message.find("(");
         auto conditionSecond = message.find(")");
         cout << message << endl;
+        message.substr(conditionFirst, conditionSecond - conditionFirst + 1);
         cout << "Ввод: " << endl;
         cin >> input;
-        switchCaseParameter(input, field);
-        recursion(field, "Некорректно введен параметр " +
-                  message.substr(conditionFirst, conditionSecond - conditionFirst + 1));
+        setParameter(*this, input);
+        std::function<void(TradingCompany&, string&)> f = &TradingCompany::setId;
+        recursion(field, setParameter, "Некорректно введен параметр " + message);
     }
 }
 
@@ -284,7 +230,7 @@ void TradingCompany::checkId(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите ID (например, 100)";
-    recursion(FIELD_ID, message);
+    recursion(FIELD_ID, &TradingCompany::setId, message);
 }
 
 void TradingCompany::checkPosition(const string &warning)
@@ -292,7 +238,7 @@ void TradingCompany::checkPosition(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите должность";
-    recursion(FIELD_POSITION, message);
+    recursion(FIELD_POSITION, &TradingCompany::setPosition, message);
 }
 
 void TradingCompany::checkSurname(const string &warning)
@@ -300,7 +246,7 @@ void TradingCompany::checkSurname(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите фамилию";
-    recursion(FIELD_SURNAME, message);
+    recursion(FIELD_SURNAME, &TradingCompany::setSurname, message);
 }
 
 void TradingCompany::checkName(const string &warning)
@@ -308,7 +254,7 @@ void TradingCompany::checkName(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите имя";
-    recursion(FIELD_NAME, message);
+    recursion(FIELD_NAME, &TradingCompany::setName, message);
 }
 
 void TradingCompany::checkPatronymic(const string &warning)
@@ -316,7 +262,7 @@ void TradingCompany::checkPatronymic(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите отчество";
-    recursion(FIELD_PATRONYMIC, message);
+    recursion(FIELD_PATRONYMIC, &TradingCompany::setPatronymic, message);
 }
 
 void TradingCompany::checkSex(const string &warning)
@@ -324,7 +270,7 @@ void TradingCompany::checkSex(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите пол (например, Муж)";
-    recursion(FIELD_SEX, message);
+    recursion(FIELD_SEX, &TradingCompany::setSex, message);
 }
 
 void TradingCompany::checkDateOfBirth(const string &warning)
@@ -332,7 +278,7 @@ void TradingCompany::checkDateOfBirth(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите дату рождения (например, 16.12.1995)";
-    recursion(FIELD_DATE_OF_BIRTH, message);
+    recursion(FIELD_DATE_OF_BIRTH, &TradingCompany::setDateOfBirth, message);
 }
 
 void TradingCompany::checkPassport(const string &warning)
@@ -340,7 +286,7 @@ void TradingCompany::checkPassport(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите номер паспорта (например, 4516561974)";
-    recursion(FIELD_PASSPORT, message);
+    recursion(FIELD_PASSPORT, &TradingCompany::setPassport, message);
 }
 
 void TradingCompany::checkPhone(const string &warning)
@@ -348,7 +294,7 @@ void TradingCompany::checkPhone(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите номер телефона (например, 9032697963)";
-    recursion(FIELD_PHONE, message);
+    recursion(FIELD_PHONE, &TradingCompany::setPhone, message);
 }
 
 void TradingCompany::checkEmail(const string &warning)
@@ -356,7 +302,7 @@ void TradingCompany::checkEmail(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите почту (например, surname.name.patronymic@tradingcompany.ru)";
-    recursion(FIELD_EMAIL, message);
+    recursion(FIELD_EMAIL, &TradingCompany::setEmail, message);
 }
 
 void TradingCompany::checkDateOfHiring(const string &warning)
@@ -364,7 +310,7 @@ void TradingCompany::checkDateOfHiring(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите дату принятия на работу (например, 16.04.2018)";
-    recursion(FIELD_DATE_OF_BIRTH, message);
+    recursion(FIELD_DATE_OF_HIRING, &TradingCompany::setDateOfHiring, message);
 }
 
 void TradingCompany::checkWorkingHours(const string &warning)
@@ -372,7 +318,7 @@ void TradingCompany::checkWorkingHours(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите время работы (например, Понедельник-Пятница=09:00-18:00)";
-    recursion(FIELD_WORKING_HOURS, message);
+    recursion(FIELD_WORKING_HOURS, &TradingCompany::setWorkingHours, message);
 }
 
 void TradingCompany::checkSalary(const string &warning)
@@ -380,7 +326,7 @@ void TradingCompany::checkSalary(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите зарплату (в рублях)";
-    recursion(FIELD_SALARY, message);
+    recursion(FIELD_SALARY, &TradingCompany::setSalary, message);
 }
 
 void TradingCompany::checkPassword(const string &warning)
@@ -388,10 +334,10 @@ void TradingCompany::checkPassword(const string &warning)
     if (!warning.empty())
         cout << warning << endl;
     const string message = "Введите новый пароль (пароль должен содержать:\n-не менее 6 символов\n"
-                                                                     "-хотя бы одну прописную латинскую букву\n"
-                                                                     "-хотя бы одну строчную латинскую букву\n"
-                                                                     "-хотя бы одну цифру)";
-    recursion(FIELD_PASSWORD, message);
+                           "-хотя бы одну прописную латинскую букву\n"
+                           "-хотя бы одну строчную латинскую букву\n"
+                           "-хотя бы одну цифру)";
+    recursion(FIELD_PASSWORD, &TradingCompany::setPassword, message);
 }
 
 void TradingCompany::displayUser()
@@ -884,7 +830,6 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
 
 void operator >> (const string &line, TradingCompany &tradingCompany)
 {
-    bool isRecord = false;
     string input;
     Field field;
     
@@ -892,22 +837,21 @@ void operator >> (const string &line, TradingCompany &tradingCompany)
     while (is >> input)
     {
         string parameter = regex_replace(input, regex("[^A-Za-z]"), "");
-        auto found = tradingCompany.parameters.find(parameter);
-
-        if (found != tradingCompany.parameters.end())
+        auto found = tradingCompany.parameters_.find(parameter);
+        
+        if (found != tradingCompany.parameters_.end())
         {
-            field = found->second;
+            auto setParameter = found->second;
             is >> input;
-            isRecord = true;
-        }
-        if (isRecord)
-        {
             if (*input.begin() != ('\"') && *(input.end() - 1) != ('\"'))
+            {
                 input.clear();
+            }
             else
+            {
                 input = input.substr(1, input.length() - 2);
-            tradingCompany.switchCaseParameter(input, field);
-            isRecord = false;
+            }
+            setParameter(tradingCompany, input);
         }
     }
 }
