@@ -166,29 +166,29 @@ string TradingCompany::getPassword()
 
 void TradingCompany::changeStatusId()
 {
-    id_ = rand();
     Logger::warning << "Повторяющийся id >> " << id_ << endl;
+    id_ = rand();
     fieldStatus_[FIELD_ID] = ST_DUBLICATE;
 }
 
 void TradingCompany::changeStatusPassport()
 {
-    passport_ = rand();
     Logger::warning << "Повторяющийся паспорт >> " << passport_ << endl;
+    passport_ = rand();
     fieldStatus_[FIELD_PASSPORT] = ST_DUBLICATE;
 }
 
 void TradingCompany::changeStatusPhone()
 {
-    phone_ = rand();
     Logger::warning << "Повторяющийся телефон >> " << phone_ << endl;
+    phone_ = rand();
     fieldStatus_[FIELD_PHONE] = ST_DUBLICATE;
 }
 
 void TradingCompany::changeStatusEmail()
 {
-    email_ += to_string(rand());
     Logger::warning << "Повторяющаяся почта >> " << email_ << endl;
+    email_ += to_string(rand());
     fieldStatus_[FIELD_EMAIL] = ST_DUBLICATE;
 }
 
@@ -220,7 +220,6 @@ void TradingCompany::recursion(const Field &field,
         cout << "Ввод: " << endl;
         cin >> input;
         setParameter(*this, input);
-        std::function<void(TradingCompany&, string&)> f = &TradingCompany::setId;
         recursion(field, setParameter, "Некорректно введен параметр " + message);
     }
 }
@@ -876,19 +875,7 @@ ostream& operator << (ostream &out, const TradingCompany &tradingCompany)
 
 bool operator == (const TradingCompany &first, const TradingCompany &second)
 {
-    return (first.id_ == second.id_) &&
-           (first.position_ == second.position_) &&
-           (first.surname_ == second.surname_) &&
-           (first.name_ == second.name_) &&
-           (first.patronymic_ == second.patronymic_) &&
-           (first.sex_ == second.sex_) &&
-           (first.dateOfBirth_ == second.dateOfBirth_) &&
-           (first.phone_ == second.phone_) &&
-           (first.email_ == second.email_) &&
-           (first.dateOfHiring_ == second.dateOfHiring_) &&
-           (first.workingHours_ == second.workingHours_) &&
-           (first.passport_ == second.passport_) &&
-           (first.salary_ == second.salary_) &&
+    return (first.passport_ == second.passport_) &&
            (first.password_ == second.password_);
 }
 

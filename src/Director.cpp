@@ -146,15 +146,17 @@ void Director::changePersonalData()
 
 void Director::functional()
 {
+    checkData();
+    
     string input;
     while (true)
     {
-        checkData();
         displayUser();
         cout << "Хотите изменить личные данные? - нажмите 1" << endl;
         cout << "Хотите вывести данные данные всех сотрудников? - нажмите 2" << endl;
         cout << "Хотите изменить чужие данные? - нажмите 3" << endl;
         cout << "Хотите добавить нового сотрудника? - нажмите 4" << endl;
+        cout << "Хотите вывести лог файла? - нажмите 5" << endl;
         cout << "Хотите вернуться назад? - введите B: " << endl;
         cout << "Хотите выйти из программы? - введите ESC: " << endl;
         try
@@ -166,22 +168,33 @@ void Director::functional()
                 case str("1") :
                     data_->changePersonalData(this);
                     break;
+                    
                 case str("2") :
                     data_->getAllOtherData();
                     break;
+                    
                 case str("3") :
                     data_->addNewEmployeeData();
                     break;
+                    
                 case str("4") :
                     data_->addNewEmployeeData();
                     break;
-                case str("b") :
-                    return;
-                case str("esc") :
-                    cout << "Вы вышли из программы!" << endl;
-                    exit(0);
-                default:
-                    throw input;
+                    
+                case str("5") :
+                    Logger::printLogger();
+                    break;
+                    
+//                case str("b") :
+//                    return;
+//
+//                case str("esc") :
+//
+//                    cout << "Вы вышли из программы!" << endl;
+//                    exit(0);
+//
+//                default:
+//                    throw input;
             }
         }
         catch (const string &exception)

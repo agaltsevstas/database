@@ -79,6 +79,7 @@ public:
                 });
                 if (result != tradingCompanyObjects_.end())
                 {
+                    Logger::warning << "[DELETION] Запись-дубликат" << endl;
                     continue;
                 }
                 checkData(object);

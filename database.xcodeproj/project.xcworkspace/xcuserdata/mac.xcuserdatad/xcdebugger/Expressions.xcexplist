@@ -11,6 +11,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "void Data::checkData&lt;Director&gt;(Director&amp;):Data.h">
+      </ContextState>
+      <ContextState
          contextName = "void Data::pushBack&lt;TradingCompany&gt;(TradingCompany&amp;):Data.h">
       </ContextState>
       <ContextState
@@ -33,9 +36,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "void Data::pushBack&lt;Director&gt;(Director&amp;)::&apos;lambda&apos;(std::__1::shared_ptr&lt;TradingCompany&gt; const&amp;)::operator()(std::__1::shared_ptr&lt;TradingCompany&gt; const&amp;) const:Data.h">
-      </ContextState>
-      <ContextState
          contextName = "main:main.cpp">
          <PersistentStrings>
             <PersistentString
@@ -44,15 +44,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "void Data::pushBack&lt;Director&gt;(Director&amp;)::&apos;lambda&apos;(std::__1::shared_ptr&lt;TradingCompany&gt; const&amp;)::operator()(std::__1::shared_ptr&lt;TradingCompany&gt; const&amp;) const:Data.h">
+      </ContextState>
+      <ContextState
          contextName = "void Data::getReadingDataFromFile&lt;Director&gt;(Director&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
          <PersistentStrings>
             <PersistentString
                value = "tradingCompanyObjects_">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "void Data::checkData&lt;Director&gt;(Director&amp;):Data.h">
       </ContextState>
       <ContextState
          contextName = "void Data::getReadingDataFromFile&lt;Directors&gt;(Directors&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
@@ -108,6 +108,14 @@
          <PersistentStrings>
             <PersistentString
                value = "infoBuffer">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Logger::printLogger():Logger.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "input">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

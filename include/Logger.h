@@ -13,6 +13,8 @@ using namespace std;
 
 class Logger
 {
+    friend class Director;
+    
 public:
     
     enum DebugLevel
@@ -25,9 +27,10 @@ public:
     
     enum MessageType
     {
-        MESSAGE_INFO,
+        MESSAGE_INFO = 1,
         MESSAGE_WARNING,
         MESSAGE_ERROR,
+        MESSAGE_ALL
     };
     
     static void createInstance();
@@ -64,9 +67,10 @@ protected:
     ~Logger() {};
     
 private:
-    string infoBuffer;
-    string warningBuffer;
-    string errorBuffer;
+    string infoBuffer_;
+    string warningBuffer_;
+    string errorBuffer_;
+    string allMessagesBuffer_;
     thread thread_;
     mutex mutex_;
     
@@ -79,6 +83,11 @@ private:
     void writeError(const string &message);
     void writeToBuffer(const string &message, MessageType type);
     void writeToFile(const string &message);
+    static void printInfo();
+    static void printWarning();
+    static void printError();
+    static void printAllMessages();
+    static void printLogger();
 };
 
 #endif /* Logger_h */

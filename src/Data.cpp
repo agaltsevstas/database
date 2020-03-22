@@ -23,39 +23,48 @@ const list<string> positions
 void Data::setPassword()
 {
     string input;
-    while (true)
+    cout << ("Введите пароль для получения доступа к базе данных или закончите выполнение программы, введите ESC: ") << endl;
+    try
     {
-        cout << ("Введите пароль для получения доступа к базе данных или закончите выполнение программы, введите ESC: ") << endl;
-        try
+        cin >> input;
+        for (const auto &tradingCompanyObject: tradingCompanyObjects_)
         {
-            cin >> input;
-            for (const auto &tradingCompanyObject: tradingCompanyObjects_)
+            if (input == tradingCompanyObject->getPassword())
             {
-                if (input == tradingCompanyObject->getPassword())
+                if (tradingCompanyObject->hasDublicatePassword())
                 {
-                    if (tradingCompanyObject->hasDublicatePassword())
+                    cout << "Введите номер паспорта (например, 4516561974)" << endl;
+                    cin >> input;
+                    if (strtoul(input.c_str(), NULL, 0) != tradingCompanyObject->getPassport())
                     {
-                        
+                        cout << "Введенный паспорт не совпадает с вашим паспортом!" << endl;
+                        setPassword();
                     }
-                    checkPassword(tradingCompanyObject);
-                    tradingCompanyObject->functional();
                 }
-            }
-            toLower(input);
-            if(input == "esc")
-            {
-                cout << "Вы вышли из программы!" << endl;
-                exit(0);
-            }
-            else
-            {
-                throw input;
+                checkPassword(tradingCompanyObject);
+                tradingCompanyObject->functional();
             }
         }
-        catch (const string &exception)
+        toLower(input);
+        if(input == "esc")
         {
-            cout << "Вы ввели: " << exception << " - неверный пароль! Попробуйте ввести заново или закончите выполнение программы, введя ESC: "<< endl;
+            cout << "Вы вышли из программы!" << endl;
+            exit(0);
         }
+        else
+        {
+            throw input;
+        }
+    }
+    catch (const string &exception)
+    {
+        cout << "Вы ввели: " << exception << " - неверный пароль! Попробуйте ввести заново или закончите выполнение программы, введя ESC: "<< endl;
+        setPassword();
+    }
+    catch(...)
+    {
+        cout << "Неизвестная ошибка!";
+        exit(0);
     }
 }
 
