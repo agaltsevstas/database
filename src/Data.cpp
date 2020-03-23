@@ -1,6 +1,9 @@
+#include "boost/filesystem.hpp"
+
 #include "Data.h"
 #include "Utils.h"
 
+using namespace boost::filesystem;
 using namespace  utils;
 
 const list<string> positions
@@ -19,6 +22,14 @@ const list<string> positions
     "Начальник_склада",
     "Юрист"
 };
+
+void Data::readDirectory(const string &directoryPath)
+{
+    objectFactory_.add<Director>("Директор");
+    
+    for (directory_entry& x : directory_iterator(directoryPath))
+        cout << "    " << x.path() << '\n';
+}
 
 void Data::setPassword()
 {

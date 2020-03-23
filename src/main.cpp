@@ -68,7 +68,8 @@ int main()
     Driver driver;
     
     Data &data = Data::instance();
-    data.getReadingDataFromFile(director, dataPath + "/" + directorPath);
+    data.readDirectory(dataPath);
+    data.readingDataFromFile(director, dataPath + "/" + directorPath);
 
 //    data.getReadingDataFromFile(chiefAccountant, dataPath + "/" + chiefAccountantPath);
 //    data.getReadingDataFromFile(chiefLegalCounsel, dataPath + "/" + chiefLegalCounselPath);

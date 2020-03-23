@@ -15,6 +15,7 @@
 #include "PurchasingManager.h"
 #include "Stevedore.h"
 #include "Driver.h"
+#include "ObjectFactory.h"
 
 //class Director;
 //class ChiefAccountant;
@@ -57,10 +58,12 @@ public:
         static Data data;
         return data;
     }
+    
+    void readDirectory(const string &directoryPath = "data");
 
     void setPassword();
 
-    template<class C> void getReadingDataFromFile(C &object, const string &fileName)
+    template<class C> void readingDataFromFile(C &object, const string &fileName)
     {
         ifstream file(fileName);
 
@@ -120,6 +123,7 @@ public:
     }
     
 private:
+    ObjectFactory<string, TradingCompany> objectFactory_;
     vector<shared_ptr<TradingCompany>> tradingCompanyObjects_;
     shared_ptr<Director> directorPtr_;
     shared_ptr<ChiefAccountant> chiefAccountantPtr_;

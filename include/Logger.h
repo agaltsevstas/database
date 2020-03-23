@@ -87,7 +87,7 @@ private:
     static void printWarning();
     static void printError();
     static void printAllMessages();
-    static void printLogger();
+    static void printLog();
 };
 
 #endif /* Logger_h */

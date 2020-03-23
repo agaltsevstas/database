@@ -182,7 +182,7 @@ void Director::functional()
                     break;
                     
                 case str("5") :
-                    Logger::printLogger();
+//                    Logger::printLogger();
                     break;
                     
 //                case str("b") :
