@@ -8,7 +8,7 @@ Director::Director() : data_(&Data::instance()) {}
 
 Director::~Director()
 {
-    delete data_;
+//    delete data_;
 }
 
 void Director::checkData()

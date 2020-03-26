@@ -14,18 +14,17 @@ private:
     {
         return new Derived();
     }
-    map<ID,fInstantiator> classes_;
+    map<ID, fInstantiator> classes;
     
 public:
     ObjectFactory() {}
     template<class Derived> void add(ID id)
     {
-        classes_[id] = &instantiator<Derived>;
+        classes[id] = &instantiator<Derived>;
     }
     fInstantiator get(ID id)
     {
-        return classes_[id];
+        return classes[id];
     }
-    
 };
 #endif /* ObjectFactory_h */

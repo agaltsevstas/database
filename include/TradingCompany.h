@@ -15,7 +15,7 @@
 #include <list>
 #include <functional>
 
-#include "Logger.h"
+using namespace std;
 
 enum Field
 {

@@ -1,6 +1,7 @@
 #include <boost/regex.hpp>
 
 #include "TradingCompany.h"
+#include "Logger.h"
 #include "Utils.h"
 
 using namespace boost;

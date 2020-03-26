@@ -5,11 +5,11 @@
 
 class Data;
 
-class Stevedore : public TradingCompany
+class Loader : public TradingCompany
 {
 public:
-    Stevedore();
-    ~Stevedore();
+    Loader();
+    ~Loader();
     void functional() override;
     
 private:

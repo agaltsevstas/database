@@ -11,7 +11,9 @@
 #include <iomanip>
 #include <codecvt>
 #include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
 
+using namespace boost::filesystem;
 using namespace std;
 
 namespace utils
@@ -52,6 +54,12 @@ namespace utils
         {"ю", "ju"},
         {"я", "ja"},
     };
+    
+    inline string getNameWithoutExtension(const string &filePath)
+    {
+        path fileName(filePath);
+        return fileName.stem().c_str();
+    }
     
     string translit(const string &textRussian);
     

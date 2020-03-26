@@ -13,7 +13,7 @@
 #include "Logistician.h"
 #include "Lawyer.h"
 #include "PurchasingManager.h"
-#include "Stevedore.h"
+#include "Loader.h"
 #include "Driver.h"
 #include "ObjectFactory.h"
 
@@ -28,7 +28,7 @@
 //class Logistician;
 //class Lawyer;
 //class PurchasingManager;
-//class Stevedore;
+//class Loader;
 //class Driver;
 
 typedef union
@@ -44,7 +44,7 @@ typedef union
     class Logistician;
     class Lawyer;
     class PurchasingManager;
-    class Stevedore;
+    class Loader;
     class Driver;
 } RetType;
 
@@ -59,45 +59,9 @@ public:
         return data;
     }
     
-    void readDirectory(const string &directoryPath = "data");
+    void loadВatabase(const string &directoryPath = "data");
 
-    void setPassword();
-
-    template<class C> void readingDataFromFile(C &object, const string &fileName)
-    {
-        ifstream file(fileName);
-
-        string line;
-        if (file.is_open())
-        {
-            while (getline(file, line))
-            {
-                Logger::info << " ---------- Считывание данных сотрудника ---------- " << endl;
-                line >> object;
-                auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
-                                      [&object](shared_ptr<TradingCompany> &tradingCompanyObject)
-                {
-                    return object == *tradingCompanyObject;
-                    
-                });
-                if (result != tradingCompanyObjects_.end())
-                {
-                    Logger::warning << "[DELETION] Запись-дубликат" << endl;
-                    continue;
-                }
-                checkData(object);
-                tradingCompanyObjects_.push_back(make_shared<C>(object));
-                if (file.eof())
-                {
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Logger::error << "Невозможно открыть файл >> " << fileName << endl;
-        }
-    }
+    void inputPassword();
         
     template<typename T, class C> void checkParameter(T &parameter,
                                                       function<T(TradingCompany&)> getParameter,
@@ -135,37 +99,37 @@ private:
     shared_ptr<Accountant> accountantPtr_;
     shared_ptr<Logistician> logisticianPtr_;
     shared_ptr<PurchasingManager> purchasingManagerPtr_;
-    shared_ptr<Stevedore> stevedorePtr_;
+    shared_ptr<Loader> stevedorePtr_;
     shared_ptr<Lawyer> lawyerPtr_;
     shared_ptr<Driver> driverPtr_;
     Data() {}
     Data(const Data&) = delete;
     Data& operator=(Data&) = delete;
+    template<class C> void readingDataFromFile(C &object, const string &fileName);
     template<class C> void checkData(C &object)
     {
         for (const auto &tradingCompanyObject: tradingCompanyObjects_)
         {
-            object.getId();
-            if (object.getId() == tradingCompanyObject->getId())
+            if (object->getId() == tradingCompanyObject->getId())
             {
-                object.changeStatusId();
+                object->changeStatusId();
             }
-            if (object.getPassport() == tradingCompanyObject->getPassport())
+            if (object->getPassport() == tradingCompanyObject->getPassport())
             {
-                object.changeStatusPassport();
+                object->changeStatusPassport();
             }
-            if (object.getPhone() == tradingCompanyObject->getPhone())
+            if (object->getPhone() == tradingCompanyObject->getPhone())
             {
-                object.changeStatusPhone();
+                object->changeStatusPhone();
             }
-            if (object.getEmail() == tradingCompanyObject->getEmail())
+            if (object->getEmail() == tradingCompanyObject->getEmail())
             {
-                object.changeStatusEmail();
+                object->changeStatusEmail();
             }
-            if (object.getPassword() == tradingCompanyObject->getPassword())
+            if (object->getPassword() == tradingCompanyObject->getPassword())
             {
                 tradingCompanyObject->changeStatusPassword(false);
-                object.changeStatusPassword(true);
+                object->changeStatusPassword(true);
             }
             break;
         }

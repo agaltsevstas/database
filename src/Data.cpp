@@ -1,9 +1,7 @@
-#include "boost/filesystem.hpp"
-
 #include "Data.h"
+#include "Logger.h"
 #include "Utils.h"
 
-using namespace boost::filesystem;
 using namespace  utils;
 
 const list<string> positions
@@ -23,15 +21,84 @@ const list<string> positions
     "Юрист"
 };
 
-void Data::readDirectory(const string &directoryPath)
+void Data::loadВatabase(const string &directoryPath)
 {
+    objectFactory_.add<Accountant>("Бухгалтер");
+    objectFactory_.add<Driver>("Водитель");
+    objectFactory_.add<ChiefAccountant>("Главный_бухгалтер");
+    objectFactory_.add<ChiefLegalCounsel>("Главный_юрист-консультант");
+    objectFactory_.add<Loader>("Грузчик");
     objectFactory_.add<Director>("Директор");
+    objectFactory_.add<Logistician>("Логист");
+    objectFactory_.add<PurchasingManager>("Менеджер_по_закупкам");
+    objectFactory_.add<SalesManager>("Менеджер_по_продажам");
+    objectFactory_.add<Cashier>("Кассир");
+    objectFactory_.add<HeadOfProcurement>("Начальник_отдела_закупок");
+    objectFactory_.add<HeadOfWarehouse>("Начальник_склада");
+    objectFactory_.add<Lawyer>("Юрист");
     
-    for (directory_entry& x : directory_iterator(directoryPath))
-        cout << "    " << x.path() << '\n';
+    for (directory_entry &filePath: directory_iterator(directoryPath))
+    {
+        try
+        {
+            string fileName = getNameWithoutExtension(filePath.path().string());
+            auto result = find(positions.begin(), positions.end(), fileName);
+            if (result != positions.end())
+            {
+                string line;
+                ifstream file(filePath.path().string());
+                if (file.is_open())
+                {
+                    while (getline(file, line))
+                    {
+                        auto object = objectFactory_.get(fileName)();
+                        Logger::info << " ---------- Считывание данных сотрудника ---------- " << endl;
+                        line >> *object;
+                        auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
+                                              [&object](shared_ptr<TradingCompany> &tradingCompanyObject)
+                                              {
+                                                  return *object == *tradingCompanyObject;
+                                              });
+                        if (result != tradingCompanyObjects_.end())
+                        {
+                            Logger::warning << "[DELETION] Запись-дубликат" << endl;
+                            delete object;
+                            continue;
+                        }
+                        checkData(object);
+                        tradingCompanyObjects_.push_back(shared_ptr<TradingCompany>(object));
+                        if (file.eof())
+                        {
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    Logger::error << "Невозможно открыть файл >> " << fileName << endl;
+                }
+            }
+            else
+            {
+                throw fileName;
+            }
+        }
+        catch(const runtime_error &ex)
+        {
+            Logger::error << "Неверное название файла >> " << ex.what() << endl;
+        }
+        catch(const exception &ex)
+        {
+            Logger::error << "Неверное название файла >> " << ex.what() << endl;
+        }
+        catch(const string &exception)
+        {
+            Logger::error << "Неверное название файла >> " << exception << endl;
+        }
+    }
 }
 
-void Data::setPassword()
+void Data::inputPassword()
 {
     string input;
     cout << ("Введите пароль для получения доступа к базе данных или закончите выполнение программы, введите ESC: ") << endl;
@@ -49,7 +116,7 @@ void Data::setPassword()
                     if (strtoul(input.c_str(), NULL, 0) != tradingCompanyObject->getPassport())
                     {
                         cout << "Введенный паспорт не совпадает с вашим паспортом!" << endl;
-                        setPassword();
+                        inputPassword();
                     }
                 }
                 checkPassword(tradingCompanyObject);
@@ -70,7 +137,7 @@ void Data::setPassword()
     catch (const string &exception)
     {
         cout << "Вы ввели: " << exception << " - неверный пароль! Попробуйте ввести заново или закончите выполнение программы, введя ESC: "<< endl;
-        setPassword();
+        inputPassword();
     }
     catch(...)
     {
