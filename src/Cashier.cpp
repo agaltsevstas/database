@@ -5,7 +5,7 @@ Cashier::Cashier() : data_(&Data::instance()) {}
 
 Cashier::~Cashier()
 {
-    delete data_;
+//    delete data_;
 }
 
 void Cashier::functional()

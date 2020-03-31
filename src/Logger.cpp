@@ -236,5 +236,5 @@ int Logger::Streamer::StringBuffer::sync()
 
 Logger* Logger::logger_ = nullptr;
 Logger::DebugLevel Logger::debugLevel_ = Logger::DebugLevel::DEBUG_LEVEL_DISABLED;
-ofstream Logger::logFile_;
+std::ofstream Logger::logFile_;
 

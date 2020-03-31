@@ -5,7 +5,7 @@ SalesManager::SalesManager() : data_(&Data::instance()) {}
 
 SalesManager::~SalesManager()
 {
-    delete data_;
+//    delete data_;
 }
 
 void SalesManager::functional()

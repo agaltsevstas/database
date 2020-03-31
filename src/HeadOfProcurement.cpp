@@ -5,7 +5,7 @@ HeadOfProcurement::HeadOfProcurement() : data_(&Data::instance()) {}
 
 HeadOfProcurement::~HeadOfProcurement()
 {
-    delete data_;
+//    delete data_;
 }
 
 void HeadOfProcurement::functional()

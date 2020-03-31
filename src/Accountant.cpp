@@ -5,7 +5,7 @@ Accountant::Accountant() : data_(&Data::instance()) {}
 
 Accountant::~Accountant()
 {
-    delete data_;
+//    delete data_;
 }
 
 void Accountant::functional()

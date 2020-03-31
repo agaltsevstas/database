@@ -5,7 +5,7 @@ Loader::Loader() : data_(&Data::instance()) {}
 
 Loader::~Loader()
 {
-    delete data_;
+//    delete data_;
 }
 
 void Loader::functional()

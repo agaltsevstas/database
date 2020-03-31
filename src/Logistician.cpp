@@ -5,7 +5,7 @@ Logistician::Logistician() : data_(&Data::instance()) {}
 
 Logistician::~Logistician()
 {
-    delete data_;
+//    delete data_;
 }
 
 void Logistician::functional()

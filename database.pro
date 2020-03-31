@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += console c++14
+CONFIG += console c++17
 CONFIG -= app_bundle
 CONFIG -= qt
 QMAKE_PROJECT_DEPTH = 0
@@ -37,11 +37,11 @@ HEADERS += \
     include/HeadOfProcurement.h \
     include/HeadOfWarehouse.h \
     include/Lawyer.h \
+    include/Loader.h \
     include/Logger.h \
     include/Logistician.h \
     include/PurchasingManager.h \
     include/SalesManager.h \
-    include/Stevedore.h \
     include/TradingCompany.h \
     include/Utils.h
 
@@ -56,11 +56,11 @@ SOURCES += \
     src/HeadOfProcurement.cpp \
     src/HeadOfWarehouse.cpp \
     src/Lawyer.cpp \
+    src/Loader.cpp \
     src/Logger.cpp \
     src/Logistician.cpp \
     src/PurchasingManager.cpp \
     src/SalesManager.cpp \
-    src/Stevedore.cpp \
     src/TradingCompany.cpp \
     src/main.cpp \
     src/Utils.cpp
@@ -69,6 +69,7 @@ SOURCES += \
 LIBS += -L/usr/lib/x86_64-linux-gnu \
         -lboost_filesystem \
         -lboost_system \
+        -lboost_program_options \
         -lboost_log \
         -lboost_log_setup \
         -lboost_thread \

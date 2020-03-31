@@ -59,7 +59,7 @@ public:
         return data;
     }
     
-    void loadВatabase(const string &directoryPath = "data");
+    void loadDatabase(const string &directoryPath);
 
     void inputPassword();
         

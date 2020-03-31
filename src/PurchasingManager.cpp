@@ -5,7 +5,7 @@ PurchasingManager::PurchasingManager() : data_(&Data::instance()) {}
 
 PurchasingManager::~PurchasingManager()
 {
-    delete data_;
+//    delete data_;
 }
 
 void PurchasingManager::functional()

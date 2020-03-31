@@ -1,5 +1,5 @@
-#ifndef Stevedore_h
-#define Stevedore_h
+#ifndef Loader_h
+#define Loader_h
 
 #include "TradingCompany.h"
 
@@ -16,5 +16,5 @@ private:
     Data* data_ = nullptr;
 };
 
-#endif // Stevedore_h
+#endif // Loader_h
 

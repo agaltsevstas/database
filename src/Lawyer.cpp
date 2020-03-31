@@ -5,7 +5,7 @@ Lawyer::Lawyer() : data_(&Data::instance()) {}
 
 Lawyer::~Lawyer()
 {
-    delete data_;
+//    delete data_;
 }
 
 void Lawyer::functional()

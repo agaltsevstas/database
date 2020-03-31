@@ -5,7 +5,7 @@ ChiefLegalCounsel::ChiefLegalCounsel() : data_(&Data::instance()) {}
 
 ChiefLegalCounsel::~ChiefLegalCounsel()
 {
-    delete data_;
+//    delete data_;
 }
 
 void ChiefLegalCounsel::functional()

@@ -5,7 +5,7 @@ HeadOfWarehouse::HeadOfWarehouse() : data_(&Data::instance()) {}
 
 HeadOfWarehouse::~HeadOfWarehouse()
 {
-    delete data_;
+//    delete data_;
 }
 
 void HeadOfWarehouse::functional()

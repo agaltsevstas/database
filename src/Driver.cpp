@@ -5,7 +5,7 @@ Driver::Driver() : data_(&Data::instance()) {}
 
 Driver::~Driver()
 {
-    delete data_;
+//    delete data_;
 }
 
 void Driver::functional()

@@ -5,7 +5,7 @@ ChiefAccountant::ChiefAccountant() : data_(&Data::instance()) {}
 
 ChiefAccountant::~ChiefAccountant()
 {
-    delete data_;
+//    delete data_;
 }
 
 void ChiefAccountant::functional()

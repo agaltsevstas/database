@@ -21,7 +21,7 @@ const list<string> positions
     "Юрист"
 };
 
-void Data::loadВatabase(const string &directoryPath)
+void Data::loadDatabase(const string &directoryPath)
 {
     objectFactory_.add<Accountant>("Бухгалтер");
     objectFactory_.add<Driver>("Водитель");
@@ -46,7 +46,7 @@ void Data::loadВatabase(const string &directoryPath)
             if (result != positions.end())
             {
                 string line;
-                ifstream file(filePath.path().string());
+                std::ifstream file(filePath.path().string());
                 if (file.is_open())
                 {
                     while (getline(file, line))
