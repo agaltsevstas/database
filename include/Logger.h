@@ -61,16 +61,16 @@ public:
     static Streamer error;
     
 protected:
-    Logger() {};
+    Logger() {}
     Logger(const Logger&);
     Logger& operator=(Logger&);
-    ~Logger() {};
+    ~Logger() {}
     
 private:
-    string infoBuffer_;
-    string warningBuffer_;
-    string errorBuffer_;
-    string allMessagesBuffer_;
+    static string infoBuffer_;
+    static string warningBuffer_;
+    static string errorBuffer_;
+    static string allMessagesBuffer_;
     thread thread_;
     mutex mutex_;
     
@@ -81,7 +81,7 @@ private:
     void writeInfo(const string &message);
     void writeWarning(const string &message);
     void writeError(const string &message);
-    void writeToBuffer(const string &message, MessageType type);
+    static void writeToBuffer(const string &message, MessageType type);
     void writeToFile(const string &message);
     static void printInfo();
     static void printWarning();

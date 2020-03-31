@@ -1,7 +1,19 @@
+#include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+
 #include "Utils.h"
+
+using namespace boost::filesystem;
 
 namespace utils
 {
+
+    string getNameWithoutExtension(const string &filePath)
+    {
+        path fileName(filePath);
+        return fileName.stem().c_str();
+    }
+
     string translit(const string &textRussian)
     {
         string textEnglish;

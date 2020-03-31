@@ -101,79 +101,90 @@ void Logger::writeToFile(const string &message)
     mutex_.unlock();
 }
 
-//void Logger::printInfo()
-//{
-//    cout << infoBuffer_ << endl;
-//}
-//
-//void Logger::printWarning()
-//{
-//    cout << warningBuffer_ << endl;
-//}
-//
-//void Logger::printError()
-//{
-//    cout << errorBuffer_ << endl;
-//}
-//
-//void Logger::printAllMessages()
-//{
-//    cout << allMessagesBuffer_ << endl;
-//}
-//
-//void Logger::printLog()
-//{
-//    cout << "Хотите вывести все сообщения - нажмите 1" << endl;
-//    cout << "Хотите вывести все предупреждения - нажмите 2" << endl;
-//    cout << "Хотите вывести все ошибки - нажмите 3" << endl;
-//    cout << "Хотите вывести весь лог - нажмите 4" << endl;
-//    cout << "Хотите вернуться назад? - введите B: " << endl;
-//    cout << "Хотите выйти из программы? - введите ESC: " << endl;
-//
-//    string input;
-//    cin >> input;
-//    try
-//    {
-//        switch (str(input.c_str()))
-//        {
-//            case str("1") :
-//                printInfo();
-//                break;
-//
-//            case str("2") :
-//                printWarning();
-//                break;
-//
-//            case str("3") :
-//                printError();
-//                break;
-//
-//            case str("4") :
-//                printAllMessages();
-//                break;
-//
-//            case str("b") :
-//                return;
-//
-//            case str("esc") :
-//                cout << "Вы вышли из программы!" << endl;
-//                exit(0);
-//
-//            default:
-//                throw input;
-//        }
-//    }
-//    catch (const string &exception)
-//    {
-//        cout << "Вы ввели: " << exception << " - неверная команда! Попробуйте ввести заново: "<< endl;
-//    }
-//    catch(...)
-//    {
-//        cout << "Неизвестная ошибка!";
-//        exit(0);
-//    }
-//    printLog();
-//}
+void Logger::printInfo()
+{
+    cout << infoBuffer_ << endl;
+}
+
+void Logger::printWarning()
+{
+    cout << warningBuffer_ << endl;
+}
+
+void Logger::printError()
+{
+    cout << errorBuffer_ << endl;
+}
+
+void Logger::printAllMessages()
+{
+    cout << allMessagesBuffer_ << endl;
+}
+
+void Logger::printLog()
+{
+    cout << "Хотите вывести все сообщения - нажмите 1" << endl;
+    cout << "Хотите вывести все предупреждения - нажмите 2" << endl;
+    cout << "Хотите вывести все ошибки - нажмите 3" << endl;
+    cout << "Хотите вывести весь лог - нажмите 4" << endl;
+    cout << "Хотите вернуться назад? - введите B: " << endl;
+    cout << "Хотите выйти из программы? - введите ESC: " << endl;
+
+    string input;
+    cin >> input;
+    try
+    {
+        switch (str(input.c_str()))
+        {
+            case str("1") :
+                printInfo();
+                break;
+
+            case str("2") :
+                printWarning();
+                break;
+
+            case str("3") :
+                printError();
+                break;
+
+            case str("4") :
+                printAllMessages();
+                break;
+
+            case str("b") :
+                return;
+
+            case str("esc") :
+                Logger::info << "Выход из программы." << endl;
+                cout << "Вы вышли из программы!" << endl;
+                exit(0);
+
+            default:
+                throw input;
+        }
+    }
+    catch (const string &exception)
+    {
+        Logger::error << "Введена >> " << exception
+                      << " - неверная команда!" << endl;
+        cerr << "Вы ввели >> " << exception
+             << " - неверная команда! Попробуйте ввести заново: "
+             << endl;
+    }
+    catch(const exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << endl;
+        cerr << "Ошибка >> " << ex.what() << endl;
+    }
+    catch(...)
+    {
+        Logger::error << "Неизвестная ошибка!" << endl;
+        cerr << "Неизвестная ошибка!" << endl;
+        exit(0);
+    }
+    printLog();
+}
 
 /// Constructor - must send in message type
 Logger::Streamer::Streamer(Logger::MessageType messageType)
@@ -237,4 +248,8 @@ int Logger::Streamer::StringBuffer::sync()
 Logger* Logger::logger_ = nullptr;
 Logger::DebugLevel Logger::debugLevel_ = Logger::DebugLevel::DEBUG_LEVEL_DISABLED;
 std::ofstream Logger::logFile_;
+string Logger::infoBuffer_;
+string Logger::warningBuffer_;
+string Logger::errorBuffer_;
+string Logger::allMessagesBuffer_;
 

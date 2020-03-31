@@ -342,6 +342,10 @@ void TradingCompany::checkPassword(const string &warning)
 
 void TradingCompany::displayUser()
 {
+    Logger::info << "Вход в аккаунт >> " << getPosition() << "'a. " << endl;
+    Logger::info << getSurname() << " "
+                 << getName() << " "
+                 << getPatronymic() << endl;
     cout << "Вы зашли за " << getPosition() << "'a. " << endl;
     cout << "Приветствуем вас, "
          << getSurname() << " "
@@ -436,11 +440,12 @@ void TradingCompany::changePersonalData()
         }
         catch (const string &exception)
         {
-            cout << "Вы ввели: " << exception << " - неверная команда! Попробуйте ввести заново: "<< endl;
+            cerr << "Вы ввели: " << exception
+                 << " - неверная команда! Попробуйте ввести заново: "<< endl;
         }
         catch(...)
         {
-            cout << "Неизвестная ошибка!";
+            cerr << "Неизвестная ошибка!" << endl;
             exit(0);
         }
     }
@@ -810,20 +815,24 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             }
                 
             default:
-                throw (field);
+                throw field;
         }
     }
     catch (const string &exception)
     {
-        cout << "Неверный uint64_tметр: " << exception << endl;
+        Logger::error << "Невернное значение >> " << exception << endl;
     }
     catch(const Field &field)
     {
-        cout << "Введен неверный uint64_tметр поля >> " + to_string(field) << endl;
+        Logger::error << "Неверный параметр поля >> " + to_string(field) << endl;
+    }
+    catch(const std::exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << endl;
     }
     catch(...)
     {
-        cout << "Неизвестная ошибка!";
+        Logger::error << "Неизвестная ошибка!";
     }
     return TradingCompany::empty;
 }

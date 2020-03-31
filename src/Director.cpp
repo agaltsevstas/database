@@ -1,5 +1,6 @@
 #include "Director.h"
 #include "Data.h"
+#include "Logger.h"
 #include "Utils.h"
 
 using namespace utils;
@@ -134,11 +135,11 @@ void Director::changePersonalData()
         }
         catch (const string &exception)
         {
-            cout << "Вы ввели: " << exception << " - неверная команда! Попробуйте ввести заново: "<< endl;
+            cerr << "Вы ввели: " << exception << " - неверная команда! Попробуйте ввести заново: "<< endl;
         }
         catch(...)
         {
-            cout << "Неизвестная ошибка!";
+            cerr << "Неизвестная ошибка!";
             exit(0);
         }
     }
@@ -182,28 +183,28 @@ void Director::functional()
                     break;
                     
                 case str("5") :
-//                    Logger::printLogger();
+                    Logger::printLog();
                     break;
                     
-//                case str("b") :
-//                    return;
-//
-//                case str("esc") :
-//
-//                    cout << "Вы вышли из программы!" << endl;
-//                    exit(0);
-//
-//                default:
-//                    throw input;
+                case str("b") :
+                    return;
+
+                case str("esc") :
+
+                    cout << "Вы вышли из программы!" << endl;
+                    exit(0);
+
+                default:
+                    throw input;
             }
         }
         catch (const string &exception)
         {
-            cout << "Вы ввели: " << exception << " - неверная команда! Попробуйте ввести заново: "<< endl;
+            cerr << "Вы ввели: " << exception << " - неверная команда! Попробуйте ввести заново: "<< endl;
         }
         catch(...)
         {
-            cout << "Неизвестная ошибка!";
+            cerr << "Неизвестная ошибка!";
             exit(0);
         }
     }

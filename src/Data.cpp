@@ -1,7 +1,10 @@
+#include <boost/filesystem.hpp>
+
 #include "Data.h"
 #include "Logger.h"
 #include "Utils.h"
 
+using namespace boost::filesystem;
 using namespace  utils;
 
 const list<string> positions
@@ -37,9 +40,9 @@ void Data::loadDatabase(const string &directoryPath)
     objectFactory_.add<HeadOfWarehouse>("Начальник_склада");
     objectFactory_.add<Lawyer>("Юрист");
     
-    for (directory_entry &filePath: directory_iterator(directoryPath))
+    try
     {
-        try
+        for (directory_entry &filePath: directory_iterator(directoryPath))
         {
             string fileName = getNameWithoutExtension(filePath.path().string());
             auto result = find(positions.begin(), positions.end(), fileName);
@@ -83,25 +86,26 @@ void Data::loadDatabase(const string &directoryPath)
                 throw fileName;
             }
         }
-        catch(const runtime_error &ex)
-        {
-            Logger::error << "Неверное название файла >> " << ex.what() << endl;
-        }
-        catch(const exception &ex)
-        {
-            Logger::error << "Неверное название файла >> " << ex.what() << endl;
-        }
-        catch(const string &exception)
-        {
-            Logger::error << "Неверное название файла >> " << exception << endl;
-        }
+    }
+    catch(const string &exception)
+    {
+        Logger::error << "Неверное название файла >> " << exception << endl;
+    }
+
+    catch(const exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << endl;
+    }
+    catch(...)
+    {
+        Logger::error << "Неизвестная ошибка!" << endl;
     }
 }
 
 void Data::inputPassword()
 {
     string input;
-    cout << ("Введите пароль для получения доступа к базе данных или закончите выполнение программы, введите ESC: ") << endl;
+    cerr << "Введите пароль для получения доступа к базе данных или закончите выполнение программы, введите ESC: " << endl;
     try
     {
         cin >> input;
@@ -111,11 +115,11 @@ void Data::inputPassword()
             {
                 if (tradingCompanyObject->hasDublicatePassword())
                 {
-                    cout << "Введите номер паспорта (например, 4516561974)" << endl;
+                    cerr << "Введите номер паспорта (например, 4516561974)" << endl;
                     cin >> input;
                     if (strtoul(input.c_str(), NULL, 0) != tradingCompanyObject->getPassport())
                     {
-                        cout << "Введенный паспорт не совпадает с вашим паспортом!" << endl;
+                        cerr << "Введенный паспорт не совпадает с вашим паспортом!" << endl;
                         inputPassword();
                     }
                 }
@@ -126,6 +130,7 @@ void Data::inputPassword()
         toLower(input);
         if(input == "esc")
         {
+            Logger::info << "Выход из программы." << endl;
             cout << "Вы вышли из программы!" << endl;
             exit(0);
         }
@@ -136,12 +141,21 @@ void Data::inputPassword()
     }
     catch (const string &exception)
     {
-        cout << "Вы ввели: " << exception << " - неверный пароль! Попробуйте ввести заново или закончите выполнение программы, введя ESC: "<< endl;
-        inputPassword();
+        Logger::error << "Введена >> " << exception
+                      << " - неверная команда!" << endl;
+        cerr << "Вы ввели >> " << exception
+             << " - неверная команда! Попробуйте ввести заново: "
+             << endl;
+    }
+    catch(const exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << endl;
+        cerr << "Ошибка >> " << ex.what() << endl;
     }
     catch(...)
     {
-        cout << "Неизвестная ошибка!";
+        Logger::error << "Неизвестная ошибка!" << endl;
+        cerr << "Неизвестная ошибка!" << endl;
         exit(0);
     }
 }

@@ -27,6 +27,8 @@ using namespace utils;
 
 int main(int argc, char *argv[])
 {
+    setlocale(LC_ALL,"ru_RU.UTF-8");
+    Logger::createInstance();
     string directory = "data/"; // Путь к модулям
     if (argc > 1)
     {
@@ -59,15 +61,15 @@ int main(int argc, char *argv[])
         }
         catch(const string &exception)
         {
-            cerr << "Неверный параметр >> " << exception << endl;
+            Logger::error << "Неверный параметр >> " << exception << endl;
         }
         catch(const exception &ex)
         {
-            cerr << "Неверный параметр >> " << ex.what() << endl;
+            Logger::error << "Неверный параметр >> " << ex.what() << endl;
         }
         catch(...)
         {
-            cerr << "Неизвестная ошибка!" << endl;
+            Logger::error << "Неизвестная ошибка!" << endl;
         }
     }
     replace(directory.begin(), directory.end(), '\\', '/');
@@ -75,8 +77,6 @@ int main(int argc, char *argv[])
     {
         directory += "/";
     }
-    setlocale(LC_ALL,"ru_RU.UTF-8");
-    Logger::createInstance();
     Data &data = Data::instance();
     data.loadDatabase(directory);
     data.inputPassword();
