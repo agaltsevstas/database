@@ -145,6 +145,11 @@ void Director::changePersonalData()
     }
 }
 
+void Director::addNewEmployeeData()
+{
+    data_->newEmployeeData();
+}
+
 void Director::functional()
 {
     checkData();
@@ -167,7 +172,7 @@ void Director::functional()
             switch (str(input.c_str()))
             {
                 case str("1") :
-                    data_->changePersonalData(this);
+//                    data_->changePersonalData(this);
                     break;
                     
                 case str("2") :
@@ -175,11 +180,11 @@ void Director::functional()
                     break;
                     
                 case str("3") :
-                    data_->addNewEmployeeData();
+                    addNewEmployeeData();
                     break;
                     
                 case str("4") :
-                    data_->addNewEmployeeData();
+                    addNewEmployeeData();
                     break;
                     
                 case str("5") :

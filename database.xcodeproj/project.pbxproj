@@ -25,6 +25,7 @@
 		04BF8F8023F5CA3100857AB1 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04BF8F6F23F5CA3100857AB1 /* Logger.cpp */; };
 		04BF8F8223F5CA3100857AB1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04BF8F7123F5CA3100857AB1 /* main.cpp */; };
 		04BF8F8623F5CA3100857AB1 /* TradingCompany.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04BF8F7523F5CA3100857AB1 /* TradingCompany.cpp */; };
+		04E7C0B3243FAA9700531EAE /* HRManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04E7C0B2243FAA9700531EAE /* HRManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -90,6 +91,8 @@
 		04BF8F6F23F5CA3100857AB1 /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
 		04BF8F7123F5CA3100857AB1 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		04BF8F7523F5CA3100857AB1 /* TradingCompany.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TradingCompany.cpp; sourceTree = "<group>"; };
+		04E7C0B1243FAA7F00531EAE /* HRManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HRManager.h; sourceTree = "<group>"; };
+		04E7C0B2243FAA9700531EAE /* HRManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HRManager.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +165,7 @@
 				04BF8F6223F5CA3000857AB1 /* TradingCompany.h */,
 				04BF8F6323F5CA3000857AB1 /* Utils.h */,
 				04AE443A2429550B00642CA7 /* ObjectFactory.h */,
+				04E7C0B1243FAA7F00531EAE /* HRManager.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -187,6 +191,7 @@
 				04BF8F6F23F5CA3100857AB1 /* Logger.cpp */,
 				04BF8F7123F5CA3100857AB1 /* main.cpp */,
 				04BF8F7523F5CA3100857AB1 /* TradingCompany.cpp */,
+				04E7C0B2243FAA9700531EAE /* HRManager.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -252,6 +257,7 @@
 				04AB476024011C2200D6FF4F /* HeadOfProcurement.cpp in Sources */,
 				04AB475F24011C2200D6FF4F /* ChiefLegalCounsel.cpp in Sources */,
 				04AB476624011C2200D6FF4F /* PurchasingManager.cpp in Sources */,
+				04E7C0B3243FAA9700531EAE /* HRManager.cpp in Sources */,
 				04AB476424011C2200D6FF4F /* Loader.cpp in Sources */,
 				04BF8F8623F5CA3100857AB1 /* TradingCompany.cpp in Sources */,
 				04AB476824011C2200D6FF4F /* Logistician.cpp in Sources */,
@@ -391,6 +397,7 @@
 					"-lboost_filesystem",
 					"-lboost_system",
 					"-lboost_regex",
+					"-lboost_program_options",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -412,6 +419,7 @@
 					"-lboost_filesystem",
 					"-lboost_system",
 					"-lboost_regex",
+					"-lboost_program_options",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

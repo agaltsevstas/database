@@ -7,6 +7,7 @@
 #include "ChiefLegalCounsel.h"
 #include "HeadOfProcurement.h"
 #include "HeadOfWarehouse.h"
+#include "HRManager.h"
 #include "SalesManager.h"
 #include "Cashier.h"
 #include "Accountant.h"
@@ -17,11 +18,12 @@
 #include "Driver.h"
 #include "ObjectFactory.h"
 
-//class Director;
+class Director;
 //class ChiefAccountant;
 //class ChiefLegalCounsel;
 //class HeadOfProcurement;
 //class HeadOfWarehouse;
+class HRManager;
 //class SalesManager;
 //class Cashier;
 //class Accountant;
@@ -38,6 +40,7 @@ typedef union
     class ChiefLegalCounsel;
     class HeadOfProcurement;
     class HeadOfWarehouse;
+    class HRManager;
     class SalesManager;
     class Cashier;
     class Accountant;
@@ -59,6 +62,7 @@ public:
         return data;
     }
     
+    void loadData(const string &position);
     void loadDatabase(const string &directoryPath);
 
     void inputPassword();
@@ -81,27 +85,17 @@ public:
         }
         checkParameter();
     }
-    template<class C> void changePersonalData(C *object)
-    {
-        object->changePersonalData();
-    }
+//    template<class C> void changePersonalData(C *object)
+//    {
+//        object->changePersonalData();
+//    }
+    
+    friend void Director::addNewEmployeeData();
+    friend void HRManager::addNewEmployeeData();
     
 private:
     ObjectFactory<string, TradingCompany> objectFactory_;
     vector<shared_ptr<TradingCompany>> tradingCompanyObjects_;
-    shared_ptr<Director> directorPtr_;
-    shared_ptr<ChiefAccountant> chiefAccountantPtr_;
-    shared_ptr<ChiefLegalCounsel> chiefLegalCounselPtr_;
-    shared_ptr<HeadOfProcurement> headOfProcurementPtr_;
-    shared_ptr<HeadOfWarehouse> headOfWarehousePtr_;
-    shared_ptr<SalesManager> salesManagerPtr_;
-    shared_ptr<Cashier> cashierPtr_;
-    shared_ptr<Accountant> accountantPtr_;
-    shared_ptr<Logistician> logisticianPtr_;
-    shared_ptr<PurchasingManager> purchasingManagerPtr_;
-    shared_ptr<Loader> stevedorePtr_;
-    shared_ptr<Lawyer> lawyerPtr_;
-    shared_ptr<Driver> driverPtr_;
     Data() {}
     Data(const Data&) = delete;
     Data& operator=(Data&) = delete;
@@ -136,8 +130,8 @@ private:
     }
     template<class C> void checkPassword(C &object);
     void getAllOtherData() const;
-    void addNewEmployeeData();
     template<class C> void setOtherData(C &object);
+    void newEmployeeData();
     template<class C> void pushBack(C &object);
 };
 

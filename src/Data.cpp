@@ -5,7 +5,7 @@
 #include "Utils.h"
 
 using namespace boost::filesystem;
-using namespace  utils;
+using namespace utils;
 
 const list<string> positions
 {
@@ -23,6 +23,11 @@ const list<string> positions
     "Начальник_склада",
     "Юрист"
 };
+
+void Data::loadData(const string &position)
+{
+    
+}
 
 void Data::loadDatabase(const string &directoryPath)
 {
@@ -195,7 +200,7 @@ template<class C> void Data::pushBack(C &object)
     tradingCompanyObjects_.insert(it, make_shared<C>(object));
 }
 
-void Data::addNewEmployeeData()
+void Data::newEmployeeData()
 {
     Data &data = Data::instance();
 //    vector<string> positions;
@@ -214,77 +219,50 @@ void Data::addNewEmployeeData()
     cout << "Введите должность сотрудника: " << endl;
     string input;
     cin >> input;
-    for (const auto &tradingCompanyObject: data.tradingCompanyObjects_)
-    {
-        if (input == tradingCompanyObject->getPosition())
-        {
-            if ((directorPtr_ = dynamic_pointer_cast<Director>(tradingCompanyObject)))
-            {
-                shared_ptr<Director> director;
-                setOtherData(director);
-            }
-//            if ((chiefAccountantPtr__ = dynamic_pointer_cast<ChiefAccountant>(tradingCompanyObject)))
-//            {
-//                ChiefAccountant *chiefAccountant;
-//                setOtherData(&chiefAccountant);
-//            }
-//            if ((chiefLegalCounselPtr__ = dynamic_pointer_cast<ChiefLegalCounsel>(tradingCompanyObject)))
-//            {
-//                ChiefLegalCounsel *chiefLegalCounsel;
-//                setOtherData(&chiefLegalCounsel);
-//            }
-//            if ((headOfProcurementPtr__ = dynamic_pointer_cast<HeadOfProcurement>(tradingCompanyObject)))
-//            {
-//                HeadOfProcurement *headOfProcurement;
-//                setOtherData(&headOfProcurement);
-//            }
-//            if ((headOfWarehousePtr__ = dynamic_pointer_cast<HeadOfWarehouse>(tradingCompanyObject)))
-//            {
-//                HeadOfWarehouse *headOfWarehouse;
-//                setOtherData(&headOfWarehouse);
-//            }
-//            if ((salesManagerPtr__ = dynamic_pointer_cast<SalesManager>(tradingCompanyObject)))
-//            {
-//                SalesManager *salesManager;
-//                setOtherData(&salesManager);
-//            }
-//            if ((cashierPtr__ = dynamic_pointer_cast<Cashier>(tradingCompanyObject)))
-//            {
-//                Cashier *cashier;
-//                setOtherData(&cashier);
-//            }
-//            if ((accountantPtr__ = dynamic_pointer_cast<Accountant>(tradingCompanyObject)))
-//            {
-//                Accountant *accountant;
-//                setOtherData(&accountant);
-//            }
-//            if ((logisticianPtr__ = dynamic_pointer_cast<Logistician>(tradingCompanyObject)))
-//            {
-//                Logistician *logistician;
-//                setOtherData(&logistician);
-//            }
-//            if ((lawyerPtr__ = dynamic_pointer_cast<Lawyer>(tradingCompanyObject)))
-//            {
-//                Lawyer *lawyer;
-//                setOtherData(&lawyer);
-//            }
-//            if ((purchasingManagerPtr__ = dynamic_pointer_cast<PurchasingManager>(tradingCompanyObject)))
-//            {
-//                PurchasingManager *purchasingManager;
-//                setOtherData(&purchasingManager);
-//            }
-//            if ((stevedorePtr__ = dynamic_pointer_cast<Stevedore>(tradingCompanyObject)))
-//            {
-//                Stevedore *stevedore;
-//                setOtherData(&stevedore);
-//            }
-//            if ((driverPtr__ = dynamic_pointer_cast<Driver>(tradingCompanyObject)))
-//            {
-//                Driver *driver;
-//                setOtherData(&driver);
-//            }
-        }
-    }
+    auto object = data.objectFactory_.get(input)();
+//    checkParameter(object->getId(),
+//                   function<uint(TradingCompany&)>{&TradingCompany::getId},
+//                   bind(&TradingCompany::checkId, object, ""), object, true);
+//    checkParameter(object->getPosition(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getPosition},
+//                   bind(&TradingCompany::checkPosition, object, ""), object);
+//    checkParameter(object->getSurname(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getSurname},
+//                   bind(&TradingCompany::checkSurname, object, ""), object);
+//    checkParameter(object->getName(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getName},
+//                   bind(&TradingCompany::checkName, object, ""), object);
+//    checkParameter(object->getPatronymic(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getPatronymic},
+//                   bind(&TradingCompany::checkPatronymic, object, ""), object);
+//    checkParameter(object->getSex()),
+//                   function<string(TradingCompany&)>{&TradingCompany::getSex},
+//                   bind(&TradingCompany::checkSex, object, ""), object);
+//    checkParameter(object->getDateOfBirth(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
+//                   bind(&TradingCompany::checkDateOfBirth, object, ""), object);
+//    checkParameter(object->getPassport(),
+//                   function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
+//                   bind(&TradingCompany::checkPassport, object, ""), object, true);
+//    checkParameter(object->getPhone(),
+//                   function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
+//                   bind(&TradingCompany::checkPhone, object, ""), object, true);
+//    checkParameter(object->getEmail(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getEmail},
+//                   bind(&TradingCompany::checkEmail, object, ""), object, true);
+//    checkParameter(object->getDateOfHiring(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
+//                   bind(&TradingCompany::checkDateOfHiring, object, ""), object);
+//    checkParameter(object->getWorkingHours(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getWorkingHours},
+//                   bind(&TradingCompany::checkWorkingHours, object, ""), object);
+//    checkParameter(object->getSalary(),
+//                   function<uint(TradingCompany&)>{&TradingCompany::getSalary},
+//                   bind(&TradingCompany::checkSalary, object, ""), object);
+//    checkParameter(object->getPassword(),
+//                   function<string(TradingCompany&)>{&TradingCompany::getPassword},
+//                   bind(&TradingCompany::checkPassword, object, "Ваш пароль неудовлетворяет требованиям!"), object, true);
+
 }
 
 template<class C> void Data::setOtherData(C &object)

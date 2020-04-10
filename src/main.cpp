@@ -80,6 +80,7 @@ int main(int argc, char *argv[])
     Data &data = Data::instance();
     data.loadDatabase(directory);
     data.inputPassword();
+    Logger::deleteInstance();
 
     return 0;
 }
