@@ -15,47 +15,47 @@ Director::~Director()
 void Director::checkData()
 {
     data_->checkParameter(id_,
-                        function<uint(TradingCompany&)>{&TradingCompany::getId},
-                        bind(&TradingCompany::checkId, this, ""), this, true);
+                          function<uint(TradingCompany&)>{&TradingCompany::getId},
+                          bind(&TradingCompany::checkId, *this, ""), *this, true);
     data_->checkParameter(position_,
-                        function<string(TradingCompany&)>{&TradingCompany::getPosition},
-                        bind(&TradingCompany::checkPosition, this, ""), this);
+                          function<string(TradingCompany&)>{&TradingCompany::getPosition},
+                          bind(&TradingCompany::checkPosition, *this, ""), *this);
     data_->checkParameter(surname_,
-                        function<string(TradingCompany&)>{&TradingCompany::getSurname},
-                        bind(&TradingCompany::checkSurname, this, ""), this);
+                          function<string(TradingCompany&)>{&TradingCompany::getSurname},
+                          bind(&TradingCompany::checkSurname, *this, ""), *this);
     data_->checkParameter(name_,
-                        function<string(TradingCompany&)>{&TradingCompany::getName},
-                        bind(&TradingCompany::checkName, this, ""), this);
+                          function<string(TradingCompany&)>{&TradingCompany::getName},
+                          bind(&TradingCompany::checkName, *this, ""), *this);
     data_->checkParameter(patronymic_,
-                        function<string(TradingCompany&)>{&TradingCompany::getPatronymic},
-                        bind(&TradingCompany::checkPatronymic, this, ""), this);
+                          function<string(TradingCompany&)>{&TradingCompany::getPatronymic},
+                          bind(&TradingCompany::checkPatronymic, *this, ""), *this);
     data_->checkParameter(sex_,
-                        function<string(TradingCompany&)>{&TradingCompany::getSex},
-                        bind(&TradingCompany::checkSex, this, ""), this);
+                          function<string(TradingCompany&)>{&TradingCompany::getSex},
+                          bind(&TradingCompany::checkSex, *this, ""), *this);
     data_->checkParameter(dateOfBirth_,
-                        function<string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
-                        bind(&TradingCompany::checkDateOfBirth, this, ""), this);
+                          function<string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
+                          bind(&TradingCompany::checkDateOfBirth, *this, ""), *this);
     data_->checkParameter(passport_,
-                        function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
-                        bind(&TradingCompany::checkPassport, this, ""), this, true);
+                          function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
+                          bind(&TradingCompany::checkPassport, *this, ""), *this, true);
     data_->checkParameter(phone_,
-                        function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
-                        bind(&TradingCompany::checkPhone, this, ""), this, true);
+                          function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
+                          bind(&TradingCompany::checkPhone, *this, ""), *this, true);
     data_->checkParameter(email_,
-                        function<string(TradingCompany&)>{&TradingCompany::getEmail},
-                        bind(&TradingCompany::checkEmail, this, ""), this, true);
+                          function<string(TradingCompany&)>{&TradingCompany::getEmail},
+                          bind(&TradingCompany::checkEmail, *this, ""), *this, true);
     data_->checkParameter(dateOfHiring_,
-                        function<string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
-                        bind(&TradingCompany::checkDateOfHiring, this, ""), this);
+                          function<string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
+                          bind(&TradingCompany::checkDateOfHiring, *this, ""), *this);
     data_->checkParameter(workingHours_,
-                        function<string(TradingCompany&)>{&TradingCompany::getWorkingHours},
-                        bind(&TradingCompany::checkWorkingHours, this, ""), this);
+                          function<string(TradingCompany&)>{&TradingCompany::getWorkingHours},
+                          bind(&TradingCompany::checkWorkingHours, *this, ""), *this);
     data_->checkParameter(salary_,
-                        function<uint(TradingCompany&)>{&TradingCompany::getSalary},
-                        bind(&TradingCompany::checkSalary, this, ""), this);
+                          function<uint(TradingCompany&)>{&TradingCompany::getSalary},
+                          bind(&TradingCompany::checkSalary, *this, ""), *this);
     data_->checkParameter(password_,
-                        function<string(TradingCompany&)>{&TradingCompany::getPassword},
-                        bind(&TradingCompany::checkPassword, this, "Ваш пароль неудовлетворяет требованиям!"), this, true);
+                          function<string(TradingCompany&)>{&TradingCompany::getPassword},
+                          bind(&TradingCompany::checkPassword, *this, "Ваш пароль неудовлетворяет требованиям!"), *this, true);
 }
 
 void Director::changePersonalData()

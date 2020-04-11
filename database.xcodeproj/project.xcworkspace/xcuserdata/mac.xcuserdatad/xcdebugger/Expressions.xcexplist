@@ -3,6 +3,14 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "Data::newEmployeeData():Data.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "input">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "void Data::pushBack&lt;Director&gt;(Director&amp;):Data.h">
          <PersistentStrings>
             <PersistentString

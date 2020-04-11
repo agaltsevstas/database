@@ -1,6 +1,7 @@
 #ifndef Data_h
 #define Data_h
 
+#include "ObjectFactory.h"
 #include "TradingCompany.h"
 #include "Director.h"
 #include "ChiefAccountant.h"
@@ -16,7 +17,6 @@
 #include "PurchasingManager.h"
 #include "Loader.h"
 #include "Driver.h"
-#include "ObjectFactory.h"
 
 class Director;
 //class ChiefAccountant;
@@ -62,21 +62,20 @@ public:
         return data;
     }
     
-    void loadData(const string &position);
     void loadDatabase(const string &directoryPath);
 
     void inputPassword();
         
-    template<typename T, class C> void checkParameter(T &parameter,
+    template<typename T, class C> void checkParameter(const T &parameter,
                                                       function<T(TradingCompany&)> getParameter,
                                                       function<void()> checkParameter,
-                                                      C object, bool isMatchCheck = false)
+                                                      const C &object, bool isMatchCheck = false)
     {
         if (isMatchCheck)
         {
             for (auto it = tradingCompanyObjects_.begin(); it != tradingCompanyObjects_.end(); ++it)
             {
-                if (getParameter(*(*it)) == parameter && (&(*(*it)) != &(*object)))
+                if (getParameter(*(*it)) == parameter && (&(*(*it)) != &object))
                 {
                     checkParameter();
                     it = tradingCompanyObjects_.begin();
@@ -96,38 +95,11 @@ public:
 private:
     ObjectFactory<string, TradingCompany> objectFactory_;
     vector<shared_ptr<TradingCompany>> tradingCompanyObjects_;
+    
     Data() {}
     Data(const Data&) = delete;
     Data& operator=(Data&) = delete;
-    template<class C> void readingDataFromFile(C &object, const string &fileName);
-    template<class C> void checkData(C &object)
-    {
-        for (const auto &tradingCompanyObject: tradingCompanyObjects_)
-        {
-            if (object->getId() == tradingCompanyObject->getId())
-            {
-                object->changeStatusId();
-            }
-            if (object->getPassport() == tradingCompanyObject->getPassport())
-            {
-                object->changeStatusPassport();
-            }
-            if (object->getPhone() == tradingCompanyObject->getPhone())
-            {
-                object->changeStatusPhone();
-            }
-            if (object->getEmail() == tradingCompanyObject->getEmail())
-            {
-                object->changeStatusEmail();
-            }
-            if (object->getPassword() == tradingCompanyObject->getPassword())
-            {
-                tradingCompanyObject->changeStatusPassword(false);
-                object->changeStatusPassword(true);
-            }
-            break;
-        }
-    }
+    template<class C> void checkData(C &object);
     template<class C> void checkPassword(C &object);
     void getAllOtherData() const;
     template<class C> void setOtherData(C &object);

@@ -50,6 +50,7 @@ enum Numbers
 
 class TradingCompany
 {
+    friend class Data;
     friend class Director;
     
 private:
@@ -131,38 +132,49 @@ public:
     virtual void functional() = 0;
 //    ~TradingCompany();
     
-    uint     getId();
-    string   getPosition();
-    string   getSurname();
-    string   getName();
-    string   getPatronymic();
-    string   getSex();
-    string   getDateOfBirth();
-    uint64_t getPhone();
-    string   getEmail();
-    string   getDateOfHiring();
-    string   getWorkingHours();
-    uint64_t getPassport();
-    uint     getSalary();
-    string   getPassword();
-    uint     getPremium();
-    uint     getFine();
+    uint     getId() const;
+    string   getPosition() const;
+    string   getSurname() const;
+    string   getName() const;
+    string   getPatronymic() const;
+    string   getSex() const;
+    string   getDateOfBirth() const;
+    uint64_t getPassport() const;
+    uint64_t getPhone() const;
+    string   getEmail() const;
+    string   getDateOfHiring() const;
+    string   getWorkingHours() const;
+    uint     getSalary() const;
+    string   getPassword() const;
+    uint     getPremium() const;
+    uint     getFine() const;
     
     void changeStatusId();
     void changeStatusPassport();
     void changeStatusPhone();
     void changeStatusEmail();
     void changeStatusPassword(bool isWrite);
-    bool hasDublicatePassword();
+    void checkPosition(const string &warning = {});
+    void checkSurname(const string &warning = {});
+    void checkName(const string &warning = {});
+    void checkPatronymic(const string &warning = {});
+    void checkSex(const string &warning = {});
+    void checkDateOfBirth(const string &warning = {});
+    void checkPassport(const string &warning = {});
     void checkPhone(const string &warning = {});
     void checkEmail(const string &warning = {});
+    void checkDateOfHiring(const string &warning = {});
+    void checkWorkingHours(const string &warning = {});
+    void checkSalary(const string &warning = {});
     void checkPassword(const string &warning = {});
+    bool hasDublicatePassword();
     void displayUser();
     void changePersonalData();
     
     friend void operator >> (const string &line, TradingCompany &tradingCompany);
     friend ostream& operator << (ostream &out, const TradingCompany &tradingCompany);
     friend bool operator == (const TradingCompany &first, const TradingCompany &second);
+//    friend const map<string, std::function<void(TradingCompany&, string&)>> Data::getParameters();
 
 private:
     uint     id_;
@@ -196,16 +208,6 @@ private:
     void setSalary(string &salary);
     void setPassword(string &password);
     void checkId(const string &warning = {});
-    void checkPosition(const string &warning = {});
-    void checkSurname(const string &warning = {});
-    void checkName(const string &warning = {});
-    void checkPatronymic(const string &warning = {});
-    void checkSex(const string &warning = {});
-    void checkDateOfBirth(const string &warning = {});
-    void checkPassport(const string &warning = {});
-    void checkDateOfHiring(const string &warning = {});
-    void checkWorkingHours(const string &warning = {});
-    void checkSalary(const string &warning = {});
     void recursion(const Field &field,
                    std::function<void(TradingCompany&, string&)> setParameter,
                    const string &message);

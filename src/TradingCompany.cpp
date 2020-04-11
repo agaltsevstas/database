@@ -60,6 +60,11 @@ void TradingCompany::setDateOfBirth(string &dateOfBirth)
     dateOfBirth_ = get<string>(dateOfBirth, FIELD_DATE_OF_BIRTH);
 }
 
+void TradingCompany::setPassport(string &passport)
+{
+    passport_ = get<uint64_t>(passport, FIELD_PASSPORT);
+}
+
 void TradingCompany::setPhone(string &phone)
 {
     phone_ = get<uint64_t>(phone, FIELD_PHONE);
@@ -80,11 +85,6 @@ void TradingCompany::setWorkingHours(string &workingHours)
     workingHours_ = get<string>(workingHours, FIELD_WORKING_HOURS);
 }
 
-void TradingCompany::setPassport(string &passport)
-{
-    passport_ = get<uint64_t>(passport, FIELD_PASSPORT);
-}
-
 void TradingCompany::setSalary(string &salary)
 {
     salary_ = get<uint>(salary, FIELD_SALARY);
@@ -95,72 +95,72 @@ void TradingCompany::setPassword(string &password)
     password_ = get<string>(password, FIELD_PASSWORD);
 }
 
-uint TradingCompany::getId()
+uint TradingCompany::getId() const
 {
     return id_;
 }
 
-string TradingCompany::getPosition()
+string TradingCompany::getPosition() const
 {
     return position_;
 }
 
-string TradingCompany::getSurname()
+string TradingCompany::getSurname() const
 {
     return surname_;
 }
 
-string TradingCompany::getName()
+string TradingCompany::getName() const
 {
     return name_;
 }
 
-string TradingCompany::getPatronymic()
+string TradingCompany::getPatronymic() const
 {
     return patronymic_;
 }
 
-string TradingCompany::getSex()
+string TradingCompany::getSex() const
 {
     return sex_;
 }
 
-string TradingCompany::getDateOfBirth()
+string TradingCompany::getDateOfBirth() const
 {
     return dateOfBirth_;
 }
 
-uint64_t TradingCompany::getPassport()
+uint64_t TradingCompany::getPassport() const
 {
     return passport_;
 }
 
-uint64_t TradingCompany::getPhone()
+uint64_t TradingCompany::getPhone() const
 {
     return phone_;
 }
 
-string TradingCompany::getEmail()
+string TradingCompany::getEmail() const
 {
     return email_;
 }
 
-string TradingCompany::getDateOfHiring()
+string TradingCompany::getDateOfHiring() const
 {
     return dateOfHiring_;
 }
 
-string TradingCompany::getWorkingHours()
+string TradingCompany::getWorkingHours() const
 {
     return workingHours_;
 }
 
-uint TradingCompany::getSalary()
+uint TradingCompany::getSalary() const
 {
     return salary_;
 }
 
-string TradingCompany::getPassword()
+string TradingCompany::getPassword() const
 {
     return password_;
 }
