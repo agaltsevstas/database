@@ -69,13 +69,13 @@ public:
     template<typename T, class C> void checkParameter(const T &parameter,
                                                       function<T(TradingCompany&)> getParameter,
                                                       function<void()> checkParameter,
-                                                      const C &object, bool isMatchCheck = false)
+                                                      const C *object, const bool isMatchCheck = false)
     {
         if (isMatchCheck)
         {
             for (auto it = tradingCompanyObjects_.begin(); it != tradingCompanyObjects_.end(); ++it)
             {
-                if (getParameter(*(*it)) == parameter && (&(*(*it)) != &object))
+                if (getParameter(*(*it)) == parameter && (&(*(*it)) != object))
                 {
                     checkParameter();
                     it = tradingCompanyObjects_.begin();

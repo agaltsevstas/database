@@ -214,130 +214,105 @@ void TradingCompany::recursion(const Field &field,
     string input;
     if (fieldStatus_[field] != ST_OK)
     {
-        auto conditionFirst = message.find("(");
-        auto conditionSecond = message.find(")");
         cout << message << endl;
-        message.substr(conditionFirst, conditionSecond - conditionFirst + 1);
+        string newMessage;
+        auto condition = message.find("ведите");
+        if (condition != string::npos)
+        {
+            newMessage = message.substr(condition);
+        }
         cout << "Ввод: " << endl;
         cin >> input;
         setParameter(*this, input);
-        recursion(field, setParameter, "Некорректно введен параметр " + message);
+        recursion(field, setParameter, "Некорректно введен параметр, в" + newMessage);
     }
 }
 
 void TradingCompany::checkId(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите ID (например, 100)";
-    recursion(FIELD_ID, &TradingCompany::setId, message);
+    recursion(FIELD_ID, &TradingCompany::setId, warning + message);
 }
 
 void TradingCompany::checkPosition(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите должность";
-    recursion(FIELD_POSITION, &TradingCompany::setPosition, message);
+    recursion(FIELD_POSITION, &TradingCompany::setPosition, warning + message);
 }
 
 void TradingCompany::checkSurname(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите фамилию";
-    recursion(FIELD_SURNAME, &TradingCompany::setSurname, message);
+    recursion(FIELD_SURNAME, &TradingCompany::setSurname, warning + message);
 }
 
 void TradingCompany::checkName(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите имя";
-    recursion(FIELD_NAME, &TradingCompany::setName, message);
+    recursion(FIELD_NAME, &TradingCompany::setName, warning + message);
 }
 
 void TradingCompany::checkPatronymic(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите отчество";
-    recursion(FIELD_PATRONYMIC, &TradingCompany::setPatronymic, message);
+    recursion(FIELD_PATRONYMIC, &TradingCompany::setPatronymic, warning + message);
 }
 
 void TradingCompany::checkSex(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите пол (например, Муж)";
-    recursion(FIELD_SEX, &TradingCompany::setSex, message);
+    recursion(FIELD_SEX, &TradingCompany::setSex, warning + message);
 }
 
 void TradingCompany::checkDateOfBirth(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите дату рождения (например, 16.12.1995)";
-    recursion(FIELD_DATE_OF_BIRTH, &TradingCompany::setDateOfBirth, message);
+    recursion(FIELD_DATE_OF_BIRTH, &TradingCompany::setDateOfBirth, warning + message);
 }
 
 void TradingCompany::checkPassport(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите номер паспорта (например, 4516561974)";
-    recursion(FIELD_PASSPORT, &TradingCompany::setPassport, message);
+    recursion(FIELD_PASSPORT, &TradingCompany::setPassport, warning + message);
 }
 
 void TradingCompany::checkPhone(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите номер телефона (например, 9032697963)";
-    recursion(FIELD_PHONE, &TradingCompany::setPhone, message);
+    recursion(FIELD_PHONE, &TradingCompany::setPhone, warning + message);
 }
 
 void TradingCompany::checkEmail(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите почту (например, surname.name.patronymic@tradingcompany.ru)";
-    recursion(FIELD_EMAIL, &TradingCompany::setEmail, message);
+    recursion(FIELD_EMAIL, &TradingCompany::setEmail, warning + message);
 }
 
 void TradingCompany::checkDateOfHiring(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите дату принятия на работу (например, 16.04.2018)";
-    recursion(FIELD_DATE_OF_HIRING, &TradingCompany::setDateOfHiring, message);
+    recursion(FIELD_DATE_OF_HIRING, &TradingCompany::setDateOfHiring, warning + message);
 }
 
 void TradingCompany::checkWorkingHours(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите время работы (например, Понедельник-Пятница=09:00-18:00)";
-    recursion(FIELD_WORKING_HOURS, &TradingCompany::setWorkingHours, message);
+    recursion(FIELD_WORKING_HOURS, &TradingCompany::setWorkingHours, warning + message);
 }
 
 void TradingCompany::checkSalary(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите зарплату (в рублях)";
-    recursion(FIELD_SALARY, &TradingCompany::setSalary, message);
+    recursion(FIELD_SALARY, &TradingCompany::setSalary, warning + message);
 }
 
 void TradingCompany::checkPassword(const string &warning)
 {
-    if (!warning.empty())
-        cout << warning << endl;
     const string message = "Введите новый пароль (пароль должен содержать:\n-не менее 6 символов\n"
                            "-хотя бы одну прописную латинскую букву\n"
                            "-хотя бы одну строчную латинскую букву\n"
                            "-хотя бы одну цифру)";
-    recursion(FIELD_PASSWORD, &TradingCompany::setPassword, message);
+    recursion(FIELD_PASSWORD, &TradingCompany::setPassword, warning + message);
 }
 
 void TradingCompany::displayUser()
@@ -351,104 +326,6 @@ void TradingCompany::displayUser()
          << getSurname() << " "
          << getName() << " "
          << getPatronymic() << "!" << endl;
-}
-
-void TradingCompany::changePersonalData()
-{
-    string input;
-    while (true)
-    {
-        cout << "Изменить свою должность - нажмите 1" << endl;
-        cout << "Изменить свою фамилию - нажмите 2" << endl;
-        cout << "Изменить своё имя - нажмите 3" << endl;
-        cout << "Изменить своё отчество - нажмите 4" << endl;
-        cout << "Изменить свой пол - нажите 5" << endl;
-        cout << "Изменить свою дату рождения - нажмите 6" << endl;
-        cout << "Изменить свой номер паспорта - нажмите 7" << endl;
-        cout << "Изменить свой номер телефона - нажмите 8" << endl;
-        cout << "Изменить свой пароль к доступу - нажмите 9" << endl;
-        cout << "Хотите вернуться назад? - введите B: " << endl;
-        cout << "Хотите выйти из программы? - введите ESC: " << endl;
-        try
-        {
-            cin >> input;
-            toLower(input);
-            switch (str(input.c_str()))
-            {
-                case str("1") :
-                    cout << "Текущее значение: " << getPosition() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setPosition(input);
-                    break;
-                case str("2") :
-                    cout << "Текущее значение: " << getSurname() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setSurname(input);
-                    break;
-                case str("3") :
-                    cout << "Текущее значение: " << getName() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setName(input);
-                    break;
-                case str("4") :
-                    cout << "Текущее значение: " <<  getPatronymic() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setPatronymic(input);
-                    break;
-                case str("5") :
-                    cout << "Текущее значение: " <<  getSex() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setSex(input);
-                    break;
-                case str("6") :
-                    cout << "Текущее значение: " <<  getDateOfBirth() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setDateOfHiring(input);
-                    break;
-                case str("7") :
-                    cout << "Текущее значение: " <<  getPassport() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setPassport(input);
-                    break;
-                case str("8") :
-                    cout << "Текущее значение: " <<  getPhone() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setPhone(input);
-                    break;
-                case str("9") :
-                    cout << "Текущее значение: " <<  getPassword() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setPassword(input);
-                    break;
-                case str("b") :
-                    return;
-                case str("esc") :
-                    cout << "Вы вышли из программы!" << endl;
-                    exit(0);
-                default:
-                    throw input;
-            }
-        }
-        catch (const string &exception)
-        {
-            cerr << "Вы ввели: " << exception
-                 << " - неверная команда! Попробуйте ввести заново: "<< endl;
-        }
-        catch(...)
-        {
-            cerr << "Неизвестная ошибка!" << endl;
-            exit(0);
-        }
-    }
 }
 
 const TradingCompany::Type TradingCompany::checkField(string &value, const Field &field)

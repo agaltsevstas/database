@@ -16,46 +16,46 @@ void Director::checkData()
 {
     data_->checkParameter(id_,
                           function<uint(TradingCompany&)>{&TradingCompany::getId},
-                          bind(&TradingCompany::checkId, *this, ""), *this, true);
+                          bind(&TradingCompany::checkId, this, "Ваш id не удовлетворяет требованиям!\n"), this, true);
     data_->checkParameter(position_,
                           function<string(TradingCompany&)>{&TradingCompany::getPosition},
-                          bind(&TradingCompany::checkPosition, *this, ""), *this);
+                          bind(&TradingCompany::checkPosition, this, "Ваша должность не удовлетворяет требованиям!\n"), this);
     data_->checkParameter(surname_,
                           function<string(TradingCompany&)>{&TradingCompany::getSurname},
-                          bind(&TradingCompany::checkSurname, *this, ""), *this);
+                          bind(&TradingCompany::checkSurname, this, "Ваша фамилия не удовлетворяет требованиям!\n"), this);
     data_->checkParameter(name_,
                           function<string(TradingCompany&)>{&TradingCompany::getName},
-                          bind(&TradingCompany::checkName, *this, ""), *this);
+                          bind(&TradingCompany::checkName, this, "Ваше имя не удовлетворяет требованиям!\n"), this);
     data_->checkParameter(patronymic_,
                           function<string(TradingCompany&)>{&TradingCompany::getPatronymic},
-                          bind(&TradingCompany::checkPatronymic, *this, ""), *this);
+                          bind(&TradingCompany::checkPatronymic, this, "Ваше отчество не удовлетворяет требованиям!\n"), this);
     data_->checkParameter(sex_,
                           function<string(TradingCompany&)>{&TradingCompany::getSex},
-                          bind(&TradingCompany::checkSex, *this, ""), *this);
+                          bind(&TradingCompany::checkSex, this, "Ваш пол не удовлетворяет требованиям!\n"), this);
     data_->checkParameter(dateOfBirth_,
                           function<string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
-                          bind(&TradingCompany::checkDateOfBirth, *this, ""), *this);
+                          bind(&TradingCompany::checkDateOfBirth, this, "Ваша дата рождения не удовлетворяет требованиям!\n"), this);
     data_->checkParameter(passport_,
                           function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
-                          bind(&TradingCompany::checkPassport, *this, ""), *this, true);
+                          bind(&TradingCompany::checkPassport, this, "Ваш паспорт не удовлетворяет требованиям!\n"), this, true);
     data_->checkParameter(phone_,
                           function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
-                          bind(&TradingCompany::checkPhone, *this, ""), *this, true);
+                          bind(&TradingCompany::checkPhone, this, "Ваш телефон не удовлетворяет требованиям!\n"), this, true);
     data_->checkParameter(email_,
                           function<string(TradingCompany&)>{&TradingCompany::getEmail},
-                          bind(&TradingCompany::checkEmail, *this, ""), *this, true);
+                          bind(&TradingCompany::checkEmail, this, "Ваша почта не удовлетворяет требованиям!\n"), this, true);
     data_->checkParameter(dateOfHiring_,
                           function<string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
-                          bind(&TradingCompany::checkDateOfHiring, *this, ""), *this);
+                          bind(&TradingCompany::checkDateOfHiring, this, "Ваша дата принятия на работу не удовлетворяет требованиям!\n"), this);
     data_->checkParameter(workingHours_,
                           function<string(TradingCompany&)>{&TradingCompany::getWorkingHours},
-                          bind(&TradingCompany::checkWorkingHours, *this, ""), *this);
+                          bind(&TradingCompany::checkWorkingHours, this, "Ваши часы работы не удовлетворяет требованиям!\n"), this);
     data_->checkParameter(salary_,
                           function<uint(TradingCompany&)>{&TradingCompany::getSalary},
-                          bind(&TradingCompany::checkSalary, *this, ""), *this);
+                          bind(&TradingCompany::checkSalary, this, "Ваша зарплата не удовлетворяет требованиям!\n"), this);
     data_->checkParameter(password_,
                           function<string(TradingCompany&)>{&TradingCompany::getPassword},
-                          bind(&TradingCompany::checkPassword, *this, "Ваш пароль неудовлетворяет требованиям!"), *this, true);
+                          bind(&TradingCompany::checkPassword, this, "Ваш пароль не удовлетворяет требованиям!\n"), this, true);
 }
 
 void Director::changePersonalData()

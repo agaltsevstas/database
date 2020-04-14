@@ -105,8 +105,8 @@ void Data::loadDatabase(const string &directoryPath)
 
 void Data::inputPassword()
 {
+    cout << "Введите пароль для получения доступа к базе данных или закончите выполнение программы, введите ESC: " << endl;
     string input;
-    cerr << "Введите пароль для получения доступа к базе данных или закончите выполнение программы, введите ESC: " << endl;
     try
     {
         cin >> input;
@@ -116,7 +116,7 @@ void Data::inputPassword()
             {
                 if (tradingCompanyObject->hasDublicatePassword())
                 {
-                    cerr << "Введите номер паспорта (например, 4516561974)" << endl;
+                    cout << "Введите номер паспорта (например, 4516561974)" << endl;
                     cin >> input;
                     if (strtoul(input.c_str(), NULL, 0) != tradingCompanyObject->getPassport())
                     {
@@ -128,11 +128,10 @@ void Data::inputPassword()
                 tradingCompanyObject->functional();
             }
         }
-        toLower(input);
-        if(input == "esc")
+        if(toLower(input) == "esc")
         {
             Logger::info << "Выход из программы." << endl;
-            cout << "Вы вышли из программы!" << endl;
+            cout << "Вы вышли из программы." << endl;
             exit(0);
         }
         else
@@ -147,6 +146,7 @@ void Data::inputPassword()
         cerr << "Вы ввели >> " << exception
              << " - неверная команда! Попробуйте ввести заново: "
              << endl;
+        inputPassword();
     }
     catch(const exception &ex)
     {
@@ -205,67 +205,105 @@ void Data::getAllOtherData() const
 
 void Data::newEmployeeData()
 {
-//    vector<string> positions;
-//
-//    cout << "Выберите одну из предложенных должности: " << endl;
-//
-//    for (const auto &tradingCompany: data.tradingCompanytradingCompanyObjects_)
-//    {
-//        positions.push_back(tradingCompany->getPosition());
-//    }
-//
-//    auto last = unique(positions.begin(), positions.end());
-//    positions.erase(last, positions.end());
-    copy(positions.begin(), positions.end(), ostream_iterator<string>(cout, "\n"));
-
+    cout << "Выберите одну из предложенных должности: " << endl;
+    copy(positions.begin(), positions.end(), ostream_iterator<string>(cout, " "));
+    cout << endl;
+    cout << "Хотите вернуться назад? - введите B: " << endl;
+    cout << "Хотите выйти из программы? - введите ESC: " << endl;
     cout << "Введите должность сотрудника: " << endl;
     string input;
-    cin >> input;
-    auto object = objectFactory_.get(input)();
-    Director *director = new Director();
-    object = director;
-    checkParameter(object->getId(),
-                   function<uint(TradingCompany&)>{&TradingCompany::getId},
-                   bind(&TradingCompany::checkId, *object, ""), *object);
-    checkParameter(object->getPosition(),
-                   function<string(TradingCompany&)>{&TradingCompany::getPosition},
-                   bind(&TradingCompany::checkPosition, *object, ""), *object);
-    checkParameter(object->getSurname(),
-                   function<string(TradingCompany&)>{&TradingCompany::getSurname},
-                   bind(&TradingCompany::checkSurname, *object, ""), *object);
-    checkParameter(object->getName(),
-                   function<string(TradingCompany&)>{&TradingCompany::getName},
-                   bind(&TradingCompany::checkName, *object, ""), *object);
-    checkParameter(object->getPatronymic(),
-                   function<string(TradingCompany&)>{&TradingCompany::getPatronymic},
-                   bind(&TradingCompany::checkPatronymic, *object, ""), *object);
-    checkParameter(object->getSex(),
-                   function<string(TradingCompany&)>{&TradingCompany::getSex},
-                   bind(&TradingCompany::checkSex, *object, ""), *object);
-    checkParameter(object->getDateOfBirth(),
-                   function<string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
-                   bind(&TradingCompany::checkDateOfBirth, *object, ""), *object);
-    checkParameter(object->getPassport(),
-                   function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
-                   bind(&TradingCompany::checkPassport, *object, ""), *object, true);
-    checkParameter(object->getPhone(),
-                   function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
-                   bind(&TradingCompany::checkPhone, *object, ""), *object, true);
-    checkParameter(object->getEmail(),
-                   function<string(TradingCompany&)>{&TradingCompany::getEmail},
-                   bind(&TradingCompany::checkEmail, *object, ""), *object, true);
-    checkParameter(object->getDateOfHiring(),
-                   function<string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
-                   bind(&TradingCompany::checkDateOfHiring, *object, ""), *object);
-    checkParameter(object->getWorkingHours(),
-                   function<string(TradingCompany&)>{&TradingCompany::getWorkingHours},
-                   bind(&TradingCompany::checkWorkingHours, *object, ""), *object);
-    checkParameter(object->getSalary(),
-                   function<uint(TradingCompany&)>{&TradingCompany::getSalary},
-                   bind(&TradingCompany::checkSalary, *object, ""), *object);
-    checkParameter(object->getPassword(),
-                   function<string(TradingCompany&)>{&TradingCompany::getPassword},
-                   bind(&TradingCompany::checkPassword, *object, "Ваш пароль неудовлетворяет требованиям!"), *object, true);
+    try
+    {
+        cin >> input;
+        toUpperAndToLower(input);
+        auto found = find(positions.begin(), positions.end(), input);
+        if (found != positions.end())
+        {
+            auto object = objectFactory_.get(input)();
+            Logger::info << "Добавление нового сотрудника с должностью >> " << input << endl;
+            cout << "Добавление нового сотрудника с должностью >> " << input << endl;
+            checkParameter(object->getPosition(),
+                           function<string(TradingCompany&)>{&TradingCompany::getPosition},
+                           bind(&TradingCompany::checkPosition, object, ""), object);
+            checkParameter(object->getSurname(),
+                           function<string(TradingCompany&)>{&TradingCompany::getSurname},
+                           bind(&TradingCompany::checkSurname, object, ""), object);
+            checkParameter(object->getName(),
+                           function<string(TradingCompany&)>{&TradingCompany::getName},
+                           bind(&TradingCompany::checkName, object, ""), object);
+            checkParameter(object->getPatronymic(),
+                           function<string(TradingCompany&)>{&TradingCompany::getPatronymic},
+                           bind(&TradingCompany::checkPatronymic, object, ""), object);
+            checkParameter(object->getSex(),
+                           function<string(TradingCompany&)>{&TradingCompany::getSex},
+                           bind(&TradingCompany::checkSex, object, ""), object);
+            checkParameter(object->getDateOfBirth(),
+                           function<string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
+                           bind(&TradingCompany::checkDateOfBirth, object, ""), object);
+            checkParameter(object->getPassport(),
+                           function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
+                           bind(&TradingCompany::checkPassport, object, ""), object, true);
+            checkParameter(object->getPhone(),
+                           function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
+                           bind(&TradingCompany::checkPhone, object, ""), object, true);
+            checkParameter(object->getEmail(),
+                           function<string(TradingCompany&)>{&TradingCompany::getEmail},
+                           bind(&TradingCompany::checkEmail, object, ""), object, true);
+            checkParameter(object->getDateOfHiring(),
+                           function<string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
+                           bind(&TradingCompany::checkDateOfHiring, object, ""), object);
+            checkParameter(object->getWorkingHours(),
+                           function<string(TradingCompany&)>{&TradingCompany::getWorkingHours},
+                           bind(&TradingCompany::checkWorkingHours, object, ""), object);
+            checkParameter(object->getSalary(),
+                           function<uint(TradingCompany&)>{&TradingCompany::getSalary},
+                           bind(&TradingCompany::checkSalary, object, ""), object);
+            checkParameter(object->getPassword(),
+                           function<string(TradingCompany&)>{&TradingCompany::getPassword},
+                           bind(&TradingCompany::checkPassword, object, ""), object, true);
+            //    pushBack(object);
+            Logger::info << "Сотрудник " + object->getSurname() + " " +
+            object->getName() + " " +
+            object->getPatronymic() << endl;
+            cout << "Сотрудник " + object->getSurname() + " " +
+            object->getName() + " " +
+            object->getPatronymic() << endl;
+        }
+        else if(toLower(input) == "b")
+        {
+            return;
+        }
+        else if(toLower(input) == "esc")
+        {
+            Logger::info << "Выход из программы." << endl;
+            cout << "Вы вышли из программы." << endl;
+            exit(0);
+        }
+        else
+        {
+            throw input;
+        }
+    }
+    catch (const string &exception)
+    {
+        Logger::error << "Введена >> " << exception
+        << " - неверная команда!" << endl;
+        cerr << "Вы ввели >> " << exception
+             << " - неверная команда! Попробуйте ввести заново: "
+             << endl;
+        newEmployeeData();
+    }
+    catch(const exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << endl;
+        cerr << "Ошибка >> " << ex.what() << endl;
+    }
+    catch(...)
+    {
+        Logger::error << "Неизвестная ошибка!" << endl;
+        cerr << "Неизвестная ошибка!" << endl;
+        exit(0);
+    }
 }
 
 template<class C> void Data::pushBack(C &object)
@@ -287,7 +325,7 @@ template<class C> void Data::pushBack(C &object)
     }
     
     // object.setId(to_string(++maxId));
-    tradingCompanyObjects_.insert(it, make_shared<C>(object));
+    tradingCompanyObjects_.insert(it, shared_ptr<TradingCompany>(object));
 }
 
 template<class C> void Data::setOtherData(C &object)

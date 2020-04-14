@@ -64,9 +64,10 @@ namespace utils
         return *input ? static_cast<unsigned int>(*input) + 33 * str(input + 1) : 5381;
     }
 
-    inline void toLower(string &str)
+    inline string toLower(string &str)
     {
         std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+        return str;
     }
 
     vector<string> splitString(string source, string delim);

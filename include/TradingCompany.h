@@ -168,7 +168,6 @@ public:
     void checkSalary(const string &warning = {});
     void checkPassword(const string &warning = {});
     bool hasDublicatePassword();
-    void displayUser();
     void changePersonalData();
     
     friend void operator >> (const string &line, TradingCompany &tradingCompany);
@@ -207,6 +206,7 @@ private:
     void setPassport(string &passport);
     void setSalary(string &salary);
     void setPassword(string &password);
+    void displayUser();
     void checkId(const string &warning = {});
     void recursion(const Field &field,
                    std::function<void(TradingCompany&, string&)> setParameter,
