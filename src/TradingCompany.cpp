@@ -165,41 +165,135 @@ string TradingCompany::getPassword() const
     return password_;
 }
 
-void TradingCompany::changeStatusId()
+void TradingCompany::changeStatusId(const bool canOverwrite)
 {
-    Logger::warning << "Повторяющийся id >> " << id_ << endl;
-    id_ = rand();
-    fieldStatus_[FIELD_ID] = ST_DUBLICATE;
-}
-
-void TradingCompany::changeStatusPassport()
-{
-    Logger::warning << "Повторяющийся паспорт >> " << passport_ << endl;
-    passport_ = rand();
-    fieldStatus_[FIELD_PASSPORT] = ST_DUBLICATE;
-}
-
-void TradingCompany::changeStatusPhone()
-{
-    Logger::warning << "Повторяющийся телефон >> " << phone_ << endl;
-    phone_ = rand();
-    fieldStatus_[FIELD_PHONE] = ST_DUBLICATE;
-}
-
-void TradingCompany::changeStatusEmail()
-{
-    Logger::warning << "Повторяющаяся почта >> " << email_ << endl;
-    email_ += to_string(rand());
-    fieldStatus_[FIELD_EMAIL] = ST_DUBLICATE;
-}
-
-void TradingCompany::changeStatusPassword(bool isWrite)
-{
-    if (isWrite)
+    if (canOverwrite)
     {
-        Logger::error << "Повторяющийся пароль >> " << password_ << endl;
+        Logger::info << "Перезапись id >> " << id_ << endl;
+        fieldStatus_[FIELD_ID] = ST_OVERWRITEDATA;
     }
-    fieldStatus_[FIELD_PASSWORD] = ST_DUBLICATE;
+    else
+    {
+        Logger::warning << "Повторяющийся id >> " << id_ << endl;
+        fieldStatus_[FIELD_ID] = ST_DUBLICATE;
+        id_ = rand();
+    }
+}
+
+void TradingCompany::changeStatusPosition()
+{
+    Logger::info << "Перезапись должности >> " << position_ << endl;
+    fieldStatus_[FIELD_POSITION] = ST_OVERWRITEDATA;
+}
+
+void TradingCompany::changeStatusSurname()
+{
+    Logger::info << "Перезапись фамилии >> " << surname_ << endl;
+    fieldStatus_[FIELD_SURNAME] = ST_OVERWRITEDATA;
+}
+
+void TradingCompany::changeStatusName()
+{
+    Logger::info << "Перезапись имени >> " << name_ << endl;
+    fieldStatus_[FIELD_NAME] = ST_OVERWRITEDATA;
+}
+
+void TradingCompany::changeStatusPatronymic()
+{
+    Logger::info << "Перезапись отчества >> " << patronymic_ << endl;
+    fieldStatus_[FIELD_PATRONYMIC] = ST_OVERWRITEDATA;
+}
+
+void TradingCompany::changeStatusSex()
+{
+    Logger::info << "Перезапись пола >> " << sex_ << endl;
+    fieldStatus_[FIELD_SEX] = ST_OVERWRITEDATA;
+}
+
+void TradingCompany::changeStatusDateOfBirth()
+{
+    Logger::info << "Перезапись даты рождения >> " << dateOfBirth_ << endl;
+    fieldStatus_[FIELD_DATE_OF_BIRTH] = ST_OVERWRITEDATA;
+}
+
+void TradingCompany::changeStatusPassport(const bool canOverwrite)
+{
+    if (canOverwrite)
+    {
+        Logger::info << "Перезапись паспорта >> " << passport_ << endl;
+        fieldStatus_[FIELD_PASSPORT] = ST_OVERWRITEDATA;
+    }
+    else
+    {
+        Logger::warning << "Повторяющийся паспорт >> " << passport_ << endl;
+        passport_ = rand();
+        fieldStatus_[FIELD_PASSPORT] = ST_DUBLICATE;
+    }
+}
+
+void TradingCompany::changeStatusPhone(const bool canOverwrite)
+{
+    if (canOverwrite)
+    {
+        Logger::info << "Перезапись телефона >> " << phone_ << endl;
+        fieldStatus_[FIELD_PHONE] = ST_OVERWRITEDATA;
+    }
+    else
+    {
+        Logger::warning << "Повторяющийся телефон >> " << phone_ << endl;
+        phone_ = rand();
+        fieldStatus_[FIELD_PHONE] = ST_DUBLICATE;
+    }
+}
+
+void TradingCompany::changeStatusEmail(const bool canOverwrite)
+{
+    if (canOverwrite)
+    {
+        Logger::info << "Перезапись почты >> " << email_ << endl;
+        fieldStatus_[FIELD_EMAIL] = ST_OVERWRITEDATA;
+    }
+    else
+    {
+        Logger::warning << "Повторяющаяся почта >> " << email_ << endl;
+        email_ += to_string(rand());
+        fieldStatus_[FIELD_EMAIL] = ST_DUBLICATE;
+    }
+}
+
+void TradingCompany::changeStatusDateOfHiring()
+{
+    Logger::info << "Перезапись даты принятия на работу >> " << dateOfHiring_ << endl;
+    fieldStatus_[FIELD_DATE_OF_HIRING] = ST_OVERWRITEDATA;
+}
+
+void TradingCompany::changeStatusWorkingHours()
+{
+    Logger::info << "Перезапись часов работы >> " << workingHours_ << endl;
+    fieldStatus_[FIELD_WORKING_HOURS] = ST_OVERWRITEDATA;
+}
+
+void TradingCompany::changeStatusSalary()
+{
+    Logger::info << "Перезапись зарплаты >> " << salary_ << endl;
+    fieldStatus_[FIELD_SALARY] = ST_OVERWRITEDATA;
+}
+
+void TradingCompany::changeStatusPassword(const bool canOverwrite, const bool isWrite)
+{
+    if (canOverwrite)
+    {
+        Logger::info << "Перезапись пароля >> " << password_ << endl;
+        fieldStatus_[FIELD_PASSWORD] = ST_OVERWRITEDATA;
+    }
+    else
+    {
+        if (isWrite)
+        {
+            Logger::error << "Повторяющийся пароль >> " << password_ << endl;
+        }
+        fieldStatus_[FIELD_PASSWORD] = ST_DUBLICATE;
+    }
 }
 
 bool TradingCompany::hasDublicatePassword()
@@ -317,15 +411,14 @@ void TradingCompany::checkPassword(const string &warning)
 
 void TradingCompany::displayUser()
 {
-    Logger::info << "Вход в аккаунт >> " << getPosition() << "'a. " << endl;
-    Logger::info << getSurname() << " "
-                 << getName() << " "
-                 << getPatronymic() << endl;
-    cout << "Вы зашли за " << getPosition() << "'a. " << endl;
-    cout << "Приветствуем вас, "
-         << getSurname() << " "
-         << getName() << " "
-         << getPatronymic() << "!" << endl;
+    Logger::info << "Вход в аккаунт >> " << position_   << " "
+                                         << surname_    << " "
+                                         << name_       << " "
+                                         << patronymic_ << endl;
+    cout << "Вы зашли за " << position_ << "'a. " << endl;
+    cout << "Приветствуем вас, " << surname_    << " "
+                                 << name_       << " "
+                                 << patronymic_ << "!" << endl;
 }
 
 const TradingCompany::Type TradingCompany::checkField(string &value, const Field &field)
@@ -351,7 +444,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "ID >> " << value << endl;
+                    !id_ ? Logger::info << "ID >> " << value << endl :
+                           Logger::info << "ID << " << id_ << " >> изменен на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.uintValue = atoi(value.c_str());
@@ -376,7 +470,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Должность >> " << value << endl;
+                    position_.empty() ? Logger::info << "Должность >> " << value << endl :
+                                        Logger::info << "Должность << " << position_ << " >> изменена на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -400,7 +495,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Фамилия >> " << value << endl;
+                    surname_.empty() ? Logger::info << "Фамилия >> " << value << endl :
+                                       Logger::info << "Фамилия << " << surname_ << " >> изменена на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -424,7 +520,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Имя >> " << value << endl;
+                    name_.empty() ? Logger::info << "Имя >> " << value << endl :
+                                    Logger::info << "Имя << " << name_ << " >> изменено на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -448,7 +545,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Отчество >> " << value << endl;
+                    patronymic_.empty() ? Logger::info << "Отчество >> " << value << endl :
+                                          Logger::info << "Отчество << " << patronymic_ << " >> изменено на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -472,7 +570,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Пол >> " << value << endl;
+                    sex_.empty() ? Logger::info << "Пол >> " << value << endl :
+                                   Logger::info << "Пол << " << sex_ << " >> изменен на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -508,7 +607,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Дата рождения >> " << value << endl;
+                    dateOfBirth_.empty() ? Logger::info << "Дата рождения >> " << value << endl :
+                                           Logger::info << "Дата рождения << " << dateOfBirth_ << " >> изменена на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -532,7 +632,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Паспорт >> " << value << endl;
+                    !passport_ ? Logger::info << "Паспорт >> " << value << endl :
+                                 Logger::info << "Паспорт << " << passport_ << " >> изменен на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.uint64Value = strtoul(value.c_str(), NULL, 0);
@@ -556,7 +657,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Телефон >> " << value << endl;
+                    !phone_ ? Logger::info << "Телефон >> " << value << endl :
+                              Logger::info << "Телефон << " << phone_ << " >> изменен на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.uint64Value = strtoul(value.c_str(), NULL, 0);
@@ -586,7 +688,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Почта >> " << value << endl;
+                    email_.empty() ? Logger::info << "Почта >> " << value << endl :
+                                     Logger::info << "Почта << " << email_ << " >> изменена на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -611,7 +714,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Дата принятия на работу >> " << value << endl;
+                    dateOfHiring_.empty() ? Logger::info << "Дата принятия на работу >> " << value << endl :
+                                            Logger::info << "Дата принятия на работу << " << dateOfHiring_ << " >> изменена на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -637,7 +741,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Часы работы >> " << value << endl;
+                    workingHours_.empty() ? Logger::info << "Часы работы >> " << value << endl :
+                                            Logger::info << "Часы работы << " << workingHours_ << " >> изменены на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -660,7 +765,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Зарплата >> " << value << endl;
+                    !salary_ ? Logger::info << "Зарплата >> " << value << endl :
+                               Logger::info << "Зарплата << " << salary_ << " >> изменена на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.uintValue = atoi(value.c_str());
@@ -683,7 +789,8 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 }
                 else
                 {
-                    Logger::info << "Пароль >> " << value << endl;
+                    password_.empty() ? Logger::info << "Пароль >> " << value << endl :
+                                        Logger::info << "Пароль << " << password_ << " >> изменен на >> " << value << endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -717,27 +824,44 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
 void operator >> (const string &line, TradingCompany &tradingCompany)
 {
     string input;
-    Field field;
-    
     istringstream is(line);
     while (is >> input)
     {
-        string parameter = regex_replace(input, regex("[^A-Za-z]"), "");
-        auto found = tradingCompany.parameters_.find(parameter);
-        
-        if (found != tradingCompany.parameters_.end())
+        try
         {
-            auto setParameter = found->second;
-            is >> input;
-            if (*input.begin() != ('\"') && *(input.end() - 1) != ('\"'))
+            string parameter = regex_replace(input, regex("[^A-Za-z]"), "");
+            auto found = tradingCompany.setParameters_.find(parameter);
+            
+            if (found != tradingCompany.setParameters_.end())
             {
-                input.clear();
+                auto setParameter = found->second;
+                is >> input;
+                if (*input.begin() != ('\"') && *(input.end() - 1) != ('\"'))
+                {
+                    input.clear();
+                }
+                else
+                {
+                    input = input.substr(1, input.length() - 2);
+                }
+                setParameter(tradingCompany, input);
             }
             else
             {
-                input = input.substr(1, input.length() - 2);
+                throw input;
             }
-            setParameter(tradingCompany, input);
+        }
+        catch (const string &exception)
+        {
+            Logger::error << "Неверный параметр >> " << exception << endl;
+        }
+        catch(const std::exception &ex)
+        {
+            Logger::error << "Ошибка >> " << ex.what() << endl;
+        }
+        catch(...)
+        {
+            Logger::error << "Неизвестная ошибка!" << endl;
         }
     }
 }

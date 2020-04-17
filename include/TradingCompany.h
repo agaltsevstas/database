@@ -53,15 +53,35 @@ class TradingCompany
     friend class Data;
     friend class Director;
     
+public:
+    typedef void (TradingCompany::*func)(const string&);
+    const map<string, func> checkParameters_ =
+    {
+        {"id",           &TradingCompany::checkId},
+        {"position",     &TradingCompany::checkPosition},
+        {"surname",      &TradingCompany::checkSurname},
+        {"name",         &TradingCompany::checkName},
+        {"patronymic",   &TradingCompany::checkPatronymic},
+        {"sex",          &TradingCompany::checkSex},
+        {"dateOfBirth",  &TradingCompany::checkDateOfBirth},
+        {"passport",     &TradingCompany::checkPassport},
+        {"phone",        &TradingCompany::checkPhone},
+        {"email",        &TradingCompany::checkEmail},
+        {"dateOfHiring", &TradingCompany::checkDateOfHiring},
+        {"workingHours", &TradingCompany::checkWorkingHours},
+        {"salary",       &TradingCompany::checkSalary},
+        {"password",     &TradingCompany::checkPassword}
+    };
+    
 private:
 
     enum Status
     {
         /// Успех
         ST_OK = 0,
-
-        /// Неудача
-        ST_FAIL,
+        
+        // Перезаписывание данных
+        ST_OVERWRITEDATA,
 
         /// Пусто
         ST_EMPTY,
@@ -89,7 +109,7 @@ private:
         string stringValue;
     };
     
-    const map<string, std::function<void(TradingCompany&, string&)>> parameters_ =
+    const map<string, std::function<void(TradingCompany&, string&)>> setParameters_ =
     {
         {"id",           &TradingCompany::setId},
         {"position",     &TradingCompany::setPosition},
@@ -149,11 +169,21 @@ public:
     uint     getPremium() const;
     uint     getFine() const;
     
-    void changeStatusId();
-    void changeStatusPassport();
-    void changeStatusPhone();
-    void changeStatusEmail();
-    void changeStatusPassword(bool isWrite);
+    void changeStatusId(const bool canOverwrite = false);
+    void changeStatusPosition();
+    void changeStatusSurname();
+    void changeStatusName();
+    void changeStatusPatronymic();
+    void changeStatusSex();
+    void changeStatusDateOfBirth();
+    void changeStatusPassport(const bool canOverwrite = false);
+    void changeStatusPhone(const bool canOverwrite = false);
+    void changeStatusEmail(const bool canOverwrite = false);
+    void changeStatusDateOfHiring();
+    void changeStatusWorkingHours();
+    void changeStatusSalary();
+    void changeStatusPassword(const bool canOverwrite, const bool isWrite = false);
+    
     void checkPosition(const string &warning = {});
     void checkSurname(const string &warning = {});
     void checkName(const string &warning = {});
@@ -173,22 +203,21 @@ public:
     friend void operator >> (const string &line, TradingCompany &tradingCompany);
     friend ostream& operator << (ostream &out, const TradingCompany &tradingCompany);
     friend bool operator == (const TradingCompany &first, const TradingCompany &second);
-//    friend const map<string, std::function<void(TradingCompany&, string&)>> Data::getParameters();
 
 private:
-    uint     id_;
+    uint     id_ = 0;
     string   position_;
     string   surname_;
     string   name_;
     string   patronymic_;
     string   sex_;
     string   dateOfBirth_;
-    uint64_t passport_;
-    uint64_t phone_;
+    uint64_t passport_ = 0;
+    uint64_t phone_ = 0;
     string   email_;
     string   dateOfHiring_;
     string   workingHours_;
-    uint     salary_;
+    uint     salary_ = 0;
     string   password_;
     
     void setId(string &id);
@@ -198,7 +227,6 @@ private:
     void setPatronymic(string &patronymic);
     void setSex(string &sex);
     void setDateOfBirth(string &dateOfBirth);
-    void setAge(string &dateOfBirth);
     void setPhone(string &phone);
     void setEmail(string &phone);
     void setDateOfHiring(string &dateOfHiring);

@@ -7,23 +7,6 @@
 using namespace boost::filesystem;
 using namespace utils;
 
-const list<string> positions
-{
-    "Бухгалтер",
-    "Водитель",
-    "Главный_бухгалтер",
-    "Главный_юрист-консультант",
-    "Грузчик",
-    "Директор",
-    "Логист",
-    "Менеджер_по_закупкам",
-    "Менеджер_по_продажам",
-    "Кассир",
-    "Начальник_отдела_закупок",
-    "Начальник_склада",
-    "Юрист"
-};
-
 void Data::loadDatabase(const string &directoryPath)
 {
     objectFactory_.add<Accountant>("Бухгалтер");
@@ -41,6 +24,7 @@ void Data::loadDatabase(const string &directoryPath)
     objectFactory_.add<HRManager>("HRManager.h");
     objectFactory_.add<Lawyer>("Юрист");
     
+    Logger::info << " ---------- Считывание данных всех сотрудников ---------- " << endl;
     for (directory_entry &filePath: directory_iterator(directoryPath))
     {
         try
@@ -56,7 +40,7 @@ void Data::loadDatabase(const string &directoryPath)
                     while (getline(file, line))
                     {
                         auto object = objectFactory_.get(fileName)();
-                        Logger::info << " ---------- Считывание данных сотрудника ---------- " << endl;
+                        Logger::info << " ********** Считывание данных сотрудника ********** " << endl;
                         line >> *object;
                         auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
                                               [&object](shared_ptr<TradingCompany> &tradingCompanyObject)
@@ -101,6 +85,7 @@ void Data::loadDatabase(const string &directoryPath)
             Logger::error << "Неизвестная ошибка!" << endl;
         }
     }
+    Logger::info << " ---------- Конец считывания всех данных сотрудников ---------- " << endl;
 }
 
 void Data::inputPassword()
@@ -183,8 +168,8 @@ template<class C> void Data::checkData(C &object)
         }
         if (object->getPassword() == tradingCompanyObject->getPassword())
         {
-            tradingCompanyObject->changeStatusPassword(false);
-            object->changeStatusPassword(true);
+            tradingCompanyObject->changeStatusPassword(false, false);
+            object->changeStatusPassword(false, true);
         }
         break;
     }

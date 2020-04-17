@@ -16,7 +16,7 @@ void Director::checkData()
 {
     data_->checkParameter(id_,
                           function<uint(TradingCompany&)>{&TradingCompany::getId},
-                          bind(&TradingCompany::checkId, this, "Ваш id не удовлетворяет требованиям!\n"), this, true);
+                          bind(checkParameters_.at("id"), this, "Ваш id не удовлетворяет требованиям!\n"), this, true);
     data_->checkParameter(position_,
                           function<string(TradingCompany&)>{&TradingCompany::getPosition},
                           bind(&TradingCompany::checkPosition, this, "Ваша должность не удовлетворяет требованиям!\n"), this);
@@ -63,20 +63,20 @@ void Director::changePersonalData()
     string input;
     while (true)
     {
-        cout << "Изменить свой ID - нажмите 0" << endl;
-        cout << "Изменить свою должность - нажмите 1" << endl;
-        cout << "Изменить свою фамилию - нажмите 2" << endl;
-        cout << "Изменить своё имя - нажмите 3" << endl;
-        cout << "Изменить своё отчество - нажмите 4" << endl;
-        cout << "Изменить свой пол - нажите 5" << endl;
-        cout << "Изменить свою дату рождения - нажмите 6" << endl;
-        cout << "Изменить свой номер паспорта - нажмите 7" << endl;
-        cout << "Изменить свой номер телефона - нажмите 8" << endl;
-        cout << "Изменить свою почту - нажмите 9" << endl;
-        cout << "Изменить свою дату принятия на работу - нажмите 10" << endl;
-        cout << "Изменить свои часы работы - нажмите 11" << endl;
-        cout << "Изменить свою зарплату - нажмите 12" << endl;
-        cout << "Изменить свой пароль к доступу - нажмите 13" << endl;
+        cout << "Изменить свой ID - нажмите 1" << endl;
+        cout << "Изменить свою должность - нажмите 2" << endl;
+        cout << "Изменить свою фамилию - нажмите 3" << endl;
+        cout << "Изменить своё имя - нажмите 4" << endl;
+        cout << "Изменить своё отчество - нажмите 5" << endl;
+        cout << "Изменить свой пол - нажите 6" << endl;
+        cout << "Изменить свою дату рождения - нажмите 7" << endl;
+        cout << "Изменить свой номер паспорта - нажмите 8" << endl;
+        cout << "Изменить свой номер телефона - нажмите 9" << endl;
+        cout << "Изменить свою почту - нажмите 10" << endl;
+        cout << "Изменить свою дату принятия на работу - нажмите 11" << endl;
+        cout << "Изменить свои часы работы - нажмите 12" << endl;
+        cout << "Изменить свою зарплату - нажмите 13" << endl;
+        cout << "Изменить свой пароль к доступу - нажмите 14" << endl;
         cout << "Хотите вернуться назад? - введите B: " << endl;
         cout << "Хотите выйти из программы? - введите ESC: " << endl;
         try
@@ -86,48 +86,125 @@ void Director::changePersonalData()
             switch (str(input.c_str()))
             {
                 case str("1") :
-                    checkId();
+                    changeStatusId(true);
+                    data_->checkParameter(id_,
+                                          function<uint(TradingCompany&)>{&TradingCompany::getId},
+                                          bind(checkParameters_.at("id"), this, ""), this, true);
                     break;
+                    
                 case str("2") :
-                    checkPosition();
+                {
+                    cout << "При изменении своей должности вы теряете свои полномочия." << endl;
+                    cout << "Введите yes - для продолжения, no - для отмены." << endl;
+                    cout << "Ввод: " << endl;
+                    string input;
+                    cin >> input;
+                    toLower(input);
+                    if (input == "yes")
+                    {
+                        cout << "Выберите одну из предложенных должности: " << endl;
+                        copy(positions.begin(), positions.end(), ostream_iterator<string>(cout, " "));
+                        changeStatusPosition();
+                        data_->checkParameter(position_,
+                                              function<string(TradingCompany&)>{&TradingCompany::getPosition},
+                                              bind(&TradingCompany::checkPosition, this, ""), this);
+                    }
+                    else if (input == "no")
+                    {
+                        changePersonalData();
+                    }
                     break;
+                }
+                    
                 case str("3") :
-                    checkSurname();
+                    changeStatusSurname();
+                    data_->checkParameter(surname_,
+                                          function<string(TradingCompany&)>{&TradingCompany::getSurname},
+                                          bind(&TradingCompany::checkSurname, this, ""), this);
                     break;
+                    
                 case str("4") :
-                    checkName();
+                    changeStatusName();
+                    data_->checkParameter(name_,
+                                          function<string(TradingCompany&)>{&TradingCompany::getName},
+                                          bind(&TradingCompany::checkName, this, ""), this);
                     break;
+                    
                 case str("5") :
-                    checkPatronymic();
+                    changeStatusPatronymic();
+                    data_->checkParameter(patronymic_,
+                                          function<string(TradingCompany&)>{&TradingCompany::getPatronymic},
+                                          bind(&TradingCompany::checkPatronymic, this, "!\n"), this);
                     break;
+                    
                 case str("6") :
-                    cout << "Текущее значение: " <<  getDateOfBirth() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setDateOfHiring(input);
+                    changeStatusSex();
+                    data_->checkParameter(sex_,
+                                          function<string(TradingCompany&)>{&TradingCompany::getSex},
+                                          bind(&TradingCompany::checkSex, this, ""), this);
                     break;
+                    
                 case str("7") :
-                    cout << "Текущее значение: " <<  getPassport() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setPassport(input);
+                    changeStatusDateOfBirth();
+                    data_->checkParameter(dateOfBirth_,
+                                          function<string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
+                                          bind(&TradingCompany::checkDateOfBirth, this, ""), this);
                     break;
+                    
                 case str("8") :
-                    cout << "Текущее значение: " <<  getPhone() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setPhone(input);
+                    changeStatusPassport(true);
+                    data_->checkParameter(passport_,
+                                          function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
+                                          bind(&TradingCompany::checkPassport, this, ""), this, true);
                     break;
+                    
                 case str("9") :
-                    cout << "Текущее значение: " <<  getPassword() << endl;
-                    cout << "Введите свое значение: " << endl;
-                    cin >> input;
-                    setPassword(input);
+                    changeStatusPhone(true);
+                    data_->checkParameter(passport_,
+                                          function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
+                                          bind(&TradingCompany::checkPassport, this, ""), this, true);
                     break;
+                    
+                case str("10") :
+                    changeStatusEmail(true);
+                    data_->checkParameter(email_,
+                                          function<string(TradingCompany&)>{&TradingCompany::getEmail},
+                                          bind(&TradingCompany::checkEmail, this, ""), this, true);
+                    break;
+                    
+                case str("11") :
+                    changeStatusDateOfHiring();
+                    data_->checkParameter(dateOfHiring_,
+                                          function<string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
+                                          bind(&TradingCompany::checkDateOfHiring, this, ""), this);
+                    break;
+                    
+                case str("12") :
+                    changeStatusWorkingHours();
+                    break;
+                    
+                case str("13") :
+                    changeStatusSalary();
+                    data_->checkParameter(workingHours_,
+                                          function<string(TradingCompany&)>{&TradingCompany::getWorkingHours},
+                                          bind(&TradingCompany::checkWorkingHours, this, "Ваши часы работы не удовлетворяет требованиям!\n"), this);
+                    break;
+                    
+                case str("14") :
+                    changeStatusPassword(true);
+                    data_->checkParameter(password_,
+                                          function<string(TradingCompany&)>{&TradingCompany::getPassword},
+                                          bind(&TradingCompany::checkPassword, this, ""), this, true);
+                    break;
+                    
                 case str("b") :
                     return;
                 case str("esc") :
-                    cout << "Вы вышли из программы!" << endl;
+                    Logger::info << "Выход из аккаунта << " << position_   << " "
+                                                            << surname_    << " "
+                                                            << name_       << " "
+                                                            << patronymic_ << endl;
+                    cout << "Вы вышли из аккаунта." << endl;
                     exit(0);
                 default:
                     throw input;
@@ -135,11 +212,22 @@ void Director::changePersonalData()
         }
         catch (const string &exception)
         {
-            cerr << "Вы ввели: " << exception << " - неверная команда! Попробуйте ввести заново: "<< endl;
+            Logger::error << "Введена >> " << exception
+                          << " - неверная команда!" << endl;
+            cerr << "Вы ввели >> " << exception
+                 << " - неверная команда! Попробуйте ввести заново: "
+                 << endl;
+            changePersonalData();
+        }
+        catch(const exception &ex)
+        {
+            Logger::error << "Ошибка >> " << ex.what() << endl;
+            cerr << "Ошибка >> " << ex.what() << endl;
         }
         catch(...)
         {
-            cerr << "Неизвестная ошибка!";
+            Logger::error << "Неизвестная ошибка!" << endl;
+            cerr << "Неизвестная ошибка!" << endl;
             exit(0);
         }
     }
@@ -152,12 +240,12 @@ void Director::addNewEmployeeData()
 
 void Director::functional()
 {
+    displayUser();
     checkData();
     
     string input;
     while (true)
     {
-        displayUser();
         cout << "Хотите изменить личные данные? - нажмите 1" << endl;
         cout << "Хотите вывести данные данные всех сотрудников? - нажмите 2" << endl;
         cout << "Хотите изменить чужие данные? - нажмите 3" << endl;
@@ -172,7 +260,7 @@ void Director::functional()
             switch (str(input.c_str()))
             {
                 case str("1") :
-//                    data_->changePersonalData(this);
+                    changePersonalData();
                     break;
                     
                 case str("2") :
@@ -196,7 +284,11 @@ void Director::functional()
 
                 case str("esc") :
 
-                    cout << "Вы вышли из программы!" << endl;
+                    Logger::info << "Выход из аккаунта << " << position_   << " "
+                                                            << surname_    << " "
+                                                            << name_       << " "
+                                                            << patronymic_ << endl;
+                    cout << "Вы вышли из аккаунта." << endl;
                     exit(0);
 
                 default:
@@ -205,11 +297,22 @@ void Director::functional()
         }
         catch (const string &exception)
         {
-            cerr << "Вы ввели: " << exception << " - неверная команда! Попробуйте ввести заново: "<< endl;
+            Logger::error << "Введена >> " << exception
+                          << " - неверная команда!" << endl;
+            cerr << "Вы ввели >> " << exception
+                 << " - неверная команда! Попробуйте ввести заново: "
+                 << endl;
+            changePersonalData();
+        }
+        catch(const exception &ex)
+        {
+            Logger::error << "Ошибка >> " << ex.what() << endl;
+            cerr << "Ошибка >> " << ex.what() << endl;
         }
         catch(...)
         {
-            cerr << "Неизвестная ошибка!";
+            Logger::error << "Неизвестная ошибка!" << endl;
+            cerr << "Неизвестная ошибка!" << endl;
             exit(0);
         }
     }

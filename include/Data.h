@@ -33,6 +33,23 @@ class HRManager;
 //class Loader;
 //class Driver;
 
+const list<string> positions
+{
+    "Бухгалтер",
+    "Водитель",
+    "Главный_бухгалтер",
+    "Главный_юрист-консультант",
+    "Грузчик",
+    "Директор",
+    "Логист",
+    "Менеджер_по_закупкам",
+    "Менеджер_по_продажам",
+    "Кассир",
+    "Начальник_отдела_закупок",
+    "Начальник_склада",
+    "Юрист"
+};
+
 typedef union
 {
     class Director;
@@ -84,10 +101,6 @@ public:
         }
         checkParameter();
     }
-//    template<class C> void changePersonalData(C *object)
-//    {
-//        object->changePersonalData();
-//    }
     
     friend void Director::addNewEmployeeData();
     friend void HRManager::addNewEmployeeData();

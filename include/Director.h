@@ -11,11 +11,11 @@ public:
     Director();
     ~Director();
     void addNewEmployeeData();
-    
     void functional() override;
     
 private:    
     Data* data_ = nullptr;
+    
     void checkData();
     void changePersonalData();
     void setPremium(int premium);
