@@ -1,98 +1,93 @@
 #include <boost/regex.hpp>
 
 #include "TradingCompany.h"
-#include "Logger.h"
-#include "Utils.h"
-
-using namespace boost;
-using namespace utils;
 
 template<>
-uint TradingCompany::get<uint>(string &value, const Field field)
+uint TradingCompany::get<uint>(std::string &value, const Field field)
 {
     return checkField(value, field).uintValue;
 }
 
 template<>
-uint64_t TradingCompany::get<uint64_t>(string &value, const Field field)
+uint64_t TradingCompany::get<uint64_t>(std::string &value, const Field field)
 {
     return checkField(value, field).uint64Value;
 }
 
 template<>
-string TradingCompany::get<string>(string &value, const Field field)
+std::string TradingCompany::get<std::string>(std::string &value, const Field field)
 {
     return checkField(value, field).stringValue;
 }
 
-void TradingCompany::setId(string &id)
+void TradingCompany::setId(std::string &id)
 {
     id_ = get<uint>(id, FIELD_ID);
 }
 
-void TradingCompany::setPosition(string &position)
+void TradingCompany::setPosition(std::string &position)
 {
-    position_ = get<string>(position, FIELD_POSITION);
+    position_ = get<std::string>(position, FIELD_POSITION);
 }
 
-void TradingCompany::setSurname(string &surname)
+void TradingCompany::setSurname(std::string &surname)
 {
-    surname_ = get<string>(surname, FIELD_SURNAME);
+    surname_ = get<std::string>(surname, FIELD_SURNAME);
 }
 
-void TradingCompany::setName(string &name)
+void TradingCompany::setName(std::string &name)
 {
-    name_ = get<string>(name, FIELD_NAME);
+    name_ = get<std::string>(name, FIELD_NAME);
 }
 
-void TradingCompany::setPatronymic(string &patronymic)
+void TradingCompany::setPatronymic(std::string &patronymic)
 {
-    patronymic_ = get<string>(patronymic, FIELD_PATRONYMIC);
+    patronymic_ = get<std::string>(patronymic, FIELD_PATRONYMIC);
 }
 
-void TradingCompany::setSex(string &sex)
+void TradingCompany::setSex(std::string &sex)
 {
-    sex_ = get<string>(sex, FIELD_SEX);
+    sex_ = get<std::string>(sex, FIELD_SEX);
 }
 
-void TradingCompany::setDateOfBirth(string &dateOfBirth)
+void TradingCompany::setDateOfBirth(std::string &dateOfBirth)
 {
-    dateOfBirth_ = get<string>(dateOfBirth, FIELD_DATE_OF_BIRTH);
+    dateOfBirth_ = get<std::string>(dateOfBirth, FIELD_DATE_OF_BIRTH);
 }
 
-void TradingCompany::setPassport(string &passport)
+void TradingCompany::setPassport(std::string &passport)
 {
     passport_ = get<uint64_t>(passport, FIELD_PASSPORT);
 }
 
-void TradingCompany::setPhone(string &phone)
+void TradingCompany::setPhone(std::string &phone)
 {
     phone_ = get<uint64_t>(phone, FIELD_PHONE);
 }
 
-void TradingCompany::setEmail(string &email)
+void TradingCompany::setEmail(std::string &email)
 {
-    email_ = get<string>(email, FIELD_EMAIL);
+    email_ = get<std::string>(email, FIELD_EMAIL);
 }
 
-void TradingCompany::setDateOfHiring(string &dateOfHiring)
+void TradingCompany::setDateOfHiring(std::string &dateOfHiring)
 {
-    dateOfHiring_ = get<string>(dateOfHiring, FIELD_DATE_OF_HIRING);
+    dateOfHiring_ = get<std::string>(dateOfHiring, FIELD_DATE_OF_HIRING);
 }
 
-void TradingCompany::setWorkingHours(string &workingHours)
+void TradingCompany::setWorkingHours(std::string &workingHours)
 {
-    workingHours_ = get<string>(workingHours, FIELD_WORKING_HOURS);
+    workingHours_ = get<std::string>(workingHours, FIELD_WORKING_HOURS);
 }
 
-void TradingCompany::setSalary(string &salary)
+void TradingCompany::setSalary(std::string &salary)
 {
     salary_ = get<uint>(salary, FIELD_SALARY);
 }
 
-void TradingCompany::setPassword(string &password)
+void TradingCompany::setPassword(std::string &password)
 {
-    password_ = get<string>(password, FIELD_PASSWORD);
+    password_ = get<std::string>(password, FIELD_PASSWORD);
 }
 
 uint TradingCompany::getId() const
@@ -100,32 +95,32 @@ uint TradingCompany::getId() const
     return id_;
 }
 
-string TradingCompany::getPosition() const
+std::string TradingCompany::getPosition() const
 {
     return position_;
 }
 
-string TradingCompany::getSurname() const
+std::string TradingCompany::getSurname() const
 {
     return surname_;
 }
 
-string TradingCompany::getName() const
+std::string TradingCompany::getName() const
 {
     return name_;
 }
 
-string TradingCompany::getPatronymic() const
+std::string TradingCompany::getPatronymic() const
 {
     return patronymic_;
 }
 
-string TradingCompany::getSex() const
+std::string TradingCompany::getSex() const
 {
     return sex_;
 }
 
-string TradingCompany::getDateOfBirth() const
+std::string TradingCompany::getDateOfBirth() const
 {
     return dateOfBirth_;
 }
@@ -140,17 +135,17 @@ uint64_t TradingCompany::getPhone() const
     return phone_;
 }
 
-string TradingCompany::getEmail() const
+std::string TradingCompany::getEmail() const
 {
     return email_;
 }
 
-string TradingCompany::getDateOfHiring() const
+std::string TradingCompany::getDateOfHiring() const
 {
     return dateOfHiring_;
 }
 
-string TradingCompany::getWorkingHours() const
+std::string TradingCompany::getWorkingHours() const
 {
     return workingHours_;
 }
@@ -160,7 +155,7 @@ uint TradingCompany::getSalary() const
     return salary_;
 }
 
-string TradingCompany::getPassword() const
+std::string TradingCompany::getPassword() const
 {
     return password_;
 }
@@ -169,12 +164,12 @@ void TradingCompany::changeStatusId(const bool canOverwrite)
 {
     if (canOverwrite)
     {
-        Logger::info << "Перезапись id >> " << id_ << endl;
+        Logger::info << "Перезапись id >> " << id_ << std::endl;
         fieldStatus_[FIELD_ID] = ST_OVERWRITEDATA;
     }
     else
     {
-        Logger::warning << "Повторяющийся id >> " << id_ << endl;
+        Logger::warning << "Повторяющийся id >> " << id_ << std::endl;
         fieldStatus_[FIELD_ID] = ST_DUBLICATE;
         id_ = rand();
     }
@@ -182,37 +177,37 @@ void TradingCompany::changeStatusId(const bool canOverwrite)
 
 void TradingCompany::changeStatusPosition()
 {
-    Logger::info << "Перезапись должности >> " << position_ << endl;
+    Logger::info << "Перезапись должности >> " << position_ << std::endl;
     fieldStatus_[FIELD_POSITION] = ST_OVERWRITEDATA;
 }
 
 void TradingCompany::changeStatusSurname()
 {
-    Logger::info << "Перезапись фамилии >> " << surname_ << endl;
+    Logger::info << "Перезапись фамилии >> " << surname_ << std::endl;
     fieldStatus_[FIELD_SURNAME] = ST_OVERWRITEDATA;
 }
 
 void TradingCompany::changeStatusName()
 {
-    Logger::info << "Перезапись имени >> " << name_ << endl;
+    Logger::info << "Перезапись имени >> " << name_ << std::endl;
     fieldStatus_[FIELD_NAME] = ST_OVERWRITEDATA;
 }
 
 void TradingCompany::changeStatusPatronymic()
 {
-    Logger::info << "Перезапись отчества >> " << patronymic_ << endl;
+    Logger::info << "Перезапись отчества >> " << patronymic_ << std::endl;
     fieldStatus_[FIELD_PATRONYMIC] = ST_OVERWRITEDATA;
 }
 
 void TradingCompany::changeStatusSex()
 {
-    Logger::info << "Перезапись пола >> " << sex_ << endl;
+    Logger::info << "Перезапись пола >> " << sex_ << std::endl;
     fieldStatus_[FIELD_SEX] = ST_OVERWRITEDATA;
 }
 
 void TradingCompany::changeStatusDateOfBirth()
 {
-    Logger::info << "Перезапись даты рождения >> " << dateOfBirth_ << endl;
+    Logger::info << "Перезапись даты рождения >> " << dateOfBirth_ << std::endl;
     fieldStatus_[FIELD_DATE_OF_BIRTH] = ST_OVERWRITEDATA;
 }
 
@@ -220,12 +215,12 @@ void TradingCompany::changeStatusPassport(const bool canOverwrite)
 {
     if (canOverwrite)
     {
-        Logger::info << "Перезапись паспорта >> " << passport_ << endl;
+        Logger::info << "Перезапись паспорта >> " << passport_ << std::endl;
         fieldStatus_[FIELD_PASSPORT] = ST_OVERWRITEDATA;
     }
     else
     {
-        Logger::warning << "Повторяющийся паспорт >> " << passport_ << endl;
+        Logger::warning << "Повторяющийся паспорт >> " << passport_ << std::endl;
         passport_ = rand();
         fieldStatus_[FIELD_PASSPORT] = ST_DUBLICATE;
     }
@@ -235,12 +230,12 @@ void TradingCompany::changeStatusPhone(const bool canOverwrite)
 {
     if (canOverwrite)
     {
-        Logger::info << "Перезапись телефона >> " << phone_ << endl;
+        Logger::info << "Перезапись телефона >> " << phone_ << std::endl;
         fieldStatus_[FIELD_PHONE] = ST_OVERWRITEDATA;
     }
     else
     {
-        Logger::warning << "Повторяющийся телефон >> " << phone_ << endl;
+        Logger::warning << "Повторяющийся телефон >> " << phone_ << std::endl;
         phone_ = rand();
         fieldStatus_[FIELD_PHONE] = ST_DUBLICATE;
     }
@@ -250,32 +245,32 @@ void TradingCompany::changeStatusEmail(const bool canOverwrite)
 {
     if (canOverwrite)
     {
-        Logger::info << "Перезапись почты >> " << email_ << endl;
+        Logger::info << "Перезапись почты >> " << email_ << std::endl;
         fieldStatus_[FIELD_EMAIL] = ST_OVERWRITEDATA;
     }
     else
     {
-        Logger::warning << "Повторяющаяся почта >> " << email_ << endl;
-        email_ += to_string(rand());
+        Logger::warning << "Повторяющаяся почта >> " << email_ << std::endl;
+        email_ += std::to_string(rand());
         fieldStatus_[FIELD_EMAIL] = ST_DUBLICATE;
     }
 }
 
 void TradingCompany::changeStatusDateOfHiring()
 {
-    Logger::info << "Перезапись даты принятия на работу >> " << dateOfHiring_ << endl;
+    Logger::info << "Перезапись даты принятия на работу >> " << dateOfHiring_ << std::endl;
     fieldStatus_[FIELD_DATE_OF_HIRING] = ST_OVERWRITEDATA;
 }
 
 void TradingCompany::changeStatusWorkingHours()
 {
-    Logger::info << "Перезапись часов работы >> " << workingHours_ << endl;
+    Logger::info << "Перезапись часов работы >> " << workingHours_ << std::endl;
     fieldStatus_[FIELD_WORKING_HOURS] = ST_OVERWRITEDATA;
 }
 
 void TradingCompany::changeStatusSalary()
 {
-    Logger::info << "Перезапись зарплаты >> " << salary_ << endl;
+    Logger::info << "Перезапись зарплаты >> " << salary_ << std::endl;
     fieldStatus_[FIELD_SALARY] = ST_OVERWRITEDATA;
 }
 
@@ -283,14 +278,14 @@ void TradingCompany::changeStatusPassword(const bool canOverwrite, const bool is
 {
     if (canOverwrite)
     {
-        Logger::info << "Перезапись пароля >> " << password_ << endl;
+        Logger::info << "Перезапись пароля >> " << password_ << std::endl;
         fieldStatus_[FIELD_PASSWORD] = ST_OVERWRITEDATA;
     }
     else
     {
         if (isWrite)
         {
-            Logger::error << "Повторяющийся пароль >> " << password_ << endl;
+            Logger::error << "Повторяющийся пароль >> " << password_ << std::endl;
         }
         fieldStatus_[FIELD_PASSWORD] = ST_DUBLICATE;
     }
@@ -302,110 +297,110 @@ bool TradingCompany::hasDublicatePassword()
 }
 
 void TradingCompany::recursion(const Field &field,
-                               std::function<void(TradingCompany&, string&)> setParameter,
-                               const string &message)
+                               std::function<void(TradingCompany&, std::string&)> setParameter,
+                               const std::string &message)
 {
-    string input;
+    std::string input;
     if (fieldStatus_[field] != ST_OK)
     {
-        cout << message << endl;
-        string newMessage;
+        std::cout << message << std::endl;
+        std::string newMessage;
         auto condition = message.find("ведите");
-        if (condition != string::npos)
+        if (condition != std::string::npos)
         {
             newMessage = message.substr(condition);
         }
-        cout << "Ввод: " << endl;
-        cin >> input;
+        std::cout << "Ввод: " << std::endl;
+        std::cin >> input;
         setParameter(*this, input);
         recursion(field, setParameter, "Некорректно введен параметр, в" + newMessage);
     }
 }
 
-void TradingCompany::checkId(const string &warning)
+void TradingCompany::checkId(const std::string &warning)
 {
-    const string message = "Введите ID (например, 100)";
+    const std::string message = "Введите ID (например, 100)";
     recursion(FIELD_ID, &TradingCompany::setId, warning + message);
 }
 
-void TradingCompany::checkPosition(const string &warning)
+void TradingCompany::checkPosition(const std::string &warning)
 {
-    const string message = "Введите должность";
+    const std::string message = "Введите должность";
     recursion(FIELD_POSITION, &TradingCompany::setPosition, warning + message);
 }
 
-void TradingCompany::checkSurname(const string &warning)
+void TradingCompany::checkSurname(const std::string &warning)
 {
-    const string message = "Введите фамилию";
+    const std::string message = "Введите фамилию";
     recursion(FIELD_SURNAME, &TradingCompany::setSurname, warning + message);
 }
 
-void TradingCompany::checkName(const string &warning)
+void TradingCompany::checkName(const std::string &warning)
 {
-    const string message = "Введите имя";
+    const std::string message = "Введите имя";
     recursion(FIELD_NAME, &TradingCompany::setName, warning + message);
 }
 
-void TradingCompany::checkPatronymic(const string &warning)
+void TradingCompany::checkPatronymic(const std::string &warning)
 {
-    const string message = "Введите отчество";
+    const std::string message = "Введите отчество";
     recursion(FIELD_PATRONYMIC, &TradingCompany::setPatronymic, warning + message);
 }
 
-void TradingCompany::checkSex(const string &warning)
+void TradingCompany::checkSex(const std::string &warning)
 {
-    const string message = "Введите пол (например, Муж)";
+    const std::string message = "Введите пол (например, Муж)";
     recursion(FIELD_SEX, &TradingCompany::setSex, warning + message);
 }
 
-void TradingCompany::checkDateOfBirth(const string &warning)
+void TradingCompany::checkDateOfBirth(const std::string &warning)
 {
-    const string message = "Введите дату рождения (например, 16.12.1995)";
+    const std::string message = "Введите дату рождения (например, 16.12.1995)";
     recursion(FIELD_DATE_OF_BIRTH, &TradingCompany::setDateOfBirth, warning + message);
 }
 
-void TradingCompany::checkPassport(const string &warning)
+void TradingCompany::checkPassport(const std::string &warning)
 {
-    const string message = "Введите номер паспорта (например, 4516561974)";
+    const std::string message = "Введите номер паспорта (например, 4516561974)";
     recursion(FIELD_PASSPORT, &TradingCompany::setPassport, warning + message);
 }
 
-void TradingCompany::checkPhone(const string &warning)
+void TradingCompany::checkPhone(const std::string &warning)
 {
-    const string message = "Введите номер телефона (например, 9032697963)";
+    const std::string message = "Введите номер телефона (например, 9032697963)";
     recursion(FIELD_PHONE, &TradingCompany::setPhone, warning + message);
 }
 
-void TradingCompany::checkEmail(const string &warning)
+void TradingCompany::checkEmail(const std::string &warning)
 {
-    const string message = "Введите почту (например, surname.name.patronymic@tradingcompany.ru)";
+    const std::string message = "Введите почту (например, surname.name.patronymic@tradingcompany.ru)";
     recursion(FIELD_EMAIL, &TradingCompany::setEmail, warning + message);
 }
 
-void TradingCompany::checkDateOfHiring(const string &warning)
+void TradingCompany::checkDateOfHiring(const std::string &warning)
 {
-    const string message = "Введите дату принятия на работу (например, 16.04.2018)";
+    const std::string message = "Введите дату принятия на работу (например, 16.04.2018)";
     recursion(FIELD_DATE_OF_HIRING, &TradingCompany::setDateOfHiring, warning + message);
 }
 
-void TradingCompany::checkWorkingHours(const string &warning)
+void TradingCompany::checkWorkingHours(const std::string &warning)
 {
-    const string message = "Введите время работы (например, Понедельник-Пятница=09:00-18:00)";
+    const std::string message = "Введите время работы (например, Понедельник-Пятница=09:00-18:00)";
     recursion(FIELD_WORKING_HOURS, &TradingCompany::setWorkingHours, warning + message);
 }
 
-void TradingCompany::checkSalary(const string &warning)
+void TradingCompany::checkSalary(const std::string &warning)
 {
-    const string message = "Введите зарплату (в рублях)";
+    const std::string message = "Введите зарплату (в рублях)";
     recursion(FIELD_SALARY, &TradingCompany::setSalary, warning + message);
 }
 
-void TradingCompany::checkPassword(const string &warning)
+void TradingCompany::checkPassword(const std::string &warning)
 {
-    const string message = "Введите новый пароль (пароль должен содержать:\n-не менее 6 символов\n"
-                           "-хотя бы одну прописную латинскую букву\n"
-                           "-хотя бы одну строчную латинскую букву\n"
-                           "-хотя бы одну цифру)";
+    const std::string message = "Введите новый пароль (пароль должен содержать:\n-не менее 6 символов\n"
+                                "-хотя бы одну прописную латинскую букву\n"
+                                "-хотя бы одну строчную латинскую букву\n"
+                                "-хотя бы одну цифру)";
     recursion(FIELD_PASSWORD, &TradingCompany::setPassword, warning + message);
 }
 
@@ -414,14 +409,14 @@ void TradingCompany::displayUser()
     Logger::info << "Вход в аккаунт >> " << position_   << " "
                                          << surname_    << " "
                                          << name_       << " "
-                                         << patronymic_ << endl;
-    cout << "Вы зашли за " << position_ << "'a. " << endl;
-    cout << "Приветствуем вас, " << surname_    << " "
-                                 << name_       << " "
-                                 << patronymic_ << "!" << endl;
+                                         << patronymic_ << std::endl;
+    std::cout << "Вы зашли за " << position_ << "'a. " << std::endl;
+    std::cout << "Приветствуем вас, " << surname_    << " "
+                                      << name_       << " "
+                                      << patronymic_ << "!" << std::endl;
 }
 
-const TradingCompany::Type TradingCompany::checkField(string &value, const Field &field)
+const TradingCompany::Type TradingCompany::checkField(std::string &value, const Field &field)
 {
     Type type;
     
@@ -431,47 +426,47 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
         {
             case FIELD_ID :
             {
-                regex regular ("^[0-9]{1,4}$");
+                boost::regex regular ("^[0-9]{1,4}$");
                 if (value.empty())
                 {
-                    Logger::error << "Пустой ID >> " << value << endl;
+                    Logger::error << "Пустой ID >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорректный ID >> " << value << endl;
+                    Logger::warning << "Некорректный ID >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    !id_ ? Logger::info << "ID >> " << value << endl :
-                           Logger::info << "ID << " << id_ << " >> изменен на >> " << value << endl;
+                    !id_ ? Logger::info << "ID >> " << value << std::endl :
+                           Logger::info << "ID << " << id_ << " >> изменен на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
-                type.uintValue = atoi(value.c_str());
+                type.uintValue = std::atoi(value.c_str());
                 fieldStatus_[field] = type.status;
                 return type;
             }
             
             case FIELD_POSITION :
             {
-                toUpperAndToLower(value);
-                regex regular ("(Бухгалтер|Водитель|Главный_бухгалтер|Главный_юрист-консультант|Грузчик|Директор|Кассир|Логист|"
-                               "Менеджер_по_закупкам|Менеджер_по_продажам|Начальник_отдела_закупок|Начальник_склада|Юрист)");
+                utils::toUpperAndToLower(value);
+                boost::regex regular ("(Бухгалтер|Водитель|Главный_бухгалтер|Главный_юрист-консультант|Грузчик|Директор|Кассир|Логист|"
+                                      "Менеджер_по_закупкам|Менеджер_по_продажам|Начальник_отдела_закупок|Начальник_склада|Юрист)");
                 if (value.empty())
                 {
-                    Logger::error << "Пустая должность >> " << value << endl;
+                    Logger::error << "Пустая должность >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорректная должность >> " << value << endl;
+                    Logger::warning << "Некорректная должность >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    position_.empty() ? Logger::info << "Должность >> " << value << endl :
-                                        Logger::info << "Должность << " << position_ << " >> изменена на >> " << value << endl;
+                    position_.empty() ? Logger::info << "Должность >> " << value << std::endl :
+                                        Logger::info << "Должность << " << position_ << " >> изменена на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -481,22 +476,22 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_SURNAME :
             {
-                toUpperAndToLower(value);
-                regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
+                utils::toUpperAndToLower(value);
+                boost::regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
                 {
-                    Logger::error << "Пустая фамилия >> " << value << endl;
+                    Logger::error << "Пустая фамилия >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорректная фамилия >> " << value << endl;
+                    Logger::warning << "Некорректная фамилия >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    surname_.empty() ? Logger::info << "Фамилия >> " << value << endl :
-                                       Logger::info << "Фамилия << " << surname_ << " >> изменена на >> " << value << endl;
+                    surname_.empty() ? Logger::info << "Фамилия >> " << value << std::endl :
+                                       Logger::info << "Фамилия << " << surname_ << " >> изменена на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -506,22 +501,22 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_NAME :
             {
-                toUpperAndToLower(value);
-                regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
+                utils::toUpperAndToLower(value);
+                boost::regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
                 {
-                    Logger::info << "Пустое имя >> " << value << endl;
+                    Logger::info << "Пустое имя >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорретное имя >> " << value << endl;
+                    Logger::warning << "Некорретное имя >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    name_.empty() ? Logger::info << "Имя >> " << value << endl :
-                                    Logger::info << "Имя << " << name_ << " >> изменено на >> " << value << endl;
+                    name_.empty() ? Logger::info << "Имя >> " << value << std::endl :
+                                    Logger::info << "Имя << " << name_ << " >> изменено на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -531,22 +526,22 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
 
             case FIELD_PATRONYMIC :
             {
-                toUpperAndToLower(value);
-                regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
+                utils::toUpperAndToLower(value);
+                boost::regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
                 {
-                    Logger::error << "Пустое отчество >> " << value << endl;
+                    Logger::error << "Пустое отчество >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорретное отчество >> " << value << endl;
+                    Logger::warning << "Некорретное отчество >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    patronymic_.empty() ? Logger::info << "Отчество >> " << value << endl :
-                                          Logger::info << "Отчество << " << patronymic_ << " >> изменено на >> " << value << endl;
+                    patronymic_.empty() ? Logger::info << "Отчество >> " << value << std::endl :
+                                          Logger::info << "Отчество << " << patronymic_ << " >> изменено на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -556,22 +551,22 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
     
             case FIELD_SEX :
             {
-                toUpperAndToLower(value);
-                regex regular ("^(Муж|Жен)$");
+                utils::toUpperAndToLower(value);
+                boost::regex regular ("^(Муж|Жен)$");
                 if (value.empty())
                 {
-                    Logger::error << "Пустой пол >> " << value << endl;
+                    Logger::error << "Пустой пол >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорректный пол >> " << value << endl;
+                    Logger::warning << "Некорректный пол >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    sex_.empty() ? Logger::info << "Пол >> " << value << endl :
-                                   Logger::info << "Пол << " << sex_ << " >> изменен на >> " << value << endl;
+                    sex_.empty() ? Logger::info << "Пол >> " << value << std::endl :
+                                   Logger::info << "Пол << " << sex_ << " >> изменен на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -581,34 +576,34 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_DATE_OF_BIRTH :
             {
-                vector<string> data = utils::splitString(date(), " .-");
-                vector<string> dateOfBirth = utils::splitString(value, " .-");
-                auto age = findAge(data, dateOfBirth);
+                std::vector<std::string> data = utils::splitString(utils::date(), " .-");
+                std::vector<std::string> dateOfBirth = utils::splitString(value, " .-");
+                auto age = utils::findAge(data, dateOfBirth);
                 uint year = age[0];
                 uint month = age[1];
                 uint day = age[2];
-                regex regular ("^(((0[1-9]|[12][0-9]|30)[-/.]?(0[13-9]|1[012])|31[-/.]?(0[13578]|1[02])|(0[1-9]|"
-                               "1[0-9]|2[0-8])[-/.]?02)[-/.]?[0-9]{4}|29[-/.]?02[-/.]?([0-9]{2}(([2468][048]|"
-                               "[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$");
+                boost::regex regular ("^(((0[1-9]|[12][0-9]|30)[-/.]?(0[13-9]|1[012])|31[-/.]?(0[13578]|1[02])|(0[1-9]|"
+                                      "1[0-9]|2[0-8])[-/.]?02)[-/.]?[0-9]{4}|29[-/.]?02[-/.]?([0-9]{2}(([2468][048]|"
+                                      "[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$");
                 if (value.empty())
                 {
-                    Logger::error << "Пустая дата рождения >> " << value << endl;
+                    Logger::error << "Пустая дата рождения >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
                 else if (year < 18)
                 {
-                    Logger::warning << "Неудовлетворительный возраст >> " << "Лет: " << year << "Месяцев: " << month << "Дней: " << day << endl;
+                    Logger::warning << "Неудовлетворительный возраст >> " << "Лет: " << year << "Месяцев: " << month << "Дней: " << day << std::endl;
                     type.status = ST_WRONGDATA;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорректная дата рождения >> " << value << endl;
+                    Logger::warning << "Некорректная дата рождения >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    dateOfBirth_.empty() ? Logger::info << "Дата рождения >> " << value << endl :
-                                           Logger::info << "Дата рождения << " << dateOfBirth_ << " >> изменена на >> " << value << endl;
+                    dateOfBirth_.empty() ? Logger::info << "Дата рождения >> " << value << std::endl :
+                                           Logger::info << "Дата рождения << " << dateOfBirth_ << " >> изменена на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -618,78 +613,78 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
 
             case FIELD_PASSPORT :
             {
-                regex regular ("^[0-9]{10}$");
-                regex_match(value, regular);
+                boost::regex regular ("^[0-9]{10}$");
+                boost::regex_match(value, regular);
                 if (value.empty())
                 {
-                    Logger::error << "Пустой паспорт >> " << value << endl;
+                    Logger::error << "Пустой паспорт >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорректный паспорт >> " << value << endl;
+                    Logger::warning << "Некорректный паспорт >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    !passport_ ? Logger::info << "Паспорт >> " << value << endl :
-                                 Logger::info << "Паспорт << " << passport_ << " >> изменен на >> " << value << endl;
+                    !passport_ ? Logger::info << "Паспорт >> " << value << std::endl :
+                                 Logger::info << "Паспорт << " << passport_ << " >> изменен на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
-                type.uint64Value = strtoul(value.c_str(), NULL, 0);
+                type.uint64Value = std::strtoul(value.c_str(), NULL, 0);
                 fieldStatus_[field] = type.status;
                 return type;
             }
             
             case FIELD_PHONE :
             {
-                regex regular ("^[0-9]{10}$");
-                regex_match(value, regular);
+                boost::regex regular ("^[0-9]{10}$");
+                boost::regex_match(value, regular);
                 if (value.empty())
                 {
-                    Logger::error << "Пустой телефон >> " << value << endl;
+                    Logger::error << "Пустой телефон >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорректный телефон >> " << value << endl;
+                    Logger::warning << "Некорректный телефон >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    !phone_ ? Logger::info << "Телефон >> " << value << endl :
-                              Logger::info << "Телефон << " << phone_ << " >> изменен на >> " << value << endl;
+                    !phone_ ? Logger::info << "Телефон >> " << value << std::endl :
+                              Logger::info << "Телефон << " << phone_ << " >> изменен на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
-                type.uint64Value = strtoul(value.c_str(), NULL, 0);
+                type.uint64Value = std::strtoul(value.c_str(), NULL, 0);
                 fieldStatus_[field] = type.status;
                 return type;
             }
                 
             case FIELD_EMAIL :
             {
-                string email = createEmail(vector<string>{surname_, name_, patronymic_});
-                regex regular ("^([a-z0-9]+)(\\.)([a-z0-9]+)(\\.)([a-z0-9]+)(@)(tradingcompany)(\\.)(ru)$");
-                if (regex_match(email, regular))
+                std::string email = utils::createEmail(std::vector<std::string>{surname_, name_, patronymic_});
+                boost::regex regular ("^([a-z0-9]+)(\\.)([a-z0-9]+)(\\.)([a-z0-9]+)(@)(tradingcompany)(\\.)(ru)$");
+                if (boost::regex_match(email, regular))
                 {
                     value = email;
-                    Logger::info << "Почта >> " << value << endl;
+                    Logger::info << "Почта >> " << value << std::endl;
                     type.status = ST_OK;
                 }
                 else if (value.empty())
                 {
-                    Logger::error << "Пустая почта >> " << value << endl;
+                    Logger::error << "Пустая почта >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорректная почта >> " << value << endl;
+                    Logger::warning << "Некорректная почта >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    email_.empty() ? Logger::info << "Почта >> " << value << endl :
-                                     Logger::info << "Почта << " << email_ << " >> изменена на >> " << value << endl;
+                    email_.empty() ? Logger::info << "Почта >> " << value << std::endl :
+                                     Logger::info << "Почта << " << email_ << " >> изменена на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -699,23 +694,23 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_DATE_OF_HIRING :
             {
-                regex regular ("^(((0[1-9]|[12][0-9]|30)[-/.]?(0[13-9]|1[012])|31[-/.]?(0[13578]|1[02])|(0[1-9]|"
-                               "1[0-9]|2[0-8])[-/.]?02)[-/.]?[0-9]{4}|29[-/.]?02[-/.]?([0-9]{2}(([2468][048]|"
-                               "[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$");
+                boost::regex regular ("^(((0[1-9]|[12][0-9]|30)[-/.]?(0[13-9]|1[012])|31[-/.]?(0[13578]|1[02])|(0[1-9]|"
+                                      "1[0-9]|2[0-8])[-/.]?02)[-/.]?[0-9]{4}|29[-/.]?02[-/.]?([0-9]{2}(([2468][048]|"
+                                      "[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$");
                 if (value.empty())
                 {
-                    Logger::error << "Пустая дата принятия на работу >> " << value << endl;
+                    Logger::error << "Пустая дата принятия на работу >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорректная дата принятия на работу >> " << value << endl;
+                    Logger::warning << "Некорректная дата принятия на работу >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    dateOfHiring_.empty() ? Logger::info << "Дата принятия на работу >> " << value << endl :
-                                            Logger::info << "Дата принятия на работу << " << dateOfHiring_ << " >> изменена на >> " << value << endl;
+                    dateOfHiring_.empty() ? Logger::info << "Дата принятия на работу >> " << value << std::endl :
+                                            Logger::info << "Дата принятия на работу << " << dateOfHiring_ << " >> изменена на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -725,24 +720,24 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_WORKING_HOURS :
             {
-                regex regular ("(((((Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье),*)+)|"
-                               "(Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье)-"
-                               "(Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье))="
+                boost::regex regular ("(((((Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье),*)+)|"
+                                      "(Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье)-"
+                                     "(Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье))="
                                "([0-1]?[0-9]|[2][0-3]]):([0-5][0-9])-([0-1]?[0-9]|[2][0-3]):([0-5][0-9]);*)+");
                 if (value.empty())
                 {
-                    Logger::error << "Пустые часы работы >> " << value << endl;
+                    Logger::error << "Пустые часы работы >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорректные часы работы >> " << value << endl;
+                    Logger::warning << "Некорректные часы работы >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    workingHours_.empty() ? Logger::info << "Часы работы >> " << value << endl :
-                                            Logger::info << "Часы работы << " << workingHours_ << " >> изменены на >> " << value << endl;
+                    workingHours_.empty() ? Logger::info << "Часы работы >> " << value << std::endl :
+                                            Logger::info << "Часы работы << " << workingHours_ << " >> изменены на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -752,45 +747,45 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
             
             case FIELD_SALARY :
             {
-                regex regular ("[0-9]+");
+                boost::regex regular ("[0-9]+");
                 if (value.empty())
                 {
-                    Logger::error << "Пустая зарплата >> " << value << endl;
+                    Logger::error << "Пустая зарплата >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорректная зарплата >> " << value << endl;
+                    Logger::warning << "Некорректная зарплата >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    !salary_ ? Logger::info << "Зарплата >> " << value << endl :
-                               Logger::info << "Зарплата << " << salary_ << " >> изменена на >> " << value << endl;
+                    !salary_ ? Logger::info << "Зарплата >> " << value << std::endl :
+                               Logger::info << "Зарплата << " << salary_ << " >> изменена на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
-                type.uintValue = atoi(value.c_str());
+                type.uintValue = std::atoi(value.c_str());
                 fieldStatus_[field] = type.status;
                 return type;
             }
         
             case FIELD_PASSWORD :
             {
-                regex regular ("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}");
+                boost::regex regular ("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}");
                 if (value.empty())
                 {
-                    Logger::error << "Пустой пароль >> " << value << endl;
+                    Logger::error << "Пустой пароль >> " << value << std::endl;
                     type.status = ST_EMPTY;
                 }
-                else if (!regex_match(value, regular))
+                else if (!boost::regex_match(value, regular))
                 {
-                    Logger::warning << "Некорректный пароль >> " << value << endl;
+                    Logger::warning << "Некорректный пароль >> " << value << std::endl;
                     type.status = ST_WRONGDATA;
                 }
                 else
                 {
-                    password_.empty() ? Logger::info << "Пароль >> " << value << endl :
-                                        Logger::info << "Пароль << " << password_ << " >> изменен на >> " << value << endl;
+                    password_.empty() ? Logger::info << "Пароль >> " << value << std::endl :
+                                        Logger::info << "Пароль << " << password_ << " >> изменен на >> " << value << std::endl;
                     type.status = ST_OK;
                 }
                 type.stringValue = value;
@@ -802,17 +797,17 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
                 throw field;
         }
     }
-    catch (const string &exception)
+    catch (const std::string &exception)
     {
-        Logger::error << "Невернное значение >> " << exception << endl;
+        Logger::error << "Невернное значение >> " << exception << std::endl;
     }
     catch(const Field &field)
     {
-        Logger::error << "Неверный параметр поля >> " + to_string(field) << endl;
+        Logger::error << "Неверный параметр поля >> " + std::to_string(field) << std::endl;
     }
     catch(const std::exception &ex)
     {
-        Logger::error << "Ошибка >> " << ex.what() << endl;
+        Logger::error << "Ошибка >> " << ex.what() << std::endl;
     }
     catch(...)
     {
@@ -821,15 +816,15 @@ const TradingCompany::Type TradingCompany::checkField(string &value, const Field
     return TradingCompany::empty;
 }
 
-void operator >> (const string &line, TradingCompany &tradingCompany)
+void operator >> (const std::string &line, TradingCompany &tradingCompany)
 {
-    string input;
-    istringstream is(line);
+    std::string input;
+    std::stringstream is(line);
     while (is >> input)
     {
         try
         {
-            string parameter = regex_replace(input, regex("[^A-Za-z]"), "");
+            std::string parameter = boost::regex_replace(input, boost::regex("[^A-Za-z]"), "");
             auto found = tradingCompany.setParameters_.find(parameter);
             
             if (found != tradingCompany.setParameters_.end())
@@ -851,35 +846,35 @@ void operator >> (const string &line, TradingCompany &tradingCompany)
                 throw input;
             }
         }
-        catch (const string &exception)
+        catch (const std::string &exception)
         {
-            Logger::error << "Неверный параметр >> " << exception << endl;
+            Logger::error << "Неверный параметр >> " << exception << std::endl;
         }
         catch(const std::exception &ex)
         {
-            Logger::error << "Ошибка >> " << ex.what() << endl;
+            Logger::error << "Ошибка >> " << ex.what() << std::endl;
         }
         catch(...)
         {
-            Logger::error << "Неизвестная ошибка!" << endl;
+            Logger::error << "Неизвестная ошибка!" << std::endl;
         }
     }
 }
 
-ostream& operator << (ostream &out, const TradingCompany &tradingCompany)
+std::ostream& operator << (std::ostream &out, const TradingCompany &tradingCompany)
 {
-    out << tradingCompany.id_ << " ";
-    out << tradingCompany.position_ << " ";
-    out << tradingCompany.surname_ << " ";
-    out << tradingCompany.name_ << " ";
-    out << tradingCompany.patronymic_ << " ";
-    out << tradingCompany.sex_ << " ";
-    out << tradingCompany.dateOfBirth_ << " ";
-    out << tradingCompany.phone_ << " ";
+    out << tradingCompany.id_           << " ";
+    out << tradingCompany.position_     << " ";
+    out << tradingCompany.surname_      << " ";
+    out << tradingCompany.name_         << " ";
+    out << tradingCompany.patronymic_   << " ";
+    out << tradingCompany.sex_          << " ";
+    out << tradingCompany.dateOfBirth_  << " ";
+    out << tradingCompany.phone_        << " ";
     out << tradingCompany.dateOfHiring_ << " ";
     out << tradingCompany.workingHours_ << " ";
-    out << tradingCompany.passport_ << " ";
-    out << tradingCompany.salary_ << " ";
+    out << tradingCompany.passport_     << " ";
+    out << tradingCompany.salary_       << " ";
     out << tradingCompany.password_;
     return out;
 }

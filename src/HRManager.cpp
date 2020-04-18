@@ -1,6 +1,5 @@
 #include "HRManager.h"
 #include "Data.h"
-#include "Logger.h"
 
 HRManager::HRManager() : data_(&Data::instance()) {}
 
@@ -11,7 +10,7 @@ HRManager::~HRManager()
 
 void HRManager::addNewEmployeeData()
 {
-    data_->newEmployeeData();
+    data_->newEmployeeData(this);
 }
 
 void HRManager::functional()

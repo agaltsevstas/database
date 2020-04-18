@@ -12,11 +12,16 @@
 #include <iomanip>
 #include <codecvt>
 
-using namespace std;
+#define EXIT(object) Logger::info << "Выход из аккаунта << " << object->getPosition()   << " "   \
+                                  << object->getSurname()    << " "   \
+                                  << object->getName()       << " "   \
+                                  << object->getPatronymic() << std::endl; \
+                     std::cout << "Вы вышли из аккаунта" << std::endl; \
+                     exit(0);
 
 namespace utils
 {
-    const map<string, string> translitSymbols =
+    const std::map<std::string, std::string> translitSymbols =
     {
         {"а", "a"},
         {"б", "b"},
@@ -53,44 +58,44 @@ namespace utils
         {"я", "ja"},
     };
     
-    string getNameWithoutExtension(const string &filePath);
+    std::string getNameWithoutExtension(const std::string &filePath);
     
-    string translit(const string &textRussian);
+    std::string translit(const std::string &textRussian);
     
-    string createEmail(const vector<string> &anthroponym);
+    std::string createEmail(const std::vector<std::string> &anthroponym);
     
     inline unsigned constexpr str(const char *input)
     {
         return *input ? static_cast<unsigned int>(*input) + 33 * str(input + 1) : 5381;
     }
 
-    inline string toLower(string &str)
+    inline std::string toLower(std::string &str)
     {
         std::transform(str.begin(), str.end(), str.begin(), ::tolower);
         return str;
     }
 
-    vector<string> splitString(string source, string delim);
+    std::vector<std::string> splitString(std::string source, std::string delim);
 
-    string date();
+    std::string date();
     
-    vector<uint> findAge(vector<string> &data, vector<string> &dateOfBirth);
+    std::vector<uint> findAge(std::vector<std::string> &data, std::vector<std::string> &dateOfBirth);
 
-    // convert wstring to UTF-8 string
-    inline string wstringToUtf8(const wstring &str)
+    // convert wstd::string to UTF-8 std::string
+    inline std::string wstringToUtf8(const std::wstring &str)
     {
-        wstring_convert<codecvt_utf8<wchar_t>> convert;
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
         return convert.to_bytes(str);
     }
 
-    // convert UTF-8 string to wstring
-    inline wstring utf8ToWstring(const string &str)
+    // convert UTF-8 std::string to wstd::string
+    inline std::wstring utf8ToWstring(const std::string &str)
     {
-        wstring_convert<codecvt_utf8<wchar_t>> convert;
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
         return convert.from_bytes(str);
     }
 
-    void toUpperAndToLower(string &str, uint numberUpper = 1);
+    void toUpperAndToLower(std::string &str, uint numberUpper = 1);
 }
 
 #endif // Utils_h

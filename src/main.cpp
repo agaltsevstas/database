@@ -2,12 +2,6 @@
 #include <boost/program_options.hpp>
 
 #include "Data.h"
-#include "Logger.h"
-#include "Utils.h"
-
-using namespace std;
-using namespace boost::program_options;
-using namespace utils;
 
 //void writing_data_in_file()
 //{
@@ -18,7 +12,7 @@ using namespace utils;
 //        for(iter = directors_vector.begin(); iter != directors_vector.end(); iter++)
 //        {
 //            directors_file << *iter;
-//            cout << *iter << endl;
+//            std::cout << *iter << std::endl;
 //        }
 //        directors_file.clear();
 //        directors_file.close();
@@ -29,47 +23,47 @@ int main(int argc, char *argv[])
 {
     setlocale(LC_ALL,"ru_RU.UTF-8");
     Logger::createInstance();
-    string directory = "data/"; // Путь к модулям
+    std::string directory = "data/"; // Путь к модулям
     if (argc > 1)
     {
-        string parameter;
-        options_description desc("Требуемые опции");
-        desc.add_options()
+        std::string parameter;
+        boost::program_options::options_description desc("Требуемые опции");
+        desc.add_options() 
                 ("help,h", "Помощь")
-                ("directory,d", value<string>(&parameter), "Путь к модулям");
+                ("directory,d", boost::program_options::value<std::string>(&parameter), "Путь к модулям");
         try
         {
-            variables_map vm;
+            boost::program_options::variables_map vm;
             store(parse_command_line(argc, argv, desc), vm);
             notify(vm);
 
             if (vm.count("help"))
             {
-                cout << desc << endl;
+                std::cout << desc << std::endl;
                 return 0;
             }
 
             if (vm.count("directory"))
             {
-                directory = vm["directory"].as<string>();
-                cout << "Выбран путь к модулям >> " << directory << endl;
+                directory = vm["directory"].as<std::string>();
+                std::cout << "Выбран путь к модулям >> " << directory << std::endl;
             }
             else
             {
-                throw string(argv[1]);
+                throw std::string(argv[1]);
             }
         }
-        catch(const string &exception)
+        catch(const std::string &exception)
         {
-            Logger::error << "Неверный параметр >> " << exception << endl;
+            Logger::error << "Неверный параметр >> " << exception << std::endl;
         }
-        catch(const exception &ex)
+        catch(const std::exception &ex)
         {
-            Logger::error << "Неверный параметр >> " << ex.what() << endl;
+            Logger::error << "Неверный параметр >> " << ex.what() << std::endl;
         }
         catch(...)
         {
-            Logger::error << "Неизвестная ошибка!" << endl;
+            Logger::error << "Неизвестная ошибка!" << std::endl;
         }
     }
     replace(directory.begin(), directory.end(), '\\', '/');

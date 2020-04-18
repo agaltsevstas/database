@@ -4,8 +4,6 @@
 #include <iostream>
 #include <map>
 
-using namespace std;
-
 template<class ID, class Base> class ObjectFactory
 {
 private:
@@ -14,7 +12,7 @@ private:
     {
         return new Derived();
     }
-    map<ID, fInstantiator> classes;
+    std::map<ID, fInstantiator> classes;
     
 public:
     ObjectFactory() {}

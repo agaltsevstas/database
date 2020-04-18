@@ -15,7 +15,7 @@
 #include <list>
 #include <functional>
 
-using namespace std;
+#include "Logger.h"
 
 enum Field
 {
@@ -54,8 +54,8 @@ class TradingCompany
     friend class Director;
     
 public:
-    typedef void (TradingCompany::*func)(const string&);
-    const map<string, func> checkParameters_ =
+    typedef void (TradingCompany::*func)(const std::string&);
+    const std::map<std::string, func> checkParameters_ =
     {
         {"id",           &TradingCompany::checkId},
         {"position",     &TradingCompany::checkPosition},
@@ -106,10 +106,10 @@ private:
         uint64_t uint64Value = 0;
         
         /// Строковое значение
-        string stringValue;
+        std::string stringValue;
     };
     
-    const map<string, std::function<void(TradingCompany&, string&)>> setParameters_ =
+    const std::map<std::string, std::function<void(TradingCompany&, std::string&)>> setParameters_ =
     {
         {"id",           &TradingCompany::setId},
         {"position",     &TradingCompany::setPosition},
@@ -128,7 +128,7 @@ private:
     };
     
     /// Карта параметров
-    map<Field, Status> fieldStatus_
+    std::map<Field, Status> fieldStatus_
     {
         {FIELD_ID,             ST_EMPTY},
         {FIELD_POSITION,       ST_EMPTY},
@@ -152,22 +152,22 @@ public:
     virtual void functional() = 0;
 //    ~TradingCompany();
     
-    uint     getId() const;
-    string   getPosition() const;
-    string   getSurname() const;
-    string   getName() const;
-    string   getPatronymic() const;
-    string   getSex() const;
-    string   getDateOfBirth() const;
-    uint64_t getPassport() const;
-    uint64_t getPhone() const;
-    string   getEmail() const;
-    string   getDateOfHiring() const;
-    string   getWorkingHours() const;
-    uint     getSalary() const;
-    string   getPassword() const;
-    uint     getPremium() const;
-    uint     getFine() const;
+    uint        getId() const;
+    std::string getPosition() const;
+    std::string getSurname() const;
+    std::string getName() const;
+    std::string getPatronymic() const;
+    std::string getSex() const;
+    std::string getDateOfBirth() const;
+    uint64_t    getPassport() const;
+    uint64_t    getPhone() const;
+    std::string getEmail() const;
+    std::string getDateOfHiring() const;
+    std::string getWorkingHours() const;
+    uint        getSalary() const;
+    std::string getPassword() const;
+    uint        getPremium() const;
+    uint        getFine() const;
     
     void changeStatusId(const bool canOverwrite = false);
     void changeStatusPosition();
@@ -184,65 +184,65 @@ public:
     void changeStatusSalary();
     void changeStatusPassword(const bool canOverwrite, const bool isWrite = false);
     
-    void checkPosition(const string &warning = {});
-    void checkSurname(const string &warning = {});
-    void checkName(const string &warning = {});
-    void checkPatronymic(const string &warning = {});
-    void checkSex(const string &warning = {});
-    void checkDateOfBirth(const string &warning = {});
-    void checkPassport(const string &warning = {});
-    void checkPhone(const string &warning = {});
-    void checkEmail(const string &warning = {});
-    void checkDateOfHiring(const string &warning = {});
-    void checkWorkingHours(const string &warning = {});
-    void checkSalary(const string &warning = {});
-    void checkPassword(const string &warning = {});
+    void checkPosition(const std::string &warning = {});
+    void checkSurname(const std::string &warning = {});
+    void checkName(const std::string &warning = {});
+    void checkPatronymic(const std::string &warning = {});
+    void checkSex(const std::string &warning = {});
+    void checkDateOfBirth(const std::string &warning = {});
+    void checkPassport(const std::string &warning = {});
+    void checkPhone(const std::string &warning = {});
+    void checkEmail(const std::string &warning = {});
+    void checkDateOfHiring(const std::string &warning = {});
+    void checkWorkingHours(const std::string &warning = {});
+    void checkSalary(const std::string &warning = {});
+    void checkPassword(const std::string &warning = {});
     bool hasDublicatePassword();
     void changePersonalData();
     
-    friend void operator >> (const string &line, TradingCompany &tradingCompany);
-    friend ostream& operator << (ostream &out, const TradingCompany &tradingCompany);
+    friend void operator >> (const std::string &line, TradingCompany &tradingCompany);
+    friend std::ostream& operator << (std::ostream &out, const TradingCompany &tradingCompany);
     friend bool operator == (const TradingCompany &first, const TradingCompany &second);
 
 private:
     uint     id_ = 0;
-    string   position_;
-    string   surname_;
-    string   name_;
-    string   patronymic_;
-    string   sex_;
-    string   dateOfBirth_;
+    std::string   position_;
+    std::string   surname_;
+    std::string   name_;
+    std::string   patronymic_;
+    std::string   sex_;
+    std::string   dateOfBirth_;
     uint64_t passport_ = 0;
     uint64_t phone_ = 0;
-    string   email_;
-    string   dateOfHiring_;
-    string   workingHours_;
+    std::string   email_;
+    std::string   dateOfHiring_;
+    std::string   workingHours_;
     uint     salary_ = 0;
-    string   password_;
+    std::string   password_;
     
-    void setId(string &id);
-    void setPosition(string &position);
-    void setSurname(string &surname);
-    void setName(string &name);
-    void setPatronymic(string &patronymic);
-    void setSex(string &sex);
-    void setDateOfBirth(string &dateOfBirth);
-    void setPhone(string &phone);
-    void setEmail(string &phone);
-    void setDateOfHiring(string &dateOfHiring);
-    void setWorkingHours(string &workingHours);
-    void setPassport(string &passport);
-    void setSalary(string &salary);
-    void setPassword(string &password);
+    void setId(std::string &id);
+    void setPosition(std::string &position);
+    void setSurname(std::string &surname);
+    void setName(std::string &name);
+    void setPatronymic(std::string &patronymic);
+    void setSex(std::string &sex);
+    void setDateOfBirth(std::string &dateOfBirth);
+    void setPhone(std::string &phone);
+    void setEmail(std::string &phone);
+    void setDateOfHiring(std::string &dateOfHiring);
+    void setWorkingHours(std::string &workingHours);
+    void setPassport(std::string &passport);
+    void setSalary(std::string &salary);
+    void setPassword(std::string &password);
     void displayUser();
-    void checkId(const string &warning = {});
+    void checkId(const std::string &warning = {});
     void recursion(const Field &field,
-                   std::function<void(TradingCompany&, string&)> setParameter,
-                   const string &message);
-    template<typename T> T get(string &value, const Field field);
+                   std::function<void(TradingCompany&, std::string&)> setParameter,
+                   const std::string &message);
+    template<typename T> T get(std::string &value, const Field field);
     /// Пустое поле для возврата в качестве отсутствия результата поиска
     const Type empty = Type();
-    const Type checkField(string &value, const Field &numberField);
+    const Type checkField(std::string &value, const Field &numberField);
 };
 
 //enum class classes { directors, chief_accountant };

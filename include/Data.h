@@ -33,7 +33,7 @@ class HRManager;
 //class Loader;
 //class Driver;
 
-const list<string> positions
+const std::list<std::string> positions
 {
     "Бухгалтер",
     "Водитель",
@@ -79,13 +79,13 @@ public:
         return data;
     }
     
-    void loadDatabase(const string &directoryPath);
+    void loadDatabase(const std::string &directoryPath);
 
     void inputPassword();
         
     template<typename T, class C> void checkParameter(const T &parameter,
-                                                      function<T(TradingCompany&)> getParameter,
-                                                      function<void()> checkParameter,
+                                                      std::function<T(TradingCompany&)> getParameter,
+                                                      std::function<void()> checkParameter,
                                                       const C *object, const bool isMatchCheck = false)
     {
         if (isMatchCheck)
@@ -106,8 +106,8 @@ public:
     friend void HRManager::addNewEmployeeData();
     
 private:
-    ObjectFactory<string, TradingCompany> objectFactory_;
-    vector<shared_ptr<TradingCompany>> tradingCompanyObjects_;
+    ObjectFactory<std::string, TradingCompany> objectFactory_;
+    std::vector<std::shared_ptr<TradingCompany>> tradingCompanyObjects_;
     
     Data() {}
     Data(const Data&) = delete;
@@ -116,7 +116,7 @@ private:
     template<class C> void checkPassword(C &object);
     void getAllOtherData() const;
     template<class C> void setOtherData(C &object);
-    void newEmployeeData();
+    void newEmployeeData(const TradingCompany *object);
     template<class C> void pushBack(C &object);
 };
 

@@ -1,7 +1,5 @@
 #include "Logger.h"
-#include "Utils.h"
-
-using namespace utils;
+#include "TradingCompany.h"
 
 /// creates logger that will write to log.txt
 void Logger::createInstance()
@@ -27,54 +25,54 @@ void Logger::setDebugLevel(Logger::DebugLevel debugLevel)
 }
 
 /// can signify errors while writing message
-void Logger::writeError(const string &message)
+void Logger::writeError(const std::string &message)
 {
     // if level of error is greator than set debug level
     if (debugLevel_ >= DEBUG_LEVEL_ERROR)
     {
         // type out [Error]
-        const string type = "[Error] ";
-        string str = type + message;
+        const std::string type = "[Error] ";
+        std::string str = type + message;
         // write out message
-        thread_ = thread([this, &str]() { this->writeToFile(str); });
+        thread_ = std::thread([this, &str]() { this->writeToFile(str); });
         writeToBuffer(message, MessageType::MESSAGE_ERROR);
         thread_.join();
     }
 }
 
 /// can signify warning while writing message
-void Logger::writeWarning(const string &message)
+void Logger::writeWarning(const std::string &message)
 {
     // if level of warning is greator than set debug level
     if (debugLevel_ >= DEBUG_LEVEL_WARNING)
     {
         // type out [Error]
-        const string type = "[Warning] ";
-        string str = type + message;
+        const std::string type = "[Warning] ";
+        std::string str = type + message;
         // write out message
-        thread_ = thread([this, &str]() { this->writeToFile(str); });
+        thread_ = std::thread([this, &str]() { this->writeToFile(str); });
         writeToBuffer(message, MessageType::MESSAGE_WARNING);
         thread_.join();
     }
 }
 
 /// Write out message to logger of type MESSAGE_INFO if debug level allows it
-void Logger::writeInfo(const string &message)
+void Logger::writeInfo(const std::string &message)
 {
     if (debugLevel_ >= DEBUG_LEVEL_INFO)
     {
-        thread_ = thread([this, &message]() { this->writeToFile(message); });
+        thread_ = std::thread([this, &message]() { this->writeToFile(message); });
         writeToBuffer(message, MessageType::MESSAGE_INFO);
         thread_.join();
     }
 }
 
 /// Write out message to logger with the inputted message type
-void Logger::writeToBuffer(const string &message, MessageType messageType)
+void Logger::writeToBuffer(const std::string &message, MessageType messageType)
 {
     // std::replace(message.begin(), message.end(), '\n', ' '); // Fix it later
     // Send message to standard console out
-    // cout << message;
+    // std::cout << message;
     // add message to end of buffer
     allMessagesBuffer_ += message;
     switch (messageType)
@@ -94,101 +92,97 @@ void Logger::writeToBuffer(const string &message, MessageType messageType)
 }
 
 /// Add message directly to the end of a file
-void Logger::writeToFile(const string &message)
+void Logger::writeToFile(const std::string &message)
 {
     mutex_.lock();
-    logFile_ << message << flush;
+    logFile_ << message << std::flush;
     mutex_.unlock();
 }
 
 void Logger::printInfo()
 {
-    cout << infoBuffer_ << endl;
+    std::cout << infoBuffer_ << std::endl;
 }
 
 void Logger::printWarning()
 {
-    cout << warningBuffer_ << endl;
+    std::cout << warningBuffer_ << std::endl;
 }
 
 void Logger::printError()
 {
-    cout << errorBuffer_ << endl;
+    std::cout << errorBuffer_ << std::endl;
 }
 
 void Logger::printAllMessages()
 {
-    cout << allMessagesBuffer_ << endl;
+    std::cout << allMessagesBuffer_ << std::endl;
 }
 
-void Logger::printLog()
+void Logger::printLog(const TradingCompany *object)
 {
-    cout << "Хотите вывести все сообщения - нажмите 1" << endl;
-    cout << "Хотите вывести все предупреждения - нажмите 2" << endl;
-    cout << "Хотите вывести все ошибки - нажмите 3" << endl;
-    cout << "Хотите вывести весь лог - нажмите 4" << endl;
-    cout << "Хотите вернуться назад? - введите B: " << endl;
-    cout << "Хотите выйти из программы? - введите ESC: " << endl;
+    std::cout << "Хотите вывести все сообщения - нажмите 1" << std::endl;
+    std::cout << "Хотите вывести все предупреждения - нажмите 2" << std::endl;
+    std::cout << "Хотите вывести все ошибки - нажмите 3" << std::endl;
+    std::cout << "Хотите вывести весь лог - нажмите 4" << std::endl;
+    std::cout << "Хотите вернуться назад? - введите B: " << std::endl;
+    std::cout << "Хотите выйти из программы? - введите ESC: " << std::endl;
 
-    string input;
-    cin >> input;
+    std::string input;
+    std::cin >> input;
     try
     {
-        switch (str(input.c_str()))
+        switch (utils::str(input.c_str()))
         {
-            case str("1") :
+            case utils::str("1") :
                 printInfo();
                 break;
 
-            case str("2") :
+            case utils::str("2") :
                 printWarning();
                 break;
 
-            case str("3") :
+            case utils::str("3") :
                 printError();
                 break;
 
-            case str("4") :
+            case utils::str("4") :
                 printAllMessages();
                 break;
 
-            case str("b") :
+            case utils::str("b") :
                 return;
 
-            case str("esc") :
-                Logger::info << "Выход из программы." << endl;
-                cout << "Вы вышли из программы!" << endl;
-                exit(0);
+            case utils::str("esc") :
+                EXIT(object);
 
             default:
                 throw input;
         }
     }
-    catch (const string &exception)
+    catch (const std::string &exception)
     {
-        Logger::error << "Введена >> " << exception
-                      << " - неверная команда!" << endl;
-        cerr << "Вы ввели >> " << exception
-             << " - неверная команда! Попробуйте ввести заново: "
-             << endl;
+        Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
+        std::cerr << "Вы ввели >> " << exception
+                  << " - неверная команда! Попробуйте ввести заново: " << std::endl;
     }
-    catch(const exception &ex)
+    catch(const std::exception &ex)
     {
-        Logger::error << "Ошибка >> " << ex.what() << endl;
-        cerr << "Ошибка >> " << ex.what() << endl;
+        Logger::error << "Ошибка >> " << ex.what() << std::endl;
+        std::cerr << "Ошибка >> " << ex.what() << std::endl;
     }
     catch(...)
     {
-        Logger::error << "Неизвестная ошибка!" << endl;
-        cerr << "Неизвестная ошибка!" << endl;
-        exit(0);
+        Logger::error << "Неизвестная ошибка!" << std::endl;
+        std::cerr << "Неизвестная ошибка!" << std::endl;
+        std::exit(0);
     }
-    printLog();
+    printLog(object);
 }
 
 /// Constructor - must send in message type
 Logger::Streamer::Streamer(Logger::MessageType messageType)
-: ostream(new StringBuffer(messageType))
+: std::ostream(new StringBuffer(messageType))
 {
 }
 
@@ -204,7 +198,7 @@ Logger::Streamer::StringBuffer::StringBuffer(Logger::MessageType messageType)
 {
 }
 
-/// Writes out any unwritten characters to output if string buffers not synchronized, else does nothing
+/// Writes out any unwritten characters to output if std::string buffers not synchronized, else does nothing
 Logger::Streamer::StringBuffer::~StringBuffer()
 {
     pubsync();
@@ -222,7 +216,7 @@ int Logger::Streamer::StringBuffer::sync()
     {
         return 0;
     }
-    string text(str());
+    std::string text(str());
     if (text.empty())
     {
         return 0;
@@ -248,8 +242,8 @@ int Logger::Streamer::StringBuffer::sync()
 Logger* Logger::logger_ = nullptr;
 Logger::DebugLevel Logger::debugLevel_ = Logger::DebugLevel::DEBUG_LEVEL_DISABLED;
 std::ofstream Logger::logFile_;
-string Logger::infoBuffer_;
-string Logger::warningBuffer_;
-string Logger::errorBuffer_;
-string Logger::allMessagesBuffer_;
+std::string Logger::infoBuffer_;
+std::string Logger::warningBuffer_;
+std::string Logger::errorBuffer_;
+std::string Logger::allMessagesBuffer_;
 

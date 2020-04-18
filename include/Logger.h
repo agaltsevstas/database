@@ -9,7 +9,9 @@
 #include <thread>
 #include <mutex>
 
-using namespace std;
+#include "Utils.h"
+
+class TradingCompany;
 
 class Logger
 {
@@ -37,14 +39,14 @@ public:
     static void deleteInstance();
     static void setDebugLevel(DebugLevel level);
     
-    class Streamer : public ostream
+    class Streamer : public std::ostream
     {
     public:
         Streamer(Logger::MessageType messageType);
         ~Streamer();
         
     private:
-        class StringBuffer : public stringbuf
+        class StringBuffer : public std::stringbuf
         {
         public:
             StringBuffer(Logger::MessageType messageType);
@@ -67,27 +69,27 @@ protected:
     ~Logger() {}
     
 private:
-    static string infoBuffer_;
-    static string warningBuffer_;
-    static string errorBuffer_;
-    static string allMessagesBuffer_;
-    thread thread_;
-    mutex mutex_;
+    static std::string infoBuffer_;
+    static std::string warningBuffer_;
+    static std::string errorBuffer_;
+    static std::string allMessagesBuffer_;
+    std::thread thread_;
+    std::mutex mutex_;
     
     static DebugLevel debugLevel_;
     static Logger* logger_;
-    static ofstream logFile_;
+    static std::ofstream logFile_;
     
-    void writeInfo(const string &message);
-    void writeWarning(const string &message);
-    void writeError(const string &message);
-    static void writeToBuffer(const string &message, MessageType type);
-    void writeToFile(const string &message);
+    void writeInfo(const std::string &message);
+    void writeWarning(const std::string &message);
+    void writeError(const std::string &message);
+    static void writeToBuffer(const std::string &message, MessageType type);
+    void writeToFile(const std::string &message);
     static void printInfo();
     static void printWarning();
     static void printError();
     static void printAllMessages();
-    static void printLog();
+    static void printLog(const TradingCompany *object);
 };
 
 #endif /* Logger_h */

@@ -3,24 +3,22 @@
 
 #include "Utils.h"
 
-using namespace boost::filesystem;
-
 namespace utils
 {
 
-    string getNameWithoutExtension(const string &filePath)
+    std::string getNameWithoutExtension(const std::string &filePath)
     {
-        path fileName(filePath);
+        boost::filesystem::path fileName(filePath);
         return fileName.stem().c_str();
     }
 
-    string translit(const string &textRussian)
+    std::string translit(const std::string &textRussian)
     {
-        string textEnglish;
+        std::string textEnglish;
         for (size_t i = 0; i <= textRussian.length(); ++i)
         {
             char space = textRussian[i];
-            string letter = textRussian.substr(i, 2);
+            std::string letter = textRussian.substr(i, 2);
             if (space == ' ')
                         textEnglish += " ";
             else if (translitSymbols.find(letter) != translitSymbols.end())
@@ -31,9 +29,9 @@ namespace utils
         return textEnglish;
     }
     
-    string createEmail(const vector<string> &anthroponym)
+    std::string createEmail(const std::vector<std::string> &anthroponym)
     {
-        string email;
+        std::string email;
         for (auto part: anthroponym)
         {
             toUpperAndToLower(part, 0);
@@ -43,25 +41,25 @@ namespace utils
         return email += "@tradingcompany.ru";
     }
     
-    vector<string> splitString(string source, string delim)
+    std::vector<std::string> splitString(std::string source, std::string delim)
     {
-        vector<string> result;
+        std::vector<std::string> result;
 
         source.erase(remove(source.begin(), source.end(), ' '), source.end());
         boost::split(result, source, boost::is_any_of(delim));
         return result;
     }
 
-    string date()
+    std::string date()
     {
-        stringstream ss;
+        std::stringstream ss;
         time_t t = std::time(nullptr);
         auto tm = *localtime(&t);
-        ss << put_time(&tm, "%d.%m.%Y");
+        ss << std::put_time(&tm, "%d.%m.%Y");
         return ss.str();
     }
 
-    vector<uint> findAge(vector<string> &data, vector<string> &dateOfBirth)
+    std::vector<uint> findAge(std::vector<std::string> &data, std::vector<std::string> &dateOfBirth)
     {
         uint currentDay = atoi(data[0].c_str());
         uint currentMonth = atoi(data[1].c_str());
@@ -84,19 +82,19 @@ namespace utils
         uint calculatedDay = currentDay - birthDay;
         uint calculatedMonth = currentMonth - birthMonth;
         uint calculatedYear = currentYear - birthYear;
-        vector<uint> age = { calculatedYear, calculatedMonth, calculatedDay };
+        std::vector<uint> age = { calculatedYear, calculatedMonth, calculatedDay };
         return age;
     }
 
-    void toUpperAndToLower(string &str, uint numberUpper)
+    void toUpperAndToLower(std::string &str, uint numberUpper)
     {
         for (size_t i = 0; i < numberUpper; ++i)
         {
             toupper(str[i]);
         }
-        wstring wstr = utf8ToWstring(str);
+        std::wstring wstr = utf8ToWstring(str);
         wstr[0] = towupper(wstr[0]);
-        transform(wstr.begin() + numberUpper, wstr.end(), wstr.begin() + numberUpper, towlower);
+        transform(wstr.begin() + numberUpper, wstr.end(), wstr.begin() + numberUpper, std::towlower);
         str = wstringToUtf8(wstr);
     }
 }
