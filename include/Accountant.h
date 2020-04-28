@@ -15,7 +15,6 @@ public:
 private:
     Data* data_ = nullptr;
     
-    void checkData();
     void changePersonalData();
 };
 

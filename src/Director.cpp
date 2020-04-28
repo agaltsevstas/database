@@ -8,52 +8,6 @@ Director::~Director()
 //    delete data_;
 }
 
-void Director::checkData()
-{
-    data_->checkParameter(id_,
-                          std::function<uint(TradingCompany&)>{&TradingCompany::getId},
-                          bind(checkParameters_.at("id"), this, "Ваш id не удовлетворяет требованиям!\n"), this, true);
-    data_->checkParameter(position_,
-                          std::function<std::string(TradingCompany&)>{&TradingCompany::getPosition},
-                          bind(&TradingCompany::checkPosition, this, "Ваша должность не удовлетворяет требованиям!\n"), this);
-    data_->checkParameter(surname_,
-                          std::function<std::string(TradingCompany&)>{&TradingCompany::getSurname},
-                          bind(&TradingCompany::checkSurname, this, "Ваша фамилия не удовлетворяет требованиям!\n"), this);
-    data_->checkParameter(name_,
-                          std::function<std::string(TradingCompany&)>{&TradingCompany::getName},
-                          bind(&TradingCompany::checkName, this, "Ваше имя не удовлетворяет требованиям!\n"), this);
-    data_->checkParameter(patronymic_,
-                          std::function<std::string(TradingCompany&)>{&TradingCompany::getPatronymic},
-                          bind(&TradingCompany::checkPatronymic, this, "Ваше отчество не удовлетворяет требованиям!\n"), this);
-    data_->checkParameter(sex_,
-                          std::function<std::string(TradingCompany&)>{&TradingCompany::getSex},
-                          bind(&TradingCompany::checkSex, this, "Ваш пол не удовлетворяет требованиям!\n"), this);
-    data_->checkParameter(dateOfBirth_,
-                          std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
-                          bind(&TradingCompany::checkDateOfBirth, this, "Ваша дата рождения не удовлетворяет требованиям!\n"), this);
-    data_->checkParameter(passport_,
-                          std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
-                          bind(&TradingCompany::checkPassport, this, "Ваш паспорт не удовлетворяет требованиям!\n"), this, true);
-    data_->checkParameter(phone_,
-                          std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
-                          bind(&TradingCompany::checkPhone, this, "Ваш телефон не удовлетворяет требованиям!\n"), this, true);
-    data_->checkParameter(email_,
-                          std::function<std::string(TradingCompany&)>{&TradingCompany::getEmail},
-                          bind(&TradingCompany::checkEmail, this, "Ваша почта не удовлетворяет требованиям!\n"), this, true);
-    data_->checkParameter(dateOfHiring_,
-                          std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
-                          bind(&TradingCompany::checkDateOfHiring, this, "Ваша дата принятия на работу не удовлетворяет требованиям!\n"), this);
-    data_->checkParameter(workingHours_,
-                          std::function<std::string(TradingCompany&)>{&TradingCompany::getWorkingHours},
-                          bind(&TradingCompany::checkWorkingHours, this, "Ваши часы работы не удовлетворяет требованиям!\n"), this);
-    data_->checkParameter(salary_,
-                          std::function<uint(TradingCompany&)>{&TradingCompany::getSalary},
-                          bind(&TradingCompany::checkSalary, this, "Ваша зарплата не удовлетворяет требованиям!\n"), this);
-    data_->checkParameter(password_,
-                          std::function<std::string(TradingCompany&)>{&TradingCompany::getPassword},
-                          bind(&TradingCompany::checkPassword, this, "Ваш пароль не удовлетворяет требованиям!\n"), this, true);
-}
-
 void Director::changePersonalData()
 {
     std::string input;
@@ -83,9 +37,8 @@ void Director::changePersonalData()
             {
                 case utils::str("1") :
                     changeStatusId(true);
-                    data_->checkParameter(id_,
-                                          std::function<uint(TradingCompany&)>{&TradingCompany::getId},
-                                          bind(checkParameters_.at("id"), this, ""), this, true);
+                    data_->checkParameter(std::function<uint(TradingCompany&)>{&TradingCompany::getId},
+                                          bind(&TradingCompany::checkId, this, ""), this, true);
                     break;
                     
                 case utils::str("2") :
@@ -101,8 +54,7 @@ void Director::changePersonalData()
                         std::cout << "Выберите одну из предложенных должности: " << std::endl;
                         copy(positions.begin(), positions.end(), std::ostream_iterator<std::string>(std::cout, " "));
                         changeStatusPosition();
-                        data_->checkParameter(position_,
-                                              std::function<std::string(TradingCompany&)>{&TradingCompany::getPosition},
+                        data_->checkParameter(std::function<std::string(TradingCompany&)>{&TradingCompany::getPosition},
                                               bind(&TradingCompany::checkPosition, this, ""), this);
                     }
                     else if (input == "no")
@@ -114,64 +66,55 @@ void Director::changePersonalData()
                     
                 case utils::str("3") :
                     changeStatusSurname();
-                    data_->checkParameter(surname_,
-                                          std::function<std::string(TradingCompany&)>{&TradingCompany::getSurname},
+                    data_->checkParameter(std::function<std::string(TradingCompany&)>{&TradingCompany::getSurname},
                                           bind(&TradingCompany::checkSurname, this, ""), this);
                     break;
                     
                 case utils::str("4") :
                     changeStatusName();
-                    data_->checkParameter(name_,
-                                          std::function<std::string(TradingCompany&)>{&TradingCompany::getName},
+                    data_->checkParameter(std::function<std::string(TradingCompany&)>{&TradingCompany::getName},
                                           bind(&TradingCompany::checkName, this, ""), this);
                     break;
                     
                 case utils::str("5") :
                     changeStatusPatronymic();
-                    data_->checkParameter(patronymic_,
-                                          std::function<std::string(TradingCompany&)>{&TradingCompany::getPatronymic},
+                    data_->checkParameter(std::function<std::string(TradingCompany&)>{&TradingCompany::getPatronymic},
                                           bind(&TradingCompany::checkPatronymic, this, "!\n"), this);
                     break;
                     
                 case utils::str("6") :
                     changeStatusSex();
-                    data_->checkParameter(sex_,
-                                          std::function<std::string(TradingCompany&)>{&TradingCompany::getSex},
+                    data_->checkParameter(std::function<std::string(TradingCompany&)>{&TradingCompany::getSex},
                                           bind(&TradingCompany::checkSex, this, ""), this);
                     break;
                     
                 case utils::str("7") :
                     changeStatusDateOfBirth();
-                    data_->checkParameter(dateOfBirth_,
-                                          std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
+                    data_->checkParameter(std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
                                           bind(&TradingCompany::checkDateOfBirth, this, ""), this);
                     break;
                     
                 case utils::str("8") :
                     changeStatusPassport(true);
-                    data_->checkParameter(passport_,
-                                          std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
+                    data_->checkParameter(std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
                                           bind(&TradingCompany::checkPassport, this, ""), this, true);
                     break;
                     
                 case utils::str("9") :
                     changeStatusPhone(true);
-                    data_->checkParameter(passport_,
-                                          std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
+                    data_->checkParameter(std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
                                           bind(&TradingCompany::checkPassport, this, ""), this, true);
                     break;
                     
                 case utils::str("10") :
                     changeStatusEmail(true);
-                    data_->checkParameter(email_,
-                                          std::function<std::string(TradingCompany&)>{&TradingCompany::getEmail},
+                    data_->checkParameter(std::function<std::string(TradingCompany&)>{&TradingCompany::getEmail},
                                           bind(&TradingCompany::checkEmail, this, ""), this, true);
                     break;
                     
                 case utils::str("11") :
                     changeStatusDateOfHiring();
-                    data_->checkParameter(dateOfHiring_,
-                                          std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
+                    data_->checkParameter(std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
                                           bind(&TradingCompany::checkDateOfHiring, this, ""), this);
                     break;
                     
@@ -181,15 +124,13 @@ void Director::changePersonalData()
                     
                 case utils::str("13") :
                     changeStatusSalary();
-                    data_->checkParameter(workingHours_,
-                                          std::function<std::string(TradingCompany&)>{&TradingCompany::getWorkingHours},
+                    data_->checkParameter(std::function<std::string(TradingCompany&)>{&TradingCompany::getWorkingHours},
                                           bind(&TradingCompany::checkWorkingHours, this, "Ваши часы работы не удовлетворяет требованиям!\n"), this);
                     break;
                     
                 case utils::str("14") :
                     changeStatusPassword(true);
-                    data_->checkParameter(password_,
-                                          std::function<std::string(TradingCompany&)>{&TradingCompany::getPassword},
+                    data_->checkParameter(std::function<std::string(TradingCompany&)>{&TradingCompany::getPassword},
                                           bind(&TradingCompany::checkPassword, this, ""), this, true);
                     break;
                     
@@ -232,7 +173,6 @@ void Director::addNewEmployeeData()
 void Director::functional()
 {
     displayUser();
-    checkData();
     
     std::string input;
     while (true)
@@ -267,7 +207,9 @@ void Director::functional()
                     break;
                     
                 case utils::str("5") :
+                    Logger::info << " ********** Вход в Logger ********** " << std::endl;
                     Logger::printLog(this);
+                    Logger::info << " ********** Выход из Logger ********** " << std::endl;
                     break;
                     
                 case utils::str("b") :

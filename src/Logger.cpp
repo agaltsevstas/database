@@ -136,18 +136,22 @@ void Logger::printLog(const TradingCompany *object)
         {
             case utils::str("1") :
                 printInfo();
+                Logger::info << " >> Вывод обычной информации << " << std::endl;
                 break;
 
             case utils::str("2") :
                 printWarning();
+                Logger::info << " >> Вывод всех предупреждений << " << std::endl;
                 break;
 
             case utils::str("3") :
                 printError();
+                Logger::info << " >> Вывод всех ошибок << " << std::endl;
                 break;
 
             case utils::str("4") :
                 printAllMessages();
+                Logger::info << " >> Вывод всех сообщений << " << std::endl;
                 break;
 
             case utils::str("b") :

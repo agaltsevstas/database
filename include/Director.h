@@ -16,7 +16,6 @@ public:
 private:    
     Data* data_ = nullptr;
     
-    void checkData();
     void changePersonalData();
     void setPremium(int premium);
     void setFine(int fine);

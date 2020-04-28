@@ -96,6 +96,12 @@ namespace utils
     }
 
     void toUpperAndToLower(std::string &str, uint numberUpper = 1);
+
+    std::string convertToString(const std::string &input);
+
+    std::string convertToString(const uint &input);
+
+    std::string convertToString(const uint64_t &input);
 }
 
 #endif // Utils_h

@@ -11,32 +11,37 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "void Data::pushBack&lt;Director&gt;(Director&amp;):Data.h">
+         contextName = "void Data::checkParameter&lt;unsigned int, Director*&gt;(unsigned int&amp;, std::__1::function&lt;unsigned int (TradingCompany&amp;)&gt;, std::__1::function&lt;void ()&gt;, Director*):Data.h">
          <PersistentStrings>
             <PersistentString
-               value = "tradingCompanyVector_">
+               value = "tradingCompanyObjects_">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "void Data::checkData&lt;Director&gt;(Director&amp;):Data.h">
+         contextName = "Logger::writeToBuffer(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;, Logger::MessageType):Logger.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "infoBuffer">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "void Data::pushBack&lt;TradingCompany&gt;(TradingCompany&amp;):Data.h">
       </ContextState>
       <ContextState
-         contextName = "void Data::getReadingDataFromFile&lt;std::__1::shared_ptr&lt;Directors&gt; &gt;(std::__1::shared_ptr&lt;Directors&gt;&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
+         contextName = "void Data::pushBack&lt;Director&gt;(Director&amp;)::&apos;lambda&apos;(std::__1::shared_ptr&lt;TradingCompany&gt; const&amp;)::operator()(std::__1::shared_ptr&lt;TradingCompany&gt; const&amp;) const:Data.h">
+      </ContextState>
+      <ContextState
+         contextName = "function_directors():directors.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "T">
-            </PersistentString>
-            <PersistentString
-               value = "tradingCompanyVector_">
+               value = "">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "void Data::checkParameter&lt;unsigned int, Director*&gt;(unsigned int&amp;, std::__1::function&lt;unsigned int (TradingCompany&amp;)&gt;, std::__1::function&lt;void ()&gt;, Director*):Data.h">
+         contextName = "void Data::getReadingDataFromFile&lt;Director&gt;(Director&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
          <PersistentStrings>
             <PersistentString
                value = "tradingCompanyObjects_">
@@ -52,25 +57,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "void Data::pushBack&lt;Director&gt;(Director&amp;)::&apos;lambda&apos;(std::__1::shared_ptr&lt;TradingCompany&gt; const&amp;)::operator()(std::__1::shared_ptr&lt;TradingCompany&gt; const&amp;) const:Data.h">
-      </ContextState>
-      <ContextState
-         contextName = "void Data::getReadingDataFromFile&lt;Director&gt;(Director&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
-         <PersistentStrings>
-            <PersistentString
-               value = "tradingCompanyObjects_">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "void Data::getReadingDataFromFile&lt;Directors&gt;(Directors&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
-         <PersistentStrings>
-            <PersistentString
-               value = "tradingCompanyVector_">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "Logger::writeWarning(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Logger.cpp">
          <PersistentStrings>
             <PersistentString
@@ -79,13 +65,43 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "void Data::getReadingDataFromFile&lt;std::__1::shared_ptr&lt;Directors&gt; &gt;(std::__1::shared_ptr&lt;Directors&gt;*, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
-      </ContextState>
-      <ContextState
-         contextName = "utils::createEmail(std::__1::vector&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, std::__1::allocator&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; &gt; &gt; const&amp;):Utils.cpp">
+         contextName = "void Data::checkParameter&lt;unsigned int&gt;(unsigned int const&amp;, std::__1::function&lt;unsigned int (TradingCompany&amp;)&gt;, std::__1::function&lt;void ()&gt;, TradingCompany const*, bool):Data.h">
          <PersistentStrings>
             <PersistentString
-               value = "anthroponym">
+               value = "object">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "void Data::checkParameter&lt;unsigned long long, Director&gt;(unsigned long long const&amp;, std::__1::function&lt;unsigned long long (TradingCompany&amp;)&gt;, std::__1::function&lt;void ()&gt;, Director const*, bool):Data.h">
+      </ContextState>
+      <ContextState
+         contextName = "void Data::checkParameter&lt;unsigned int, Director&gt;(unsigned int const&amp;, std::__1::function&lt;unsigned int (TradingCompany&amp;)&gt;, std::__1::function&lt;void ()&gt;, Director const*, bool):Data.h">
+         <PersistentStrings>
+            <PersistentString
+               value = "object">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "void Data::getReadingDataFromFile&lt;std::__1::shared_ptr&lt;Directors&gt; &gt;(std::__1::shared_ptr&lt;Directors&gt;&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
+         <PersistentStrings>
+            <PersistentString
+               value = "T">
+            </PersistentString>
+            <PersistentString
+               value = "tradingCompanyVector_">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "void Director::setOtherData&lt;std::__1::shared_ptr&lt;TradingCompany&gt; &gt;(std::__1::shared_ptr&lt;TradingCompany&gt;&amp;):Director.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "void Data::pushBack&lt;Director&gt;(Director&amp;):Data.h">
+         <PersistentStrings>
+            <PersistentString
+               value = "tradingCompanyVector_">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -93,12 +109,15 @@
          contextName = "void Data::checkParameter&lt;unsigned int, Director*&gt;(unsigned int&amp;, std::__1::function&lt;unsigned int (TradingCompany&amp;)&gt;, std::__1::function&lt;void ()&gt;, Director*, bool):Data.h">
       </ContextState>
       <ContextState
-         contextName = "function_directors():directors.cpp">
+         contextName = "Logger::printLogger():Logger.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "">
+               value = "input">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "void Data::checkData&lt;Director&gt;(Director&amp;):Data.h">
       </ContextState>
       <ContextState
          contextName = "void Data::checkParameter&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, Director*&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;&amp;, std::__1::function&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (TradingCompany&amp;)&gt;, std::__1::function&lt;void ()&gt;, Director*, bool):Data.h">
@@ -109,21 +128,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "void Director::setOtherData&lt;std::__1::shared_ptr&lt;TradingCompany&gt; &gt;(std::__1::shared_ptr&lt;TradingCompany&gt;&amp;):Director.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "Logger::writeToBuffer(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;, Logger::MessageType):Logger.cpp">
+         contextName = "utils::createEmail(std::__1::vector&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, std::__1::allocator&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; &gt; &gt; const&amp;):Utils.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "infoBuffer">
+               value = "anthroponym">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Logger::printLogger():Logger.cpp">
+         contextName = "void Data::getReadingDataFromFile&lt;std::__1::shared_ptr&lt;Directors&gt; &gt;(std::__1::shared_ptr&lt;Directors&gt;*, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
+      </ContextState>
+      <ContextState
+         contextName = "void Data::getReadingDataFromFile&lt;Directors&gt;(Directors&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
          <PersistentStrings>
             <PersistentString
-               value = "input">
+               value = "tradingCompanyVector_">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

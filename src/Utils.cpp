@@ -97,4 +97,19 @@ namespace utils
         transform(wstr.begin() + numberUpper, wstr.end(), wstr.begin() + numberUpper, std::towlower);
         str = wstringToUtf8(wstr);
     }
+
+    std::string convertToString(const std::string &input)
+    {
+        return input;
+    }
+
+    std::string convertToString(const uint &input)
+    {
+        return input ? std::to_string(input) : std::string();
+    }
+
+    std::string convertToString(const uint64_t &input)
+    {
+        return input ? std::to_string(input) : std::string();
+    }
 }

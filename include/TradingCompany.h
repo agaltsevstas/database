@@ -53,26 +53,6 @@ class TradingCompany
     friend class Data;
     friend class Director;
     
-public:
-    typedef void (TradingCompany::*func)(const std::string&);
-    const std::map<std::string, func> checkParameters_ =
-    {
-        {"id",           &TradingCompany::checkId},
-        {"position",     &TradingCompany::checkPosition},
-        {"surname",      &TradingCompany::checkSurname},
-        {"name",         &TradingCompany::checkName},
-        {"patronymic",   &TradingCompany::checkPatronymic},
-        {"sex",          &TradingCompany::checkSex},
-        {"dateOfBirth",  &TradingCompany::checkDateOfBirth},
-        {"passport",     &TradingCompany::checkPassport},
-        {"phone",        &TradingCompany::checkPhone},
-        {"email",        &TradingCompany::checkEmail},
-        {"dateOfHiring", &TradingCompany::checkDateOfHiring},
-        {"workingHours", &TradingCompany::checkWorkingHours},
-        {"salary",       &TradingCompany::checkSalary},
-        {"password",     &TradingCompany::checkPassword}
-    };
-    
 private:
 
     enum Status
@@ -169,56 +149,25 @@ public:
     uint        getPremium() const;
     uint        getFine() const;
     
-    void changeStatusId(const bool canOverwrite = false);
-    void changeStatusPosition();
-    void changeStatusSurname();
-    void changeStatusName();
-    void changeStatusPatronymic();
-    void changeStatusSex();
-    void changeStatusDateOfBirth();
-    void changeStatusPassport(const bool canOverwrite = false);
-    void changeStatusPhone(const bool canOverwrite = false);
-    void changeStatusEmail(const bool canOverwrite = false);
-    void changeStatusDateOfHiring();
-    void changeStatusWorkingHours();
-    void changeStatusSalary();
-    void changeStatusPassword(const bool canOverwrite, const bool isWrite = false);
-    
-    void checkPosition(const std::string &warning = {});
-    void checkSurname(const std::string &warning = {});
-    void checkName(const std::string &warning = {});
-    void checkPatronymic(const std::string &warning = {});
-    void checkSex(const std::string &warning = {});
-    void checkDateOfBirth(const std::string &warning = {});
-    void checkPassport(const std::string &warning = {});
-    void checkPhone(const std::string &warning = {});
-    void checkEmail(const std::string &warning = {});
-    void checkDateOfHiring(const std::string &warning = {});
-    void checkWorkingHours(const std::string &warning = {});
-    void checkSalary(const std::string &warning = {});
-    void checkPassword(const std::string &warning = {});
-    bool hasDublicatePassword();
-    void changePersonalData();
-    
     friend void operator >> (const std::string &line, TradingCompany &tradingCompany);
     friend std::ostream& operator << (std::ostream &out, const TradingCompany &tradingCompany);
     friend bool operator == (const TradingCompany &first, const TradingCompany &second);
 
 private:
-    uint     id_ = 0;
-    std::string   position_;
-    std::string   surname_;
-    std::string   name_;
-    std::string   patronymic_;
-    std::string   sex_;
-    std::string   dateOfBirth_;
-    uint64_t passport_ = 0;
-    uint64_t phone_ = 0;
-    std::string   email_;
-    std::string   dateOfHiring_;
-    std::string   workingHours_;
-    uint     salary_ = 0;
-    std::string   password_;
+    uint        id_ = 0;
+    std::string position_;
+    std::string surname_;
+    std::string name_;
+    std::string patronymic_;
+    std::string sex_;
+    std::string dateOfBirth_;
+    uint64_t    passport_ = 0;
+    uint64_t    phone_ = 0;
+    std::string email_;
+    std::string dateOfHiring_;
+    std::string workingHours_;
+    uint        salary_ = 0;
+    std::string password_;
     
     void setId(std::string &id);
     void setPosition(std::string &position);
@@ -234,6 +183,35 @@ private:
     void setPassport(std::string &passport);
     void setSalary(std::string &salary);
     void setPassword(std::string &password);
+    void checkPosition(const std::string &warning = {});
+    void checkSurname(const std::string &warning = {});
+    void checkName(const std::string &warning = {});
+    void checkPatronymic(const std::string &warning = {});
+    void checkSex(const std::string &warning = {});
+    void checkDateOfBirth(const std::string &warning = {});
+    void checkPassport(const std::string &warning = {});
+    void checkPhone(const std::string &warning = {});
+    void checkEmail(const std::string &warning = {});
+    void checkDateOfHiring(const std::string &warning = {});
+    void checkWorkingHours(const std::string &warning = {});
+    void checkSalary(const std::string &warning = {});
+    void checkPassword(const std::string &warning = {});
+    bool hasDublicatePassword();
+    void changePersonalData();
+    void changeStatusId(const bool canOverwrite = false);
+    void changeStatusPosition();
+    void changeStatusSurname();
+    void changeStatusName();
+    void changeStatusPatronymic();
+    void changeStatusSex();
+    void changeStatusDateOfBirth();
+    void changeStatusPassport(const bool canOverwrite = false);
+    void changeStatusPhone(const bool canOverwrite = false);
+    void changeStatusEmail(const bool canOverwrite = false);
+    void changeStatusDateOfHiring();
+    void changeStatusWorkingHours();
+    void changeStatusSalary();
+    void changeStatusPassword(const bool canOverwrite, const bool isWrite = false);
     void displayUser();
     void checkId(const std::string &warning = {});
     void recursion(const Field &field,
