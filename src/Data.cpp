@@ -175,9 +175,9 @@ void Data::inputPassword()
 
 template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
 {
-    auto getUintParameter = parameter.getUintParameter;
-    auto getUint64Parameter = parameter.getUint64Parameter;
-    auto getStringParameter = parameter.getStringParameter;
+    auto getParameter = parameter.getUintParameter ? parameter.getUintParameter :
+                        parameter.getUint64Parameter ? parameter.getUint64Parameter :
+                        parameter.getStringParameter ? parameter.getStringParameter : nullptr;
     auto checkParameter = parameter.checkParameter;
     auto changeStatusParameter = parameter.changeStatusParameter;
     auto object = parameter.object;
@@ -189,22 +189,8 @@ template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
     {
         for (auto it = std::begin(tradingCompanyObjects_); it != std::end(tradingCompanyObjects_);)
         {
-            if (getUintParameter != nullptr && (&(*(*it)) != object) &&
-                getUintParameter(*(*it)) == getUintParameter(*object))
-            {
-                changeStatusParameter();
-                checkParameter();
-                it = tradingCompanyObjects_.begin();
-            }
-            else if (getUint64Parameter != nullptr && (&(*(*it)) != object) &&
-                     getUint64Parameter(*(*it)) == getUint64Parameter(*object))
-            {
-                changeStatusParameter();
-                checkParameter();
-                it = tradingCompanyObjects_.begin();
-            }
-            else if (getStringParameter != nullptr && (&(*(*it)) != object) &&
-                     getStringParameter(*(*it)) == getStringParameter(*object))
+            if (getParameter != nullptr && (&(*(*it)) != object) &&
+                getParameter(*(*it)) == getUintParameter(*object))
             {
                 changeStatusParameter();
                 checkParameter();
