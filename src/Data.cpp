@@ -2,6 +2,35 @@
 
 #include "Data.h"
 
+void Data::checkData(TradingCompany *object)
+{
+    for (const auto &tradingCompanyObject: tradingCompanyObjects_)
+    {
+        if (object->id_ == tradingCompanyObject->id_)
+        {
+            object->changeStatusId();
+        }
+        if (object->passport_ == tradingCompanyObject->passport_)
+        {
+            object->changeStatusPassport();
+        }
+        if (object->phone_ == tradingCompanyObject->phone_)
+        {
+            object->changeStatusPhone();
+        }
+        if (object->email_ == tradingCompanyObject->email_)
+        {
+            object->changeStatusEmail();
+        }
+        if (object->password_ == tradingCompanyObject->password_)
+        {
+            tradingCompanyObject->changeStatusPassword(false, false);
+            object->changeStatusPassword(false, true);
+        }
+        break;
+    }
+}
+
 void Data::loadDatabase(const std::string &directoryPath)
 {
     objectFactory_.add<Accountant>("Бухгалтер");
@@ -25,7 +54,7 @@ void Data::loadDatabase(const std::string &directoryPath)
         try
         {
             std::string fileName = utils::getNameWithoutExtension(filePath.path().string());
-            auto result = find(positions.begin(), positions.end(), fileName);
+            auto result = std::find(positions.begin(), positions.end(), fileName);
             if (result != positions.end())
             {
                 std::string line;
@@ -93,13 +122,13 @@ void Data::inputPassword()
         Logger::info << std::setfill('.') << std::setw(80) << "" << std::left << std::endl;
         for (const auto &object: tradingCompanyObjects_)
         {
-            if (input == object->getPassword())
+            if (input == object->password_)
             {
                 if (object->hasDublicatePassword())
                 {
                     std::cout << "Введите номер паспорта (например, 4516561974)" << std::endl;
                     std::cin >> input;
-                    if (strtoul(input.c_str(), NULL, 0) != object->getPassport())
+                    if (strtoul(input.c_str(), NULL, 0) != object->passport_)
                     {
                         std::cerr << "Введенный паспорт не совпадает с вашим паспортом!" << std::endl;
                         inputPassword();
@@ -107,6 +136,7 @@ void Data::inputPassword()
                 }
                 checkPassword(object);
                 checkParameters(&(*object));
+                object->displayUser();
                 object->functional();
                 inputPassword();
             }
@@ -143,7 +173,7 @@ void Data::inputPassword()
     }
 }
 
-template<class C> void Data::checkParameter(Parameter<C> &parameter)
+template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
 {
     auto getUintParameter = parameter.getUintParameter;
     auto getUint64Parameter = parameter.getUint64Parameter;
@@ -188,159 +218,450 @@ template<class C> void Data::checkParameter(Parameter<C> &parameter)
     }
 }
 
-template<class C> Data::Parameter<C> Data::selectParameter(const Field &field, C *object, const std::string &message)
+template<class Class> Data::Parameter<Class> Data::selectParameter(const Field &field, Class *object, const std::string &message)
 {
-    switch (field)
+    try
     {
-        case FIELD_ID :
+        switch (field)
         {
-            return {FIELD_ID, std::function<uint(TradingCompany&)>{&TradingCompany::getId},
-                    nullptr, nullptr, std::bind(&TradingCompany::checkId, object, message),
-                    std::bind(&TradingCompany::changeStatusId, object, true), object, true};
-        }
+            case FIELD_POSITION :
+                return {FIELD_POSITION, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getPosition},
+                        std::bind(&TradingCompany::checkPosition, object, message),
+                        std::bind(&TradingCompany::changeStatusPosition, object), object};
 
-        case FIELD_POSITION :
-        {
-            return {FIELD_POSITION, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getPosition},
-                    std::bind(&TradingCompany::checkPosition, object, message),
-                    std::bind(&TradingCompany::changeStatusPosition, object), object};
-        }
+            case FIELD_SURNAME :
+                return {FIELD_SURNAME, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getSurname},
+                        std::bind(&TradingCompany::checkSurname, object, message),
+                        std::bind(&TradingCompany::changeStatusSurname, object), object};
 
-        case FIELD_SURNAME :
-        {
-            return {FIELD_SURNAME, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getSurname},
-                    std::bind(&TradingCompany::checkSurname, object, message),
-                    std::bind(&TradingCompany::changeStatusSurname, object), object};
-        }
+            case FIELD_NAME :
+                return {FIELD_NAME, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getName},
+                        std::bind(&TradingCompany::checkName, object, message),
+                        std::bind(&TradingCompany::changeStatusName, object), object};
 
-        case FIELD_NAME :
-        {
-            return {FIELD_NAME, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getName},
-                    std::bind(&TradingCompany::checkName, object, message),
-                    std::bind(&TradingCompany::changeStatusName, object), object};
-        }
+            case FIELD_PATRONYMIC :
+                return {FIELD_PATRONYMIC, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getPatronymic},
+                        std::bind(&TradingCompany::checkPatronymic, object, message),
+                        std::bind(&TradingCompany::changeStatusPatronymic, object), object};
 
-        case FIELD_PATRONYMIC :
-        {
-            return {FIELD_PATRONYMIC, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getPatronymic},
-                    std::bind(&TradingCompany::checkPatronymic, object, message),
-                    std::bind(&TradingCompany::changeStatusPatronymic, object), object};
-        }
+            case FIELD_SEX :
+                return {FIELD_SEX, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getSex},
+                        std::bind(&TradingCompany::checkSex, object, message),
+                        std::bind(&TradingCompany::changeStatusSex, object), object};
 
-        case FIELD_SEX :
-        {
-            return {FIELD_SEX, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getSex},
-                    std::bind(&TradingCompany::checkSex, object, message),
-                    std::bind(&TradingCompany::changeStatusSex, object), object};
-        }
+            case FIELD_DATE_OF_BIRTH :
+                return {FIELD_DATE_OF_BIRTH, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
+                        std::bind(&TradingCompany::checkDateOfBirth, object, message),
+                        std::bind(&TradingCompany::changeStatusDateOfBirth, object), object};
 
-        case FIELD_DATE_OF_BIRTH :
-        {
-            return {FIELD_DATE_OF_BIRTH, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
-                    std::bind(&TradingCompany::checkDateOfBirth, object, message),
-                    std::bind(&TradingCompany::changeStatusDateOfBirth, object), object};
-        }
+            case FIELD_PASSPORT :
+                return {FIELD_PASSPORT, nullptr, std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport}, nullptr,
+                        std::bind(&TradingCompany::checkPassport, object, message),
+                        std::bind(&TradingCompany::changeStatusPassport, object, true), object, true};
 
-        case FIELD_PASSPORT :
-        {
-            return {FIELD_PASSPORT, nullptr, std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport}, nullptr,
-                    std::bind(&TradingCompany::checkPassport, object, message),
-                    std::bind(&TradingCompany::changeStatusPassport, object, true), object, true};
-        }
+            case FIELD_PHONE :
+                return {FIELD_PHONE, nullptr, std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone}, nullptr,
+                        std::bind(&TradingCompany::checkPhone, object, message),
+                        std::bind(&TradingCompany::changeStatusPhone, object, true), object, true};
 
-        case FIELD_PHONE :
-        {
-            return {FIELD_PHONE, nullptr, std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone}, nullptr,
-                    std::bind(&TradingCompany::checkPhone, object, message),
-                    std::bind(&TradingCompany::changeStatusPhone, object, true), object, true};
-        }
+            case FIELD_EMAIL :
+                return {FIELD_EMAIL, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getEmail},
+                        std::bind(&TradingCompany::checkEmail, object, message),
+                        std::bind(&TradingCompany::changeStatusEmail, object, true), object, true};
 
-        case FIELD_EMAIL :
-        {
-            return {FIELD_EMAIL, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getEmail},
-                    std::bind(&TradingCompany::checkEmail, object, message),
-                    std::bind(&TradingCompany::changeStatusEmail, object, true), object, true};
-        }
+            case FIELD_DATE_OF_HIRING :
+                return {FIELD_DATE_OF_HIRING, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
+                        std::bind(&TradingCompany::checkDateOfHiring, object, message),
+                        std::bind(&TradingCompany::changeStatusDateOfHiring, object), object};
 
-        case FIELD_DATE_OF_HIRING :
-        {
-            return {FIELD_DATE_OF_HIRING, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
-                    std::bind(&TradingCompany::checkDateOfHiring, object, message),
-                    std::bind(&TradingCompany::changeStatusDateOfHiring, object), object};
-        }
+            case FIELD_WORKING_HOURS :
+                return {FIELD_WORKING_HOURS, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getWorkingHours},
+                        std::bind(&TradingCompany::checkWorkingHours, object, message),
+                        std::bind(&TradingCompany::changeStatusWorkingHours, object), object};
 
-        case FIELD_WORKING_HOURS :
-        {
-            return {FIELD_WORKING_HOURS, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getWorkingHours},
-                    std::bind(&TradingCompany::checkWorkingHours, object, message),
-                    std::bind(&TradingCompany::changeStatusWorkingHours, object), object};
-        }
+            case FIELD_SALARY :
+                return {FIELD_SALARY, std::function<uint(TradingCompany&)>{&TradingCompany::getSalary}, nullptr, nullptr,
+                        std::bind(&TradingCompany::checkSalary, object, message),
+                        std::bind(&TradingCompany::changeStatusSalary, object), object};
 
-        case FIELD_SALARY :
-        {
-            return {FIELD_SALARY, std::function<uint(TradingCompany&)>{&TradingCompany::getSalary}, nullptr, nullptr,
-                    std::bind(&TradingCompany::checkSalary, object, message),
-                    std::bind(&TradingCompany::changeStatusSalary, object), object};
-        }
-
-        case FIELD_PASSWORD :
-        {
-            return {FIELD_PASSWORD, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getPassword},
-                    std::bind(&TradingCompany::checkPassword, object, message),
-                    std::bind(&TradingCompany::changeStatusPassword, object, true, true), object, true};
+            case FIELD_PASSWORD :
+                return {FIELD_PASSWORD, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getPassword},
+                        std::bind(&TradingCompany::checkPassword, object, message),
+                        std::bind(&TradingCompany::changeStatusPassword, object, true, true), object, true};
+            default:
+                throw field;
         }
     }
+    catch (const std::string &exception)
+    {
+        Logger::error << "Невернное значение >> " << exception << std::endl;
+    }
+    catch(const Field &field)
+    {
+        Logger::error << "Неверный параметр поля >> " + std::to_string(field) << std::endl;
+    }
+    catch(const std::exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << std::endl;
+    }
+    catch(...)
+    {
+        Logger::error << "Неизвестная ошибка!";
+    }
+    return Parameter<Class>();
 }
 
-void Data::checkParameters(TradingCompany *object)
+template<class C> void Data::checkParameters(C *object, const bool isWarning)
 {
-    for (const auto &[key, value]: (*object).fieldStatus_)
+    std::string message;
+    for (size_t field = FIELD_POSITION; field != FIELD_PASSWORD + 1; ++field)
     {
-        auto parameter = selectParameter(key, object, "");
+        if (isWarning)
+        {
+            message = warnings[field];
+        }
+        auto parameter = selectParameter(static_cast<Field>(field), object, message);
         checkParameter(parameter);
-    }
-}
 
-void Data::checkData(TradingCompany *object)
-{
-    for (const auto &tradingCompanyObject: tradingCompanyObjects_)
-    {
-        if (object->getId() == tradingCompanyObject->getId())
-        {
-            object->changeStatusId();
-        }
-        if (object->getPassport() == tradingCompanyObject->getPassport())
-        {
-            object->changeStatusPassport();
-        }
-        if (object->getPhone() == tradingCompanyObject->getPhone())
-        {
-            object->changeStatusPhone();
-        }
-        if (object->getEmail() == tradingCompanyObject->getEmail())
-        {
-            object->changeStatusEmail();
-        }
-        if (object->getPassword() == tradingCompanyObject->getPassword())
-        {
-            tradingCompanyObject->changeStatusPassword(false, false);
-            object->changeStatusPassword(false, true);
-        }
-        break;
     }
 }
 
 template<class C> void Data::checkPassword(C &object)
 {
-    object->checkEmail();
+    object->checkPassword();
+}
+
+void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
+{
+    bool isDirector = false;
+    std::string input;
+    std::string message;
+    std::shared_ptr<Director> pointer = nullptr;
+    auto tradingCompanyPtr = std::shared_ptr<TradingCompany>(object);
+    if (pointer = std::dynamic_pointer_cast<Director>(tradingCompanyPtr))
+    {
+        isDirector = true;
+    }
+    
+    if (otherObject && otherObject != object)
+    {
+        message = "Измение данных сотрудника >> " + otherObject->position_ + " "
+        + otherObject->surname_  + " "
+        + otherObject->name_     + " "
+        + otherObject->patronymic_;
+    }
+    else
+    {
+        otherObject = object;
+        message = "Изменение личных данных";
+    }
+    while (true)
+    {
+        std::cout << message << std::endl;
+        if (isDirector)
+        {
+            std::cout << "Изменить должность - нажмите 1" << std::endl;
+            std::cout << "Изменить фамилию - нажмите 2" << std::endl;
+            std::cout << "Изменить имя - нажмите 3" << std::endl;
+            std::cout << "Изменить отчество - нажмите 4" << std::endl;
+            std::cout << "Изменить пол - нажите 5" << std::endl;
+            std::cout << "Изменить дату рождения - нажмите 6" << std::endl;
+            std::cout << "Изменить номер паспорта - нажмите 7" << std::endl;
+        }
+        std::cout << "Изменить свой номер телефона - нажмите 8" << std::endl;
+        if (isDirector)
+        {
+            std::cout << "Изменить почту - нажмите 9" << std::endl;
+            std::cout << "Изменить дату принятия на работу - нажмите 10" << std::endl;
+            std::cout << "Изменить часы работы - нажмите 11" << std::endl;
+            std::cout << "Изменить зарплату - нажмите 12" << std::endl;
+        }
+        std::cout << "Изменить пароль к доступу - нажмите 13" << std::endl;
+        std::cout << "Хотите вернуться назад? - введите B: " << std::endl;
+        std::cout << "Хотите выйти из программы? - введите ESC: " << std::endl;
+        try
+        {
+            std::cin >> input;
+            utils::toLower(input);
+            if (isDirector && input == "1")
+            {
+                std::cout << "При изменении своей должности вы теряете свои полномочия" << std::endl;
+                std::cout << "Введите yes - для продолжения, no - для отмены" << std::endl;
+                std::cout << "Ввод: " << std::endl;
+                std::string input;
+                std::cin >> input;
+                utils::toLower(input);
+                if (input == "yes")
+                {
+                    std::cout << "Выберите одну из предложенных должностей: " << std::endl;
+                    copy(positions.begin(), positions.end(), std::ostream_iterator<std::string>(std::cout, " "));
+                    otherObject->changeStatusPosition();
+                    selectParameter(FIELD_POSITION, otherObject, "");
+                }
+                else if (input == "no")
+                {
+                    changeData(otherObject);
+                }
+            }
+            else if (isDirector && input == "2")
+            {
+                otherObject->changeStatusSurname();
+                selectParameter(FIELD_SURNAME, otherObject, "");
+            }
+            else if (isDirector && input == "3")
+            {
+                otherObject->changeStatusName();
+                selectParameter(FIELD_NAME, otherObject, "");
+            }
+            else if (isDirector && input == "4")
+            {
+                otherObject->changeStatusPatronymic();
+                selectParameter(FIELD_PATRONYMIC, otherObject, "");
+            }
+            else if (isDirector && input == "5")
+            {
+                otherObject->changeStatusSex();
+                selectParameter(FIELD_SEX, otherObject, "");
+            }
+            else if (isDirector && input == "6")
+            {
+                otherObject->changeStatusDateOfBirth();
+                selectParameter(FIELD_DATE_OF_BIRTH, otherObject, "");
+            }
+            else if (isDirector && input == "7")
+            {
+                otherObject->changeStatusPassport(true);
+                selectParameter(FIELD_PASSPORT, otherObject, "");
+            }
+            else if (input == "8")
+            {
+                otherObject->changeStatusPhone(true);
+                selectParameter(FIELD_PHONE, otherObject, "");
+            }
+            else if (isDirector && input == "9")
+            {
+                otherObject->changeStatusEmail(true);
+                selectParameter(FIELD_EMAIL, otherObject, "");
+            }
+            else if (isDirector && input == "10")
+            {
+                otherObject->changeStatusDateOfHiring();
+                selectParameter(FIELD_DATE_OF_HIRING, otherObject, "");
+            }
+            else if (isDirector && input == "11")
+            {
+                otherObject->changeStatusWorkingHours();
+                selectParameter(FIELD_WORKING_HOURS, otherObject, "");
+            }
+            else if (isDirector && input == "12")
+            {
+                otherObject->changeStatusSalary();
+                selectParameter(FIELD_SALARY, otherObject, "");
+            }
+            else if (input == "13")
+            {
+                otherObject->changeStatusPassword(true);
+                selectParameter(FIELD_PASSWORD, otherObject, "");
+            }
+            else if (input == "b")
+            {
+                return;
+            }
+            else if (input == "esc")
+            {
+                EXIT(object);
+            }
+            else
+            {
+                throw input;
+            }
+        }
+        catch (const std::string &exception)
+        {
+            Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
+            std::cerr << "Вы ввели >> " << exception
+                      << " - неверная команда! Попробуйте ввести заново: " << std::endl;
+            changeData(object, otherObject);
+        }
+        catch(const std::exception &ex)
+        {
+            Logger::error << "Ошибка >> " << ex.what() << std::endl;
+            std::cerr << "Ошибка >> " << ex.what() << std::endl;
+        }
+        catch(...)
+        {
+            Logger::error << "Неизвестная ошибка!" << std::endl;
+            std::cerr << "Неизвестная ошибка!" << std::endl;
+            exit(0);
+        }
+    }
+}
+
+bool Data::find(const std::string &str, const std::string &parameter) const
+{
+    std::size_t found = str.find(parameter);
+    return found != std::string::npos ? true : false;
+}
+
+TradingCompany *Data::findParameter(const std::string &parameter)
+{
+    std::vector<std::shared_ptr<TradingCompany>> foundObjects;
+    for (const auto &object: tradingCompanyObjects_)
+    {
+        bool found = false;
+        std::string stringParameter;
+        stringParameter = std::to_string(object->id_);
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+        stringParameter = object->surname_;
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+        stringParameter = object->name_;
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+        stringParameter = object->patronymic_;
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+        stringParameter = object->sex_;
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+        stringParameter = object->dateOfBirth_;
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+        stringParameter = std::to_string(object->passport_);
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+        stringParameter = std::to_string(object->phone_);
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+        stringParameter = object->email_;
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+        stringParameter = object->dateOfHiring_;
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+        stringParameter = object->workingHours_;
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+        stringParameter = std::to_string(object->salary_);
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+        stringParameter = object->password_;
+        found = find(stringParameter, parameter);
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
+    }
+    if (foundObjects.size() == 1)
+    {
+        auto object = foundObjects.at(0);
+        return &(*foundObjects.at(0));
+    }
+    else if (foundObjects.size() > 1)
+    {
+        std::cout << "Найденные объекты: " << std::endl;
+        for (const auto &object: foundObjects)
+        {
+            std::cout << *object << std::endl;
+        }
+        std::cout << "Введите id конкретного сотрудника" << std::endl;
+    }
+    return nullptr;
+}
+
+void Data::changeOtherData(TradingCompany *object)
+{
+    std::cout << "Найдите сотрудника по одному из предложенных параметров (или его части): " << std::endl;
+    std::cout << "ID (например, 100), позиция (например, Директор), фамилия (например, Агальцев), "
+              << "имя (например, Стас), отчество (например, Сергеевич), пол (например, Муж), "
+              << "дата рождения (например, 16.12.1995), паспорт (например, 4516561974), "
+              << "телефон (например, 9032697963), почта (например, surname.name.patronymic@tradingcompany.ru) "
+              << "дата принятия на работу (например, 16.04.2018), время работы (например, Понедельник-Пятница=09:00-18:00) "
+              << "зарплата (в рублях), пароль" << std::endl;
+    std::string input;
+    std::cin >> input;
+    auto foundObject = findParameter(input);
+    foundObject ? changeData(object, foundObject) :changeOtherData(object);
 }
 
 void Data::getAllOtherData() const
 {
-    for (const auto &tradingCompany: tradingCompanyObjects_)
+    for (const auto &object: tradingCompanyObjects_)
     {
-        std::cout << *tradingCompany << std::endl;
+        std::cout << *object << std::endl;
     }
+}
+
+template<class C> void Data::pushBack(C &object)
+{
+    uint maxId = 0;
+    std::shared_ptr<C> pointer;
+    std::vector<std::shared_ptr<TradingCompany>>::iterator it;
+    
+    for (it = tradingCompanyObjects_.begin(); it != tradingCompanyObjects_.end(); ++it)
+    {
+        if ((pointer = std::dynamic_pointer_cast<C>(*it)) && (*it)->getId() > maxId)
+        {
+            maxId = (*it)->getId();
+        }
+        else
+        {
+            break;
+        }
+    }
+    std::string maxIdString = std::to_string(++maxId);
+    object.setId(maxIdString);
+    tradingCompanyObjects_.insert(it, std::shared_ptr<TradingCompany>(&object));
 }
 
 void Data::newEmployeeData(const TradingCompany *object)
@@ -356,20 +677,20 @@ void Data::newEmployeeData(const TradingCompany *object)
     {
         std::cin >> input;
         utils::toUpperAndToLower(input);
-        auto found = find(positions.begin(), positions.end(), input);
+        auto found = std::find(positions.begin(), positions.end(), input);
         if (found != positions.end())
         {
             auto object = objectFactory_.get(input)();
             Logger::info << "Добавление нового сотрудника с должностью >> " << input << std::endl; 
             std::cout << "Добавление нового сотрудника с должностью >> " << input << std::endl;
-            checkParameters(object);
+            checkParameters(object, true);
             pushBack(*object);
-            Logger::info << "Сотрудник " + object->getSurname() + " " +
-                                           object->getName() + " " +
-                                           object->getPatronymic() + " успешно добавлен"<< std::endl;
-            std::cout << "Сотрудник " + object->getSurname() + " " +
-                                        object->getName() + " " +
-                                        object->getPatronymic() + " успешно добавлен"<< std::endl;
+            Logger::info << "Сотрудник " + object->surname_ + " " +
+                                           object->name_ + " " +
+                                           object->patronymic_ + " успешно добавлен"<< std::endl;
+            std::cout << "Сотрудник " + object->surname_ + " " +
+                                        object->name_ + " " +
+                                        object->patronymic_ + " успешно добавлен"<< std::endl;
         }
         else if(utils::toLower(input) == "b")
         {
@@ -402,72 +723,4 @@ void Data::newEmployeeData(const TradingCompany *object)
         std::cerr << "Неизвестная ошибка!" << std::endl;
         exit(0);
     }
-}
-
-template<class C> void Data::pushBack(C &object)
-{
-    uint maxId = 0;
-    std::shared_ptr<C> pointer;
-    std::vector<std::shared_ptr<TradingCompany>>::iterator it;
-    
-    for (it = tradingCompanyObjects_.begin(); it != tradingCompanyObjects_.end(); ++it)
-    {
-        if ((pointer = std::dynamic_pointer_cast<C>(*it)) && (*it)->getId() > maxId)
-        {
-            maxId = (*it)->getId();
-        }
-        else
-        {
-            break;
-        }
-    }
-    std::string maxIdString = std::to_string(++maxId);
-    object.setId(maxIdString);
-    tradingCompanyObjects_.insert(it, std::shared_ptr<TradingCompany>(&object));
-}
-
-template<class C> void Data::setOtherData(C &object)
-{
-//    checkParameter(object->getId(),
-//                   std::function<uint(TradingCompany&)>{&TradingCompany::getId},
-//                   std::bind(&TradingCompany::checkId, object, ""), object, true);
-//    checkParameter(object->getPosition(),
-//                   std::function<std::string(TradingCompany&)>{&TradingCompany::getPosition},
-//                   std::bind(&TradingCompany::checkPosition, object, ""), object);
-//    checkParameter(object->getSurname(),
-//                   std::function<std::string(TradingCompany&)>{&TradingCompany::getSurname},
-//                   std::bind(&TradingCompany::checkSurname, object, ""), object);
-//    checkParameter(object->getName(),
-//                   std::function<std::string(TradingCompany&)>{&TradingCompany::getName},
-//                   std::bind(&TradingCompany::checkName, object, ""), object);
-//    checkParameter(object->getPatronymic(),
-//                   std::function<std::string(TradingCompany&)>{&TradingCompany::getPatronymic},
-//                   std::bind(&TradingCompany::checkPatronymic, object, ""), object);
-//    checkParameter(object->getSex()),
-//                   std::function<std::string(TradingCompany&)>{&TradingCompany::getSex},
-//                   std::bind(&TradingCompany::checkSex, object, ""), object);
-//    checkParameter(object->getDateOfBirth(),
-//                   std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
-//                   std::bind(&TradingCompany::checkDateOfBirth, object, ""), object);
-//    checkParameter(object->getPassport(),
-//                   std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
-//                   std::bind(&TradingCompany::checkPassport, object, ""), object, true);
-//    checkParameter(object->getPhone(),
-//                   std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
-//                   std::bind(&TradingCompany::checkPhone, object, ""), object, true);
-//    checkParameter(object->getEmail(),
-//                   std::function<std::string(TradingCompany&)>{&TradingCompany::getEmail},
-//                   std::bind(&TradingCompany::checkEmail, object, ""), object, true);
-//    checkParameter(object->getDateOfHiring(),
-//                   std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
-//                    std::bind(&TradingCompany::checkDateOfHiring, object, ""), object);
-//    checkParameter(object->getWorkingHours(),
-//                   std::function<std::string(TradingCompany&)>{&TradingCompany::getWorkingHours},
-//                   std::bind(&TradingCompany::checkWorkingHours, object, ""), object);
-//    checkParameter(object->getSalary(),
-//                   std::function<uint(TradingCompany&)>{&TradingCompany::getSalary},
-//                   std::bind(&TradingCompany::checkSalary, object, ""), object);
-//    checkParameter(object->getPassword(),
-//                   std::function<std::string(TradingCompany&)>{&TradingCompany::getPassword},
-//                   std::bind(&TradingCompany::checkPassword, object, "Ваш пароль неудовлетворяет требованиям!"), object, true);
 }

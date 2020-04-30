@@ -53,7 +53,7 @@ const std::list<std::string> positions
     "Юрист"
 };
 
-const std::list<std::string> warnings
+const std::vector<std::string> warnings
 {
     "Ваш id не удовлетворяет требованиям!\n",
     "Ваша должность не удовлетворяет требованиям!\n",
@@ -95,7 +95,7 @@ class Data
     
 private:
     
-    template <class C>
+    template <class Class>
     struct Parameter
     {
         Field field;
@@ -104,7 +104,7 @@ private:
         std::function<std::string(TradingCompany&)> getStringParameter = nullptr;
         std::function<void()> checkParameter = nullptr;
         std::function<void()> changeStatusParameter = nullptr;
-        C *object = nullptr;
+        Class *object = nullptr;
         bool isMatchCheck = false;
     };
     
@@ -117,41 +117,8 @@ public:
     }
     
     void loadDatabase(const std::string &directoryPath);
-
     void inputPassword();
-        
-    template<typename T, class C> void checkParameter(std::function<T(TradingCompany&)> getParameter,
-                                                      std::function<void()> checkParameter,
-                                                      C *object, const bool isMatchCheck = false)
-    {
-        if (isMatchCheck)
-        {
-            const auto parameter = getParameter(*object);
-            const std::string value = utils::convertToString(parameter);
-            if (value.empty())
-            {
-                checkParameter();
-                checkData(object);
-            }
-            for (auto it = std::begin(tradingCompanyObjects_); it != std::end(tradingCompanyObjects_);)
-            {
-                if (getParameter(*(*it)) == getParameter(*object) && (&(*(*it)) != object))
-                {
-                    checkParameter();
-                    checkData(object);
-                    it = tradingCompanyObjects_.begin();
-                }
-                else
-                {
-                    ++it;
-                }
-            }
-        }
-        else
-        {
-            checkParameter();
-        }
-    }
+    void changeData(TradingCompany *object, TradingCompany *otherObject = nullptr);
     
     friend void Director::addNewEmployeeData();
     friend void HRManager::addNewEmployeeData();
@@ -163,15 +130,17 @@ private:
     Data() {}
     Data(const Data&) = delete;
     Data& operator=(Data&) = delete;
-    template<class C> void checkParameter(Parameter<C> &parameter);
-    template<class C> Parameter<C> selectParameter(const Field &field, C *object, const std::string &message = {});
-    void checkParameters(TradingCompany *object);
     void checkData(TradingCompany *object);
+    template<class Class> void checkParameter(Parameter<Class> &parameter);
+    template<class Class> Parameter<Class> selectParameter(const Field &field, Class *object, const std::string &message = {});
+    template<class C> void checkParameters(C *object, const bool isWarning = false);
     template<class C> void checkPassword(C &object);
+    bool find(const std::string &str, const std::string &parameter) const;
+    TradingCompany *findParameter(const std::string &parameter);
+    void changeOtherData(TradingCompany *object);
     void getAllOtherData() const;
-    template<class C> void setOtherData(C &object);
-    void newEmployeeData(const TradingCompany *object);
     template<class C> void pushBack(C &object);
+    void newEmployeeData(const TradingCompany *object);
 };
 
 #endif // Data_h

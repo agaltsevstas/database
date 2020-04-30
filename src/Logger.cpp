@@ -121,6 +121,7 @@ void Logger::printAllMessages()
 
 void Logger::printLog(const TradingCompany *object)
 {
+    Logger::info << " ********** Вход в Logger ********** " << std::endl;
     std::cout << "Хотите вывести все сообщения - нажмите 1" << std::endl;
     std::cout << "Хотите вывести все предупреждения - нажмите 2" << std::endl;
     std::cout << "Хотите вывести все ошибки - нажмите 3" << std::endl;
@@ -169,6 +170,7 @@ void Logger::printLog(const TradingCompany *object)
         Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
         std::cerr << "Вы ввели >> " << exception
                   << " - неверная команда! Попробуйте ввести заново: " << std::endl;
+        printLog(object);
     }
     catch(const std::exception &ex)
     {
@@ -181,7 +183,7 @@ void Logger::printLog(const TradingCompany *object)
         std::cerr << "Неизвестная ошибка!" << std::endl;
         std::exit(0);
     }
-    printLog(object);
+    Logger::info << " ********** Выход из Logger ********** " << std::endl;
 }
 
 /// Constructor - must send in message type
