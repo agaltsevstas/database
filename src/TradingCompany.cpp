@@ -169,9 +169,10 @@ void TradingCompany::changeStatusId(const bool canOverwrite)
     }
     else
     {
-        fieldStatus_[FIELD_ID] = ST_DUBLICATE;
+        uint id = id_;
         id_ = rand();
-        Logger::warning << "Повторяющийся id >> " << id_ << std::endl;
+        fieldStatus_[FIELD_ID] = ST_DUBLICATE;
+        Logger::warning << "Повторяющийся id >> " << id << " изменен на >> " << id_ << std::endl;
     }
 }
 
@@ -220,9 +221,10 @@ void TradingCompany::changeStatusPassport(const bool canOverwrite)
     }
     else
     {
+        uint64_t passport = passport_;
         passport_ = rand();
         fieldStatus_[FIELD_PASSPORT] = ST_DUBLICATE;
-        Logger::warning << "Повторяющийся паспорт >> " << passport_ << std::endl;
+        Logger::warning << "Повторяющийся паспорт >> " << passport << " изменен на >> " << passport_ << std::endl;
     }
 }
 
@@ -235,9 +237,10 @@ void TradingCompany::changeStatusPhone(const bool canOverwrite)
     }
     else
     {
+        uint64_t phone = phone_;
         phone_ = rand();
         fieldStatus_[FIELD_PHONE] = ST_DUBLICATE;
-        Logger::warning << "Повторяющийся телефон >> " << phone_ << std::endl;
+        Logger::warning << "Повторяющийся телефон >> " << phone << " изменен на >> " << phone_ << std::endl;
     }
 }
 
@@ -250,9 +253,10 @@ void TradingCompany::changeStatusEmail(const bool canOverwrite)
     }
     else
     {
+        std::string email = email_;
         email_ += std::to_string(rand());
         fieldStatus_[FIELD_EMAIL] = ST_DUBLICATE;
-        Logger::warning << "Повторяющаяся почта >> " << email_ << std::endl;
+        Logger::warning << "Повторяющаяся почта >> " << email << " изменена на >> " << email_ << std::endl;
     }
 }
 

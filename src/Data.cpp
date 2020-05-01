@@ -27,7 +27,6 @@ void Data::checkData(TradingCompany *object)
             tradingCompanyObject->changeStatusPassword(false, false);
             object->changeStatusPassword(false, true);
         }
-        break;
     }
 }
 
@@ -35,8 +34,8 @@ void Data::loadDatabase(const std::string &directoryPath)
 {
     objectFactory_.add<Accountant>("Бухгалтер");
     objectFactory_.add<Driver>("Водитель");
-    objectFactory_.add<ChiefAccountant>("Главный_бухгалтер");
-    objectFactory_.add<ChiefLegalCounsel>("Главный_юрист-консультант");
+    objectFactory_.add<ChiefAccountant>("Главный_бухгалтер");
+    objectFactory_.add<ChiefLegalCounsel>("Главный_юрист-консультант");
     objectFactory_.add<Loader>("Грузчик");
     objectFactory_.add<Director>("Директор");
     objectFactory_.add<Logistician>("Логист");
@@ -97,6 +96,7 @@ void Data::loadDatabase(const std::string &directoryPath)
         }
         catch(const std::string &exception)
         {
+            Logger::info << " ************************************************** " << std::endl;
             Logger::error << "Неверное название файла >> " << exception << std::endl;
         }
         
@@ -134,9 +134,9 @@ void Data::inputPassword()
                         inputPassword();
                     }
                 }
+                object->displayUser();
                 checkPassword(object);
                 checkParameters(&(*object));
-                object->displayUser();
                 object->functional();
                 inputPassword();
             }
