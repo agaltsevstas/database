@@ -118,12 +118,17 @@ public:
     virtual ~TradingCompany() {}
     virtual void functional() = 0;
 //    ~TradingCompany();
-    
-    uint        getId() const;
     std::string getPosition() const;
     std::string getSurname() const;
     std::string getName() const;
     std::string getPatronymic() const;
+    
+    friend void operator >> (const std::string &line, TradingCompany &tradingCompany);
+    friend std::ostream& operator << (std::ostream &out, const TradingCompany &tradingCompany);
+    friend bool operator == (const TradingCompany &first, const TradingCompany &second);
+    
+protected:
+    uint        getId() const;
     std::string getSex() const;
     std::string getDateOfBirth() const;
     uint64_t    getPassport() const;
@@ -135,10 +140,6 @@ public:
     std::string getPassword() const;
     uint        getPremium() const;
     uint        getFine() const;
-    
-    friend void operator >> (const std::string &line, TradingCompany &tradingCompany);
-    friend std::ostream& operator << (std::ostream &out, const TradingCompany &tradingCompany);
-    friend bool operator == (const TradingCompany &first, const TradingCompany &second);
 
 private:
     uint        id_ = 0;

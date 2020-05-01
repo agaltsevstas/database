@@ -863,19 +863,20 @@ void operator >> (const std::string &line, TradingCompany &tradingCompany)
 
 std::ostream& operator << (std::ostream &out, const TradingCompany &tradingCompany)
 {
-    out << tradingCompany.id_           << " ";
-    out << tradingCompany.position_     << " ";
-    out << tradingCompany.surname_      << " ";
-    out << tradingCompany.name_         << " ";
-    out << tradingCompany.patronymic_   << " ";
-    out << tradingCompany.sex_          << " ";
-    out << tradingCompany.dateOfBirth_  << " ";
-    out << tradingCompany.phone_        << " ";
-    out << tradingCompany.dateOfHiring_ << " ";
-    out << tradingCompany.workingHours_ << " ";
-    out << tradingCompany.passport_     << " ";
-    out << tradingCompany.salary_       << " ";
-    out << tradingCompany.password_;
+    out << "ID: "                      << tradingCompany.id_           << ", ";
+    out << "Должность: "               << tradingCompany.position_     << ", ";
+    out << "Фамилия: "                 << tradingCompany.surname_      << ", ";
+    out << "Имя: "                     << tradingCompany.name_         << ", ";
+    out << "Отчество: "                << tradingCompany.patronymic_   << ", ";
+    out << "Пол: "                     << tradingCompany.sex_          << ", ";
+    out << "Дата рождения: "           << tradingCompany.dateOfBirth_  << ", ";
+    out << "Паспорт: "                 << tradingCompany.passport_     << ", ";
+    out << "Телефон: "                 << tradingCompany.phone_        << ", ";
+    out << "Почта: "                   << tradingCompany.email_        << ", ";
+    out << "Дата принятия на работу: " << tradingCompany.dateOfHiring_ << ", ";
+    out << "Часы работы: "             << tradingCompany.workingHours_ << ", ";
+    out << "Зарплата: "                << tradingCompany.salary_       << ", ";
+    out << "Пароль: "                  << tradingCompany.password_;
     return out;
 }
 

@@ -45,7 +45,7 @@ void Data::loadDatabase(const std::string &directoryPath)
     objectFactory_.add<Cashier>("Кассир");
     objectFactory_.add<HeadOfProcurement>("Начальник_отдела_закупок");
     objectFactory_.add<HeadOfWarehouse>("Начальник_склада");
-    objectFactory_.add<HRManager>("HRManager.h");
+    objectFactory_.add<HRManager>("Менеджер_по_персоналу");
     objectFactory_.add<Lawyer>("Юрист");
     
     Logger::info << " ---------- Считывание данных всех сотрудников ---------- " << std::endl;
@@ -175,9 +175,9 @@ void Data::inputPassword()
 
 template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
 {
-    auto getParameter = parameter.getUintParameter ? parameter.getUintParameter :
-                        parameter.getUint64Parameter ? parameter.getUint64Parameter :
-                        parameter.getStringParameter ? parameter.getStringParameter : nullptr;
+    auto getUintParameter = parameter.getUintParameter;
+    auto getUint64Parameter = parameter.getUint64Parameter;
+    auto getStringParameter = parameter.getStringParameter;
     auto checkParameter = parameter.checkParameter;
     auto changeStatusParameter = parameter.changeStatusParameter;
     auto object = parameter.object;
@@ -189,8 +189,22 @@ template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
     {
         for (auto it = std::begin(tradingCompanyObjects_); it != std::end(tradingCompanyObjects_);)
         {
-            if (getParameter != nullptr && (&(*(*it)) != object) &&
-                getParameter(*(*it)) == getUintParameter(*object))
+            if (getUintParameter != nullptr && (&(*(*it)) != object) &&
+                getUintParameter(*(*it)) == getUintParameter(*object))
+            {
+                changeStatusParameter();
+                checkParameter();
+                it = tradingCompanyObjects_.begin();
+            }
+            else if (getUint64Parameter != nullptr && (&(*(*it)) != object) &&
+                     getUint64Parameter(*(*it)) == getUint64Parameter(*object))
+            {
+                changeStatusParameter();
+                checkParameter();
+                it = tradingCompanyObjects_.begin();
+            }
+            else if (getStringParameter != nullptr && (&(*(*it)) != object) &&
+                     getStringParameter(*(*it)) == getStringParameter(*object))
             {
                 changeStatusParameter();
                 checkParameter();
@@ -308,13 +322,17 @@ template<class C> void Data::checkParameters(C *object, const bool isWarning)
         }
         auto parameter = selectParameter(static_cast<Field>(field), object, message);
         checkParameter(parameter);
-
     }
 }
 
 template<class C> void Data::checkPassword(C &object)
 {
     object->checkPassword();
+}
+
+void Data::printPersonalData(TradingCompany *object)
+{
+    std::cout << *object << std::endl;
 }
 
 void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
@@ -371,7 +389,7 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
             utils::toLower(input);
             if (isDirector && input == "1")
             {
-                std::cout << "При изменении своей должности вы теряете свои полномочия" << std::endl;
+                std::cout << "При изменении должности теряются полномочия" << std::endl;
                 std::cout << "Введите yes - для продолжения, no - для отмены" << std::endl;
                 std::cout << "Ввод: " << std::endl;
                 std::string input;

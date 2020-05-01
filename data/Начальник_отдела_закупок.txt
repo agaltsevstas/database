@@ -1,1 +1,1 @@
-400 Начальник_отдела_закупок Тимофеев Андрей Васильевич Муж 23.11.1985 5698423591 4951162773 09.01.2018 09:00-18:00 100000 Headofprocurement
+id: "400" position: "Начальник_отдела_закупок" surname: "Тимофеев" name: "Андрей" patronymic: "Васильевич" sex: "Муж" dateOfBirth: "23.11.1985" passport: "5698423591" phone: "4951162773" email: "timofeev.andrej.vasilevich@tradingcompany.ru" dateOfHiring: "09.01.2018" workingHours: "09:00-18:00" salary: "100000" password: "1Headofprocurement"

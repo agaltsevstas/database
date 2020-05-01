@@ -118,6 +118,7 @@ public:
     
     void loadDatabase(const std::string &directoryPath);
     void inputPassword();
+    void printPersonalData(TradingCompany *object);
     void changeData(TradingCompany *object, TradingCompany *otherObject = nullptr);
     
     friend void Director::addNewEmployeeData();

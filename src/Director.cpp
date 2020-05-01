@@ -18,11 +18,12 @@ void Director::functional()
     std::string input;
     while (true)
     {
-        std::cout << "Хотите изменить личные данные? - нажмите 1" << std::endl;
-        std::cout << "Хотите вывести данные данные всех сотрудников? - нажмите 2" << std::endl;
-        std::cout << "Хотите изменить чужие данные? - нажмите 3" << std::endl;
-        std::cout << "Хотите добавить нового сотрудника? - нажмите 4" << std::endl;
-        std::cout << "Хотите вывести лог файла? - нажмите 5" << std::endl;
+        std::cout << "Хотите вывести личные данные? - нажмите 1" << std::endl;
+        std::cout << "Хотите изменить личные данные? - нажмите 2" << std::endl;
+        std::cout << "Хотите вывести данные данные всех сотрудников? - нажмите 3" << std::endl;
+        std::cout << "Хотите изменить чужие данные? - нажмите 4" << std::endl;
+        std::cout << "Хотите добавить нового сотрудника? - нажмите 5" << std::endl;
+        std::cout << "Хотите вывести лог файла? - нажмите 6" << std::endl;
         std::cout << "Хотите вернуться назад? - введите B: " << std::endl;
         std::cout << "Хотите выйти из программы? - введите ESC: " << std::endl;
         try
@@ -32,22 +33,26 @@ void Director::functional()
             switch (utils::str(input.c_str()))
             {
                 case utils::str("1") :
-                    data_->changeData(this);
+                    data_->printPersonalData(this);
                     break;
                     
                 case utils::str("2") :
-                    data_->getAllOtherData();
+                    data_->changeData(this);
                     break;
                     
                 case utils::str("3") :
-                    data_->changeOtherData(this);
+                    data_->getAllOtherData();
                     break;
                     
                 case utils::str("4") :
-                    addNewEmployeeData();
+                    data_->changeOtherData(this);
                     break;
                     
                 case utils::str("5") :
+                    addNewEmployeeData();
+                    break;
+                    
+                case utils::str("6") :
                     Logger::printLog(this);
                     break;
                     
