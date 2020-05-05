@@ -28,7 +28,7 @@ class Director;
 //class HeadOfWarehouse;
 class HRManager;
 //class SalesManager;
-//class Cashier;
+class Cashier;
 //class Accountant;
 //class Logistician;
 //class Lawyer;
@@ -93,6 +93,7 @@ typedef union
 class Data
 {
     friend class Director;
+    friend class Cashier;
     
 private:
     
@@ -142,6 +143,7 @@ private:
     void changeOtherData(TradingCompany *object);
     void getAllOtherData() const;
     template<class C> void pushBack(C &object);
+    template<class C> void deleteObject(C *object);
     void newEmployeeData(const TradingCompany *object);
 };
 

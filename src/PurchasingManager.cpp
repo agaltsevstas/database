@@ -8,6 +8,12 @@ PurchasingManager::~PurchasingManager()
 //    delete data_;
 }
 
+const PurchasingManager& PurchasingManager::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void PurchasingManager::functional()
 {
     std::string input;

@@ -10,6 +10,7 @@ class Cashier : public TradingCompany
 public:
     Cashier();
     ~Cashier();
+    const Cashier& operator = (const TradingCompany &object);
     void functional() override;
     
 private:

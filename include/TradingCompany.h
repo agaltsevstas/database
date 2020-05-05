@@ -123,6 +123,7 @@ public:
     std::string getName() const;
     std::string getPatronymic() const;
     
+    const TradingCompany& operator = (const TradingCompany &object);
     friend void operator >> (const std::string &line, TradingCompany &tradingCompany);
     friend std::ostream& operator << (std::ostream &out, const TradingCompany &tradingCompany);
     friend bool operator == (const TradingCompany &first, const TradingCompany &second);

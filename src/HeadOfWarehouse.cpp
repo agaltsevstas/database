@@ -8,6 +8,12 @@ HeadOfWarehouse::~HeadOfWarehouse()
 //    delete data_;
 }
 
+const HeadOfWarehouse& HeadOfWarehouse::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void HeadOfWarehouse::functional()
 {
     std::string input;

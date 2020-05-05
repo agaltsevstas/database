@@ -10,8 +10,8 @@ class HRManager : public TradingCompany
 public:
     HRManager();
     ~HRManager();
+    const HRManager& operator = (const TradingCompany &object);
     void addNewEmployeeData();
-    
     void functional() override;
     
 private:

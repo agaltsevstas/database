@@ -10,6 +10,7 @@ class Loader : public TradingCompany
 public:
     Loader();
     ~Loader();
+    const Loader& operator = (const TradingCompany &object);
     void functional() override;
     
 private:

@@ -8,6 +8,12 @@ ChiefAccountant::~ChiefAccountant()
 //    delete data_;
 }
 
+const ChiefAccountant& ChiefAccountant::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void ChiefAccountant::functional()
 {
     std::string input;

@@ -8,6 +8,12 @@ Logistician::~Logistician()
 //    delete data_;
 }
 
+const Logistician& Logistician::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void Logistician::functional()
 {
     std::string input;

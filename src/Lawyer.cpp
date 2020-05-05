@@ -8,6 +8,12 @@ Lawyer::~Lawyer()
 //    delete data_;
 }
 
+const Lawyer& Lawyer::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void Lawyer::functional()
 {
     std::string input;

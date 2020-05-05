@@ -350,9 +350,9 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
     if (otherObject && otherObject != object)
     {
         message = "Измение данных сотрудника >> " + otherObject->position_ + " "
-        + otherObject->surname_  + " "
-        + otherObject->name_     + " "
-        + otherObject->patronymic_;
+                                                  + otherObject->surname_  + " "
+                                                  + otherObject->name_     + " "
+                                                  + otherObject->patronymic_;
     }
     else
     {
@@ -392,19 +392,50 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
                 std::cout << "При изменении должности теряются полномочия" << std::endl;
                 std::cout << "Введите yes - для продолжения, no - для отмены" << std::endl;
                 std::cout << "Ввод: " << std::endl;
-                std::string input;
                 std::cin >> input;
                 utils::toLower(input);
                 if (input == "yes")
                 {
                     std::cout << "Выберите одну из предложенных должностей: " << std::endl;
                     copy(positions.begin(), positions.end(), std::ostream_iterator<std::string>(std::cout, " "));
+                    std::cout << std::endl;
+                    std::string position;
+                    std::cin >> position;
+                    auto found = std::find(positions.begin(), positions.end(), position);
+                    if (found != positions.end())
+                    {
+                        auto newObject = objectFactory_.get(position)();
+                        *newObject = *otherObject;
+                        otherObject = newObject;
+                        newObject->setPosition(position);
+                        pushBack(*otherObject);
+                        deleteObject(object);
+                        Logger::info << "Должность сотрудника " + object->surname_ + " " +
+                                                                  object->name_ + " " +
+                                                                  object->patronymic_ + " успешно изменена с " +
+                                                                  object->position_ + " на " +
+                                                                  otherObject->position_ << std::endl;
+                        std::cout << "Должность сотрудника " + object->surname_ + " " +
+                                                               object->name_ + " " +
+                                                               object->patronymic_ + " успешно изменена с " +
+                                                               object->position_ + " на " +
+                                                               otherObject->position_ << std::endl;
+                        inputPassword();
+                    }
+                    else
+                    {
+                        throw position;
+                    }
                     otherObject->changeStatusPosition();
                     selectParameter(FIELD_POSITION, otherObject, "");
                 }
                 else if (input == "no")
                 {
                     changeData(otherObject);
+                }
+                else
+                {
+                    throw input;
                 }
             }
             else if (isDirector && input == "2")
@@ -666,6 +697,26 @@ template<class C> void Data::pushBack(C &object)
     std::string maxIdString = std::to_string(++maxId);
     object.setId(maxIdString);
     tradingCompanyObjects_.insert(it, std::shared_ptr<TradingCompany>(&object));
+}
+
+template<class C> void Data::deleteObject(C *object)
+{
+    for (size_t i = 0; i < tradingCompanyObjects_.size(); ++i)
+    {
+        if (&*(tradingCompanyObjects_[i]) == object)
+        {
+            tradingCompanyObjects_.erase(tradingCompanyObjects_.begin() + i);
+            Logger::info << "Cотрудник " + object->position_ + " " +
+                                           object->surname_ + " " +
+                                           object->name_ + " " +
+                                           object->patronymic_ + " успешно удален!" << std::endl;
+            std::cout << "Cотрудник " + object->position_ + " " +
+                                        object->surname_ + " " +
+                                        object->name_ + " " +
+                                        object->patronymic_ + " успешно удален!" << std::endl;
+            return;
+        }
+    }
 }
 
 void Data::newEmployeeData(const TradingCompany *object)

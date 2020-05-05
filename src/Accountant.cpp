@@ -8,6 +8,12 @@ Accountant::~Accountant()
 //    delete data_;
 }
 
+const Accountant& Accountant::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void Accountant::functional()
 {
     std::string input;

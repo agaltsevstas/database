@@ -8,6 +8,12 @@ Director::~Director()
 //    delete data_;
 }
 
+const Director& Director::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void Director::addNewEmployeeData()
 {
     data_->newEmployeeData(this);

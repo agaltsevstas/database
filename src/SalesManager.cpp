@@ -8,6 +8,12 @@ SalesManager::~SalesManager()
 //    delete data_;
 }
 
+const SalesManager& SalesManager::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void SalesManager::functional()
 {
     std::string input;

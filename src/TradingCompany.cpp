@@ -456,7 +456,7 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
             {
                 utils::toUpperAndToLower(value);
                 boost::regex regular ("(Бухгалтер|Водитель|Главный_бухгалтер|Главный_юрист-консультант|Грузчик|Директор|Кассир|Логист|"
-                                      "Менеджер_по_закупкам|Менеджер_по_продажам|Начальник_отдела_закупок|Начальник_склада|Юрист)");
+                                      "Менеджер_по_закупкам|Менеджер_по_продажам|Начальник_отдела_закупок|Начальник_склада|Юрист|Менеджер_по_персоналу)");
                 if (value.empty())
                 {
                     type.status = ST_EMPTY;
@@ -818,6 +818,25 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
         Logger::error << "Неизвестная ошибка!";
     }
     return TradingCompany::empty;
+}
+
+const TradingCompany& TradingCompany::operator = (const TradingCompany &object)
+{
+    id_ = object.id_;
+    position_ = object.position_;
+    surname_ = object.surname_;
+    name_ = object.name_;
+    patronymic_ = object.patronymic_;
+    sex_ = object.sex_;
+    dateOfBirth_ = object.dateOfBirth_;
+    passport_ = object.passport_;
+    phone_ = object.phone_;
+    email_ = object.email_;
+    dateOfHiring_ = object.dateOfBirth_;
+    workingHours_ = object.workingHours_;
+    salary_ = object.salary_;
+    password_ = object.password_;
+    return *this;
 }
 
 void operator >> (const std::string &line, TradingCompany &tradingCompany)

@@ -10,6 +10,7 @@ class HeadOfWarehouse : public TradingCompany
 public:
     HeadOfWarehouse();
     ~HeadOfWarehouse();
+    const HeadOfWarehouse& operator = (const TradingCompany &object);
     void functional() override;
     
 private:

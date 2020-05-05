@@ -10,6 +10,7 @@ class Logistician : public TradingCompany
 public:
     Logistician();
     ~Logistician();
+    const Logistician& operator = (const TradingCompany &object);
     void functional() override;
     
 private:

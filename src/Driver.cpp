@@ -8,6 +8,12 @@ Driver::~Driver()
 //    delete data_;
 }
 
+const Driver& Driver::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void Driver::functional()
 {
     std::string input;

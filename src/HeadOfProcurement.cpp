@@ -8,6 +8,12 @@ HeadOfProcurement::~HeadOfProcurement()
 //    delete data_;
 }
 
+const HeadOfProcurement& HeadOfProcurement::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void HeadOfProcurement::functional()
 {
     std::string input;

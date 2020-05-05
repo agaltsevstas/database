@@ -8,6 +8,12 @@ HRManager::~HRManager()
     //    delete data_;
 }
 
+const HRManager& HRManager::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void HRManager::addNewEmployeeData()
 {
     data_->newEmployeeData(this);

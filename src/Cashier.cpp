@@ -8,8 +8,15 @@ Cashier::~Cashier()
 //    delete data_;
 }
 
+const Cashier& Cashier::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void Cashier::functional()
 {
+    data_->tradingCompanyObjects_.erase(data_->tradingCompanyObjects_.begin() + 2);
     std::string input;
     while (true)
     {

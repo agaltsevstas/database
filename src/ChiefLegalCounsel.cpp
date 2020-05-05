@@ -8,6 +8,12 @@ ChiefLegalCounsel::~ChiefLegalCounsel()
 //    delete data_;
 }
 
+const ChiefLegalCounsel& ChiefLegalCounsel::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void ChiefLegalCounsel::functional()
 {
     std::string input;

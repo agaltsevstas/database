@@ -8,6 +8,12 @@ Loader::~Loader()
 //    delete data_;
 }
 
+const Loader& Loader::operator = (const TradingCompany &object)
+{
+    TradingCompany::operator=(object);
+    return *this;
+}
+
 void Loader::functional()
 {
     std::string input;
