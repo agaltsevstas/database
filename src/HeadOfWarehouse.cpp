@@ -26,7 +26,7 @@ void HeadOfWarehouse::functional()
         try
         {
             std::cin >> input;
-            utils::toLower(input);
+            utils::tolower(input);
             switch (utils::str(input.c_str()))
             {
                 case utils::str("1") :

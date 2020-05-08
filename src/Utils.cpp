@@ -5,7 +5,6 @@
 
 namespace utils
 {
-
     std::string getNameWithoutExtension(const std::string &filePath)
     {
         boost::filesystem::path fileName(filePath);
@@ -111,5 +110,15 @@ namespace utils
     std::string convertToString(const uint64_t &input)
     {
         return input ? std::to_string(input) : std::string();
+    }
+    
+    std::string getLogin(const std::string input)
+    {
+        auto condition = input.find("@");
+        if (condition != std::string::npos)
+        {
+            auto newInput = input.substr(condition);
+        }
+        return {};
     }
 }

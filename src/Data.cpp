@@ -114,34 +114,59 @@ void Data::loadDatabase(const std::string &directoryPath)
 
 void Data::inputPassword()
 {
-    std::cout << "Введите пароль для получения доступа к базе данных или закончите выполнение программы, введите ESC: " << std::endl;
-    std::string input;
+    std::cout << "Введите почту или логин от почты или закончите выполнение программы, введя ESC: " << std::endl;
+    bool isLoginFound = false;
+    std::string login;
     try
     {
-        std::cin >> input;
+        std::cin >> login;
+        for (const auto &object: tradingCompanyObjects_)
+        {
+            std::string emailCheck, loginCheck;
+            emailCheck = loginCheck = object->getEmail();
+            loginCheck.erase(loginCheck.find('@'), loginCheck.size());
+            if (login == emailCheck || login == loginCheck)
+            {
+                isLoginFound = true;
+                break;
+            }
+        }
+        if(utils::toLower(login) == "esc")
+        {
+            Logger::info << "Выход из программы" << std::endl;
+            std::cout << "Вы вышли из программы" << std::endl;
+            exit(0);
+        }
+        
+        std::cout << "Введите пароль для получения доступа к базе данных или закончите выполнение программы, введя ESC: " << std::endl;
+        std::string password;
+        std::cin >> password;
         Logger::info << std::setfill('.') << std::setw(80) << "" << std::left << std::endl;
         for (const auto &object: tradingCompanyObjects_)
         {
-            if (input == object->password_)
+            if (isLoginFound && password == object->password_)
             {
                 if (object->hasDublicatePassword())
                 {
                     std::cout << "Введите номер паспорта (например, 4516561974)" << std::endl;
-                    std::cin >> input;
-                    if (strtoul(input.c_str(), NULL, 0) != object->passport_)
+                    std::string passport;
+                    std::cin >> passport;
+                    if (strtoul(password.c_str(), NULL, 0) != object->passport_)
                     {
                         std::cerr << "Введенный паспорт не совпадает с вашим паспортом!" << std::endl;
                         inputPassword();
                     }
                 }
-                object->displayUser();
+                LOGIN(object);
                 checkPassword(object);
                 checkParameters(&(*object));
                 object->functional();
+                LOGOUT(object);
+                
                 inputPassword();
             }
         }
-        if(utils::toLower(input) == "esc")
+        if(utils::toLower(password) == "esc")
         {
             Logger::info << "Выход из программы" << std::endl;
             std::cout << "Вы вышли из программы" << std::endl;
@@ -149,15 +174,15 @@ void Data::inputPassword()
         }
         else
         {
-            throw input;
+            throw login + " " + password;
         }
     }
     catch (const std::string &exception)
     {
         Logger::info << " ---------- Попытка войти в аккаунт ---------- " << std::endl;
-        Logger::error << "Введен >> " << exception << " - неверный пароль!" << std::endl;
+        Logger::error << "Введен >> " << exception << " - неверный логин или пароль!" << std::endl;
         std::cerr << "Вы ввели >> " << exception
-                  << " - неверный пароль! Попробуйте ввести заново: " << std::endl;
+                  << " - неверный логин или пароль! Попробуйте ввести заново: " << std::endl;
         inputPassword();
     }
     catch(const std::exception &ex)
@@ -386,14 +411,14 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
         try
         {
             std::cin >> input;
-            utils::toLower(input);
+            utils::tolower(input);
             if (isDirector && input == "1")
             {
                 std::cout << "При изменении должности теряются полномочия" << std::endl;
                 std::cout << "Введите yes - для продолжения, no - для отмены" << std::endl;
                 std::cout << "Ввод: " << std::endl;
                 std::cin >> input;
-                utils::toLower(input);
+                utils::tolower(input);
                 if (input == "yes")
                 {
                     std::cout << "Выберите одну из предложенных должностей: " << std::endl;
@@ -408,6 +433,8 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
                         *newObject = *otherObject;
                         otherObject = newObject;
                         newObject->setPosition(position);
+                        std::for_each(otherObject->fieldStatus_.begin(), otherObject->fieldStatus_.end(),
+                                      [&otherObject](auto &field){ otherObject->fieldStatus_[field.first] = otherObject->ST_OK; });
                         pushBack(*otherObject);
                         deleteObject(object);
                         Logger::info << "Должность сотрудника " + object->surname_ + " " +
@@ -420,6 +447,7 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
                                                                object->patronymic_ + " успешно изменена с " +
                                                                object->position_ + " на " +
                                                                otherObject->position_ << std::endl;
+                        LOGOUT(object);
                         inputPassword();
                     }
                     else
@@ -427,7 +455,8 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
                         throw position;
                     }
                     otherObject->changeStatusPosition();
-                    selectParameter(FIELD_POSITION, otherObject, "");
+                    auto parameter = selectParameter(FIELD_POSITION, otherObject, "");
+                    checkParameter(parameter);
                 }
                 else if (input == "no")
                 {
@@ -441,62 +470,74 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
             else if (isDirector && input == "2")
             {
                 otherObject->changeStatusSurname();
-                selectParameter(FIELD_SURNAME, otherObject, "");
+                auto parameter = selectParameter(FIELD_SURNAME, otherObject, "");
+                checkParameter(parameter);
             }
             else if (isDirector && input == "3")
             {
                 otherObject->changeStatusName();
-                selectParameter(FIELD_NAME, otherObject, "");
+                auto parameter = selectParameter(FIELD_NAME, otherObject, "");
+                checkParameter(parameter);
             }
             else if (isDirector && input == "4")
             {
                 otherObject->changeStatusPatronymic();
-                selectParameter(FIELD_PATRONYMIC, otherObject, "");
+                auto parameter = selectParameter(FIELD_PATRONYMIC, otherObject, "");
+                checkParameter(parameter);
             }
             else if (isDirector && input == "5")
             {
                 otherObject->changeStatusSex();
-                selectParameter(FIELD_SEX, otherObject, "");
+                auto parameter = selectParameter(FIELD_SEX, otherObject, "");
+                checkParameter(parameter);
             }
             else if (isDirector && input == "6")
             {
                 otherObject->changeStatusDateOfBirth();
-                selectParameter(FIELD_DATE_OF_BIRTH, otherObject, "");
+                auto parameter = selectParameter(FIELD_DATE_OF_BIRTH, otherObject, "");
+                checkParameter(parameter);
             }
             else if (isDirector && input == "7")
             {
                 otherObject->changeStatusPassport(true);
-                selectParameter(FIELD_PASSPORT, otherObject, "");
+                auto parameter = selectParameter(FIELD_PASSPORT, otherObject, "");
+                checkParameter(parameter);
             }
             else if (input == "8")
             {
                 otherObject->changeStatusPhone(true);
-                selectParameter(FIELD_PHONE, otherObject, "");
+                auto parameter = selectParameter(FIELD_PHONE, otherObject, "");
+                checkParameter(parameter);
             }
             else if (isDirector && input == "9")
             {
                 otherObject->changeStatusEmail(true);
-                selectParameter(FIELD_EMAIL, otherObject, "");
+                auto parameter = selectParameter(FIELD_EMAIL, otherObject, "");
+                checkParameter(parameter);
             }
             else if (isDirector && input == "10")
             {
                 otherObject->changeStatusDateOfHiring();
-                selectParameter(FIELD_DATE_OF_HIRING, otherObject, "");
+                auto parameter = selectParameter(FIELD_DATE_OF_HIRING, otherObject, "");
+                checkParameter(parameter);
             }
             else if (isDirector && input == "11")
             {
                 otherObject->changeStatusWorkingHours();
-                selectParameter(FIELD_WORKING_HOURS, otherObject, "");
+                auto parameter = selectParameter(FIELD_WORKING_HOURS, otherObject, "");
+                checkParameter(parameter);
             }
             else if (isDirector && input == "12")
             {
                 otherObject->changeStatusSalary();
-                selectParameter(FIELD_SALARY, otherObject, "");
+                auto parameter = selectParameter(FIELD_SALARY, otherObject, "");
+                checkParameter(parameter);
             }
             else if (input == "13")
             {
                 otherObject->changeStatusPassword(true);
-                selectParameter(FIELD_PASSWORD, otherObject, "");
+                auto parameter = selectParameter(FIELD_PASSWORD, otherObject, "");
+                checkParameter(parameter);
             }
             else if (input == "b")
             {

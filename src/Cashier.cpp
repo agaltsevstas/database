@@ -16,7 +16,6 @@ const Cashier& Cashier::operator = (const TradingCompany &object)
 
 void Cashier::functional()
 {
-    data_->tradingCompanyObjects_.erase(data_->tradingCompanyObjects_.begin() + 2);
     std::string input;
     while (true)
     {
@@ -27,7 +26,7 @@ void Cashier::functional()
         try
         {
             std::cin >> input;
-            utils::toLower(input);
+            utils::tolower(input);
             switch (utils::str(input.c_str()))
             {
                 case utils::str("1") :

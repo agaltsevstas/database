@@ -905,8 +905,9 @@ std::ostream& operator << (std::ostream &out, const TradingCompany &tradingCompa
 
 bool operator == (const TradingCompany &first, const TradingCompany &second)
 {
-    return (first.passport_ == second.passport_) &&
-           (first.password_ == second.password_);
+    return (first.email_ == second.email_) &&
+           (first.password_ == second.password_) &&
+           (first.passport_ == second.passport_);
 }
 
 

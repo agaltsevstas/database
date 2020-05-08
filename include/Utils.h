@@ -12,11 +12,28 @@
 #include <iomanip>
 #include <codecvt>
 
+#define LOGIN(object) Logger::info << "Вход в аккаунт << " << object->getPosition()   << " "   \
+                                                           << object->getSurname()    << " "   \
+                                                           << object->getName()       << " "   \
+                                                           << object->getPatronymic() << std::endl; \
+                      std::cout << "Вы зашли за " << object->getPosition() << "'a. " << std::endl; \
+                      std::cout << "Приветствуем вас, " << object->getSurname()    << " " \
+                                                        << object->getName()       << " " \
+                                                        << object->getPatronymic() << "!" << std::endl;
+
+#define LOGOUT(object) Logger::info << "Выход из аккаунта << " << object->getPosition()   << " "   \
+                                                               << object->getSurname()    << " "   \
+                                                               << object->getName()       << " "   \
+                                                               << object->getPatronymic() << std::endl; \
+                       std::cout << "Вы вышли из аккаунта" << std::endl;
+
 #define EXIT(object) Logger::info << "Выход из аккаунта << " << object->getPosition()   << " "   \
-                                  << object->getSurname()    << " "   \
-                                  << object->getName()       << " "   \
-                                  << object->getPatronymic() << std::endl; \
+                                                             << object->getSurname()    << " "   \
+                                                             << object->getName()       << " "   \
+                                                             << object->getPatronymic() << std::endl; \
+                     Logger::info << "Выход из программы" << std::endl; \
                      std::cout << "Вы вышли из аккаунта" << std::endl; \
+                     std::cout << "Вы вышли из программы" << std::endl; \
                      exit(0);
 
 namespace utils
@@ -69,10 +86,15 @@ namespace utils
         return *input ? static_cast<unsigned int>(*input) + 33 * str(input + 1) : 5381;
     }
 
-    inline std::string toLower(std::string &str)
+    inline std::string toLower(std::string str)
     {
         std::transform(str.begin(), str.end(), str.begin(), ::tolower);
         return str;
+    }
+
+    inline void tolower(std::string &str)
+    {
+        std::transform(str.begin(), str.end(), str.begin(), ::tolower);
     }
 
     std::vector<std::string> splitString(std::string source, std::string delim);
@@ -102,6 +124,8 @@ namespace utils
     std::string convertToString(const uint &input);
 
     std::string convertToString(const uint64_t &input);
+
+    std::string getLogin(const std::string input);
 }
 
 #endif // Utils_h
