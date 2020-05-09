@@ -408,18 +408,6 @@ void TradingCompany::checkPassword(const std::string &warning)
     recursion(FIELD_PASSWORD, &TradingCompany::setPassword, warning + message);
 }
 
-void TradingCompany::displayUser()
-{
-    Logger::info << "Вход в аккаунт >> " << position_   << " "
-                                         << surname_    << " "
-                                         << name_       << " "
-                                         << patronymic_ << std::endl;
-    std::cout << "Вы зашли за " << position_ << "'a. " << std::endl;
-    std::cout << "Приветствуем вас, " << surname_    << " "
-                                      << name_       << " "
-                                      << patronymic_ << "!" << std::endl;
-}
-
 const TradingCompany::Type TradingCompany::checkField(std::string &value, const Field &field)
 {
     Type type;
@@ -454,7 +442,7 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
             
             case FIELD_POSITION :
             {
-                utils::toUpperAndToLower(value);
+                utils::toupperandtolower(value); 
                 boost::regex regular ("(Бухгалтер|Водитель|Главный_бухгалтер|Главный_юрист-консультант|Грузчик|Директор|Кассир|Логист|"
                                       "Менеджер_по_закупкам|Менеджер_по_продажам|Начальник_отдела_закупок|Начальник_склада|Юрист|Менеджер_по_персоналу)");
                 if (value.empty())
@@ -480,7 +468,7 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
             
             case FIELD_SURNAME :
             {
-                utils::toUpperAndToLower(value);
+                utils::toupperandtolower(value);
                 boost::regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
                 {
@@ -496,7 +484,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
                 {
                     type.status = ST_OK;
                     surname_.empty() ? Logger::info << "Фамилия >> " << value << std::endl :
-                                       Logger::info << "Фамилия << " << surname_ << " >> изменена на >> " << value << std::endl;
+                                      (Logger::info << "Фамилия << " << surname_ << " >> изменена на >> " << value << std::endl,
+                                       std::cout << "Фамилия успешно изменена" << std::endl);
                 }
                 type.stringValue = value;
                 fieldStatus_[field] = type.status;
@@ -505,7 +494,7 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
             
             case FIELD_NAME :
             {
-                utils::toUpperAndToLower(value);
+                utils::toupperandtolower(value);
                 boost::regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
                 {
@@ -521,7 +510,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
                 {
                     type.status = ST_OK;
                     name_.empty() ? Logger::info << "Имя >> " << value << std::endl :
-                                    Logger::info << "Имя << " << name_ << " >> изменено на >> " << value << std::endl;
+                                   (Logger::info << "Имя << " << name_ << " >> изменено на >> " << value << std::endl,
+                                    std::cout << "Имя успешно изменено" << std::endl);
                 }
                 type.stringValue = value;
                 fieldStatus_[field] = type.status;
@@ -530,7 +520,7 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
 
             case FIELD_PATRONYMIC :
             {
-                utils::toUpperAndToLower(value);
+                utils::toupperandtolower(value);
                 boost::regex regular ("[А-Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя]+");
                 if (value.empty())
                 {
@@ -546,7 +536,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
                 {
                     type.status = ST_OK;
                     patronymic_.empty() ? Logger::info << "Отчество >> " << value << std::endl :
-                                          Logger::info << "Отчество << " << patronymic_ << " >> изменено на >> " << value << std::endl;
+                                         (Logger::info << "Отчество << " << patronymic_ << " >> изменено на >> " << value << std::endl,
+                                          std::cout << "Отчество успешно изменено" << std::endl);
                 }
                 type.stringValue = value;
                 fieldStatus_[field] = type.status;
@@ -555,7 +546,7 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
     
             case FIELD_SEX :
             {
-                utils::toUpperAndToLower(value);
+                utils::toupperandtolower(value);
                 boost::regex regular ("^(Муж|Жен)$");
                 if (value.empty())
                 {
@@ -571,7 +562,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
                 {
                     type.status = ST_OK;
                     sex_.empty() ? Logger::info << "Пол >> " << value << std::endl :
-                                   Logger::info << "Пол << " << sex_ << " >> изменен на >> " << value << std::endl;
+                                  (Logger::info << "Пол << " << sex_ << " >> изменен на >> " << value << std::endl,
+                                   std::cout << "Пол успешно изменен" << std::endl);
                 }
                 type.stringValue = value;
                 fieldStatus_[field] = type.status;
@@ -608,7 +600,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
                 {
                     type.status = ST_OK;
                     dateOfBirth_.empty() ? Logger::info << "Дата рождения >> " << value << std::endl :
-                                           Logger::info << "Дата рождения << " << dateOfBirth_ << " >> изменена на >> " << value << std::endl;
+                                          (Logger::info << "Дата рождения << " << dateOfBirth_ << " >> изменена на >> " << value << std::endl,
+                                           std::cout << "Дата рождения успешно изменена" << std::endl);
                 }
                 type.stringValue = value;
                 fieldStatus_[field] = type.status;
@@ -633,7 +626,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
                 {
                     type.status = ST_OK;
                     !passport_ ? Logger::info << "Паспорт >> " << value << std::endl :
-                                 Logger::info << "Паспорт << " << passport_ << " >> изменен на >> " << value << std::endl;
+                                (Logger::info << "Паспорт << " << passport_ << " >> изменен на >> " << value << std::endl,
+                                 std::cout << "Паспорт успешно изменен" << std::endl);
                 }
                 type.uint64Value = std::strtoul(value.c_str(), NULL, 0);
                 fieldStatus_[field] = type.status;
@@ -658,7 +652,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
                 {
                     type.status = ST_OK;
                     !phone_ ? Logger::info << "Телефон >> " << value << std::endl :
-                              Logger::info << "Телефон << " << phone_ << " >> изменен на >> " << value << std::endl;
+                             (Logger::info << "Телефон << " << phone_ << " >> изменен на >> " << value << std::endl,
+                              std::cout << "Телефон успешно изменен" << std::endl);
                 }
                 type.uint64Value = std::strtoul(value.c_str(), NULL, 0);
                 fieldStatus_[field] = type.status;
@@ -689,7 +684,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
                 {
                     type.status = ST_OK;
                     email_.empty() ? Logger::info << "Почта >> " << value << std::endl :
-                                     Logger::info << "Почта << " << email_ << " >> изменена на >> " << value << std::endl;
+                                    (Logger::info << "Почта << " << email_ << " >> изменена на >> " << value << std::endl,
+                                     std::cout << "Почта успешно изменена" << std::endl);
                 }
                 type.stringValue = value;
                 fieldStatus_[field] = type.status;
@@ -715,7 +711,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
                 {
                     type.status = ST_OK;
                     dateOfHiring_.empty() ? Logger::info << "Дата принятия на работу >> " << value << std::endl :
-                                            Logger::info << "Дата принятия на работу << " << dateOfHiring_ << " >> изменена на >> " << value << std::endl;
+                                           (Logger::info << "Дата принятия на работу << " << dateOfHiring_ << " >> изменена на >> " << value << std::endl,
+                                            std::cout << "Дата принятия на работу успешно изменена" << std::endl);
                 }
                 type.stringValue = value;
                 fieldStatus_[field] = type.status;
@@ -726,8 +723,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
             {
                 boost::regex regular ("(((((Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье),*)+)|"
                                       "(Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье)-"
-                                     "(Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье))="
-                               "([0-1]?[0-9]|[2][0-3]]):([0-5][0-9])-([0-1]?[0-9]|[2][0-3]):([0-5][0-9]);*)+");
+                                      "(Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье))="
+                                      "([0-1]?[0-9]|[2][0-3]]):([0-5][0-9])-([0-1]?[0-9]|[2][0-3]):([0-5][0-9]);*)+");
                 if (value.empty())
                 {
                     type.status = ST_EMPTY;
@@ -742,7 +739,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
                 {
                     type.status = ST_OK;
                     workingHours_.empty() ? Logger::info << "Часы работы >> " << value << std::endl :
-                                            Logger::info << "Часы работы << " << workingHours_ << " >> изменены на >> " << value << std::endl;
+                                           (Logger::info << "Часы работы << " << workingHours_ << " >> изменены на >> " << value << std::endl,
+                                            std::cout << "Часы работы успешно изменены" << std::endl);
                 }
                 type.stringValue = value;
                 fieldStatus_[field] = type.status;
@@ -766,7 +764,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
                 {
                     type.status = ST_OK;
                     !salary_ ? Logger::info << "Зарплата >> " << value << std::endl :
-                               Logger::info << "Зарплата << " << salary_ << " >> изменена на >> " << value << std::endl;
+                              (Logger::info << "Зарплата << " << salary_ << " >> изменена на >> " << value << std::endl,
+                               std::cout << "Зарплата успешно изменена" << std::endl);
                 }
                 type.uintValue = std::atoi(value.c_str());
                 fieldStatus_[field] = type.status;
@@ -790,7 +789,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string &value, const 
                 {
                     type.status = ST_OK;
                     password_.empty() ? Logger::info << "Пароль >> " << value << std::endl :
-                                        Logger::info << "Пароль << " << password_ << " >> изменен на >> " << value << std::endl;
+                                       (Logger::info << "Пароль << " << password_ << " >> изменен на >> " << value << std::endl,
+                                        std::cout << "Пароль успешно изменен" << std::endl);
                 }
                 type.stringValue = value;
                 fieldStatus_[field] = type.status;
@@ -832,7 +832,7 @@ const TradingCompany& TradingCompany::operator = (const TradingCompany &object)
     passport_ = object.passport_;
     phone_ = object.phone_;
     email_ = object.email_;
-    dateOfHiring_ = object.dateOfBirth_;
+    dateOfHiring_ = object.dateOfHiring_;
     workingHours_ = object.workingHours_;
     salary_ = object.salary_;
     password_ = object.password_;

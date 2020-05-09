@@ -117,15 +117,9 @@ namespace utils
         return convert.from_bytes(str);
     }
 
-    void toUpperAndToLower(std::string &str, uint numberUpper = 1);
+    std::string toUpperAndToLower(std::string str, uint numberUpper = 1);
 
-    std::string convertToString(const std::string &input);
-
-    std::string convertToString(const uint &input);
-
-    std::string convertToString(const uint64_t &input);
-
-    std::string getLogin(const std::string input);
+    void toupperandtolower(std::string &str, uint numberUpper = 1);
 }
 
 #endif // Utils_h

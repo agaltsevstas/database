@@ -30,8 +30,8 @@ void Director::functional()
         std::cout << "Хотите изменить чужие данные? - нажмите 4" << std::endl;
         std::cout << "Хотите добавить нового сотрудника? - нажмите 5" << std::endl;
         std::cout << "Хотите вывести лог файла? - нажмите 6" << std::endl;
-        std::cout << "Хотите вернуться назад? - введите B: " << std::endl;
-        std::cout << "Хотите выйти из программы? - введите ESC: " << std::endl;
+        std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.): " << std::endl;
+        std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД: " << std::endl;
         try
         {
             std::cin >> input;
@@ -64,8 +64,14 @@ void Director::functional()
                     
                 case utils::str("b") :
                     return;
+                    
+                case utils::str("н") :
+                    return;
 
                 case utils::str("esc") :
+                    EXIT(this);
+                    
+                case utils::str("выход") :
                     EXIT(this);
 
                 default:

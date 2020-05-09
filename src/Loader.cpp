@@ -21,8 +21,8 @@ void Loader::functional()
     {
         std::cout << "Хотите вывести личные данные? - нажмите 1" << std::endl;
         std::cout << "Хотите изменить личные данные? - нажмите 2" << std::endl;
-        std::cout << "Хотите вернуться назад? - введите B: " << std::endl;
-        std::cout << "Хотите выйти из программы? - введите ESC: " << std::endl;
+        std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.): " << std::endl;
+        std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД: " << std::endl;
         try
         {
             std::cin >> input;
@@ -39,8 +39,14 @@ void Loader::functional()
                     
                 case utils::str("b") :
                     return;
+                    
+                case utils::str("н") :
+                    return;
 
                 case utils::str("esc") :
+                    EXIT(this);
+                    
+                case utils::str("выход") :
                     EXIT(this);
 
                 default:

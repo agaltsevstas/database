@@ -115,7 +115,8 @@ private:
 
 public:
 //    TradingCompany() {}
-    virtual ~TradingCompany() {}
+    virtual ~TradingCompany()
+    {};
     virtual void functional() = 0;
 //    ~TradingCompany();
     std::string getPosition() const;
@@ -201,7 +202,6 @@ private:
     void changeStatusWorkingHours();
     void changeStatusSalary();
     void changeStatusPassword(const bool canOverwrite, const bool isWrite = false);
-    void displayUser();
     void checkId(const std::string &warning = {});
     void recursion(const Field &field,
                    std::function<void(TradingCompany&, std::string&)> setParameter,

@@ -33,7 +33,7 @@ namespace utils
         std::string email;
         for (auto part: anthroponym)
         {
-            toUpperAndToLower(part, 0);
+            toupperandtolower(part, 0);
             email += translit(part) + ".";
         }
         email.pop_back();
@@ -85,7 +85,7 @@ namespace utils
         return age;
     }
 
-    void toUpperAndToLower(std::string &str, uint numberUpper)
+    std::string toUpperAndToLower(std::string str, uint numberUpper)
     {
         for (size_t i = 0; i < numberUpper; ++i)
         {
@@ -95,30 +95,18 @@ namespace utils
         wstr[0] = towupper(wstr[0]);
         transform(wstr.begin() + numberUpper, wstr.end(), wstr.begin() + numberUpper, std::towlower);
         str = wstringToUtf8(wstr);
+        return str;
     }
 
-    std::string convertToString(const std::string &input)
+    void toupperandtolower(std::string &str, uint numberUpper)
     {
-        return input;
-    }
-
-    std::string convertToString(const uint &input)
-    {
-        return input ? std::to_string(input) : std::string();
-    }
-
-    std::string convertToString(const uint64_t &input)
-    {
-        return input ? std::to_string(input) : std::string();
-    }
-    
-    std::string getLogin(const std::string input)
-    {
-        auto condition = input.find("@");
-        if (condition != std::string::npos)
+        for (size_t i = 0; i < numberUpper; ++i)
         {
-            auto newInput = input.substr(condition);
+            toupper(str[i]);
         }
-        return {};
+        std::wstring wstr = utf8ToWstring(str);
+        wstr[0] = towupper(wstr[0]);
+        transform(wstr.begin() + numberUpper, wstr.end(), wstr.begin() + numberUpper, std::towlower);
+        str = wstringToUtf8(wstr);
     }
 }

@@ -1,6 +1,19 @@
 #include <boost/filesystem.hpp>
 
+#include "ChiefAccountant.h"
+#include "ChiefLegalCounsel.h"
+#include "Loader.h"
+#include "HeadOfProcurement.h"
+#include "HeadOfWarehouse.h"
+#include "SalesManager.h"
+#include "Cashier.h"
+#include "Accountant.h"
+#include "Logistician.h"
+#include "Lawyer.h"
+#include "PurchasingManager.h"
+#include "Driver.h"
 #include "Data.h"
+#include "Utils.h"
 
 void Data::checkData(TradingCompany *object)
 {
@@ -114,7 +127,7 @@ void Data::loadDatabase(const std::string &directoryPath)
 
 void Data::inputPassword()
 {
-    std::cout << "Введите почту или логин от почты или закончите выполнение программы, введя ESC: " << std::endl;
+    std::cout << "Введите почту или логин от почты или закончите выполнение программы, введя ESC или ВЫХОД: " << std::endl;
     bool isLoginFound = false;
     std::string login;
     try
@@ -131,14 +144,14 @@ void Data::inputPassword()
                 break;
             }
         }
-        if(utils::toLower(login) == "esc")
+        if(utils::toLower(login) == "esc" || utils::toLower(login) == "выход")
         {
             Logger::info << "Выход из программы" << std::endl;
             std::cout << "Вы вышли из программы" << std::endl;
             exit(0);
         }
         
-        std::cout << "Введите пароль для получения доступа к базе данных или закончите выполнение программы, введя ESC: " << std::endl;
+        std::cout << "Введите пароль для получения доступа к базе данных или закончите выполнение программы, введя ESC или ВЫХОД: " << std::endl;
         std::string password;
         std::cin >> password;
         Logger::info << std::setfill('.') << std::setw(80) << "" << std::left << std::endl;
@@ -166,7 +179,7 @@ void Data::inputPassword()
                 inputPassword();
             }
         }
-        if(utils::toLower(password) == "esc")
+        if(utils::toLower(password) == "esc" || utils::toLower(password) == "выход")
         {
             Logger::info << "Выход из программы" << std::endl;
             std::cout << "Вы вышли из программы" << std::endl;
@@ -365,9 +378,7 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
     bool isDirector = false;
     std::string input;
     std::string message;
-    std::shared_ptr<Director> pointer = nullptr;
-    auto tradingCompanyPtr = std::shared_ptr<TradingCompany>(object);
-    if (pointer = std::dynamic_pointer_cast<Director>(tradingCompanyPtr))
+    if (typeid(*object) == typeid(Director))
     {
         isDirector = true;
     }
@@ -406,8 +417,8 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
             std::cout << "Изменить зарплату - нажмите 12" << std::endl;
         }
         std::cout << "Изменить пароль к доступу - нажмите 13" << std::endl;
-        std::cout << "Хотите вернуться назад? - введите B: " << std::endl;
-        std::cout << "Хотите выйти из программы? - введите ESC: " << std::endl;
+        std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.): " << std::endl;
+        std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД: " << std::endl;
         try
         {
             std::cin >> input;
@@ -415,50 +426,50 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
             if (isDirector && input == "1")
             {
                 std::cout << "При изменении должности теряются полномочия" << std::endl;
-                std::cout << "Введите yes - для продолжения, no - для отмены" << std::endl;
+                std::cout << "Введите yes или да - для продолжения, no или нет - для отмены" << std::endl;
                 std::cout << "Ввод: " << std::endl;
                 std::cin >> input;
                 utils::tolower(input);
-                if (input == "yes")
+                if (input == "yes" || input == "да")
                 {
                     std::cout << "Выберите одну из предложенных должностей: " << std::endl;
                     copy(positions.begin(), positions.end(), std::ostream_iterator<std::string>(std::cout, " "));
                     std::cout << std::endl;
                     std::string position;
                     std::cin >> position;
+                    utils::toupperandtolower(position);
                     auto found = std::find(positions.begin(), positions.end(), position);
                     if (found != positions.end())
                     {
                         auto newObject = objectFactory_.get(position)();
                         *newObject = *otherObject;
-                        otherObject = newObject;
                         newObject->setPosition(position);
-                        std::for_each(otherObject->fieldStatus_.begin(), otherObject->fieldStatus_.end(),
-                                      [&otherObject](auto &field){ otherObject->fieldStatus_[field.first] = otherObject->ST_OK; });
-                        pushBack(*otherObject);
-                        deleteObject(object);
-                        Logger::info << "Должность сотрудника " + object->surname_ + " " +
-                                                                  object->name_ + " " +
-                                                                  object->patronymic_ + " успешно изменена с " +
-                                                                  object->position_ + " на " +
-                                                                  otherObject->position_ << std::endl;
-                        std::cout << "Должность сотрудника " + object->surname_ + " " +
-                                                               object->name_ + " " +
-                                                               object->patronymic_ + " успешно изменена с " +
-                                                               object->position_ + " на " +
-                                                               otherObject->position_ << std::endl;
-                        LOGOUT(object);
-                        inputPassword();
+                        std::for_each(newObject->fieldStatus_.begin(), newObject->fieldStatus_.end(),
+                                      [&newObject](auto &field){ newObject->fieldStatus_[field.first] = newObject->ST_OK; });
+                        pushBack(*newObject);
+                        deleteObject(otherObject);
+                        Logger::info << "Должность сотрудника " + otherObject->surname_ + " " +
+                                                                  otherObject->name_ + " " +
+                                                                  otherObject->patronymic_ + " успешно изменена с " +
+                                                                  otherObject->position_ + " на " +
+                                                                  newObject->position_ << std::endl;
+                        std::cout << "Должность сотрудника " + otherObject->surname_ + " " +
+                                                               otherObject->name_ + " " +
+                                                               otherObject->patronymic_ + " успешно изменена с " +
+                                                               otherObject->position_ + " на " +
+                                                               newObject->position_ << std::endl;
+                        if (object == otherObject)
+                        {
+                            LOGOUT(object);
+                            inputPassword();
+                        }
                     }
                     else
                     {
                         throw position;
                     }
-                    otherObject->changeStatusPosition();
-                    auto parameter = selectParameter(FIELD_POSITION, otherObject, "");
-                    checkParameter(parameter);
                 }
-                else if (input == "no")
+                else if (input == "no" || input == "нет")
                 {
                     changeData(otherObject);
                 }
@@ -469,81 +480,93 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
             }
             else if (isDirector && input == "2")
             {
+                std::cout << "Текущая фамилия: " << otherObject->getSurname() << std::endl;
                 otherObject->changeStatusSurname();
                 auto parameter = selectParameter(FIELD_SURNAME, otherObject, "");
                 checkParameter(parameter);
             }
             else if (isDirector && input == "3")
             {
+                std::cout << "Текущее имя: " << otherObject->getName() << std::endl;
                 otherObject->changeStatusName();
                 auto parameter = selectParameter(FIELD_NAME, otherObject, "");
                 checkParameter(parameter);
             }
             else if (isDirector && input == "4")
             {
+                std::cout << "Текущее отчество: " << otherObject->getPatronymic() << std::endl;
                 otherObject->changeStatusPatronymic();
                 auto parameter = selectParameter(FIELD_PATRONYMIC, otherObject, "");
                 checkParameter(parameter);
             }
             else if (isDirector && input == "5")
             {
+                std::cout << "Текущий пол: " << otherObject->getSex() << std::endl;
                 otherObject->changeStatusSex();
                 auto parameter = selectParameter(FIELD_SEX, otherObject, "");
                 checkParameter(parameter);
             }
             else if (isDirector && input == "6")
             {
+                std::cout << "Текущая дата рождения: " << otherObject->getDateOfBirth() << std::endl;
                 otherObject->changeStatusDateOfBirth();
                 auto parameter = selectParameter(FIELD_DATE_OF_BIRTH, otherObject, "");
                 checkParameter(parameter);
             }
             else if (isDirector && input == "7")
             {
+                std::cout << "Текущий паспорт: " << otherObject->getPassport() << std::endl;
                 otherObject->changeStatusPassport(true);
                 auto parameter = selectParameter(FIELD_PASSPORT, otherObject, "");
                 checkParameter(parameter);
             }
             else if (input == "8")
             {
+                std::cout << "Текущий телефон: " << otherObject->getPhone() << std::endl;
                 otherObject->changeStatusPhone(true);
                 auto parameter = selectParameter(FIELD_PHONE, otherObject, "");
                 checkParameter(parameter);
             }
             else if (isDirector && input == "9")
             {
+                std::cout << "Текущая почта: " << otherObject->getEmail() << std::endl;
                 otherObject->changeStatusEmail(true);
                 auto parameter = selectParameter(FIELD_EMAIL, otherObject, "");
                 checkParameter(parameter);
             }
             else if (isDirector && input == "10")
             {
+                std::cout << "Текущее дата принятия на работу: " << otherObject->getDateOfHiring() << std::endl;
                 otherObject->changeStatusDateOfHiring();
                 auto parameter = selectParameter(FIELD_DATE_OF_HIRING, otherObject, "");
                 checkParameter(parameter);
             }
             else if (isDirector && input == "11")
             {
+                std::cout << "Текущие часы работы: " << otherObject->getWorkingHours() << std::endl;
                 otherObject->changeStatusWorkingHours();
                 auto parameter = selectParameter(FIELD_WORKING_HOURS, otherObject, "");
                 checkParameter(parameter);
             }
             else if (isDirector && input == "12")
             {
+                std::cout << "Текущая зарплата: " << otherObject->getSalary() << std::endl;
                 otherObject->changeStatusSalary();
                 auto parameter = selectParameter(FIELD_SALARY, otherObject, "");
                 checkParameter(parameter);
             }
             else if (input == "13")
             {
+                std::cout << "Текущий пароль: " << otherObject->getPassword() << std::endl;
                 otherObject->changeStatusPassword(true);
                 auto parameter = selectParameter(FIELD_PASSWORD, otherObject, "");
                 checkParameter(parameter);
             }
-            else if (input == "b")
+            else if (input == "b" || input == "н")
             {
                 return;
             }
-            else if (input == "esc")
+            else if (input == "esc" || input == "выход")
             {
                 EXIT(object);
             }
@@ -581,6 +604,11 @@ bool Data::find(const std::string &str, const std::string &parameter) const
 
 TradingCompany *Data::findParameter(const std::string &parameter)
 {
+    if (parameter.empty())
+    {
+        std::cout << "Введена пустая строка" << std::endl;
+        return nullptr;
+    }
     std::vector<std::shared_ptr<TradingCompany>> foundObjects;
     for (const auto &object: tradingCompanyObjects_)
     {
@@ -593,29 +621,36 @@ TradingCompany *Data::findParameter(const std::string &parameter)
             foundObjects.push_back(object);
             continue;
         }
+        stringParameter = object->position_;
+        found = find(stringParameter, utils::toUpperAndToLower(parameter));
+        if (found)
+        {
+            foundObjects.push_back(object);
+            continue;
+        }
         stringParameter = object->surname_;
-        found = find(stringParameter, parameter);
+        found = find(stringParameter, utils::toUpperAndToLower(parameter));
         if (found)
         {
             foundObjects.push_back(object);
             continue;
         }
         stringParameter = object->name_;
-        found = find(stringParameter, parameter);
+        found = find(stringParameter, utils::toUpperAndToLower(parameter));
         if (found)
         {
             foundObjects.push_back(object);
             continue;
         }
         stringParameter = object->patronymic_;
-        found = find(stringParameter, parameter);
+        found = find(stringParameter, utils::toUpperAndToLower(parameter));
         if (found)
         {
             foundObjects.push_back(object);
             continue;
         }
         stringParameter = object->sex_;
-        found = find(stringParameter, parameter);
+        found = find(stringParameter, utils::toUpperAndToLower(parameter));
         if (found)
         {
             foundObjects.push_back(object);
@@ -707,7 +742,7 @@ void Data::changeOtherData(TradingCompany *object)
     std::string input;
     std::cin >> input;
     auto foundObject = findParameter(input);
-    foundObject ? changeData(object, foundObject) :changeOtherData(object);
+    foundObject ? changeData(object, foundObject) : changeOtherData(object);
 }
 
 void Data::getAllOtherData() const
@@ -720,19 +755,15 @@ void Data::getAllOtherData() const
 
 template<class C> void Data::pushBack(C &object)
 {
-    uint maxId = 0;
-    std::shared_ptr<C> pointer;
+    std::string position = object.position_;
+    uint maxId = idPositions.find(position)->second - 1;
     std::vector<std::shared_ptr<TradingCompany>>::iterator it;
     
     for (it = tradingCompanyObjects_.begin(); it != tradingCompanyObjects_.end(); ++it)
     {
-        if ((pointer = std::dynamic_pointer_cast<C>(*it)) && (*it)->getId() > maxId)
+        if ((typeid(**it).name() == typeid(object).name()) && (*it)->getId() > maxId)
         {
             maxId = (*it)->getId();
-        }
-        else
-        {
-            break;
         }
     }
     std::string maxIdString = std::to_string(++maxId);
@@ -765,34 +796,34 @@ void Data::newEmployeeData(const TradingCompany *object)
     std::cout << "Выберите одну из предложенных должности: " << std::endl;
     copy(positions.begin(), positions.end(), std::ostream_iterator<std::string>(std::cout, " "));
     std::cout << std::endl;
-    std::cout << "Хотите вернуться назад? - введите B: " << std::endl;
-    std::cout << "Хотите выйти из программы? - введите ESC: " << std::endl;
+    std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.): " << std::endl;
+    std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД: " << std::endl;
     std::cout << "Введите должность сотрудника: " << std::endl;
     std::string input;
     try
     {
         std::cin >> input;
-        utils::toUpperAndToLower(input);
-        auto found = std::find(positions.begin(), positions.end(), input);
+        auto found = std::find(positions.begin(), positions.end(), utils::toUpperAndToLower(input));
         if (found != positions.end())
         {
+            utils::toupperandtolower(input);
             auto object = objectFactory_.get(input)();
             Logger::info << "Добавление нового сотрудника с должностью >> " << input << std::endl; 
             std::cout << "Добавление нового сотрудника с должностью >> " << input << std::endl;
-            checkParameters(object, true);
+            checkParameters(object);
             pushBack(*object);
             Logger::info << "Сотрудник " + object->surname_ + " " +
                                            object->name_ + " " +
-                                           object->patronymic_ + " успешно добавлен"<< std::endl;
+                                           object->patronymic_ + " успешно добавлен" << std::endl;
             std::cout << "Сотрудник " + object->surname_ + " " +
                                         object->name_ + " " +
-                                        object->patronymic_ + " успешно добавлен"<< std::endl;
+                                        object->patronymic_ + " успешно добавлен" << std::endl;
         }
-        else if(utils::toLower(input) == "b")
+        else if(utils::toLower(input) == "b" || utils::toLower(input) == "н")
         {
             return;
         }
-        else if(utils::toLower(input) == "esc")
+        else if(utils::toLower(input) == "esc" || utils::toLower(input) == "выход")
         {
             EXIT(object);
         }

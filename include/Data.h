@@ -6,35 +6,25 @@
 #include "ObjectFactory.h"
 #include "TradingCompany.h"
 #include "Director.h"
-#include "ChiefAccountant.h"
-#include "ChiefLegalCounsel.h"
-#include "HeadOfProcurement.h"
-#include "HeadOfWarehouse.h"
 #include "HRManager.h"
-#include "SalesManager.h"
-#include "Cashier.h"
-#include "Accountant.h"
-#include "Logistician.h"
-#include "Lawyer.h"
-#include "PurchasingManager.h"
-#include "Loader.h"
-#include "Driver.h"
-#include "Utils.h"
 
-class Director;
-//class ChiefAccountant;
-//class ChiefLegalCounsel;
-//class HeadOfProcurement;
-//class HeadOfWarehouse;
-class HRManager;
-//class SalesManager;
-class Cashier;
-//class Accountant;
-//class Logistician;
-//class Lawyer;
-//class PurchasingManager;
-//class Loader;
-//class Driver;
+const std::map<std::string, uint> idPositions =
+ {
+     {"Бухгалтер", 800},
+     {"Водитель", 1300},
+     {"Главный_бухгалтер", 200},
+     {"Главный_юрист-консультант", 300},
+     {"Грузчик", 1200},
+     {"Директор", 100},
+     {"Логист", 900},
+     {"Менеджер_по_закупкам", 1100},
+     {"Менеджер_по_персоналу", 1400},
+     {"Менеджер_по_продажам", 600},
+     {"Кассир", 700},
+     {"Начальник_отдела_закупок", 400},
+     {"Начальник_склада", 500},
+     {"Юрист", 1000}
+ };
 
 const std::list<std::string> positions
 {
@@ -72,28 +62,9 @@ const std::vector<std::string> warnings
     "Ваш пароль не удовлетворяет требованиям!\n"
 };
 
-typedef union
-{
-    class Director;
-    class ChiefAccountant;
-    class ChiefLegalCounsel;
-    class HeadOfProcurement;
-    class HeadOfWarehouse;
-    class HRManager;
-    class SalesManager;
-    class Cashier;
-    class Accountant;
-    class Logistician;
-    class Lawyer;
-    class PurchasingManager;
-    class Loader;
-    class Driver;
-} RetType;
-
 class Data
 {
     friend class Director;
-    friend class Cashier;
     
 private:
     

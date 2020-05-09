@@ -19,9 +19,6 @@
             <PersistentString
                value = "object">
             </PersistentString>
-            <PersistentString
-               value = "otherObject">
-            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
@@ -87,6 +84,12 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "Data::changeOtherData(TradingCompany*):Data.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "TradingCompany::getPosition() const:TradingCompany.cpp">
+      </ContextState>
+      <ContextState
          contextName = "void Data::checkParameter&lt;unsigned long long, Director&gt;(unsigned long long const&amp;, std::__1::function&lt;unsigned long long (TradingCompany&amp;)&gt;, std::__1::function&lt;void ()&gt;, Director const*, bool):Data.h">
       </ContextState>
       <ContextState
@@ -131,6 +134,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "Director::functional():Director.cpp">
+      </ContextState>
+      <ContextState
          contextName = "void Data::checkData&lt;Director&gt;(Director&amp;):Data.h">
       </ContextState>
       <ContextState
@@ -140,6 +146,9 @@
                value = "parameter">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Data::inputPassword():Data.cpp">
       </ContextState>
       <ContextState
          contextName = "utils::createEmail(std::__1::vector&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, std::__1::allocator&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; &gt; &gt; const&amp;):Utils.cpp">
