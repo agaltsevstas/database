@@ -201,7 +201,7 @@ private:
     void changeStatusDateOfHiring();
     void changeStatusWorkingHours();
     void changeStatusSalary();
-    void changeStatusPassword(const bool canOverwrite, const bool isWrite = false);
+    void changeStatusPassword();
     void checkId(const std::string &warning = {});
     void recursion(const Field &field,
                    std::function<void(TradingCompany&, std::string&)> setParameter,

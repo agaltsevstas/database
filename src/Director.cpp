@@ -83,7 +83,7 @@ void Director::functional()
             Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
             std::cerr << "Вы ввели >> " << exception
                       << " - неверная команда! Попробуйте ввести заново: " << std::endl;
-            functional();
+            continue;
         }
         catch(const std::exception &ex)
         {

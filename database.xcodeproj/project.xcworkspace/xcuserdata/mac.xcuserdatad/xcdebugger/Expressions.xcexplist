@@ -101,6 +101,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "void Data::pushBack&lt;TradingCompany&gt;(TradingCompany&amp;):Data.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "void Data::deleteObject&lt;TradingCompany&gt;(TradingCompany*):Data.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "del1">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "void Data::getReadingDataFromFile&lt;std::__1::shared_ptr&lt;Directors&gt; &gt;(std::__1::shared_ptr&lt;Directors&gt;&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.h">
          <PersistentStrings>
             <PersistentString
@@ -168,9 +179,6 @@
                value = "tradingCompanyVector_">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "Data::loadDatabase(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):Data.cpp">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

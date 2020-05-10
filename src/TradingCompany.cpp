@@ -278,21 +278,10 @@ void TradingCompany::changeStatusSalary()
     Logger::info << "Перезапись зарплаты >> " << salary_ << std::endl;
 }
 
-void TradingCompany::changeStatusPassword(const bool canOverwrite, const bool isWrite)
+void TradingCompany::changeStatusPassword()
 {
-    if (canOverwrite)
-    {
-        fieldStatus_[FIELD_PASSWORD] = ST_OVERWRITEDATA;
-        Logger::info << "Перезапись пароля >> " << password_ << std::endl;
-    }
-    else
-    {
-        fieldStatus_[FIELD_PASSWORD] = ST_DUBLICATE;
-        if (isWrite)
-        {
-            Logger::error << "Повторяющийся пароль >> " << password_ << std::endl;
-        }
-    }
+    fieldStatus_[FIELD_PASSWORD] = ST_OVERWRITEDATA;
+    Logger::info << "Перезапись пароля >> " << password_ << std::endl;
 }
 
 bool TradingCompany::hasDublicatePassword()
