@@ -78,7 +78,6 @@ private:
     
     const std::map<std::string, std::function<void(TradingCompany&, std::string&)>> setParameters_ =
     {
-        {"id",           &TradingCompany::setId},
         {"position",     &TradingCompany::setPosition},
         {"surname",      &TradingCompany::setSurname},
         {"name",         &TradingCompany::setName},
@@ -159,20 +158,20 @@ private:
     uint        salary_ = 0;
     std::string password_;
     
-    void setId(std::string &id);
-    void setPosition(std::string &position);
-    void setSurname(std::string &surname);
-    void setName(std::string &name);
-    void setPatronymic(std::string &patronymic);
-    void setSex(std::string &sex);
-    void setDateOfBirth(std::string &dateOfBirth);
-    void setPhone(std::string &phone);
-    void setEmail(std::string &phone);
-    void setDateOfHiring(std::string &dateOfHiring);
-    void setWorkingHours(std::string &workingHours);
-    void setPassport(std::string &passport);
-    void setSalary(std::string &salary);
-    void setPassword(std::string &password);
+    void setId(const std::string &id);
+    void setPosition(const std::string &position);
+    void setSurname(const std::string &surname);
+    void setName(const std::string &name);
+    void setPatronymic(const std::string &patronymic);
+    void setSex(const std::string &sex);
+    void setDateOfBirth(const std::string &dateOfBirth);
+    void setPhone(const std::string &phone);
+    void setEmail(const std::string &phone);
+    void setDateOfHiring(const std::string &dateOfHiring);
+    void setWorkingHours(const std::string &workingHours);
+    void setPassport(const std::string &passport);
+    void setSalary(const std::string &salary);
+    void setPassword(const std::string &password);
     void checkPosition(const std::string &warning = {});
     void checkSurname(const std::string &warning = {});
     void checkName(const std::string &warning = {});
@@ -206,10 +205,10 @@ private:
     void recursion(const Field &field,
                    std::function<void(TradingCompany&, std::string&)> setParameter,
                    const std::string &message);
-    template<typename T> T get(std::string &value, const Field field);
+    template<typename T> T get(const std::string &value, const Field field);
     /// Пустое поле для возврата в качестве отсутствия результата поиска
     const Type empty = Type();
-    const Type checkField(std::string &value, const Field &numberField);
+    const Type checkField(std::string value, const Field &numberField);
 };
 
 //enum class classes { directors, chief_accountant };

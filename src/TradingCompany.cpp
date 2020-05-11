@@ -3,89 +3,89 @@
 #include "TradingCompany.h"
 
 template<>
-uint TradingCompany::get<uint>(std::string &value, const Field field)
+uint TradingCompany::get<uint>(const std::string &value, const Field field)
 {
     return checkField(value, field).uintValue;
 }
 
 template<>
-uint64_t TradingCompany::get<uint64_t>(std::string &value, const Field field)
+uint64_t TradingCompany::get<uint64_t>(const std::string &value, const Field field)
 {
     return checkField(value, field).uint64Value;
 }
 
 template<>
-std::string TradingCompany::get<std::string>(std::string &value, const Field field)
+std::string TradingCompany::get<std::string>(const std::string &value, const Field field)
 {
     return checkField(value, field).stringValue;
 }
 
-void TradingCompany::setId(std::string &id)
+void TradingCompany::setId(const std::string &id)
 {
     id_ = get<uint>(id, FIELD_ID);
 }
 
-void TradingCompany::setPosition(std::string &position)
+void TradingCompany::setPosition(const std::string &position)
 {
     position_ = get<std::string>(position, FIELD_POSITION);
 }
 
-void TradingCompany::setSurname(std::string &surname)
+void TradingCompany::setSurname(const std::string &surname)
 {
     surname_ = get<std::string>(surname, FIELD_SURNAME);
 }
 
-void TradingCompany::setName(std::string &name)
+void TradingCompany::setName(const std::string &name)
 {
     name_ = get<std::string>(name, FIELD_NAME);
 }
 
-void TradingCompany::setPatronymic(std::string &patronymic)
+void TradingCompany::setPatronymic(const std::string &patronymic)
 {
     patronymic_ = get<std::string>(patronymic, FIELD_PATRONYMIC);
 }
 
-void TradingCompany::setSex(std::string &sex)
+void TradingCompany::setSex(const std::string &sex)
 {
     sex_ = get<std::string>(sex, FIELD_SEX);
 }
 
-void TradingCompany::setDateOfBirth(std::string &dateOfBirth)
+void TradingCompany::setDateOfBirth(const std::string &dateOfBirth)
 {
     dateOfBirth_ = get<std::string>(dateOfBirth, FIELD_DATE_OF_BIRTH);
 }
 
-void TradingCompany::setPassport(std::string &passport)
+void TradingCompany::setPassport(const std::string &passport)
 {
     passport_ = get<uint64_t>(passport, FIELD_PASSPORT);
 }
 
-void TradingCompany::setPhone(std::string &phone)
+void TradingCompany::setPhone(const std::string &phone)
 {
     phone_ = get<uint64_t>(phone, FIELD_PHONE);
 }
 
-void TradingCompany::setEmail(std::string &email)
+void TradingCompany::setEmail(const std::string &email)
 {
     email_ = get<std::string>(email, FIELD_EMAIL);
 }
 
-void TradingCompany::setDateOfHiring(std::string &dateOfHiring)
+void TradingCompany::setDateOfHiring(const std::string &dateOfHiring)
 {
     dateOfHiring_ = get<std::string>(dateOfHiring, FIELD_DATE_OF_HIRING);
 }
 
-void TradingCompany::setWorkingHours(std::string &workingHours)
+void TradingCompany::setWorkingHours(const std::string &workingHours)
 {
     workingHours_ = get<std::string>(workingHours, FIELD_WORKING_HOURS);
 }
 
-void TradingCompany::setSalary(std::string &salary)
+void TradingCompany::setSalary(const std::string &salary)
 {
     salary_ = get<uint>(salary, FIELD_SALARY);
 }
 
-void TradingCompany::setPassword(std::string &password)
+void TradingCompany::setPassword(const std::string &password)
 {
     password_ = get<std::string>(password, FIELD_PASSWORD);
 }
@@ -397,7 +397,7 @@ void TradingCompany::checkPassword(const std::string &warning)
     recursion(FIELD_PASSWORD, &TradingCompany::setPassword, warning + message);
 }
 
-const TradingCompany::Type TradingCompany::checkField(std::string &value, const Field &field)
+const TradingCompany::Type TradingCompany::checkField(std::string value, const Field &field)
 {
     Type type;
     

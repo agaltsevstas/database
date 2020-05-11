@@ -66,12 +66,14 @@ void Data::loadDatabase(const std::string &directoryPath)
             {
                 std::string line;
                 std::ifstream file(filePath.path().string());
+                uint _id = idPositions.find(fileName)->second;
                 if (file.is_open())
                 {
                     while (getline(file, line))
                     {
                         auto object = objectFactory_.get(fileName)();
                         Logger::info << " ********** Считывание данных сотрудника ********** " << std::endl;
+                        object->setId(std::to_string(_id));
                         line >> *object;
                         auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
                                               [&object](std::shared_ptr<TradingCompany> &tradingCompanyObject)
@@ -86,6 +88,7 @@ void Data::loadDatabase(const std::string &directoryPath)
                         }
                         checkData(object);
                         tradingCompanyObjects_.push_back(std::shared_ptr<TradingCompany>(object));
+                        ++_id;
                         if (file.eof())
                         {
                             break;
@@ -443,6 +446,7 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
                                       [&newObject](auto &field){ newObject->fieldStatus_[field.first] = newObject->ST_OK; });
                         pushBack(*newObject);
                         deleteObject(otherObject);
+                        otherObject = newObject;
                         Logger::info << "Должность сотрудника " + otherObject->surname_ + " " +
                                                                   otherObject->name_ + " " +
                                                                   otherObject->patronymic_ + " успешно изменена с " +
@@ -453,7 +457,6 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
                                                                otherObject->patronymic_ + " успешно изменена с " +
                                                                otherObject->position_ + " на " +
                                                                newObject->position_ << std::endl;
-                        otherObject = nullptr;
                         if (object == otherObject)
                         {
                             LOGOUT(object);
