@@ -21,6 +21,7 @@
 
 int main(int argc, char *argv[])
 {
+    std::srand(static_cast<uint>(time(0)));
     setlocale(LC_ALL,"ru_RU.UTF-8");
     Logger::createInstance();
     std::string directory = "data/"; // Путь к модулям

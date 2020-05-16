@@ -244,7 +244,7 @@ void TradingCompany::changeStatusPhone(const bool canOverwrite)
     }
 }
 
-void TradingCompany::changeStatusEmail(const bool canOverwrite)
+void TradingCompany::changeStatusEmail(const bool canOverwrite, const bool isWrite)
 {
     if (canOverwrite)
     {
@@ -253,10 +253,11 @@ void TradingCompany::changeStatusEmail(const bool canOverwrite)
     }
     else
     {
-        std::string email = email_;
-        email_ += std::to_string(rand());
         fieldStatus_[FIELD_EMAIL] = ST_DUBLICATE;
-        Logger::warning << "Повторяющаяся почта >> " << email << " изменена на >> " << email_ << std::endl;
+        if (isWrite)
+        {
+            Logger::warning << "Повторяющаяся почта >> " << email_ << std::endl;
+        }
     }
 }
 
@@ -282,11 +283,6 @@ void TradingCompany::changeStatusPassword()
 {
     fieldStatus_[FIELD_PASSWORD] = ST_OVERWRITEDATA;
     Logger::info << "Перезапись пароля >> " << password_ << std::endl;
-}
-
-bool TradingCompany::hasDublicatePassword()
-{
-    return fieldStatus_[FIELD_PASSWORD] == ST_DUBLICATE;
 }
 
 void TradingCompany::recursion(const Field &field,
@@ -366,8 +362,30 @@ void TradingCompany::checkPhone(const std::string &warning)
 
 void TradingCompany::checkEmail(const std::string &warning)
 {
-    const std::string message = "Введите почту (например, surname.name.patronymic@tradingcompany.ru)";
-    recursion(FIELD_EMAIL, &TradingCompany::setEmail, warning + message);
+    if (fieldStatus_[FIELD_EMAIL] != ST_OK)
+    {
+        const std::string email = utils::createEmail(std::vector<std::string>{surname_, name_, patronymic_});
+        std::string firstPartEmail = email.substr(0, email.find("@"));
+        uint secondPartEmail = 0;
+        std::cout << "Ваша первая часть почты: " + firstPartEmail << std::endl;
+        std::string message = "Введите вторую часть почты (это должно быть число от 1 до 99)\n";
+        while (true)
+        {
+            std::cout << message;
+            message = "Некорректно введен параметр, введите вторую часть почты (это должно быть число от 1 до 99)\n";
+            std::cout << "Ввод: " << std::endl;
+            std::cin >> secondPartEmail;
+            if (secondPartEmail > 0 && secondPartEmail < 100)
+            {
+                break;
+            }
+            else
+            {
+                continue;
+            }
+        }
+        setEmail(firstPartEmail + std::to_string(secondPartEmail) + "@tradingcompany.ru");
+    }
 }
 
 void TradingCompany::checkDateOfHiring(const std::string &warning)
@@ -651,23 +669,36 @@ const TradingCompany::Type TradingCompany::checkField(std::string value, const F
                 
             case FIELD_EMAIL :
             {
-                std::string email = utils::createEmail(std::vector<std::string>{surname_, name_, patronymic_});
                 boost::regex regular ("^([a-z0-9]+)(\\.)([a-z0-9]+)(\\.)([a-z0-9]+)(@)(tradingcompany)(\\.)(ru)$");
-                if (boost::regex_match(email, regular))
+                if (value.empty())
                 {
-                    value = email;
-                    type.status = ST_OK;
-                    Logger::info << "Почта >> " << value << std::endl;
-                }
-                else if (value.empty())
-                {
-                    type.status = ST_EMPTY;
-                    Logger::error << "Пустая почта >> " << value << std::endl;
+                    const std::string email = utils::createEmail(std::vector<std::string>{surname_, name_, patronymic_});
+                    if (boost::regex_match(email, regular))
+                    {
+                        value = email;
+                        type.status = ST_OK;
+                        Logger::info << "Почта >> " << value << std::endl;
+                    }
+                    else
+                    {
+                        type.status = ST_EMPTY;
+                        Logger::error << "Пустая почта >> " << value << std::endl;
+                    }
                 }
                 else if (!boost::regex_match(value, regular))
                 {
-                    type.status = ST_WRONGDATA;
-                    Logger::warning << "Некорректная почта >> " << value << std::endl;
+                    const std::string email = utils::createEmail(std::vector<std::string>{surname_, name_, patronymic_});
+                    if (boost::regex_match(email, regular))
+                    {
+                        value = email;
+                        type.status = ST_OK;
+                        Logger::info << "Почта >> " << value << std::endl;
+                    }
+                    else
+                    {
+                        type.status = ST_WRONGDATA;
+                        Logger::warning << "Некорректная почта >> " << value << std::endl;
+                    }
                 }
                 else
                 {
@@ -811,7 +842,6 @@ const TradingCompany::Type TradingCompany::checkField(std::string value, const F
 
 const TradingCompany& TradingCompany::operator = (const TradingCompany &object)
 {
-    id_ = object.id_;
     position_ = object.position_;
     surname_ = object.surname_;
     name_ = object.name_;
@@ -832,9 +862,9 @@ void operator >> (const std::string &line, TradingCompany &tradingCompany)
 {
     std::string input;
     std::stringstream is(line);
-    while (is >> input)
+    try
     {
-        try
+        while (is >> input)
         {
             std::string parameter = boost::regex_replace(input, boost::regex("[^A-Za-z]"), "");
             auto found = tradingCompany.setParameters_.find(parameter);
@@ -843,33 +873,36 @@ void operator >> (const std::string &line, TradingCompany &tradingCompany)
             {
                 auto setParameter = found->second;
                 is >> input;
-                if (*input.begin() != ('\"') && *(input.end() - 1) != ('\"'))
+                if (setParameter != nullptr)
                 {
-                    input.clear();
+                    if (*input.begin() != ('\"') && *(input.end() - 1) != ('\"'))
+                    {
+                        input.clear();
+                    }
+                    else
+                    {
+                        input = input.substr(1, input.length() - 2);
+                    }
+                    setParameter(tradingCompany, input);
                 }
-                else
-                {
-                    input = input.substr(1, input.length() - 2);
-                }
-                setParameter(tradingCompany, input);
             }
             else
             {
                 throw input;
             }
         }
-        catch (const std::string &exception)
-        {
-            Logger::error << "Неверный параметр >> " << exception << std::endl;
-        }
-        catch(const std::exception &ex)
-        {
-            Logger::error << "Ошибка >> " << ex.what() << std::endl;
-        }
-        catch(...)
-        {
-            Logger::error << "Неизвестная ошибка!" << std::endl;
-        }
+    }
+    catch (const std::string &exception)
+    {
+        Logger::error << "Неверный параметр >> " << exception << std::endl;
+    }
+    catch(const std::exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << std::endl;
+    }
+    catch(...)
+    {
+        Logger::error << "Неизвестная ошибка!" << std::endl;
     }
 }
 
@@ -895,8 +928,7 @@ std::ostream& operator << (std::ostream &out, const TradingCompany &tradingCompa
 bool operator == (const TradingCompany &first, const TradingCompany &second)
 {
     return (first.email_ == second.email_) &&
-           (first.password_ == second.password_) &&
-           (first.passport_ == second.passport_);
+           (first.password_ == second.password_);
 }
 
 

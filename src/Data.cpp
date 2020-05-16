@@ -33,7 +33,8 @@ void Data::checkData(TradingCompany *object)
         }
         if (object->email_ == element->email_)
         {
-            object->changeStatusEmail();
+            element->changeStatusEmail(false, false);
+            object->changeStatusEmail(false, true);
         }
     }
 }
@@ -157,19 +158,7 @@ void Data::inputPassword()
         {
             if (isLoginFound && password == object->password_)
             {
-                if (object->hasDublicatePassword())
-                {
-                    std::cout << "Введите номер паспорта (например, 4516561974)" << std::endl;
-                    std::string passport;
-                    std::cin >> passport;
-                    if (strtoul(password.c_str(), NULL, 0) != object->passport_)
-                    {
-                        std::cerr << "Введенный паспорт не совпадает с вашим паспортом!" << std::endl;
-                        inputPassword();
-                    }
-                }
                 LOGIN(object);
-                checkPassword(object);
                 checkParameters(object.get());
                 object->functional();
                 LOGOUT(object);
@@ -303,7 +292,7 @@ template<class Class> Data::Parameter<Class> Data::selectParameter(const Field &
             case FIELD_EMAIL :
                 return {FIELD_EMAIL, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getEmail},
                         std::bind(&TradingCompany::checkEmail, object, message),
-                        std::bind(&TradingCompany::changeStatusEmail, object, true), object, true};
+                        std::bind(&TradingCompany::changeStatusEmail, object, true, false), object, true};
 
             case FIELD_DATE_OF_HIRING :
                 return {FIELD_DATE_OF_HIRING, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
@@ -359,11 +348,6 @@ template<class C> void Data::checkParameters(C *object, const bool isWarning)
         auto parameter = selectParameter(static_cast<Field>(field), object, message);
         checkParameter(parameter);
     }
-}
-
-template<class C> void Data::checkPassword(C &object)
-{
-    object->checkPassword();
 }
 
 void Data::printPersonalData(TradingCompany *object)

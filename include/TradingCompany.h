@@ -78,6 +78,7 @@ private:
     
     const std::map<std::string, std::function<void(TradingCompany&, std::string&)>> setParameters_ =
     {
+        {"id",           nullptr},
         {"position",     &TradingCompany::setPosition},
         {"surname",      &TradingCompany::setSurname},
         {"name",         &TradingCompany::setName},
@@ -185,7 +186,6 @@ private:
     void checkWorkingHours(const std::string &warning = {});
     void checkSalary(const std::string &warning = {});
     void checkPassword(const std::string &warning = {});
-    bool hasDublicatePassword();
     void changePersonalData();
     void changeStatusId(const bool canOverwrite = false);
     void changeStatusPosition();
@@ -196,7 +196,7 @@ private:
     void changeStatusDateOfBirth();
     void changeStatusPassport(const bool canOverwrite = false);
     void changeStatusPhone(const bool canOverwrite = false);
-    void changeStatusEmail(const bool canOverwrite = false);
+    void changeStatusEmail(const bool canOverwrite, const bool isWrite = false);
     void changeStatusDateOfHiring();
     void changeStatusWorkingHours();
     void changeStatusSalary();

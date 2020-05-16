@@ -100,6 +100,10 @@ namespace utils
 
     void toupperandtolower(std::string &str, uint numberUpper)
     {
+        if (str.empty())
+        {
+            return;
+        }
         for (size_t i = 0; i < numberUpper; ++i)
         {
             toupper(str[i]);
