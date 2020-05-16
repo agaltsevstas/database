@@ -368,11 +368,9 @@ void TradingCompany::checkEmail(const std::string &warning)
         std::string firstPartEmail = email.substr(0, email.find("@"));
         uint secondPartEmail = 0;
         std::cout << "Ваша первая часть почты: " + firstPartEmail << std::endl;
-        std::string message = "Введите вторую часть почты (это должно быть число от 1 до 99)\n";
+        std::cout << "Введите вторую часть почты (это должно быть число от 1 до 99)" << std::endl;
         while (true)
         {
-            std::cout << message;
-            message = "Некорректно введен параметр, введите вторую часть почты (это должно быть число от 1 до 99)\n";
             std::cout << "Ввод: " << std::endl;
             std::cin >> secondPartEmail;
             if (secondPartEmail > 0 && secondPartEmail < 100)
@@ -381,6 +379,7 @@ void TradingCompany::checkEmail(const std::string &warning)
             }
             else
             {
+                std::cout << "Некорректно введен параметр, введите вторую часть почты (это должно быть число от 1 до 99)" << std::endl;
                 continue;
             }
         }
