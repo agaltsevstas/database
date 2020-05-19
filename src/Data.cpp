@@ -15,6 +15,12 @@
 #include "Data.h"
 #include "Utils.h"
 
+Data &Data::instance()
+{
+    static Data data;
+    return data;
+}
+
 void Data::checkData(TradingCompany *object)
 {
     for (const auto &element: tradingCompanyObjects_)
@@ -41,6 +47,7 @@ void Data::checkData(TradingCompany *object)
 
 void Data::loadDatabase(const std::string &directoryPath)
 {
+    directoryPath_ = directoryPath;
     objectFactory_.add<Accountant>("Бухгалтер");
     objectFactory_.add<Driver>("Водитель");
     objectFactory_.add<ChiefAccountant>("Главный_бухгалтер");
@@ -57,7 +64,7 @@ void Data::loadDatabase(const std::string &directoryPath)
     objectFactory_.add<Lawyer>("Юрист");
     
     Logger::info << " ---------- Считывание данных всех сотрудников ---------- " << std::endl;
-    for (boost::filesystem::directory_entry &filePath: boost::filesystem::directory_iterator(directoryPath))
+    for (boost::filesystem::directory_entry &filePath: boost::filesystem::directory_iterator(directoryPath_))
     {
         try
         {
@@ -68,6 +75,7 @@ void Data::loadDatabase(const std::string &directoryPath)
                 std::string line;
                 std::ifstream file(filePath.path().string());
                 uint _id = idPositions.find(fileName)->second;
+                filePaths_.push_back(filePath.path().string());
                 if (file.is_open())
                 {
                     while (getline(file, line))
@@ -854,5 +862,33 @@ void Data::newEmployeeData(const TradingCompany *object)
         Logger::error << "Неизвестная ошибка!" << std::endl;
         std::cerr << "Неизвестная ошибка!" << std::endl;
         exit(0);
+    }
+}
+
+Data::~Data()
+{
+    for (const auto &filePath: filePaths_)
+    {
+        std::remove(filePath.c_str());
+    }
+    
+    for (const auto &object: tradingCompanyObjects_)
+    {
+        std::ofstream out(directoryPath_ + object->position_ + ".txt", std::ios_base::app);
+        out << "id: "           << "\"" << object->id_           << "\" ";
+        out << "position: "     << "\"" << object->position_     << "\" ";
+        out << "surname: "      << "\"" << object->surname_      << "\" ";
+        out << "name: "         << "\"" << object->name_         << "\" ";
+        out << "patronymic: "   << "\"" << object->patronymic_   << "\" ";
+        out << "sex: "          << "\"" << object->sex_          << "\" ";
+        out << "dateOfBirth: "  << "\"" << object->dateOfBirth_  << "\" ";
+        out << "passport: "     << "\"" << object->passport_     << "\" ";
+        out << "phone: "        << "\"" << object->phone_        << "\" ";
+        out << "email: "        << "\"" << object->email_        << "\" ";
+        out << "dateOfHiring: " << "\"" << object->dateOfHiring_ << "\" ";
+        out << "workingHours: " << "\"" << object->workingHours_ << "\" ";
+        out << "salary: "       << "\"" << object->salary_       << "\" ";
+        out << "password: "     << "\"" << object->password_     << "\"";
+        out << std::endl;
     }
 }

@@ -83,12 +83,7 @@ private:
     
 public:
     
-    static Data &instance()
-    {
-        static Data data;
-        return data;
-    }
-    
+    static Data &instance();
     void loadDatabase(const std::string &directoryPath);
     void inputPassword();
     void printPersonalData(TradingCompany *object);
@@ -98,10 +93,13 @@ public:
     friend void HRManager::addNewEmployeeData();
     
 private:
+    std::string directoryPath_;
+    std::list<std::string> filePaths_;
     ObjectFactory<std::string, TradingCompany> objectFactory_;
     std::vector<std::shared_ptr<TradingCompany>> tradingCompanyObjects_;
     
     Data() {}
+    ~Data();
     Data(const Data&) = delete;
     Data& operator=(Data&) = delete;
     void checkData(TradingCompany *object);

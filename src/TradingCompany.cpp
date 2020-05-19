@@ -905,22 +905,22 @@ void operator >> (const std::string &line, TradingCompany &tradingCompany)
     }
 }
 
-std::ostream& operator << (std::ostream &out, const TradingCompany &tradingCompany)
+std::ostream& operator << (std::ostream &out, const TradingCompany &object)
 {
-    out << "ID: "                      << tradingCompany.id_           << ", ";
-    out << "Должность: "               << tradingCompany.position_     << ", ";
-    out << "Фамилия: "                 << tradingCompany.surname_      << ", ";
-    out << "Имя: "                     << tradingCompany.name_         << ", ";
-    out << "Отчество: "                << tradingCompany.patronymic_   << ", ";
-    out << "Пол: "                     << tradingCompany.sex_          << ", ";
-    out << "Дата рождения: "           << tradingCompany.dateOfBirth_  << ", ";
-    out << "Паспорт: "                 << tradingCompany.passport_     << ", ";
-    out << "Телефон: "                 << tradingCompany.phone_        << ", ";
-    out << "Почта: "                   << tradingCompany.email_        << ", ";
-    out << "Дата принятия на работу: " << tradingCompany.dateOfHiring_ << ", ";
-    out << "Часы работы: "             << tradingCompany.workingHours_ << ", ";
-    out << "Зарплата: "                << tradingCompany.salary_       << ", ";
-    out << "Пароль: "                  << tradingCompany.password_;
+    out << "ID: "                      << object.id_           << ", ";
+    out << "Должность: "               << object.position_     << ", ";
+    out << "Фамилия: "                 << object.surname_      << ", ";
+    out << "Имя: "                     << object.name_         << ", ";
+    out << "Отчество: "                << object.patronymic_   << ", ";
+    out << "Пол: "                     << object.sex_          << ", ";
+    out << "Дата рождения: "           << object.dateOfBirth_  << ", ";
+    out << "Паспорт: "                 << object.passport_     << ", ";
+    out << "Телефон: "                 << object.phone_        << ", ";
+    out << "Почта: "                   << object.email_        << ", ";
+    out << "Дата принятия на работу: " << object.dateOfHiring_ << ", ";
+    out << "Часы работы: "             << object.workingHours_ << ", ";
+    out << "Зарплата: "                << object.salary_       << ", ";
+    out << "Пароль: "                  << object.password_;
     return out;
 }
 
