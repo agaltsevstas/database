@@ -35,6 +35,7 @@ HEADERS += \
     include/Driver.h \
     include/HeadOfProcurement.h \
     include/HeadOfWarehouse.h \
+    include/HRManager.h \
     include/Lawyer.h \
     include/Loader.h \
     include/Logger.h \
@@ -54,6 +55,7 @@ SOURCES += \
     src/Driver.cpp \
     src/HeadOfProcurement.cpp \
     src/HeadOfWarehouse.cpp \
+    src/HRManager.cpp \
     src/Lawyer.cpp \
     src/Loader.cpp \
     src/Logger.cpp \
