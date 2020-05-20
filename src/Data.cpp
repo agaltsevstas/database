@@ -14,6 +14,7 @@
 #include "Driver.h"
 #include "Data.h"
 #include "Utils.h"
+#include "tinyxml2.h"
 
 Data &Data::instance()
 {
@@ -890,5 +891,33 @@ Data::~Data()
         out << "salary: "       << "\"" << object->salary_       << "\" ";
         out << "password: "     << "\"" << object->password_     << "\"";
         out << std::endl;
+    }
+    
+    const char* rootTag = "tradingCompany";
+    
+    tinyxml2::XMLDocument xml; //документ xml
+
+    tinyxml2::XMLNode *rootElement (xml.NewElement(rootTag)); // корневой элемент xml документа
+    xml.InsertFirstChild(rootElement);
+
+    for (const auto &object: tradingCompanyObjects_)
+    {
+        tinyxml2::XMLElement *objectElement (xml.NewElement(typeid(*object).name())); // элемент найденного объекта
+        objectElement->SetAttribute("id", object->id_);
+        objectElement->SetAttribute("position", object->position_.c_str());
+        objectElement->SetAttribute("surname", object->surname_.c_str());
+        objectElement->SetAttribute("name", object->name_.c_str());
+        objectElement->SetAttribute("patronymic", object->patronymic_.c_str());
+        objectElement->SetAttribute("sex", object->sex_.c_str());
+        objectElement->SetAttribute("dateOfBirth", object->dateOfBirth_.c_str());
+        objectElement->SetAttribute("passport", std::to_string(object->passport_).c_str());
+        objectElement->SetAttribute("phone", std::to_string(object->phone_).c_str());
+        objectElement->SetAttribute("email", object->email_.c_str());
+        objectElement->SetAttribute("dateOfHiring", object->dateOfHiring_.c_str());
+        objectElement->SetAttribute("workingHours", object->workingHours_.c_str());
+        objectElement->SetAttribute("salary", object->salary_);
+        objectElement->SetAttribute("password", object->password_.c_str());
+        rootElement->InsertEndChild(objectElement);
+        xml.SaveFile((directoryPath_ + object->position_ + ".xml").c_str());
     }
 }

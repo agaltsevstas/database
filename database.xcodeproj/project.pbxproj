@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0476C0A52475B341004E41C5 /* tinyxml2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0476C0A42475B341004E41C5 /* tinyxml2.cpp */; };
 		04AB475E24011C2200D6FF4F /* Driver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475224011C2000D6FF4F /* Driver.cpp */; };
 		04AB475F24011C2200D6FF4F /* ChiefLegalCounsel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475324011C2100D6FF4F /* ChiefLegalCounsel.cpp */; };
 		04AB476024011C2200D6FF4F /* HeadOfProcurement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AB475424011C2100D6FF4F /* HeadOfProcurement.cpp */; };
@@ -41,6 +42,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0476C0A32475B338004E41C5 /* tinyxml2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml2.h; sourceTree = "<group>"; };
+		0476C0A42475B341004E41C5 /* tinyxml2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml2.cpp; sourceTree = "<group>"; };
 		04A428CE2018FCF4004E1124 /* database */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = database; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AB475224011C2000D6FF4F /* Driver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Driver.cpp; sourceTree = "<group>"; };
 		04AB475324011C2100D6FF4F /* ChiefLegalCounsel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChiefLegalCounsel.cpp; sourceTree = "<group>"; };
@@ -147,6 +150,7 @@
 		04BF8F5223F5CA3000857AB1 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				0476C0A32475B338004E41C5 /* tinyxml2.h */,
 				04AB476B24011C2C00D6FF4F /* Accountant.h */,
 				04AB477124011C2C00D6FF4F /* Cashier.h */,
 				04AB477024011C2C00D6FF4F /* ChiefAccountant.h */,
@@ -173,6 +177,7 @@
 		04BF8F6423F5CA3100857AB1 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				0476C0A42475B341004E41C5 /* tinyxml2.cpp */,
 				04AE4412241AAC1E00642CA7 /* Utils.cpp */,
 				04AB475924011C2100D6FF4F /* Accountant.cpp */,
 				04AB475D24011C2200D6FF4F /* Cashier.cpp */,
@@ -257,6 +262,7 @@
 				04AB476024011C2200D6FF4F /* HeadOfProcurement.cpp in Sources */,
 				04AB475F24011C2200D6FF4F /* ChiefLegalCounsel.cpp in Sources */,
 				04AB476624011C2200D6FF4F /* PurchasingManager.cpp in Sources */,
+				0476C0A52475B341004E41C5 /* tinyxml2.cpp in Sources */,
 				04E7C0B3243FAA9700531EAE /* HRManager.cpp in Sources */,
 				04AB476424011C2200D6FF4F /* Loader.cpp in Sources */,
 				04BF8F8623F5CA3100857AB1 /* TradingCompany.cpp in Sources */,
