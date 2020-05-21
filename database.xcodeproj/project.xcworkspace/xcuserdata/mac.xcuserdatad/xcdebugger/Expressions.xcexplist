@@ -126,6 +126,14 @@
          contextName = "void Director::setOtherData&lt;std::__1::shared_ptr&lt;TradingCompany&gt; &gt;(std::__1::shared_ptr&lt;TradingCompany&gt;&amp;):Director.cpp">
       </ContextState>
       <ContextState
+         contextName = "Data::~Data():Data.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "vectorObjects">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "void Data::pushBack&lt;Director&gt;(Director&amp;):Data.h">
          <PersistentStrings>
             <PersistentString

@@ -894,15 +894,22 @@ Data::~Data()
     }
     
     const char* rootTag = "tradingCompany";
-    
-    tinyxml2::XMLDocument xml; //документ xml
-
-    tinyxml2::XMLNode *rootElement (xml.NewElement(rootTag)); // корневой элемент xml документа
-    xml.InsertFirstChild(rootElement);
+    std::string previosPosition;
+    auto it = std::end(tradingCompanyObjects_) - 1;
+    tinyxml2::XMLDocument *xml = new tinyxml2::XMLDocument(); // документ xml
+    tinyxml2::XMLNode *rootElement (xml->NewElement(rootTag)); // корневой элемент xml документа
+    xml->InsertFirstChild(rootElement);
 
     for (const auto &object: tradingCompanyObjects_)
     {
-        tinyxml2::XMLElement *objectElement (xml.NewElement(typeid(*object).name())); // элемент найденного объекта
+        if ((previosPosition != object->position_ && !previosPosition.empty()) || *object == *it->get())
+        {
+            xml->SaveFile((directoryPath_ + previosPosition + ".xml").c_str());
+            xml->Clear();
+            rootElement = xml->NewElement(rootTag); // корневой элемент xml документа
+            xml->InsertFirstChild(rootElement);
+        }
+        tinyxml2::XMLElement *objectElement (xml->NewElement(typeid(*object).name())); // элемент найденного объекта
         objectElement->SetAttribute("id", object->id_);
         objectElement->SetAttribute("position", object->position_.c_str());
         objectElement->SetAttribute("surname", object->surname_.c_str());
@@ -918,6 +925,7 @@ Data::~Data()
         objectElement->SetAttribute("salary", object->salary_);
         objectElement->SetAttribute("password", object->password_.c_str());
         rootElement->InsertEndChild(objectElement);
-        xml.SaveFile((directoryPath_ + object->position_ + ".xml").c_str());
+        previosPosition = object->position_;
     }
+    delete xml;
 }
