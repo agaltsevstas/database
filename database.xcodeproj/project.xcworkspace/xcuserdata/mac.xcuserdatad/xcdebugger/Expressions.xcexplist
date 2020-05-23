@@ -188,5 +188,16 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "void Data::readingXmlFile&lt;TradingCompany&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, TradingCompany*):Data.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "key">
+            </PersistentString>
+            <PersistentString
+               value = "value">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

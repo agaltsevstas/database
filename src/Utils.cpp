@@ -5,12 +5,6 @@
 
 namespace utils
 {
-    std::string getNameWithoutExtension(const std::string &filePath)
-    {
-        boost::filesystem::path fileName(filePath);
-        return fileName.stem().c_str();
-    }
-
     std::string translit(const std::string &textRussian)
     {
         std::string textEnglish;

@@ -22,13 +22,42 @@ Data &Data::instance()
     return data;
 }
 
-void Data::readingTxtFile()
+void Data::readingTxtFile(const std::string filePath)
 {
     
 }
-void Data::readingXmlFile()
+template<class C> void Data::readingXmlFile(const std::string filePath, C *object)
 {
-    
+    const char *tag = "tradingCompany";
+    const char *className = utils::getClassName(*object).c_str();
+    tinyxml2::XMLDocument doc;
+    tinyxml2::XMLError eResult = doc.LoadFile(filePath.c_str());
+
+    if(eResult == tinyxml2::XML_SUCCESS)
+    {
+        tinyxml2::XMLNode *node = doc.FirstChildElement(tag); // корневой элемент xml документа
+        doc.InsertFirstChild(node);
+//        assert(node != nullptr);
+
+        for (const auto *element = node->FirstChildElement(className); element != NULL; element = element->NextSiblingElement()) // элемент найденного объекта
+            {
+                for (const auto &[key, value]: object->setParameters_)
+                {
+                    if (value != nullptr)
+                    {
+                        std::string input;
+                        input = element->Attribute(key.c_str());
+                        value(*object, input);
+                        assert(!input.empty());
+                    }
+                }
+                tradingCompanyObjects_.push_back(std::shared_ptr<TradingCompany>(object));
+            }
+    }
+    else
+    {
+        
+    }
 }
 
 void Data::checkData(TradingCompany *object)
@@ -57,6 +86,8 @@ void Data::checkData(TradingCompany *object)
 
 void Data::loadDatabase(const std::string &directoryPath)
 {
+    namespace bs = boost::filesystem;
+    
     directoryPath_ = directoryPath;
     objectFactory_.add<Accountant>("Бухгалтер");
     objectFactory_.add<Driver>("Водитель");
@@ -74,24 +105,34 @@ void Data::loadDatabase(const std::string &directoryPath)
     objectFactory_.add<Lawyer>("Юрист");
     
     Logger::info << " ---------- Считывание данных всех сотрудников ---------- " << std::endl;
-    for (boost::filesystem::directory_entry &filePath: boost::filesystem::directory_iterator(directoryPath_))
+    for (const bs::path &filePath: bs::directory_iterator(directoryPath_))
     {
         try
         {
-            std::string fileName = utils::getNameWithoutExtension(filePath.path().string());
+            const std::string fileName = filePath.stem().c_str();
+            const std::string extension = filePath.extension().c_str();
             auto found = idPositions.find(fileName);
             if (found != idPositions.end())
             {
+                auto object1 = objectFactory_.get(fileName)();
+                if (extension == ".txt")
+                {
+                    readingTxtFile(filePath.c_str());
+                }
+                else if (extension == ".xml")
+                {
+                    readingXmlFile(filePath.c_str(), object1);
+                }
                 std::string line;
-                std::ifstream file(filePath.path().string());
+                std::ifstream file(filePath.string());
                 uint _id = idPositions.find(fileName)->second;
-                filePaths_.push_back(filePath.path().string());
+                filePaths_.push_back(filePath.string());
                 if (file.is_open())
                 {
                     while (getline(file, line))
                     {
-                        auto object = objectFactory_.get(fileName)();
                         Logger::info << " ********** Считывание данных сотрудника ********** " << std::endl;
+                        auto object = objectFactory_.get(fileName)();
                         object->setId(std::to_string(_id));
                         line >> *object;
                         auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
@@ -975,42 +1016,42 @@ void Data::writeToTxtFile()
 
 void Data::writeToXmlFile()
 {
-    const char* rootTag = "tradingCompany";
+    const char *tag = "tradingCompany";
     std::string previosPosition;
     auto it = std::end(tradingCompanyObjects_) - 1;
-    tinyxml2::XMLDocument *xml = new tinyxml2::XMLDocument(); // документ xml
-    tinyxml2::XMLNode *rootElement (xml->NewElement(rootTag)); // корневой элемент xml документа
-    xml->InsertFirstChild(rootElement);
+    tinyxml2::XMLDocument *doc = new tinyxml2::XMLDocument(); // документ xml
+    tinyxml2::XMLNode *node = doc->NewElement(tag); // корневой элемент xml документа
+    doc->InsertFirstChild(node);
 
     for (const auto &object: tradingCompanyObjects_)
     {
         if ((previosPosition != object->position_ && !previosPosition.empty()) || *object == *it->get())
         {
-            xml->SaveFile((directoryPath_ + previosPosition + ".xml").c_str());
-            xml->Clear();
-            rootElement = xml->NewElement(rootTag); // корневой элемент xml документа
-            xml->InsertFirstChild(rootElement);
+            doc->SaveFile((directoryPath_ + previosPosition + ".xml").c_str());
+            doc->Clear();
+            node = doc->NewElement(tag); // корневой элемент xml документа
+            doc->InsertFirstChild(node);
         }
-        const char *classname = utils::classname(*object).c_str();
-        tinyxml2::XMLElement *objectElement (xml->NewElement(classname)); // элемент найденного объекта
-        objectElement->SetAttribute("id", object->id_);
-        objectElement->SetAttribute("position", object->position_.c_str());
-        objectElement->SetAttribute("surname", object->surname_.c_str());
-        objectElement->SetAttribute("name", object->name_.c_str());
-        objectElement->SetAttribute("patronymic", object->patronymic_.c_str());
-        objectElement->SetAttribute("sex", object->sex_.c_str());
-        objectElement->SetAttribute("dateOfBirth", object->dateOfBirth_.c_str());
-        objectElement->SetAttribute("passport", std::to_string(object->passport_).c_str());
-        objectElement->SetAttribute("phone", std::to_string(object->phone_).c_str());
-        objectElement->SetAttribute("email", object->email_.c_str());
-        objectElement->SetAttribute("dateOfHiring", object->dateOfHiring_.c_str());
-        objectElement->SetAttribute("workingHours", object->workingHours_.c_str());
-        objectElement->SetAttribute("salary", object->salary_);
-        objectElement->SetAttribute("password", object->password_.c_str());
-        rootElement->InsertEndChild(objectElement);
+        const char *classname = utils::getClassName(*object).c_str();
+        tinyxml2::XMLElement *element = doc->NewElement(classname); // элемент найденного объекта
+        element->SetAttribute("id", object->id_);
+        element->SetAttribute("position", object->position_.c_str());
+        element->SetAttribute("surname", object->surname_.c_str());
+        element->SetAttribute("name", object->name_.c_str());
+        element->SetAttribute("patronymic", object->patronymic_.c_str());
+        element->SetAttribute("sex", object->sex_.c_str());
+        element->SetAttribute("dateOfBirth", object->dateOfBirth_.c_str());
+        element->SetAttribute("passport", std::to_string(object->passport_).c_str());
+        element->SetAttribute("phone", std::to_string(object->phone_).c_str());
+        element->SetAttribute("email", object->email_.c_str());
+        element->SetAttribute("dateOfHiring", object->dateOfHiring_.c_str());
+        element->SetAttribute("workingHours", object->workingHours_.c_str());
+        element->SetAttribute("salary", object->salary_);
+        element->SetAttribute("password", object->password_.c_str());
+        node->InsertEndChild(element);
         previosPosition = object->position_;
     }
-    delete xml;
+    delete doc;
 }
 
 Data::~Data()

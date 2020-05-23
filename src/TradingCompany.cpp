@@ -857,7 +857,7 @@ const TradingCompany& TradingCompany::operator = (const TradingCompany &object)
     return *this;
 }
 
-void operator >> (const std::string &line, TradingCompany &tradingCompany)
+void operator >> (const std::string &line, TradingCompany &object)
 {
     std::string input;
     std::stringstream is(line);
@@ -866,9 +866,9 @@ void operator >> (const std::string &line, TradingCompany &tradingCompany)
         while (is >> input)
         {
             std::string parameter = boost::regex_replace(input, boost::regex("[^A-Za-z]"), "");
-            auto found = tradingCompany.setParameters_.find(parameter);
+            auto found = object.setParameters_.find(parameter);
             
-            if (found != tradingCompany.setParameters_.end())
+            if (found != object.setParameters_.end())
             {
                 auto setParameter = found->second;
                 is >> input;
@@ -882,7 +882,7 @@ void operator >> (const std::string &line, TradingCompany &tradingCompany)
                     {
                         input = input.substr(1, input.length() - 2);
                     }
-                    setParameter(tradingCompany, input);
+                    setParameter(object, input);
                 }
             }
             else

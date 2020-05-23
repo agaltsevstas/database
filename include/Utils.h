@@ -75,8 +75,6 @@ namespace utils
         {"я", "ja"},
     };
     
-    std::string getNameWithoutExtension(const std::string &filePath);
-    
     std::string translit(const std::string &textRussian);
     
     std::string createEmail(const std::vector<std::string> &anthroponym);
@@ -122,7 +120,7 @@ namespace utils
     void toupperandtolower(std::string &str, uint numberUpper = 1);
 
     template <class C>
-    inline std::string classname(const C &object)
+    inline std::string getClassName(const C &object)
     {
         std::string str = typeid(object).name();
         str.erase(std::remove_if(std::begin(str), std::end(str), [](auto c) { return std::isdigit(c); }), str.end());
