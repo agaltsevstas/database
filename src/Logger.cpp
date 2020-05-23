@@ -128,6 +128,7 @@ void Logger::printLog(const TradingCompany *object)
     std::cout << "Хотите вывести весь лог - нажмите 4" << std::endl;
     std::cout << "Хотите вернуться назад? - введите B: " << std::endl;
     std::cout << "Хотите выйти из программы? - введите ESC: " << std::endl;
+    std::cout << "Ввод: ";
 
     std::string input;
     std::cin >> input;

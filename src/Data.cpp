@@ -22,6 +22,15 @@ Data &Data::instance()
     return data;
 }
 
+void Data::readingTxtFile()
+{
+    
+}
+void Data::readingXmlFile()
+{
+    
+}
+
 void Data::checkData(TradingCompany *object)
 {
     for (const auto &element: tradingCompanyObjects_)
@@ -70,8 +79,8 @@ void Data::loadDatabase(const std::string &directoryPath)
         try
         {
             std::string fileName = utils::getNameWithoutExtension(filePath.path().string());
-            auto result = std::find(positions.begin(), positions.end(), fileName);
-            if (result != positions.end())
+            auto found = idPositions.find(fileName);
+            if (found != idPositions.end())
             {
                 std::string line;
                 std::ifstream file(filePath.path().string());
@@ -131,15 +140,24 @@ void Data::loadDatabase(const std::string &directoryPath)
         }
     }
     Logger::info << " ---------- Конец считывания всех данных сотрудников ---------- " << std::endl;
+    
+    if (tradingCompanyObjects_.empty())
+    {
+        Logger::warning << "!!!!!!!!!! Пустая база данных !!!!!!!!!!" << std::endl;
+        Logger::info << "Выход из программы" << std::endl;
+        std::cout << "Вы вышли из программы" << std::endl;
+        exit(0);
+    }
 }
 
 void Data::inputPassword()
 {
-    std::cout << "Введите почту или логин от почты или закончите выполнение программы, введя ESC или ВЫХОД: " << std::endl;
+    std::cout << "Введите почту или логин и пароль от почты или закончите выполнение программы, введя ESC или ВЫХОД: " << std::endl;
     bool isLoginFound = false;
     std::string login;
     try
     {
+        std::cout << "Логин или почта: ";
         std::cin >> login;
         for (const auto &object: tradingCompanyObjects_)
         {
@@ -159,7 +177,7 @@ void Data::inputPassword()
             exit(0);
         }
         
-        std::cout << "Введите пароль для получения доступа к базе данных или закончите выполнение программы, введя ESC или ВЫХОД: " << std::endl;
+        std::cout << "Пароль: ";
         std::string password;
         std::cin >> password;
         Logger::info << std::setfill('.') << std::setw(80) << "" << std::left << std::endl;
@@ -410,6 +428,7 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
         std::cout << "Изменить пароль к доступу - нажмите 13" << std::endl;
         std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.): " << std::endl;
         std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД: " << std::endl;
+        std::cout << "Ввод: ";
         try
         {
             std::cin >> input;
@@ -418,25 +437,29 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
             {
                 std::cout << "При изменении должности теряются полномочия" << std::endl;
                 std::cout << "Введите yes или да - для продолжения, no или нет - для отмены" << std::endl;
-                std::cout << "Ввод: " << std::endl;
+                std::cout << "Ввод: ";
                 std::cin >> input;
                 utils::tolower(input);
                 if (input == "yes" || input == "да")
                 {
                     std::cout << "Выберите одну из предложенных должностей: " << std::endl;
-                    copy(positions.begin(), positions.end(), std::ostream_iterator<std::string>(std::cout, " "));
+                    std::cout << "Ввод: ";
+                    for (const auto &[key, value]: idPositions)
+                    {
+                        std::cout << key << " ";
+                    }
                     std::cout << std::endl;
                     std::string position;
                     std::cin >> position;
                     utils::toupperandtolower(position);
-                    auto found = std::find(positions.begin(), positions.end(), position);
-                    if (found != positions.end())
+                    auto found = idPositions.find(position);
+                    if (found != idPositions.end())
                     {
                         auto newObject = objectFactory_.get(position)();
                         *newObject = *otherObject;
                         newObject->setPosition(position);
                         std::for_each(newObject->fieldStatus_.begin(), newObject->fieldStatus_.end(),
-                                      [&newObject](auto &field){ newObject->fieldStatus_[field.first] = newObject->ST_OK; });
+                                      [&newObject](auto &field){ newObject->fieldStatus_[field.first] = ST_OK; });
                         pushBack(*newObject);
                         deleteObject(otherObject);
                         otherObject = newObject;
@@ -717,6 +740,7 @@ TradingCompany *Data::findParameter(const std::string &parameter)
             std::cout << *object << std::endl;
         }
         std::cout << "Введите id конкретного сотрудника" << std::endl;
+        std::cout << "Ввод: ";
         std::string input;
         std::cin >> input;
         for (const auto &object: foundObjects)
@@ -807,7 +831,10 @@ template<class C> void Data::deleteObject(C *object)
 void Data::newEmployeeData(const TradingCompany *object)
 {
     std::cout << "Выберите одну из предложенных должности: " << std::endl;
-    copy(positions.begin(), positions.end(), std::ostream_iterator<std::string>(std::cout, " "));
+    for (const auto &[key, value]: idPositions)
+    {
+        std::cout << key << " ";
+    }
     std::cout << std::endl;
     std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.): " << std::endl;
     std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД: " << std::endl;
@@ -816,8 +843,8 @@ void Data::newEmployeeData(const TradingCompany *object)
     try
     {
         std::cin >> input;
-        auto found = std::find(positions.begin(), positions.end(), utils::toUpperAndToLower(input));
-        if (found != positions.end())
+        auto found = idPositions.find(input);
+        if (found != idPositions.end())
         {
             utils::toupperandtolower(input);
             auto object = objectFactory_.get(input)();
@@ -866,13 +893,65 @@ void Data::newEmployeeData(const TradingCompany *object)
     }
 }
 
-Data::~Data()
+void Data::setModeOutputData(const TradingCompany *object)
 {
-    for (const auto &filePath: filePaths_)
+    std::cout << "Хотите изменить режим вывода данных?" << std::endl;
+    std::cout << "Режимы: 1 - TXT, 2 - XML ";
+    mode_ == TXT ? std::cout << "(по умолчанию TXT)" : std::cout << "(по умолчанию XML)";
+    std::cout << std::endl;
+    std::cout << "Хотите вернуться назад? - введите B: " << std::endl;
+    std::cout << "Хотите выйти из программы? - введите ESC: " << std::endl;
+    std::cout << "Ввод: ";
+    try
     {
-        std::remove(filePath.c_str());
+        std::string input;
+        std::cin >> input;
+        switch (utils::str(input.c_str()))
+        {
+            case utils::str("1") :
+                mode_ = TXT;
+                Logger::info << "Установлен режим вывода данных >> TXT" << std::endl;
+                std::cout << "Установлен режим вывода данных >> TXT" << std::endl;
+                break;
+
+            case utils::str("2") :
+                mode_ = XML;
+                Logger::info << "Установлен режим вывода данных >> XML" << std::endl;
+                std::cout << "Установлен режим вывода данных >> XML" << std::endl;
+                break;
+
+            case utils::str("b") :
+                return;
+
+            case utils::str("esc") :
+                EXIT(object);
+
+            default:
+                throw input;
+        }
     }
-    
+    catch (const std::string &exception)
+    {
+        Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
+        std::cerr << "Вы ввели >> " << exception
+                  << " - неверная команда! Попробуйте ввести заново: " << std::endl;
+        setModeOutputData(object);
+    }
+    catch(const std::exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << std::endl;
+        std::cerr << "Ошибка >> " << ex.what() << std::endl;
+    }
+    catch(...)
+    {
+        Logger::error << "Неизвестная ошибка!" << std::endl;
+        std::cerr << "Неизвестная ошибка!" << std::endl;
+        std::exit(0);
+    }
+}
+
+void Data::writeToTxtFile()
+{
     for (const auto &object: tradingCompanyObjects_)
     {
         std::ofstream out(directoryPath_ + object->position_ + ".txt", std::ios_base::app);
@@ -892,7 +971,10 @@ Data::~Data()
         out << "password: "     << "\"" << object->password_     << "\"";
         out << std::endl;
     }
-    
+}
+
+void Data::writeToXmlFile()
+{
     const char* rootTag = "tradingCompany";
     std::string previosPosition;
     auto it = std::end(tradingCompanyObjects_) - 1;
@@ -909,7 +991,8 @@ Data::~Data()
             rootElement = xml->NewElement(rootTag); // корневой элемент xml документа
             xml->InsertFirstChild(rootElement);
         }
-        tinyxml2::XMLElement *objectElement (xml->NewElement(typeid(*object).name())); // элемент найденного объекта
+        const char *classname = utils::classname(*object).c_str();
+        tinyxml2::XMLElement *objectElement (xml->NewElement(classname)); // элемент найденного объекта
         objectElement->SetAttribute("id", object->id_);
         objectElement->SetAttribute("position", object->position_.c_str());
         objectElement->SetAttribute("surname", object->surname_.c_str());
@@ -928,4 +1011,42 @@ Data::~Data()
         previosPosition = object->position_;
     }
     delete xml;
+}
+
+Data::~Data()
+{
+    for (const auto &filePath: filePaths_)
+    {
+        std::remove(filePath.c_str());
+    }
+    
+    try
+    {
+        switch (mode_)
+        {
+            case TXT :
+                writeToTxtFile();
+                break;
+                
+            case XML:
+                writeToXmlFile();
+                break;
+            
+            default:
+                throw mode_;
+        }
+    }
+    catch(const Mode &mode)
+    {
+        Logger::error << "Неверный режим вывода >> " + std::to_string(mode) << std::endl;
+    }
+    
+    catch(const std::exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << std::endl;
+    }
+    catch(...)
+    {
+        Logger::error << "Неизвестная ошибка!" << std::endl;
+    }
 }

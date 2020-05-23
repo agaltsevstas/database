@@ -299,7 +299,7 @@ void TradingCompany::recursion(const Field &field,
         {
             newMessage = message.substr(condition);
         }
-        std::cout << "Ввод: " << std::endl;
+        std::cout << "Ввод: ";
         std::cin >> input;
         setParameter(*this, input);
         recursion(field, setParameter, "Некорректно введен параметр, в" + newMessage);
@@ -369,9 +369,9 @@ void TradingCompany::checkEmail(const std::string &warning)
         uint secondPartEmail = 0;
         std::cout << "Ваша первая часть почты: " + firstPartEmail << std::endl;
         std::cout << "Введите вторую часть почты (это должно быть число от 1 до 99)" << std::endl;
+        std::cout << "Ввод: ";
         while (true)
         {
-            std::cout << "Ввод: " << std::endl;
             std::cin >> secondPartEmail;
             if (secondPartEmail > 0 && secondPartEmail < 100)
             {

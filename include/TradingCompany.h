@@ -35,30 +35,30 @@ enum Field
     FIELD_PASSWORD,
 };
 
+enum Status
+{
+    /// Успех
+    ST_OK = 0,
+    
+    // Перезаписывание данных
+    ST_OVERWRITEDATA,
+
+    /// Пусто
+    ST_EMPTY,
+
+    /// Проблема с данными
+    ST_WRONGDATA,
+
+    /// Дублирование данных
+    ST_DUBLICATE
+};
+
 class TradingCompany
 {
     friend class Data;
     friend class Director;
     
 private:
-
-    enum Status
-    {
-        /// Успех
-        ST_OK = 0,
-        
-        // Перезаписывание данных
-        ST_OVERWRITEDATA,
-
-        /// Пусто
-        ST_EMPTY,
-
-        /// Проблема с данными
-        ST_WRONGDATA,
-
-        /// Дублирование данных
-        ST_DUBLICATE
-    };
     /*
      * Внутренняя структура параметра
      */

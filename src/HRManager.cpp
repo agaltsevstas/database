@@ -21,7 +21,6 @@ void HRManager::addNewEmployeeData()
 
 void HRManager::functional()
 {
-    std::string input;
     while (true)
     {
         std::cout << "Хотите вывести личные данные? - нажмите 1" << std::endl;
@@ -29,8 +28,10 @@ void HRManager::functional()
         std::cout << "Хотите добавить нового сотрудника? - нажмите 3" << std::endl;
         std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.): " << std::endl;
         std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД: " << std::endl;
+        std::cout << "Ввод: ";
         try
         {
+            std::string input;
             std::cin >> input;
             utils::tolower(input);
             switch (utils::str(input.c_str()))

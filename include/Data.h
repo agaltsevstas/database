@@ -8,40 +8,28 @@
 #include "Director.h"
 #include "HRManager.h"
 
-const std::map<std::string, uint> idPositions =
- {
-     {"Бухгалтер", 800},
-     {"Водитель", 1300},
-     {"Главный_бухгалтер", 200},
-     {"Главный_юрист-консультант", 300},
-     {"Грузчик", 1200},
-     {"Директор", 100},
-     {"Логист", 900},
-     {"Менеджер_по_закупкам", 1100},
-     {"Менеджер_по_персоналу", 1400},
-     {"Менеджер_по_продажам", 600},
-     {"Кассир", 700},
-     {"Начальник_отдела_закупок", 400},
-     {"Начальник_склада", 500},
-     {"Юрист", 1000}
- };
-
-const std::list<std::string> positions
+enum Mode
 {
-    "Бухгалтер",
-    "Водитель",
-    "Главный_бухгалтер",
-    "Главный_юрист-консультант",
-    "Грузчик",
-    "Директор",
-    "Логист",
-    "Менеджер_по_закупкам",
-    "Менеджер_по_персоналу",
-    "Менеджер_по_продажам",
-    "Кассир",
-    "Начальник_отдела_закупок",
-    "Начальник_склада",
-    "Юрист"
+    TXT = 1,
+    XML
+};
+
+const std::map<std::string, uint> idPositions =
+{
+    {"Бухгалтер", 800},
+    {"Водитель", 1300},
+    {"Главный_бухгалтер", 200},
+    {"Главный_юрист-консультант", 300},
+    {"Грузчик", 1200},
+    {"Директор", 100},
+    {"Логист", 900},
+    {"Менеджер_по_закупкам", 1100},
+    {"Менеджер_по_персоналу", 1400},
+    {"Менеджер_по_продажам", 600},
+    {"Кассир", 700},
+    {"Начальник_отдела_закупок", 400},
+    {"Начальник_склада", 500},
+    {"Юрист", 1000}
 };
 
 const std::vector<std::string> warnings
@@ -67,7 +55,6 @@ class Data
     friend class Director;
     
 private:
-    
     template <class Class>
     struct Parameter
     {
@@ -82,7 +69,6 @@ private:
     };
     
 public:
-    
     static Data &instance();
     void loadDatabase(const std::string &directoryPath);
     void inputPassword();
@@ -93,6 +79,7 @@ public:
     friend void HRManager::addNewEmployeeData();
     
 private:
+    Mode mode_ = TXT;
     std::string directoryPath_;
     std::list<std::string> filePaths_;
     ObjectFactory<std::string, TradingCompany> objectFactory_;
@@ -102,6 +89,8 @@ private:
     ~Data();
     Data(const Data&) = delete;
     Data& operator=(Data&) = delete;
+    void readingTxtFile();
+    void readingXmlFile();
     void checkData(TradingCompany *object);
     template<class Class> void checkParameter(Parameter<Class> &parameter);
     template<class Class> Parameter<Class> selectParameter(const Field &field, Class *object, const std::string &message = {});
@@ -113,6 +102,9 @@ private:
     template<class C> void pushBack(C &object);
     template<class C> void deleteObject(C *object);
     void newEmployeeData(const TradingCompany *object);
+    void setModeOutputData(const TradingCompany *object);
+    void writeToTxtFile();
+    void writeToXmlFile();
 };
 
 #endif // Data_h

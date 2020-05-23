@@ -12,7 +12,7 @@
 #include <iomanip>
 #include <codecvt>
 
-#define LOGIN(object) Logger::info << "Вход в аккаунт << " << object->getPosition()   << " "   \
+#define LOGIN(object) Logger::info << "Вход в аккаунт >> " << object->getPosition()   << " "   \
                                                            << object->getSurname()    << " "   \
                                                            << object->getName()       << " "   \
                                                            << object->getPatronymic() << std::endl; \
@@ -120,6 +120,14 @@ namespace utils
     std::string toUpperAndToLower(std::string str, uint numberUpper = 1);
 
     void toupperandtolower(std::string &str, uint numberUpper = 1);
+
+    template <class C>
+    inline std::string classname(const C &object)
+    {
+        std::string str = typeid(object).name();
+        str.erase(std::remove_if(std::begin(str), std::end(str), [](auto c) { return std::isdigit(c); }), str.end());
+        return str;
+    }
 }
 
 #endif // Utils_h
