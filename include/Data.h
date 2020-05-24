@@ -89,9 +89,10 @@ private:
     ~Data();
     Data(const Data&) = delete;
     Data& operator=(Data&) = delete;
-    void readingTxtFile(const std::string filePath);
-    template<class C> void readingXmlFile(const std::string filePath, C *object);
+    template<typename T> void readingTxtFile(const T &filePath);
+    template<typename T> void readingXmlFile(const T &filePath);
     void checkData(TradingCompany *object);
+    void sort();
     template<class Class> void checkParameter(Parameter<Class> &parameter);
     template<class Class> Parameter<Class> selectParameter(const Field &field, Class *object, const std::string &message = {});
     template<class C> void checkParameters(C *object, const bool isWarning = false);

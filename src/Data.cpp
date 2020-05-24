@@ -22,25 +22,66 @@ Data &Data::instance()
     return data;
 }
 
-void Data::readingTxtFile(const std::string filePath)
+template<typename T> void Data::readingTxtFile(const T &filePath)
 {
-    
+    std::string line;
+    const std::string fileName = filePath.stem().c_str();
+    uint _id = idPositions.find(fileName)->second;
+    std::ifstream file(filePath.c_str());
+    if (file.is_open())
+    {
+        while (getline(file, line))
+        {
+            Logger::info << " ********** Считывание данных сотрудника ********** " << std::endl;
+            auto object = objectFactory_.get(fileName)();
+            object->setId(std::to_string(_id));
+            line >> *object;
+            auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
+                                  [&object](std::shared_ptr<TradingCompany> &tradingCompanyObject)
+                                  {
+                                      return *object == *tradingCompanyObject;
+                                  });
+            if (result != tradingCompanyObjects_.end())
+            {
+                Logger::warning << "[DELETION] Запись-дубликат" << std::endl;
+                delete object;
+                continue;
+            }
+            checkData(object);
+            tradingCompanyObjects_.push_back(std::shared_ptr<TradingCompany>(object));
+            ++_id;
+            if (file.eof())
+            {
+                break;
+            }
+        }
+    }
 }
-template<class C> void Data::readingXmlFile(const std::string filePath, C *object)
+template<typename T> void Data::readingXmlFile(const T &filePath)
 {
     const char *tag = "tradingCompany";
-    const char *className = utils::getClassName(*object).c_str();
+    const std::string fileName = filePath.stem().c_str();
+    uint _id = idPositions.find(fileName)->second;
+    const char *className = utils::getClassName(*objectFactory_.get(fileName)()).c_str();
     tinyxml2::XMLDocument doc;
-    tinyxml2::XMLError eResult = doc.LoadFile(filePath.c_str());
-
-    if(eResult == tinyxml2::XML_SUCCESS)
+    try
     {
-        tinyxml2::XMLNode *node = doc.FirstChildElement(tag); // корневой элемент xml документа
-        doc.InsertFirstChild(node);
-//        assert(node != nullptr);
+        tinyxml2::XMLError eResult = doc.LoadFile(filePath.c_str());
 
-        for (const auto *element = node->FirstChildElement(className); element != NULL; element = element->NextSiblingElement()) // элемент найденного объекта
+        if(eResult == tinyxml2::XML_SUCCESS)
+        {
+            tinyxml2::XMLNode *node = doc.FirstChildElement(tag); // корневой элемент xml документа
+            doc.InsertFirstChild(node);
+            if (node == nullptr)
             {
+                throw "Неверный тег файла!";
+            }
+
+            for (const auto *element = node->FirstChildElement(className); element != nullptr; element = element->NextSiblingElement()) // элемент найденного объекта
+            {
+                Logger::info << " ********** Считывание данных сотрудника ********** " << std::endl;
+                auto object = objectFactory_.get(fileName)();
+                object->setId(std::to_string(_id));
                 for (const auto &[key, value]: object->setParameters_)
                 {
                     if (value != nullptr)
@@ -48,15 +89,41 @@ template<class C> void Data::readingXmlFile(const std::string filePath, C *objec
                         std::string input;
                         input = element->Attribute(key.c_str());
                         value(*object, input);
-                        assert(!input.empty());
+//                        assert(!input.empty());
                     }
                 }
+                auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
+                                      [&object](std::shared_ptr<TradingCompany> &tradingCompanyObject)
+                                      {
+                                          return *object == *tradingCompanyObject;
+                                      });
+                if (result != tradingCompanyObjects_.end())
+                {
+                    Logger::warning << "[DELETION] Запись-дубликат" << std::endl;
+                    delete object;
+                    continue;
+                }
+                checkData(object);
                 tradingCompanyObjects_.push_back(std::shared_ptr<TradingCompany>(object));
+                ++_id;
             }
+        }
+        else
+        {
+            
+        }
     }
-    else
+    catch (const std::string &exception)
     {
-        
+        Logger::error << exception << std::endl;
+    }
+    catch(const std::exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << std::endl;
+    }
+    catch(...)
+    {
+        Logger::error << "Неизвестная ошибка!" << std::endl;
     }
 }
 
@@ -82,6 +149,15 @@ void Data::checkData(TradingCompany *object)
             object->changeStatusEmail(false, true);
         }
     }
+}
+
+void Data::sort()
+{
+    stable_sort(std::begin(tradingCompanyObjects_), std::end(tradingCompanyObjects_), []
+                (const auto &first, const auto &second)
+    {
+        return first->id_ < second->id_;
+    });
 }
 
 void Data::loadDatabase(const std::string &directoryPath)
@@ -114,50 +190,19 @@ void Data::loadDatabase(const std::string &directoryPath)
             auto found = idPositions.find(fileName);
             if (found != idPositions.end())
             {
-                auto object1 = objectFactory_.get(fileName)();
                 if (extension == ".txt")
                 {
-                    readingTxtFile(filePath.c_str());
+                    readingTxtFile(filePath);
+                    filePaths_.push_back(filePath.c_str());
                 }
                 else if (extension == ".xml")
                 {
-                    readingXmlFile(filePath.c_str(), object1);
-                }
-                std::string line;
-                std::ifstream file(filePath.string());
-                uint _id = idPositions.find(fileName)->second;
-                filePaths_.push_back(filePath.string());
-                if (file.is_open())
-                {
-                    while (getline(file, line))
-                    {
-                        Logger::info << " ********** Считывание данных сотрудника ********** " << std::endl;
-                        auto object = objectFactory_.get(fileName)();
-                        object->setId(std::to_string(_id));
-                        line >> *object;
-                        auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
-                                              [&object](std::shared_ptr<TradingCompany> &tradingCompanyObject)
-                                              {
-                                                  return *object == *tradingCompanyObject;
-                                              });
-                        if (result != tradingCompanyObjects_.end())
-                        {
-                            Logger::warning << "[DELETION] Запись-дубликат" << std::endl;
-                            delete object;
-                            continue;
-                        }
-                        checkData(object);
-                        tradingCompanyObjects_.push_back(std::shared_ptr<TradingCompany>(object));
-                        ++_id;
-                        if (file.eof())
-                        {
-                            break;
-                        }
-                    }
+                    readingXmlFile(filePath);
+                    filePaths_.push_back(filePath.c_str());
                 }
                 else
                 {
-                    Logger::error << "Невозможно открыть файл >> " << fileName << std::endl;
+                    Logger::error << "Невозможно открыть файл >> " << filePath << std::endl;
                 }
             }
             else
@@ -170,7 +215,6 @@ void Data::loadDatabase(const std::string &directoryPath)
             Logger::info << " ************************************************** " << std::endl;
             Logger::error << "Неверное название файла >> " << exception << std::endl;
         }
-        
         catch(const std::exception &ex)
         {
             Logger::error << "Ошибка >> " << ex.what() << std::endl;
@@ -188,6 +232,10 @@ void Data::loadDatabase(const std::string &directoryPath)
         Logger::info << "Выход из программы" << std::endl;
         std::cout << "Вы вышли из программы" << std::endl;
         exit(0);
+    }
+    else
+    {
+        sort();
     }
 }
 
@@ -836,6 +884,7 @@ template<class C> void Data::pushBack(C &object)
     std::string maxIdString = std::to_string(++maxId);
     object.setId(maxIdString);
     tradingCompanyObjects_.insert(it, std::shared_ptr<TradingCompany>(&object));
+    sort();
 }
 
 template<class C> void Data::deleteObject(C *object)
@@ -864,6 +913,7 @@ template<class C> void Data::deleteObject(C *object)
                     ++deletedId;
                 }
             }
+            sort();
             return;
         }
     }
