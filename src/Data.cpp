@@ -22,47 +22,67 @@ Data &Data::instance()
     return data;
 }
 
-template<typename T> void Data::readingTxtFile(const T &filePath)
+template<typename T> void Data::readingTxtFile(const T &filePath, uint id)
 {
     std::string line;
-    const std::string fileName = filePath.stem().c_str();
-    uint _id = idPositions.find(fileName)->second;
-    std::ifstream file(filePath.c_str());
-    if (file.is_open())
+    const std::string fileName = filePath.filename().c_str();
+    const std::string name = filePath.stem().c_str();
+    try
     {
-        while (getline(file, line))
+        std::ifstream file(filePath.c_str());
+        if (file.is_open())
         {
-            Logger::info << " ********** Считывание данных сотрудника ********** " << std::endl;
-            auto object = objectFactory_.get(fileName)();
-            object->setId(std::to_string(_id));
-            line >> *object;
-            auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
-                                  [&object](std::shared_ptr<TradingCompany> &tradingCompanyObject)
-                                  {
-                                      return *object == *tradingCompanyObject;
-                                  });
-            if (result != tradingCompanyObjects_.end())
+            if (file.peek() == EOF)
             {
-                Logger::warning << "[DELETION] Запись-дубликат" << std::endl;
-                delete object;
-                continue;
+                throw "Пустой файл >> " + fileName;
             }
-            checkData(object);
-            tradingCompanyObjects_.push_back(std::shared_ptr<TradingCompany>(object));
-            ++_id;
-            if (file.eof())
+            while (getline(file, line))
             {
-                break;
+                Logger::info << " ************* Считывание данных сотрудника ************* " << std::endl;
+                auto object = objectFactory_.get(name)();
+                object->setId(std::to_string(id));
+                line >> *object;
+                auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
+                                      [&object](std::shared_ptr<TradingCompany> &tradingCompanyObject)
+                                      {
+                                          return *object == *tradingCompanyObject;
+                                      });
+                if (result != tradingCompanyObjects_.end())
+                {
+                    Logger::warning << "[DELETION] Запись-дубликат" << std::endl;
+                    delete object;
+                    continue;
+                }
+                checkData(object);
+                tradingCompanyObjects_.push_back(std::shared_ptr<TradingCompany>(object));
+                ++id;
             }
         }
+        else
+        {
+            throw "Невозможно открыть файл >> " + fileName;
+        }
+    }
+    catch (const std::string &exception)
+    {
+        Logger::info << ' ' << std::setfill('*') << std::setw(56) << "" << std::left << ' ' << std::endl;
+        Logger::error << exception << std::endl;
+    }
+    catch(const std::exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << std::endl;
+    }
+    catch(...)
+    {
+        Logger::error << "Неизвестная ошибка!" << std::endl;
     }
 }
-template<typename T> void Data::readingXmlFile(const T &filePath)
+template<typename T> void Data::readingXmlFile(const T &filePath, uint id)
 {
     const char *tag = "tradingCompany";
-    const std::string fileName = filePath.stem().c_str();
-    uint _id = idPositions.find(fileName)->second;
-    const char *className = utils::getClassName(*objectFactory_.get(fileName)()).c_str();
+    const std::string fileName = filePath.filename().c_str();
+    const std::string name = filePath.stem().c_str();
+    const char *className = utils::getClassName(*objectFactory_.get(name)()).c_str();
     tinyxml2::XMLDocument doc;
     try
     {
@@ -71,17 +91,17 @@ template<typename T> void Data::readingXmlFile(const T &filePath)
         if(eResult == tinyxml2::XML_SUCCESS)
         {
             tinyxml2::XMLNode *node = doc.FirstChildElement(tag); // корневой элемент xml документа
-            doc.InsertFirstChild(node);
             if (node == nullptr)
             {
-                throw "Неверный тег файла!";
+                throw std::string("Неверный тег файла!" );
             }
+            doc.InsertFirstChild(node);            
 
             for (const auto *element = node->FirstChildElement(className); element != nullptr; element = element->NextSiblingElement()) // элемент найденного объекта
             {
-                Logger::info << " ********** Считывание данных сотрудника ********** " << std::endl;
-                auto object = objectFactory_.get(fileName)();
-                object->setId(std::to_string(_id));
+                Logger::info << " ************* Считывание данных сотрудника ************* " << std::endl;
+                auto object = objectFactory_.get(name)();
+                object->setId(std::to_string(id));
                 for (const auto &[key, value]: object->setParameters_)
                 {
                     if (value != nullptr)
@@ -105,16 +125,17 @@ template<typename T> void Data::readingXmlFile(const T &filePath)
                 }
                 checkData(object);
                 tradingCompanyObjects_.push_back(std::shared_ptr<TradingCompany>(object));
-                ++_id;
+                ++id;
             }
         }
         else
-        {
-            
+        {            
+            throw "Невозможно открыть файл >> " + fileName;
         }
     }
     catch (const std::string &exception)
     {
+        Logger::info << ' ' << std::setfill('*') << std::setw(56) << "" << std::left << ' ' << std::endl;
         Logger::error << exception << std::endl;
     }
     catch(const std::exception &ex)
@@ -181,28 +202,36 @@ void Data::loadDatabase(const std::string &directoryPath)
     objectFactory_.add<Lawyer>("Юрист");
     
     Logger::info << " ---------- Считывание данных всех сотрудников ---------- " << std::endl;
-    for (const bs::path &filePath: bs::directory_iterator(directoryPath_))
+    try
     {
-        try
+        for (const bs::path &filePath: bs::directory_iterator(directoryPath_))
         {
-            const std::string fileName = filePath.stem().c_str();
+            const std::string fileName = filePath.filename().c_str();
+            const std::string name = filePath.stem().c_str();
             const std::string extension = filePath.extension().c_str();
-            auto found = idPositions.find(fileName);
+            auto found = idPositions.find(name);
             if (found != idPositions.end())
             {
-                if (extension == ".txt")
+                uint id = found->second;
+                if (extension == ".txt" || extension == ".xml")
                 {
-                    readingTxtFile(filePath);
-                    filePaths_.push_back(filePath.c_str());
-                }
-                else if (extension == ".xml")
-                {
-                    readingXmlFile(filePath);
-                    filePaths_.push_back(filePath.c_str());
+                    Logger::info << ' ' << std::setfill('*') << std::setw(56) << "" << std::left << ' ' << std::endl;
+                    Logger::info << " Считывание данных из файла >> " << fileName << std::endl;
+                    if (extension == ".txt")
+                    {
+                        readingTxtFile(filePath, id);
+                        filePaths_.push_back(filePath.c_str());
+                    }
+                    else if (extension == ".xml")
+                    {
+                        readingXmlFile(filePath, id);
+                        filePaths_.push_back(filePath.c_str());
+                    }
+                    Logger::info << " Конец считывания данных из файла << " << fileName << std::endl;
                 }
                 else
                 {
-                    Logger::error << "Невозможно открыть файл >> " << filePath << std::endl;
+                    Logger::error << "Неверное расширение файла >> " << fileName << std::endl;
                 }
             }
             else
@@ -210,21 +239,21 @@ void Data::loadDatabase(const std::string &directoryPath)
                 throw fileName;
             }
         }
-        catch(const std::string &exception)
-        {
-            Logger::info << " ************************************************** " << std::endl;
-            Logger::error << "Неверное название файла >> " << exception << std::endl;
-        }
-        catch(const std::exception &ex)
-        {
-            Logger::error << "Ошибка >> " << ex.what() << std::endl;
-        }
-        catch(...)
-        {
-            Logger::error << "Неизвестная ошибка!" << std::endl;
-        }
     }
-    Logger::info << " ---------- Конец считывания всех данных сотрудников ---------- " << std::endl;
+    catch(const std::string &exception)
+    {
+        Logger::info << ' ' << std::setfill('*') << std::setw(56) << "" << std::left << ' ' << std::endl;
+        Logger::error << "Неверное название файла >> " << exception << std::endl;
+    }
+    catch(const std::exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << std::endl;
+    }
+    catch(...)
+    {
+        Logger::error << "Неизвестная ошибка!" << std::endl;
+    }
+    Logger::info << " ------- Конец считывания всех данных сотрудников ------- " << std::endl;
     
     if (tradingCompanyObjects_.empty())
     {
@@ -233,10 +262,8 @@ void Data::loadDatabase(const std::string &directoryPath)
         std::cout << "Вы вышли из программы" << std::endl;
         exit(0);
     }
-    else
-    {
-        sort();
-    }
+
+    sort();
 }
 
 void Data::inputPassword()
@@ -269,7 +296,7 @@ void Data::inputPassword()
         std::cout << "Пароль: ";
         std::string password;
         std::cin >> password;
-        Logger::info << std::setfill('.') << std::setw(80) << "" << std::left << std::endl;
+        Logger::info << std::setfill('.') << std::setw(57) << "" << std::left << std::endl;
         for (auto object: tradingCompanyObjects_)
         {
             if (isLoginFound && password == object->password_)

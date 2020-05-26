@@ -89,8 +89,8 @@ private:
     ~Data();
     Data(const Data&) = delete;
     Data& operator=(Data&) = delete;
-    template<typename T> void readingTxtFile(const T &filePath);
-    template<typename T> void readingXmlFile(const T &filePath);
+    template<typename T> void readingTxtFile(const T &filePath, uint id);
+    template<typename T> void readingXmlFile(const T &filePath, uint id);
     void checkData(TradingCompany *object);
     void sort();
     template<class Class> void checkParameter(Parameter<Class> &parameter);
