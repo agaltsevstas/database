@@ -104,6 +104,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "void Data::readingTxtFile&lt;boost::filesystem::path&gt;(boost::filesystem::path const&amp;, unsigned int):Data.cpp">
+      </ContextState>
+      <ContextState
          contextName = "Data::inputPassword():Data.cpp">
       </ContextState>
       <ContextState
@@ -196,6 +199,14 @@
             </PersistentString>
             <PersistentString
                value = "value">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "void Data::readingXmlFile&lt;boost::filesystem::path&gt;(boost::filesystem::path const&amp;, unsigned int):Data.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "doc">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

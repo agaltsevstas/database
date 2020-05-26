@@ -1,13 +1,22 @@
+#include <boost/filesystem.hpp>
+
 #include "Logger.h"
 #include "TradingCompany.h"
 
 /// creates logger that will write to log.txt
 void Logger::createInstance()
 {
+    uint number = 0;
+    boost::filesystem::path fileName = "log.txt";
     delete logger_;
     logger_ = new Logger;
     debugLevel_ = DEBUG_LEVEL_INFO;
-    logFile_.open("log.txt");
+    while (boost::filesystem::is_regular_file(fileName))
+    {
+        fileName = "log" + std::to_string(number) + ".txt";
+        ++number;
+    }
+    logFile_.open(fileName.c_str());
 }
 
 /// deletes instance of logger and closes log file ('log.txt')

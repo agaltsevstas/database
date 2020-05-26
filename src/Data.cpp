@@ -109,7 +109,6 @@ template<typename T> void Data::readingXmlFile(const T &filePath, uint id)
                         std::string input;
                         input = element->Attribute(key.c_str());
                         value(*object, input);
-//                        assert(!input.empty());
                     }
                 }
                 auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
@@ -202,9 +201,9 @@ void Data::loadDatabase(const std::string &directoryPath)
     objectFactory_.add<Lawyer>("Юрист");
     
     Logger::info << " ---------- Считывание данных всех сотрудников ---------- " << std::endl;
-    try
+    for (const bs::path &filePath: bs::directory_iterator(directoryPath_))
     {
-        for (const bs::path &filePath: bs::directory_iterator(directoryPath_))
+        try
         {
             const std::string fileName = filePath.filename().c_str();
             const std::string name = filePath.stem().c_str();
@@ -239,19 +238,19 @@ void Data::loadDatabase(const std::string &directoryPath)
                 throw fileName;
             }
         }
-    }
-    catch(const std::string &exception)
-    {
-        Logger::info << ' ' << std::setfill('*') << std::setw(56) << "" << std::left << ' ' << std::endl;
-        Logger::error << "Неверное название файла >> " << exception << std::endl;
-    }
-    catch(const std::exception &ex)
-    {
-        Logger::error << "Ошибка >> " << ex.what() << std::endl;
-    }
-    catch(...)
-    {
-        Logger::error << "Неизвестная ошибка!" << std::endl;
+        catch(const std::string &exception)
+        {
+            Logger::info << ' ' << std::setfill('*') << std::setw(56) << "" << std::left << ' ' << std::endl;
+            Logger::error << "Неверное название файла >> " << exception << std::endl;
+        }
+        catch(const std::exception &ex)
+        {
+            Logger::error << "Ошибка >> " << ex.what() << std::endl;
+        }
+        catch(...)
+        {
+            Logger::error << "Неизвестная ошибка!" << std::endl;
+        }
     }
     Logger::info << " ------- Конец считывания всех данных сотрудников ------- " << std::endl;
     
