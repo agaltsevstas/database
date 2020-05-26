@@ -3,22 +3,6 @@
 
 #include "Data.h"
 
-//void writing_data_in_file()
-//{
-//    vector <directors>::iterator iter;
-//    directors_file.open(directors_location, ios::out);
-//    if (directors_file.is_open())
-//    {
-//        for(iter = directors_vector.begin(); iter != directors_vector.end(); iter++)
-//        {
-//            directors_file << *iter;
-//            std::cout << *iter << std::endl;
-//        }
-//        directors_file.clear();
-//        directors_file.close();
-//    }
-//}
-
 int main(int argc, char *argv[])
 {
     std::srand(static_cast<uint>(time(0)));
