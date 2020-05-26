@@ -43,7 +43,8 @@ HEADERS += \
     include/PurchasingManager.h \
     include/SalesManager.h \
     include/TradingCompany.h \
-    include/Utils.h
+    include/Utils.h \
+    include/tinyxml2.h
 
 SOURCES += \
     src/Accountant.cpp \
@@ -64,7 +65,8 @@ SOURCES += \
     src/SalesManager.cpp \
     src/TradingCompany.cpp \
     src/main.cpp \
-    src/Utils.cpp
+    src/Utils.cpp \
+    src/tinyxml2.cpp
 
 # Boost and common
 LIBS += -L/usr/lib/x86_64-linux-gnu \
