@@ -96,8 +96,7 @@ private:
     template<class Class> void checkParameter(Parameter<Class> &parameter);
     template<class Class> Parameter<Class> selectParameter(const Field &field, Class *object, const std::string &message = {});
     template<class C> void checkParameters(C *object, const bool isWarning = false);
-    bool find(const std::string &str, const std::string &parameter) const;
-    TradingCompany *findParameter(const std::string &parameter);
+    TradingCompany *findParameter(std::string &parameter);
     void changeOtherData(TradingCompany *object);
     void getAllOtherData() const;
     template<class C> void pushBack(C &object);

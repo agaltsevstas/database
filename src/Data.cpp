@@ -726,121 +726,41 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
     }
 }
 
-bool Data::find(const std::string &str, const std::string &parameter) const
-{
-    std::size_t found = str.find(parameter);
-    return found != std::string::npos ? true : false;
-}
-
-TradingCompany *Data::findParameter(const std::string &parameter)
+TradingCompany *Data::findParameter(std::string &parameter)
 {
     if (parameter.empty())
     {
         std::cout << "Введена пустая строка" << std::endl;
         return nullptr;
     }
-    bool found = false;
-    std::string stringParameter;
     std::vector<std::shared_ptr<TradingCompany>> foundObjects;
     for (const auto &object: tradingCompanyObjects_)
     {
-        stringParameter = std::to_string(object->id_);
-        found = find(stringParameter, parameter);
-        if (found)
+        std::vector<std::pair<std::string, bool>> parameters = {
+            { std::to_string(object->id_), false },
+            { object->position_, true },
+            { object->surname_, true },
+            { object->name_, true },
+            { object->patronymic_, true },
+            { object->sex_, true },
+            { object->dateOfBirth_, false },
+            { std::to_string(object->passport_), false },
+            { std::to_string(object->phone_), false },
+            { object->email_, false },
+            { object->dateOfHiring_, false },
+            { object->workingHours_, false },
+            { std::to_string(object->salary_), false },
+            { object->password_, false }
+        };
+        for (const auto &[param, isUpperAndToLower]: parameters)
         {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = object->position_;
-        found = find(stringParameter, utils::toUpperAndToLower(parameter));
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = object->surname_;
-        found = find(stringParameter, utils::toUpperAndToLower(parameter));
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = object->name_;
-        found = find(stringParameter, utils::toUpperAndToLower(parameter));
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = object->patronymic_;
-        found = find(stringParameter, utils::toUpperAndToLower(parameter));
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = object->sex_;
-        found = find(stringParameter, utils::toUpperAndToLower(parameter));
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = object->dateOfBirth_;
-        found = find(stringParameter, parameter);
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = std::to_string(object->passport_);
-        found = find(stringParameter, parameter);
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = std::to_string(object->phone_);
-        found = find(stringParameter, parameter);
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = object->email_;
-        found = find(stringParameter, parameter);
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = object->dateOfHiring_;
-        found = find(stringParameter, parameter);
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = object->workingHours_;
-        found = find(stringParameter, parameter);
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = std::to_string(object->salary_);
-        found = find(stringParameter, parameter);
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
-        }
-        stringParameter = object->password_;
-        found = find(stringParameter, parameter);
-        if (found)
-        {
-            foundObjects.push_back(object);
-            continue;
+            parameter = isUpperAndToLower ? utils::toUpperAndToLower(parameter) : parameter;
+            std::size_t found = param.find(parameter);
+            if (found != std::string::npos)
+            {
+                foundObjects.push_back(object);
+                break;
+            }
         }
     }
     if (foundObjects.size() == 1)
@@ -854,23 +774,21 @@ TradingCompany *Data::findParameter(const std::string &parameter)
         {
             std::cout << *object << std::endl;
         }
-        std::cout << "Введите id конкретного сотрудника" << std::endl;
+        std::cout << "Введите id конкретного сотрудника из предложенных" << std::endl;
         std::cout << "Ввод: ";
         std::string input;
         std::cin >> input;
         for (const auto &object: foundObjects)
         {
-            stringParameter = std::to_string(object->id_);
-            found = find(stringParameter, parameter);
-            if (found)
+            if (input == std::to_string(object->id_))
             {
                 return object.get();
             }
         }
+        std::cout << "Вы ввелите неверный id сотрудника!" << std::endl;
     }
     return nullptr;
 }
-
 void Data::changeOtherData(TradingCompany *object)
 {
     std::cout << "Найдите сотрудника по одному из предложенных параметров (или его части): " << std::endl;
@@ -880,6 +798,7 @@ void Data::changeOtherData(TradingCompany *object)
               << "телефон (например, 9032697963), почта (например, surname.name.patronymic@tradingcompany.ru) "
               << "дата принятия на работу (например, 16.04.2018), время работы (например, Понедельник-Пятница=09:00-18:00) "
               << "зарплата (в рублях), пароль" << std::endl;
+    std::cout << "Ввод: ";
     std::string input;
     std::cin >> input;
     auto foundObject = findParameter(input);
