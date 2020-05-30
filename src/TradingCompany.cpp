@@ -160,22 +160,6 @@ std::string TradingCompany::getPassword() const
     return password_;
 }
 
-void TradingCompany::changeStatusId(const bool canOverwrite)
-{
-    if (canOverwrite)
-    {
-        fieldStatus_[FIELD_ID] = ST_OVERWRITEDATA;
-        Logger::info << "Перезапись id >> " << id_ << std::endl;
-    }
-    else
-    {
-        uint id = id_;
-        id_ = rand();
-        fieldStatus_[FIELD_ID] = ST_DUBLICATE;
-        Logger::warning << "Повторяющийся id >> " << id << " изменен на >> " << id_ << std::endl;
-    }
-}
-
 void TradingCompany::changeStatusPosition()
 {
     fieldStatus_[FIELD_POSITION] = ST_OVERWRITEDATA;
@@ -244,7 +228,7 @@ void TradingCompany::changeStatusPhone(const bool canOverwrite)
     }
 }
 
-void TradingCompany::changeStatusEmail(const bool canOverwrite, const bool isWrite)
+void TradingCompany::changeStatusEmail(const bool canOverwrite)
 {
     if (canOverwrite)
     {
@@ -254,10 +238,7 @@ void TradingCompany::changeStatusEmail(const bool canOverwrite, const bool isWri
     else
     {
         fieldStatus_[FIELD_EMAIL] = ST_DUBLICATE;
-        if (isWrite)
-        {
-            Logger::warning << "Повторяющаяся почта >> " << email_ << std::endl;
-        }
+        Logger::warning << "Повторяющаяся почта >> " << email_ << std::endl;
     }
 }
 
@@ -367,6 +348,7 @@ void TradingCompany::checkEmail(const std::string &warning)
         const std::string email = utils::createEmail(std::vector<std::string>{surname_, name_, patronymic_});
         std::string firstPartEmail = email.substr(0, email.find("@"));
         uint secondPartEmail = 0;
+        std::cout << warning << std::endl;
         std::cout << "Ваша первая часть почты: " + firstPartEmail << std::endl;
         std::cout << "Введите вторую часть почты (это должно быть число от 1 до 99)" << std::endl;
         std::cout << "Ввод: ";
@@ -578,12 +560,6 @@ const TradingCompany::Type TradingCompany::checkField(std::string value, const F
             
             case FIELD_DATE_OF_BIRTH :
             {
-                std::vector<std::string> data = utils::splitString(utils::date(), " .-");
-                std::vector<std::string> dateOfBirth = utils::splitString(value, " .-");
-                auto age = utils::findAge(data, dateOfBirth);
-                uint year = age[0];
-                uint month = age[1];
-                uint day = age[2];
                 boost::regex regular ("^(((0[1-9]|[12][0-9]|30)[-/.]?(0[13-9]|1[012])|31[-/.]?(0[13578]|1[02])|(0[1-9]|"
                                       "1[0-9]|2[0-8])[-/.]?02)[-/.]?[0-9]{4}|29[-/.]?02[-/.]?([0-9]{2}(([2468][048]|"
                                       "[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$");
@@ -592,11 +568,6 @@ const TradingCompany::Type TradingCompany::checkField(std::string value, const F
                     type.status = ST_EMPTY;
                     Logger::error << "Пустая дата рождения >> " << value << std::endl;
                 }
-                else if (year < 18)
-                {
-                    type.status = ST_WRONGDATA;
-                    Logger::warning << "Неудовлетворительный возраст >> " << "Лет: " << year << "Месяцев: " << month << "Дней: " << day << std::endl;
-                }
                 else if (!boost::regex_match(value, regular))
                 {
                     type.status = ST_WRONGDATA;
@@ -604,10 +575,25 @@ const TradingCompany::Type TradingCompany::checkField(std::string value, const F
                 }
                 else
                 {
-                    type.status = ST_OK;
-                    dateOfBirth_.empty() ? Logger::info << "Дата рождения >> " << value << std::endl :
-                                          (Logger::info << "Дата рождения << " << dateOfBirth_ << " >> изменена на >> " << value << std::endl,
-                                           std::cout << "Дата рождения успешно изменена" << std::endl);
+                    std::vector<std::string> data = utils::splitString(utils::date(), ".-/");
+                    std::vector<std::string> dateOfBirth = utils::splitString(value, ".-/");
+                    auto age = utils::findAge(data, dateOfBirth);
+                    uint year = age[0];
+                    uint month = age[1];
+                    uint day = age[2];
+                    
+                    if (year < 18)
+                    {
+                        type.status = ST_WRONGDATA;
+                        Logger::warning << "Неудовлетворительный возраст >> " << "Лет: " << year << "Месяцев: " << month << "Дней: " << day << std::endl;
+                    }
+                    else
+                    {
+                        type.status = ST_OK;
+                        dateOfBirth_.empty() ? Logger::info << "Дата рождения >> " << value << std::endl :
+                                              (Logger::info << "Дата рождения << " << dateOfBirth_ << " >> изменена на >> " << value << std::endl,
+                                               std::cout << "Дата рождения успешно изменена" << std::endl);
+                    }
                 }
                 type.stringValue = value;
                 fieldStatus_[field] = type.status;

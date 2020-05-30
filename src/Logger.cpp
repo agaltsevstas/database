@@ -6,17 +6,22 @@
 /// creates logger that will write to log.txt
 void Logger::createInstance()
 {
-    uint number = 0;
-    boost::filesystem::path fileName = "log.txt";
+    namespace bs = boost::filesystem;
+    
     delete logger_;
     logger_ = new Logger;
     debugLevel_ = DEBUG_LEVEL_INFO;
-    while (boost::filesystem::is_regular_file(fileName))
+    
+    uint number = 0;
+    bs::path path = "log/";
+    bs::path fileName = "log_0.txt";
+    boost::filesystem::create_directory(path);
+    while (bs::is_regular_file(bs::path(path.string() + fileName.string())))
     {
-        fileName = "log" + std::to_string(number) + ".txt";
+        fileName = "log_" + std::to_string(number) + ".txt";
         ++number;
     }
-    logFile_.open(fileName.c_str());
+    logFile_.open(path.string() + fileName.string());
 }
 
 /// deletes instance of logger and closes log file ('log.txt')

@@ -53,7 +53,6 @@ template<typename T> void Data::readingTxtFile(const T &filePath, uint id)
                     delete object;
                     continue;
                 }
-                checkData(object);
                 tradingCompanyObjects_.push_back(std::shared_ptr<TradingCompany>(object));
                 ++id;
             }
@@ -122,7 +121,6 @@ template<typename T> void Data::readingXmlFile(const T &filePath, uint id)
                     delete object;
                     continue;
                 }
-                checkData(object);
                 tradingCompanyObjects_.push_back(std::shared_ptr<TradingCompany>(object));
                 ++id;
             }
@@ -144,30 +142,6 @@ template<typename T> void Data::readingXmlFile(const T &filePath, uint id)
     catch(...)
     {
         Logger::error << "Неизвестная ошибка!" << std::endl;
-    }
-}
-
-void Data::checkData(TradingCompany *object)
-{
-    for (const auto &element: tradingCompanyObjects_)
-    {
-        if (object->id_ == element->id_)
-        {
-            object->changeStatusId();
-        }
-        if (object->passport_ == element->passport_)
-        {
-            object->changeStatusPassport();
-        }
-        if (object->phone_ == element->phone_)
-        {
-            object->changeStatusPhone();
-        }
-        if (object->email_ == element->email_)
-        {
-            element->changeStatusEmail(false, false);
-            object->changeStatusEmail(false, true);
-        }
     }
 }
 
@@ -301,7 +275,7 @@ void Data::inputPassword()
             if (isLoginFound && password == object->password_)
             {
                 LOGIN(object);
-                checkParameters(object.get());
+                checkParameters(object.get(), true);
                 object->functional();
                 LOGOUT(object);
                 
@@ -434,7 +408,7 @@ template<class Class> Data::Parameter<Class> Data::selectParameter(const Field &
             case FIELD_EMAIL :
                 return {std::function<std::string(TradingCompany&)>{&TradingCompany::getEmail},
                         std::bind(&TradingCompany::checkEmail, object, message),
-                        std::bind(&TradingCompany::changeStatusEmail, object, true, false), object, true};
+                        std::bind(&TradingCompany::changeStatusEmail, object, true), object, true};
 
             case FIELD_DATE_OF_HIRING :
                 return {std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfHiring},

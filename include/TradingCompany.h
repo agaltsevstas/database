@@ -115,8 +115,7 @@ private:
 
 public:
 //    TradingCompany() {}
-    virtual ~TradingCompany()
-    {};
+    virtual ~TradingCompany() {}
     virtual void functional() = 0;
 //    ~TradingCompany();
     std::string getPosition() const;
@@ -187,7 +186,6 @@ private:
     void checkSalary(const std::string &warning = {});
     void checkPassword(const std::string &warning = {});
     void changePersonalData();
-    void changeStatusId(const bool canOverwrite = false);
     void changeStatusPosition();
     void changeStatusSurname();
     void changeStatusName();
@@ -196,7 +194,7 @@ private:
     void changeStatusDateOfBirth();
     void changeStatusPassport(const bool canOverwrite = false);
     void changeStatusPhone(const bool canOverwrite = false);
-    void changeStatusEmail(const bool canOverwrite, const bool isWrite = false);
+    void changeStatusEmail(const bool canOverwrite);
     void changeStatusDateOfHiring();
     void changeStatusWorkingHours();
     void changeStatusSalary();
