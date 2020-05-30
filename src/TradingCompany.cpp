@@ -348,7 +348,7 @@ void TradingCompany::checkEmail(const std::string &warning)
         const std::string email = utils::createEmail(std::vector<std::string>{surname_, name_, patronymic_});
         std::string firstPartEmail = email.substr(0, email.find("@"));
         uint secondPartEmail = 0;
-        std::cout << warning << std::endl;
+        std::cout << warning;
         std::cout << "Ваша первая часть почты: " + firstPartEmail << std::endl;
         std::cout << "Введите вторую часть почты (это должно быть число от 1 до 99)" << std::endl;
         std::cout << "Ввод: ";
@@ -568,6 +568,7 @@ const TradingCompany::Type TradingCompany::checkField(std::string value, const F
                     type.status = ST_EMPTY;
                     Logger::error << "Пустая дата рождения >> " << value << std::endl;
                 }
+                
                 else if (!boost::regex_match(value, regular))
                 {
                     type.status = ST_WRONGDATA;
@@ -575,13 +576,12 @@ const TradingCompany::Type TradingCompany::checkField(std::string value, const F
                 }
                 else
                 {
-                    std::vector<std::string> data = utils::splitString(utils::date(), ".-/");
-                    std::vector<std::string> dateOfBirth = utils::splitString(value, ".-/");
+                    std::vector<std::string> data = utils::splitString(utils::date(), " .-");
+                    std::vector<std::string> dateOfBirth = utils::splitString(value, " .-");
                     auto age = utils::findAge(data, dateOfBirth);
                     uint year = age[0];
                     uint month = age[1];
                     uint day = age[2];
-                    
                     if (year < 18)
                     {
                         type.status = ST_WRONGDATA;

@@ -13,10 +13,10 @@ void Logger::createInstance()
     debugLevel_ = DEBUG_LEVEL_INFO;
     
     uint number = 0;
-    bs::path path = "log/";
     bs::path fileName = "log_0.txt";
-    boost::filesystem::create_directory(path);
-    while (bs::is_regular_file(bs::path(path.string() + fileName.string())))
+    bs::path path = "log/";
+    bs::create_directory(path);
+    while (bs::is_regular_file(path.string() + fileName.string()))
     {
         fileName = "log_" + std::to_string(number) + ".txt";
         ++number;
