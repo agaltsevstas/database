@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include <boost/variant.hpp>
+
 #include "ObjectFactory.h"
 #include "TradingCompany.h"
 #include "Director.h"
@@ -58,10 +60,9 @@ private:
     template <class Class>
     struct Parameter
     {
-        Field field;
-        std::function<uint(TradingCompany&)> getUintParameter = nullptr;
-        std::function<uint64_t(TradingCompany&)> getUint64Parameter = nullptr;
-        std::function<std::string(TradingCompany&)> getStringParameter = nullptr;
+        boost::variant<std::function<uint(TradingCompany&)>,
+                       std::function<uint64_t(TradingCompany&)>,
+                       std::function<std::string(TradingCompany&)>> getParameter;
         std::function<void()> checkParameter = nullptr;
         std::function<void()> changeStatusParameter = nullptr;
         Class *object = nullptr;

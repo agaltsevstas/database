@@ -342,9 +342,9 @@ void Data::inputPassword()
 
 template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
 {
-    auto getUintParameter = parameter.getUintParameter;
-    auto getUint64Parameter = parameter.getUint64Parameter;
-    auto getStringParameter = parameter.getStringParameter;
+    auto getUintParameter = boost::get<std::function<uint(TradingCompany&)>>(&parameter.getParameter);
+    auto getUint64Parameter = boost::get<std::function<uint64_t(TradingCompany&)>>(&parameter.getParameter);
+    auto getStringParameter = boost::get<std::function<std::string(TradingCompany&)>>(&parameter.getParameter);
     auto checkParameter = parameter.checkParameter;
     auto changeStatusParameter = parameter.changeStatusParameter;
     auto object = parameter.object;
@@ -356,22 +356,22 @@ template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
     {
         for (auto it = std::begin(tradingCompanyObjects_); it != std::end(tradingCompanyObjects_);)
         {
-            if (getUintParameter != nullptr && (it->get() != object) &&
-                getUintParameter(*(*it)) == getUintParameter(*object))
+            if (getUintParameter != nullptr && it->get() != object &&
+                (*getUintParameter)(*(*it)) == (*getUintParameter)(*object))
             {
                 changeStatusParameter();
                 checkParameter();
                 it = tradingCompanyObjects_.begin();
             }
-            else if (getUint64Parameter != nullptr && (it->get() != object) &&
-                     getUint64Parameter(*(*it)) == getUint64Parameter(*object))
+            else if (getUint64Parameter != nullptr && it->get() != object &&
+                     (*getUint64Parameter)(*(*it)) == (*getUint64Parameter)(*object))
             {
                 changeStatusParameter();
                 checkParameter();
                 it = tradingCompanyObjects_.begin();
             }
-            else if (getStringParameter != nullptr && (it->get() != object) &&
-                     getStringParameter(*(*it)) == getStringParameter(*object))
+            else if (getStringParameter != nullptr && it->get() != object &&
+                     (*getStringParameter)(*(*it)) == (*getStringParameter)(*object))
             {
                 changeStatusParameter();
                 checkParameter();
@@ -392,67 +392,67 @@ template<class Class> Data::Parameter<Class> Data::selectParameter(const Field &
         switch (field)
         {
             case FIELD_POSITION :
-                return {FIELD_POSITION, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getPosition},
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getPosition},
                         std::bind(&TradingCompany::checkPosition, object, message),
                         std::bind(&TradingCompany::changeStatusPosition, object), object};
 
             case FIELD_SURNAME :
-                return {FIELD_SURNAME, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getSurname},
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getSurname},
                         std::bind(&TradingCompany::checkSurname, object, message),
                         std::bind(&TradingCompany::changeStatusSurname, object), object};
 
             case FIELD_NAME :
-                return {FIELD_NAME, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getName},
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getName},
                         std::bind(&TradingCompany::checkName, object, message),
                         std::bind(&TradingCompany::changeStatusName, object), object};
 
             case FIELD_PATRONYMIC :
-                return {FIELD_PATRONYMIC, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getPatronymic},
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getPatronymic},
                         std::bind(&TradingCompany::checkPatronymic, object, message),
                         std::bind(&TradingCompany::changeStatusPatronymic, object), object};
 
             case FIELD_SEX :
-                return {FIELD_SEX, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getSex},
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getSex},
                         std::bind(&TradingCompany::checkSex, object, message),
                         std::bind(&TradingCompany::changeStatusSex, object), object};
 
             case FIELD_DATE_OF_BIRTH :
-                return {FIELD_DATE_OF_BIRTH, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
                         std::bind(&TradingCompany::checkDateOfBirth, object, message),
                         std::bind(&TradingCompany::changeStatusDateOfBirth, object), object};
 
             case FIELD_PASSPORT :
-                return {FIELD_PASSPORT, nullptr, std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport}, nullptr,
+                return {std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
                         std::bind(&TradingCompany::checkPassport, object, message),
                         std::bind(&TradingCompany::changeStatusPassport, object, true), object, true};
 
             case FIELD_PHONE :
-                return {FIELD_PHONE, nullptr, std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone}, nullptr,
+                return {std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
                         std::bind(&TradingCompany::checkPhone, object, message),
                         std::bind(&TradingCompany::changeStatusPhone, object, true), object, true};
 
             case FIELD_EMAIL :
-                return {FIELD_EMAIL, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getEmail},
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getEmail},
                         std::bind(&TradingCompany::checkEmail, object, message),
                         std::bind(&TradingCompany::changeStatusEmail, object, true, false), object, true};
 
             case FIELD_DATE_OF_HIRING :
-                return {FIELD_DATE_OF_HIRING, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
                         std::bind(&TradingCompany::checkDateOfHiring, object, message),
                         std::bind(&TradingCompany::changeStatusDateOfHiring, object), object};
 
             case FIELD_WORKING_HOURS :
-                return {FIELD_WORKING_HOURS, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getWorkingHours},
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getWorkingHours},
                         std::bind(&TradingCompany::checkWorkingHours, object, message),
                         std::bind(&TradingCompany::changeStatusWorkingHours, object), object};
 
             case FIELD_SALARY :
-                return {FIELD_SALARY, std::function<uint(TradingCompany&)>{&TradingCompany::getSalary}, nullptr, nullptr,
+                return {std::function<uint(TradingCompany&)>{&TradingCompany::getSalary},
                         std::bind(&TradingCompany::checkSalary, object, message),
                         std::bind(&TradingCompany::changeStatusSalary, object), object};
 
             case FIELD_PASSWORD :
-                return {FIELD_PASSWORD, nullptr, nullptr, std::function<std::string(TradingCompany&)>{&TradingCompany::getPassword},
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getPassword},
                         std::bind(&TradingCompany::checkPassword, object, message),
                         std::bind(&TradingCompany::changeStatusPassword, object), object, true};
             default:
