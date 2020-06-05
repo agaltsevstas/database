@@ -115,8 +115,7 @@ private:
 
 public:
 //    TradingCompany() {}
-    virtual ~TradingCompany()
-    {};
+    virtual ~TradingCompany() {}
     virtual void functional() = 0;
 //    ~TradingCompany();
     std::string getPosition() const;
@@ -209,7 +208,5 @@ private:
     const Type empty = Type();
     const Type checkField(std::string value, const Field &numberField);
 };
-
-//enum class classes { directors, chief_accountant };
 
 #endif // TradingCompany_h

@@ -82,6 +82,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "TradingCompany::operator=(TradingCompany const&amp;):TradingCompany.cpp">
+      </ContextState>
+      <ContextState
          contextName = "void Data::deleteObject&lt;TradingCompany&gt;(TradingCompany*):Data.cpp">
          <PersistentStrings>
             <PersistentString
@@ -149,6 +152,14 @@
       </ContextState>
       <ContextState
          contextName = "void Data::pushBack&lt;TradingCompany&gt;(TradingCompany&amp;):Data.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Data::find(TradingCompany*):Data.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "param">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "void Data::checkParameter&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, Director*&gt;(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;&amp;, std::__1::function&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; (TradingCompany&amp;)&gt;, std::__1::function&lt;void ()&gt;, Director*, bool):Data.h">

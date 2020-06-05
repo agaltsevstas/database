@@ -12,28 +12,30 @@
 #include <iomanip>
 #include <codecvt>
 
-#define LOGIN(object) Logger::info << "Вход в аккаунт >> " << object->getPosition()   << " "   \
-                                                           << object->getSurname()    << " "   \
-                                                           << object->getName()       << " "   \
+#define LOGIN(object) Logger::info << "Вход в аккаунт >> " << object->getPosition()   << " "        \
+                                                           << object->getSurname()    << " "        \
+                                                           << object->getName()       << " "        \
                                                            << object->getPatronymic() << std::endl; \
-                      std::cout << "Вы зашли за " << object->getPosition() << "'a. " << std::endl; \
-                      std::cout << "Приветствуем вас, " << object->getSurname()    << " " \
-                                                        << object->getName()       << " " \
-                                                        << object->getPatronymic() << "!" << std::endl;
-
-#define LOGOUT(object) Logger::info << "Выход из аккаунта << " << object->getPosition()   << " "   \
-                                                               << object->getSurname()    << " "   \
-                                                               << object->getName()       << " "   \
+                      std::cout << "Вы зашли за " << object->getPosition() << "'a. " << std::endl;  \
+                      std::cout << "Приветствуем вас, " << object->getSurname()    << " "           \
+                                                        << object->getName()       << " "           \
+                                                        << object->getPatronymic() << "!"           \
+                                                        << std::endl;
+ 
+#define LOGOUT(object) Logger::info << "Выход из аккаунта << " << object->getPosition()   << " "        \
+                                                               << object->getSurname()    << " "        \
+                                                               << object->getName()       << " "        \
                                                                << object->getPatronymic() << std::endl; \
-                       std::cout << "Вы вышли из аккаунта" << std::endl;
+                       std::cout << std::endl << "Вы вышли из аккаунта" << std::endl;
 
-#define EXIT(object) Logger::info << "Выход из аккаунта << " << object->getPosition()   << " "   \
-                                                             << object->getSurname()    << " "   \
-                                                             << object->getName()       << " "   \
+#define EXIT(object) Logger::info << "Выход из аккаунта << " << object->getPosition()   << " "        \
+                                                             << object->getSurname()    << " "        \
+                                                             << object->getName()       << " "        \
                                                              << object->getPatronymic() << std::endl; \
-                     Logger::info << "Выход из программы" << std::endl; \
-                     std::cout << "Вы вышли из аккаунта" << std::endl; \
-                     std::cout << "Вы вышли из программы" << std::endl; \
+                     Logger::info << "Выход из программы" << std::endl;                               \
+                     std::cout << std::endl;                                                          \
+                     std::cout << "Вы вышли из аккаунта" << std::endl;                                \
+                     std::cout << "Вы вышли из программы" << std::endl;                               \
                      exit(0);
 
 namespace utils

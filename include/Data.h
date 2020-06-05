@@ -18,20 +18,20 @@ enum Mode
 
 const std::map<std::string, uint> idPositions =
 {
-    {"Бухгалтер", 800},
-    {"Водитель", 1300},
+    {"Бухгалтер", 900},
+    {"Водитель", 1400},
     {"Главный_бухгалтер", 200},
     {"Главный_юрист-консультант", 300},
-    {"Грузчик", 1200},
+    {"Грузчик", 1300},
     {"Директор", 100},
-    {"Логист", 900},
-    {"Менеджер_по_закупкам", 1100},
-    {"Менеджер_по_персоналу", 1400},
-    {"Менеджер_по_продажам", 600},
-    {"Кассир", 700},
-    {"Начальник_отдела_закупок", 400},
-    {"Начальник_склада", 500},
-    {"Юрист", 1000}
+    {"Логист", 1000},
+    {"Менеджер_по_закупкам", 1200},
+    {"Менеджер_по_персоналу", 400},
+    {"Менеджер_по_продажам", 700},
+    {"Кассир", 800},
+    {"Начальник_отдела_закупок", 500},
+    {"Начальник_склада", 600},
+    {"Юрист", 1100}
 };
 
 const std::vector<std::string> warnings
@@ -94,10 +94,13 @@ private:
     template<typename T> void readingXmlFile(const T &filePath, uint id);
     void sort();
     template<class Class> void checkParameter(Parameter<Class> &parameter);
-    template<class Class> Parameter<Class> selectParameter(const Field &field, Class *object, const std::string &message = {});
+    template<class Class> Parameter<Class> selectParameter(const Field &field,
+                                                           Class *object,
+                                                           const std::string &message = {});
     template<class C> void checkParameters(C *object, const bool isWarning = false);
-    TradingCompany *findParameter(std::string &parameter);
+    TradingCompany *find(TradingCompany *object);
     void changeOtherData(TradingCompany *object);
+    void deleteEmployeeData(TradingCompany *object);
     void getAllOtherData() const;
     template<class C> void pushBack(C &object);
     template<class C> void deleteObject(C *object);

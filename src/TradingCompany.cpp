@@ -270,7 +270,6 @@ void TradingCompany::recursion(const Field &field,
                                std::function<void(TradingCompany&, std::string&)> setParameter,
                                const std::string &message)
 {
-    std::string input;
     if (fieldStatus_[field] != ST_OK)
     {
         std::cout << message << std::endl;
@@ -281,6 +280,7 @@ void TradingCompany::recursion(const Field &field,
             newMessage = message.substr(condition);
         }
         std::cout << "Ввод: ";
+        std::string input;
         std::cin >> input;
         setParameter(*this, input);
         recursion(field, setParameter, "Некорректно введен параметр, в" + newMessage);
@@ -343,7 +343,17 @@ void TradingCompany::checkPhone(const std::string &warning)
 
 void TradingCompany::checkEmail(const std::string &warning)
 {
-    if (fieldStatus_[FIELD_EMAIL] != ST_OK)
+    if (fieldStatus_[FIELD_EMAIL] == ST_EMPTY || fieldStatus_[FIELD_EMAIL] == ST_WRONGDATA)
+    {
+        const std::string email = utils::createEmail(std::vector<std::string>{surname_, name_, patronymic_});
+        setEmail(email);
+    }
+    else if (fieldStatus_[FIELD_EMAIL] == ST_OVERWRITEDATA)
+    {
+        const std::string message = "Введите почту (например, surname.name.patronymic@tradingcompany.ru)";
+        recursion(FIELD_EMAIL, &TradingCompany::setEmail, warning + message);
+    }
+    if (fieldStatus_[FIELD_EMAIL] == ST_DUBLICATE)
     {
         const std::string email = utils::createEmail(std::vector<std::string>{surname_, name_, patronymic_});
         std::string firstPartEmail = email.substr(0, email.find("@"));
@@ -362,7 +372,6 @@ void TradingCompany::checkEmail(const std::string &warning)
             else
             {
                 std::cout << "Некорректно введен параметр, введите вторую часть почты (это должно быть число от 1 до 99)" << std::endl;
-                continue;
             }
         }
         setEmail(firstPartEmail + std::to_string(secondPartEmail) + "@tradingcompany.ru");
@@ -421,7 +430,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string value, const F
                 {
                     type.status = ST_OK;
                     !id_ ? Logger::info << "ID >> " << value << std::endl :
-                           Logger::info << "ID << " << id_ << " >> изменен на >> " << value << std::endl;
+                          (Logger::info << "ID << " << id_ << " >> изменен на >> " << value << std::endl,
+                           std::cout << "ID успешно изменен" << std::endl);
                 }
                 type.uintValue = std::atoi(value.c_str());
                 fieldStatus_[field] = type.status;
@@ -447,7 +457,8 @@ const TradingCompany::Type TradingCompany::checkField(std::string value, const F
                 {
                     type.status = ST_OK;
                     position_.empty() ? Logger::info << "Должность >> " << value << std::endl :
-                                        Logger::info << "Должность << " << position_ << " >> изменена на >> " << value << std::endl;
+                                       (Logger::info << "Должность << " << position_ << " >> изменена на >> " << value << std::endl,
+                                        std::cout << "Должность успешно изменена" << std::endl);
                 }
                 type.stringValue = value;
                 fieldStatus_[field] = type.status;
@@ -568,7 +579,6 @@ const TradingCompany::Type TradingCompany::checkField(std::string value, const F
                     type.status = ST_EMPTY;
                     Logger::error << "Пустая дата рождения >> " << value << std::endl;
                 }
-                
                 else if (!boost::regex_match(value, regular))
                 {
                     type.status = ST_WRONGDATA;
@@ -814,14 +824,6 @@ const TradingCompany::Type TradingCompany::checkField(std::string value, const F
     {
         Logger::error << "Неверный параметр поля >> " + std::to_string(field) << std::endl;
     }
-    catch(const std::exception &ex)
-    {
-        Logger::error << "Ошибка >> " << ex.what() << std::endl;
-    }
-    catch(...)
-    {
-        Logger::error << "Неизвестная ошибка!";
-    }
     return TradingCompany::empty;
 }
 
@@ -840,6 +842,12 @@ const TradingCompany& TradingCompany::operator = (const TradingCompany &object)
     workingHours_ = object.workingHours_;
     salary_ = object.salary_;
     password_ = object.password_;
+    
+    std::for_each(std::begin(fieldStatus_), std::end(fieldStatus_), [this, &object](auto &field)
+    {
+        this->fieldStatus_[field.first] = object.fieldStatus_.at(field.first);
+    });
+    
     return *this;
 }
 
@@ -880,14 +888,6 @@ void operator >> (const std::string &line, TradingCompany &object)
     catch (const std::string &exception)
     {
         Logger::error << "Неверный параметр >> " << exception << std::endl;
-    }
-    catch(const std::exception &ex)
-    {
-        Logger::error << "Ошибка >> " << ex.what() << std::endl;
-    }
-    catch(...)
-    {
-        Logger::error << "Неизвестная ошибка!" << std::endl;
     }
 }
 

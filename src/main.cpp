@@ -57,8 +57,22 @@ int main(int argc, char *argv[])
         directory += "/";
     }
     Data &data = Data::instance();
-    data.loadDatabase(directory);
-    data.inputPassword();
+    try
+    {
+        data.loadDatabase(directory);
+        data.inputPassword();
+    }
+    catch (const std::exception &ex)
+    {
+        Logger::error << "Ошибка >> " << ex.what() << std::endl;
+        std::cout << "Ошибка >> " << ex.what() << std::endl;
+    }
+    catch (...)
+    {
+        Logger::error << "Неизвестная ошибка!" << std::endl;
+        std::cerr << "Неизвестная ошибка!" << std::endl;
+        exit(0);
+    }
     Logger::deleteInstance();
 
     return 0;

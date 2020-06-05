@@ -115,17 +115,17 @@ void Logger::writeToFile(const std::string &message)
 
 void Logger::printInfo()
 {
-    std::cout << infoBuffer_ << std::endl;
+    infoBuffer_.empty() ? std::cout << "Cообщения отсутствуют" << std::endl : std::cout << infoBuffer_;
 }
 
 void Logger::printWarning()
 {
-    std::cout << warningBuffer_ << std::endl;
+    warningBuffer_.empty() ? std::cout << "Предупреждения отсутствуют" << std::endl : std::cout << warningBuffer_;
 }
 
 void Logger::printError()
 {
-    std::cout << errorBuffer_ << std::endl;
+    errorBuffer_.empty() ? std::cout << "Ошибки отсутствуют" << std::endl : std::cout << errorBuffer_;
 }
 
 void Logger::printAllMessages()
@@ -135,70 +135,73 @@ void Logger::printAllMessages()
 
 void Logger::printLog(const TradingCompany *object)
 {
-    Logger::info << " ********** Вход в Logger ********** " << std::endl;
-    std::cout << "Хотите вывести все сообщения - нажмите 1" << std::endl;
-    std::cout << "Хотите вывести все предупреждения - нажмите 2" << std::endl;
-    std::cout << "Хотите вывести все ошибки - нажмите 3" << std::endl;
-    std::cout << "Хотите вывести весь лог - нажмите 4" << std::endl;
-    std::cout << "Хотите вернуться назад? - введите B: " << std::endl;
-    std::cout << "Хотите выйти из программы? - введите ESC: " << std::endl;
-    std::cout << "Ввод: ";
-
-    std::string input;
-    std::cin >> input;
-    try
+    Logger::info << "*********************** Logger *************************" << std::endl;
+    while (true)
     {
-        switch (utils::str(input.c_str()))
+        std::cout << std::endl;
+        std::cout << "*********************** Logger *************************" << std::endl;
+        std::cout << "Хотите вывести все сообщения - нажмите 1" << std::endl;
+        std::cout << "Хотите вывести все предупреждения - нажмите 2" << std::endl;
+        std::cout << "Хотите вывести все ошибки - нажмите 3" << std::endl;
+        std::cout << "Хотите вывести весь лог - нажмите 4" << std::endl;
+        std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.)" << std::endl;
+        std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД" << std::endl;
+        std::cout << "Ввод: ";
+        try
         {
-            case utils::str("1") :
-                printInfo();
-                Logger::info << " >> Вывод обычной информации << " << std::endl;
-                break;
+            std::string input;
+            std::cin >> input;
+            switch (utils::str(input.c_str()))
+            {
+                case utils::str("1") :
+                    printInfo();
+                    Logger::info << ">> Вывод обычной информации <<" << std::endl;
+                    break;
 
-            case utils::str("2") :
-                printWarning();
-                Logger::info << " >> Вывод всех предупреждений << " << std::endl;
-                break;
+                case utils::str("2") :
+                    printWarning();
+                    Logger::info << ">> Вывод всех предупреждений << " << std::endl;
+                    break;
 
-            case utils::str("3") :
-                printError();
-                Logger::info << " >> Вывод всех ошибок << " << std::endl;
-                break;
+                case utils::str("3") :
+                    printError();
+                    Logger::info << ">> Вывод всех ошибок <<" << std::endl;
+                    break;
 
-            case utils::str("4") :
-                printAllMessages();
-                Logger::info << " >> Вывод всех сообщений << " << std::endl;
-                break;
+                case utils::str("4") :
+                    printAllMessages();
+                    Logger::info << ">> Вывод всех сообщений <<" << std::endl;
+                    break;
 
-            case utils::str("b") :
-                return;
+                case utils::str("b") :
+                case utils::str("н") :
+                    return;
 
-            case utils::str("esc") :
-                EXIT(object);
+                case utils::str("esc") :
+                case utils::str("выход") :
+                    EXIT(object);
 
-            default:
-                throw input;
+                default:
+                    throw input;
+            }
+        }
+        catch (const std::string &exception)
+        {
+            Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
+            std::cerr << "Вы ввели >> " << exception << " - неверная команда!" << std::endl;
+        }
+        catch(const std::exception &ex)
+        {
+            Logger::error << "Ошибка >> " << ex.what() << std::endl;
+            std::cerr << "Ошибка >> " << ex.what() << std::endl;
+        }
+        catch(...)
+        {
+            Logger::error << "Неизвестная ошибка!" << std::endl;
+            std::cerr << "Неизвестная ошибка!" << std::endl;
+            std::exit(0);
         }
     }
-    catch (const std::string &exception)
-    {
-        Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
-        std::cerr << "Вы ввели >> " << exception
-                  << " - неверная команда! Попробуйте ввести заново: " << std::endl;
-        printLog(object);
-    }
-    catch(const std::exception &ex)
-    {
-        Logger::error << "Ошибка >> " << ex.what() << std::endl;
-        std::cerr << "Ошибка >> " << ex.what() << std::endl;
-    }
-    catch(...)
-    {
-        Logger::error << "Неизвестная ошибка!" << std::endl;
-        std::cerr << "Неизвестная ошибка!" << std::endl;
-        std::exit(0);
-    }
-    Logger::info << " ********** Выход из Logger ********** " << std::endl;
 }
 
 /// Constructor - must send in message type

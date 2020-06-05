@@ -38,7 +38,7 @@ template<typename T> void Data::readingTxtFile(const T &filePath, uint id)
             }
             while (getline(file, line))
             {
-                Logger::info << " ************* Считывание данных сотрудника ************* " << std::endl;
+                Logger::info << "************* Считывание данных сотрудника *************" << std::endl;
                 auto object = objectFactory_.get(name)();
                 object->setId(std::to_string(id));
                 line >> *object;
@@ -64,16 +64,8 @@ template<typename T> void Data::readingTxtFile(const T &filePath, uint id)
     }
     catch (const std::string &exception)
     {
-        Logger::info << ' ' << std::setfill('*') << std::setw(56) << "" << std::left << ' ' << std::endl;
+        Logger::info << std::setfill('*') << std::setw(56) << "" << std::left << std::endl;
         Logger::error << exception << std::endl;
-    }
-    catch(const std::exception &ex)
-    {
-        Logger::error << "Ошибка >> " << ex.what() << std::endl;
-    }
-    catch(...)
-    {
-        Logger::error << "Неизвестная ошибка!" << std::endl;
     }
 }
 template<typename T> void Data::readingXmlFile(const T &filePath, uint id)
@@ -87,18 +79,18 @@ template<typename T> void Data::readingXmlFile(const T &filePath, uint id)
     {
         tinyxml2::XMLError eResult = doc.LoadFile(filePath.c_str());
 
-        if(eResult == tinyxml2::XML_SUCCESS)
+        if (eResult == tinyxml2::XML_SUCCESS)
         {
             tinyxml2::XMLNode *node = doc.FirstChildElement(tag); // корневой элемент xml документа
             if (node == nullptr)
             {
-                throw std::string("Неверный тег файла!" );
+                throw std::string("Неверный тег файла!");
             }
             doc.InsertFirstChild(node);            
 
             for (const auto *element = node->FirstChildElement(className); element != nullptr; element = element->NextSiblingElement()) // элемент найденного объекта
             {
-                Logger::info << " ************* Считывание данных сотрудника ************* " << std::endl;
+                Logger::info << "************* Считывание данных сотрудника *************" << std::endl;
                 auto object = objectFactory_.get(name)();
                 object->setId(std::to_string(id));
                 for (const auto &[key, value]: object->setParameters_)
@@ -132,16 +124,8 @@ template<typename T> void Data::readingXmlFile(const T &filePath, uint id)
     }
     catch (const std::string &exception)
     {
-        Logger::info << ' ' << std::setfill('*') << std::setw(56) << "" << std::left << ' ' << std::endl;
+        Logger::info << std::setfill('*') << std::setw(56) << "" << std::left << std::endl;
         Logger::error << exception << std::endl;
-    }
-    catch(const std::exception &ex)
-    {
-        Logger::error << "Ошибка >> " << ex.what() << std::endl;
-    }
-    catch(...)
-    {
-        Logger::error << "Неизвестная ошибка!" << std::endl;
     }
 }
 
@@ -174,12 +158,12 @@ void Data::loadDatabase(const std::string &directoryPath)
     objectFactory_.add<HRManager>("Менеджер_по_персоналу");
     objectFactory_.add<Lawyer>("Юрист");
     
-    Logger::info << " ---------- Считывание данных всех сотрудников ---------- " << std::endl;
+    Logger::info << "---------- Считывание данных всех сотрудников ----------" << std::endl;
     for (const bs::path &filePath: bs::directory_iterator(directoryPath_))
     {
         try
         {
-            const std::string fileName = filePath.filename().c_str();
+            const std::string fileName =  utils::toUpperAndToLower(filePath.filename().c_str());
             const std::string name = filePath.stem().c_str();
             const std::string extension = filePath.extension().c_str();
             auto found = idPositions.find(name);
@@ -188,8 +172,8 @@ void Data::loadDatabase(const std::string &directoryPath)
                 uint id = found->second;
                 if (extension == ".txt" || extension == ".xml")
                 {
-                    Logger::info << ' ' << std::setfill('*') << std::setw(56) << "" << std::left << ' ' << std::endl;
-                    Logger::info << " Считывание данных из файла >> " << fileName << std::endl;
+                    Logger::info << std::setfill('*') << std::setw(56) << "" << std::left << std::endl;
+                    Logger::info << "Считывание данных из файла >> " << fileName << std::endl;
                     if (extension == ".txt")
                     {
                         readingTxtFile(filePath, id);
@@ -200,7 +184,6 @@ void Data::loadDatabase(const std::string &directoryPath)
                         readingXmlFile(filePath, id);
                         filePaths_.push_back(filePath.c_str());
                     }
-                    Logger::info << " Конец считывания данных из файла << " << fileName << std::endl;
                 }
                 else
                 {
@@ -212,30 +195,22 @@ void Data::loadDatabase(const std::string &directoryPath)
                 throw fileName;
             }
         }
-        catch(const std::string &exception)
+        catch (const std::string &exception)
         {
-            Logger::info << ' ' << std::setfill('*') << std::setw(56) << "" << std::left << ' ' << std::endl;
+            Logger::info << std::setfill('*') << std::setw(56) << "" << std::left << std::endl;
             Logger::error << "Неверное название файла >> " << exception << std::endl;
         }
-        catch(const std::exception &ex)
-        {
-            Logger::error << "Ошибка >> " << ex.what() << std::endl;
-        }
-        catch(...)
-        {
-            Logger::error << "Неизвестная ошибка!" << std::endl;
-        }
     }
-    Logger::info << " ------- Конец считывания всех данных сотрудников ------- " << std::endl;
+    Logger::info << "------- Конец считывания всех данных сотрудников -------" << std::endl;
+    Logger::info << std::endl;
     
     if (tradingCompanyObjects_.empty())
     {
-        Logger::warning << "!!!!!!!!!! Пустая база данных !!!!!!!!!!" << std::endl;
+        Logger::warning << "$$$$$$$$$$$$$ Пустая база данных $$$$$$$$$$$$$" << std::endl;
         Logger::info << "Выход из программы" << std::endl;
         std::cout << "Вы вышли из программы" << std::endl;
         exit(0);
     }
-
     sort();
 }
 
@@ -243,10 +218,10 @@ void Data::inputPassword()
 {
     std::cout << "Введите почту или логин и пароль от почты или закончите выполнение программы, введя ESC или ВЫХОД: " << std::endl;
     bool isLoginFound = false;
-    std::string login;
     try
     {
         std::cout << "Логин или почта: ";
+        std::string login;
         std::cin >> login;
         for (const auto &object: tradingCompanyObjects_)
         {
@@ -259,7 +234,7 @@ void Data::inputPassword()
                 break;
             }
         }
-        if(utils::toLower(login) == "esc" || utils::toLower(login) == "выход")
+        if (utils::toLower(login) == "esc" || utils::toLower(login) == "выход")
         {
             Logger::info << "Выход из программы" << std::endl;
             std::cout << "Вы вышли из программы" << std::endl;
@@ -269,7 +244,8 @@ void Data::inputPassword()
         std::cout << "Пароль: ";
         std::string password;
         std::cin >> password;
-        Logger::info << std::setfill('.') << std::setw(57) << "" << std::left << std::endl;
+        std::cout << std::endl;
+        Logger::info << std::setfill('.') << std::setw(56) << "" << std::left << std::endl;
         for (auto object: tradingCompanyObjects_)
         {
             if (isLoginFound && password == object->password_)
@@ -282,7 +258,7 @@ void Data::inputPassword()
                 inputPassword();
             }
         }
-        if(utils::toLower(password) == "esc" || utils::toLower(password) == "выход")
+        if (utils::toLower(password) == "esc" || utils::toLower(password) == "выход")
         {
             Logger::info << "Выход из программы" << std::endl;
             std::cout << "Вы вышли из программы" << std::endl;
@@ -295,22 +271,10 @@ void Data::inputPassword()
     }
     catch (const std::string &exception)
     {
-        Logger::info << " ---------- Попытка войти в аккаунт ---------- " << std::endl;
+        Logger::info << "---------- Попытка войти в аккаунт ----------" << std::endl;
         Logger::error << "Введен >> " << exception << " - неверный логин или пароль!" << std::endl;
-        std::cerr << "Вы ввели >> " << exception
-                  << " - неверный логин или пароль! Попробуйте ввести заново: " << std::endl;
+        std::cerr << "Вы ввели >> " << exception << " - неверный логин или пароль!" << std::endl;
         inputPassword();
-    }
-    catch(const std::exception &ex)
-    {
-        Logger::error << "Ошибка >> " << ex.what() << std::endl;
-        std::cerr << "Ошибка >> " << ex.what() << std::endl;
-    }
-    catch(...)
-    {
-        Logger::error << "Неизвестная ошибка!" << std::endl;
-        std::cerr << "Неизвестная ошибка!" << std::endl;
-        exit(0);
     }
 }
 
@@ -359,7 +323,9 @@ template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
     }
 }
 
-template<class Class> Data::Parameter<Class> Data::selectParameter(const Field &field, Class *object, const std::string &message)
+template<class Class> Data::Parameter<Class> Data::selectParameter(const Field &field,
+                                                                   Class *object,
+                                                                   const std::string &message)
 {
     try
     {
@@ -398,17 +364,17 @@ template<class Class> Data::Parameter<Class> Data::selectParameter(const Field &
             case FIELD_PASSPORT :
                 return {std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
                         std::bind(&TradingCompany::checkPassport, object, message),
-                        std::bind(&TradingCompany::changeStatusPassport, object, true), object, true};
+                        std::bind(&TradingCompany::changeStatusPassport, object, false), object, true};
 
             case FIELD_PHONE :
                 return {std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
                         std::bind(&TradingCompany::checkPhone, object, message),
-                        std::bind(&TradingCompany::changeStatusPhone, object, true), object, true};
+                        std::bind(&TradingCompany::changeStatusPhone, object, false), object, true};
 
             case FIELD_EMAIL :
                 return {std::function<std::string(TradingCompany&)>{&TradingCompany::getEmail},
                         std::bind(&TradingCompany::checkEmail, object, message),
-                        std::bind(&TradingCompany::changeStatusEmail, object, true), object, true};
+                        std::bind(&TradingCompany::changeStatusEmail, object, false), object, true};
 
             case FIELD_DATE_OF_HIRING :
                 return {std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
@@ -428,7 +394,7 @@ template<class Class> Data::Parameter<Class> Data::selectParameter(const Field &
             case FIELD_PASSWORD :
                 return {std::function<std::string(TradingCompany&)>{&TradingCompany::getPassword},
                         std::bind(&TradingCompany::checkPassword, object, message),
-                        std::bind(&TradingCompany::changeStatusPassword, object), object, true};
+                        std::bind(&TradingCompany::changeStatusPassword, object), object};
             default:
                 throw field;
         }
@@ -436,18 +402,12 @@ template<class Class> Data::Parameter<Class> Data::selectParameter(const Field &
     catch (const std::string &exception)
     {
         Logger::error << "Невернное значение >> " << exception << std::endl;
+        std::cerr << "Невернное значение >> " << exception << std::endl;
     }
-    catch(const Field &field)
+    catch (const Field &field)
     {
         Logger::error << "Неверный параметр поля >> " + std::to_string(field) << std::endl;
-    }
-    catch(const std::exception &ex)
-    {
-        Logger::error << "Ошибка >> " << ex.what() << std::endl;
-    }
-    catch(...)
-    {
-        Logger::error << "Неизвестная ошибка!";
+        std::cerr << "Неверный параметр поля >> " + std::to_string(field) << std::endl;
     }
     return Parameter<Class>();
 }
@@ -468,13 +428,15 @@ template<class C> void Data::checkParameters(C *object, const bool isWarning)
 
 void Data::printPersonalData(TradingCompany *object)
 {
+    Logger::info << "***************** Вывод личных данных ******************" << std::endl;
+    std::cout << std::endl;
+    std::cout << "***************** Вывод личных данных ******************" << std::endl;
     std::cout << *object << std::endl;
 }
 
 void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
 {
     bool isDirector = false;
-    std::string input;
     std::string message;
     if (typeid(*object) == typeid(Director))
     {
@@ -483,19 +445,21 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
     
     if (otherObject && otherObject != object)
     {
-        message = "Измение данных сотрудника >> " + otherObject->position_ + " "
-                                                  + otherObject->surname_  + " "
-                                                  + otherObject->name_     + " "
-                                                  + otherObject->patronymic_;
+        message = "************** Измение данных сотрудника ***************\n>> " +
+                  otherObject->position_ + " " +
+                  otherObject->surname_  + " " +
+                  otherObject->name_     + " " +
+                  otherObject->patronymic_ + " <<";
     }
     else
     {
         otherObject = object;
-        message = "Изменение личных данных";
+        message = "*************** Изменение личных данных ****************";
     }
+    Logger::info << message << std::endl;
     while (true)
     {
-        std::cout << message << std::endl;
+        std::cout << std::endl << message << std::endl;
         if (isDirector)
         {
             std::cout << "Изменить должность - нажмите 1" << std::endl;
@@ -515,11 +479,12 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
             std::cout << "Изменить зарплату - нажмите 12" << std::endl;
         }
         std::cout << "Изменить пароль к доступу - нажмите 13" << std::endl;
-        std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.): " << std::endl;
-        std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД: " << std::endl;
+        std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.)" << std::endl;
+        std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД" << std::endl;
         std::cout << "Ввод: ";
         try
         {
+            std::string input;
             std::cin >> input;
             utils::tolower(input);
             if (isDirector && input == "1")
@@ -532,12 +497,12 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
                 if (input == "yes" || input == "да")
                 {
                     std::cout << "Выберите одну из предложенных должностей: " << std::endl;
-                    std::cout << "Ввод: ";
                     for (const auto &[key, value]: idPositions)
                     {
                         std::cout << key << " ";
                     }
                     std::cout << std::endl;
+                    std::cout << "Ввод: ";
                     std::string position;
                     std::cin >> position;
                     utils::toupperandtolower(position);
@@ -549,24 +514,14 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
                         newObject->setPosition(position);
                         std::for_each(newObject->fieldStatus_.begin(), newObject->fieldStatus_.end(),
                                       [&newObject](auto &field){ newObject->fieldStatus_[field.first] = ST_OK; });
-                        pushBack(*newObject);
                         deleteObject(otherObject);
-                        otherObject = newObject;
-                        Logger::info << "Должность сотрудника " + otherObject->surname_ + " " +
-                                                                  otherObject->name_ + " " +
-                                                                  otherObject->patronymic_ + " успешно изменена с " +
-                                                                  otherObject->position_ + " на " +
-                                                                  newObject->position_ << std::endl;
-                        std::cout << "Должность сотрудника " + otherObject->surname_ + " " +
-                                                               otherObject->name_ + " " +
-                                                               otherObject->patronymic_ + " успешно изменена с " +
-                                                               otherObject->position_ + " на " +
-                                                               newObject->position_ << std::endl;
+                        pushBack(*newObject);
                         if (object == otherObject)
                         {
                             LOGOUT(object);
                             inputPassword();
                         }
+                        Logger::info << message << std::endl;
                     }
                     else
                     {
@@ -682,105 +637,189 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
         catch (const std::string &exception)
         {
             Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
-            std::cerr << "Вы ввели >> " << exception
-                      << " - неверная команда! Попробуйте ввести заново: " << std::endl;
-            continue;
-        }
-        catch(const std::exception &ex)
-        {
-            Logger::error << "Ошибка >> " << ex.what() << std::endl;
-            std::cerr << "Ошибка >> " << ex.what() << std::endl;
-        }
-        catch(...)
-        {
-            Logger::error << "Неизвестная ошибка!" << std::endl;
-            std::cerr << "Неизвестная ошибка!" << std::endl;
-            exit(0);
+            std::cerr << "Вы ввели >> " << exception << " - неверная команда!" << std::endl;
         }
     }
 }
 
-TradingCompany *Data::findParameter(std::string &parameter)
+TradingCompany *Data::find(TradingCompany *object)
 {
-    if (parameter.empty())
+    Logger::info << "************************ Поиск *************************" << std::endl;
+    while (true)
     {
-        std::cout << "Введена пустая строка" << std::endl;
-        return nullptr;
-    }
-    std::vector<std::shared_ptr<TradingCompany>> foundObjects;
-    for (const auto &object: tradingCompanyObjects_)
-    {
-        std::vector<std::pair<std::string, bool>> parameters = {
-            { std::to_string(object->id_), false },
-            { object->position_, true },
-            { object->surname_, true },
-            { object->name_, true },
-            { object->patronymic_, true },
-            { object->sex_, true },
-            { object->dateOfBirth_, false },
-            { std::to_string(object->passport_), false },
-            { std::to_string(object->phone_), false },
-            { object->email_, false },
-            { object->dateOfHiring_, false },
-            { object->workingHours_, false },
-            { std::to_string(object->salary_), false },
-            { object->password_, false }
-        };
-        for (const auto &[param, isUpperAndToLower]: parameters)
-        {
-            parameter = isUpperAndToLower ? utils::toUpperAndToLower(parameter) : parameter;
-            std::size_t found = param.find(parameter);
-            if (found != std::string::npos)
-            {
-                foundObjects.push_back(object);
-                break;
-            }
-        }
-    }
-    if (foundObjects.size() == 1)
-    {
-        return foundObjects.at(0).get();
-    }
-    else if (foundObjects.size() > 1)
-    {
-        std::cout << "Найденные объекты: " << std::endl;
-        for (const auto &object: foundObjects)
-        {
-            std::cout << *object << std::endl;
-        }
-        std::cout << "Введите id конкретного сотрудника из предложенных" << std::endl;
+        std::cout << std::endl;
+        std::cout << "************************ Поиск *************************" << std::endl;
+        std::cout << "Найдите сотрудника по одному из предложенных параметров (или его части): " << std::endl;
+        std::cout << "ID (например, 100), позиция (например, Директор), фамилия (например, Агальцев), "
+                  << "имя (например, Стас), отчество (например, Сергеевич), пол (например, Муж), "
+                  << "дата рождения (например, 16.12.1995), паспорт (например, 4516561974), "
+                  << "телефон (например, 9032697963), почта (например, surname.name.patronymic@tradingcompany.ru) "
+                  << "дата принятия на работу (например, 16.04.2018), время работы (например, Понедельник-Пятница=09:00-18:00) "
+                  << "зарплата (в рублях), пароль" << std::endl;
+        std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.)" << std::endl;
+        std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД" << std::endl;
         std::cout << "Ввод: ";
-        std::string input;
-        std::cin >> input;
-        for (const auto &object: foundObjects)
+        try
         {
-            if (input == std::to_string(object->id_))
+            std::string input;
+            std::cin >> input;
+            std::string parameter = input;
+            utils::tolower(input);
+            if (input == "b" || input == "н")
             {
-                return object.get();
+                return nullptr;
+            }
+            else if (input == "esc" || input == "выход")
+            {
+                EXIT(object);
+            }
+            else
+            {
+                std::vector<std::shared_ptr<TradingCompany>> foundObjects;
+                for (const auto &object: tradingCompanyObjects_)
+                {
+                    std::vector<std::pair<std::string, bool>> parameters = {
+                        { std::to_string(object->id_), false },
+                        { object->position_, true },
+                        { object->surname_, true },
+                        { object->name_, true },
+                        { object->patronymic_, true },
+                        { object->sex_, true },
+                        { object->dateOfBirth_, false },
+                        { std::to_string(object->passport_), false },
+                        { std::to_string(object->phone_), false },
+                        { object->email_, false },
+                        { object->dateOfHiring_, false },
+                        { object->workingHours_, false },
+                        { std::to_string(object->salary_), false },
+                        { object->password_, false }
+                    };
+                    for (const auto &[param, isUpperAndToLower]: parameters)
+                    {
+                        parameter = isUpperAndToLower ? utils::toUpperAndToLower(parameter) : parameter;
+                        std::size_t found = param.find(parameter);
+                        std::string lol = param;
+                        if (found != std::string::npos)
+                        {
+                            foundObjects.push_back(object);
+                            break;
+                        }
+                    }
+                }
+                if (foundObjects.size() == 1)
+                {
+                    std::cout << "Найденный сотрудник: " << std::endl;
+                    std::cout << *foundObjects.at(0) << std::endl;
+                    return foundObjects.at(0).get();
+                }
+                else if (foundObjects.size() > 1)
+                {
+                    std::cout << "Найденные сотрудники: " << std::endl;
+                    for (const auto &object: foundObjects)
+                    {
+                        std::cout << *object << std::endl;
+                    }
+                    std::cout << "Введите id конкретного сотрудника из предложенных" << std::endl;
+                    std::cout << "Ввод: ";
+                    std::string input;
+                    std::cin >> input;
+                    for (const auto &object: foundObjects)
+                    {
+                        if (input == std::to_string(object->id_))
+                        {
+                            std::cout << "Найденный сотрудник: " << std::endl;
+                            std::cout << *object << std::endl;
+                            return object.get();
+                        }
+                    }
+                    throw ("Вы ввели неверный id сотрудника!");
+                }
+                else
+                {
+                    throw parameter;
+                }
             }
         }
-        std::cout << "Вы ввелите неверный id сотрудника!" << std::endl;
+        catch (const char *exception)
+        {
+            Logger::info << exception << std::endl;
+            std::cerr << exception << std::endl;
+        }
+        catch (const std::string &exception)
+        {
+            Logger::error << "По запросу << " << exception << " >> ничего не найдено!" << std::endl;
+            std::cerr << "По запросу << " << exception << " >> ничего не найдено!" << std::endl;
+        }
     }
     return nullptr;
 }
+
 void Data::changeOtherData(TradingCompany *object)
 {
-    std::cout << "Найдите сотрудника по одному из предложенных параметров (или его части): " << std::endl;
-    std::cout << "ID (например, 100), позиция (например, Директор), фамилия (например, Агальцев), "
-              << "имя (например, Стас), отчество (например, Сергеевич), пол (например, Муж), "
-              << "дата рождения (например, 16.12.1995), паспорт (например, 4516561974), "
-              << "телефон (например, 9032697963), почта (например, surname.name.patronymic@tradingcompany.ru) "
-              << "дата принятия на работу (например, 16.04.2018), время работы (например, Понедельник-Пятница=09:00-18:00) "
-              << "зарплата (в рублях), пароль" << std::endl;
-    std::cout << "Ввод: ";
-    std::string input;
-    std::cin >> input;
-    auto foundObject = findParameter(input);
-    foundObject ? changeData(object, foundObject) : changeOtherData(object);
+    auto foundObject = find(object);
+    if (foundObject == nullptr)
+    {
+        return;
+    }
+    changeData(object, foundObject);
+}
+
+void Data::deleteEmployeeData(TradingCompany *object)
+{
+    while (true)
+    {
+        try
+        {
+            auto foundObject = find(object);
+            if (foundObject == nullptr)
+            {
+                return;
+            }
+            object == foundObject ? std::cout << "Вы действительно хотите удалить свой аккаунт?" << std::endl :
+            std::cout << "Вы действительно хотите удалить сотрудника << " + foundObject->position_ +   " " +
+                                                                            foundObject->surname_ +    " " +
+                                                                            foundObject->name_ +       " " +
+                                                                            foundObject->patronymic_ + " >> ?" << std::endl;
+            std::cout << "Введите yes или да - для продолжения, no или нет - для отмены" << std::endl;
+            std::cout << "Ввод: ";
+            std::string input;
+            std::cin >> input;
+            utils::tolower(input);
+            if (input == "yes" || input == "да")
+            {
+                deleteObject(foundObject);
+                if (object == foundObject)
+                {
+                    LOGOUT(object);
+                    inputPassword();
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (input == "no" || input == "нет")
+            {
+                continue;
+            }
+            else
+            {
+                throw input;
+            }
+        }
+        catch (const std::string &exception)
+        {
+            Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
+            std::cerr << "Вы ввели >> " << exception << " - неверная команда!" << std::endl;
+        }
+    }
 }
 
 void Data::getAllOtherData() const
 {
+    Logger::info << "************ Вывод данных всех сотрудников *************" << std::endl;
+    std::cout << std::endl;
+    std::cout << "************ Вывод данных всех сотрудников *************" << std::endl;
     for (const auto &object: tradingCompanyObjects_)
     {
         std::cout << *object << std::endl;
@@ -789,10 +828,12 @@ void Data::getAllOtherData() const
 
 template<class C> void Data::pushBack(C &object)
 {
+    Logger::info << "************* Добавление нового сотрудника *************" << std::endl;
+    std::cout << std::endl;
+    std::cout << "************* Добавление нового сотрудника *************" << std::endl;
     std::string position = object.position_;
     uint maxId = idPositions.find(position)->second - 1;
     std::vector<std::shared_ptr<TradingCompany>>::iterator it;
-    
     for (it = begin(tradingCompanyObjects_); it != end(tradingCompanyObjects_); ++it)
     {
         if ((typeid(*it->get()) == typeid(object)) && (*it)->id_ > maxId)
@@ -803,11 +844,21 @@ template<class C> void Data::pushBack(C &object)
     std::string maxIdString = std::to_string(++maxId);
     object.setId(maxIdString);
     tradingCompanyObjects_.insert(it, std::shared_ptr<TradingCompany>(&object));
-    sort();
+    Logger::info << "Сотрудник << " + object.position_ +   " " +
+                                      object.surname_ +    " " +
+                                      object.name_ +       " " +
+                                      object.patronymic_ + " >> успешно добавлен!" << std::endl;
+    std::cout << "Сотрудник << " + object.position_ +   " " +
+                                   object.surname_ +    " " +
+                                   object.name_ +       " " +
+                                   object.patronymic_ + " >> успешно добавлен!" << std::endl;
 }
 
 template<class C> void Data::deleteObject(C *object)
 {
+    Logger::info << "*********************** Удаление ***********************" << std::endl;
+    std::cout << std::endl;
+    std::cout << "*********************** Удаление ***********************" << std::endl;
     uint deletedId = object->id_;
     std::string typeObject = typeid(*object).name();
     for (size_t i = 0; i < tradingCompanyObjects_.size(); ++i)
@@ -815,14 +866,14 @@ template<class C> void Data::deleteObject(C *object)
         if (tradingCompanyObjects_[i].get() == object)
         {
             tradingCompanyObjects_.erase(tradingCompanyObjects_.begin() + i);
-            Logger::info << "Cотрудник " + object->position_ + " " +
-                                           object->surname_ + " " +
-                                           object->name_ + " " +
-                                           object->patronymic_ + " успешно удален!" << std::endl;
-            std::cout << "Cотрудник " + object->position_ + " " +
-                                        object->surname_ + " " +
-                                        object->name_ + " " +
-                                        object->patronymic_ + " успешно удален!" << std::endl;
+            Logger::info << "Cотрудник << " + object->position_ +   " " +
+                                              object->surname_ +    " " +
+                                              object->name_ +       " " +
+                                              object->patronymic_ + " >> успешно удален!" << std::endl;
+            std::cout << "Cотрудник << " + object->position_ +   " " +
+                                           object->surname_ +    " " +
+                                           object->name_ +       " " +
+                                           object->patronymic_ + " >> успешно удален!" << std::endl;
             
             for (const auto &element: tradingCompanyObjects_)
             {
@@ -840,123 +891,109 @@ template<class C> void Data::deleteObject(C *object)
 
 void Data::newEmployeeData(const TradingCompany *object)
 {
-    std::cout << "Выберите одну из предложенных должности: " << std::endl;
-    for (const auto &[key, value]: idPositions)
+    Logger::info << "************* Добавление данных сотрудника *************" << std::endl;
+    while (true)
     {
-        std::cout << key << " ";
-    }
-    std::cout << std::endl;
-    std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.): " << std::endl;
-    std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД: " << std::endl;
-    std::cout << "Введите должность сотрудника: " << std::endl;
-    std::string input;
-    try
-    {
-        std::cin >> input;
-        auto found = idPositions.find(input);
-        if (found != idPositions.end())
+        std::cout << std::endl;
+        std::cout << "************* Добавление данных сотрудника *************" << std::endl;
+        std::cout << "Выберите одну из предложенных должности: " << std::endl;
+        for (const auto &[key, value]: idPositions)
         {
-            utils::toupperandtolower(input);
-            auto object = objectFactory_.get(input)();
-            pushBack(*object);
-            Logger::info << "Добавление нового сотрудника с должностью >> " << input << std::endl; 
-            std::cout << "Добавление нового сотрудника с должностью >> " << input << std::endl;
-            checkParameters(object);
-            pushBack(*object);
-            Logger::info << "Сотрудник " + object->surname_ + " " +
-                                           object->name_ + " " +
-                                           object->patronymic_ + " успешно добавлен" << std::endl;
-            std::cout << "Сотрудник " + object->surname_ + " " +
-                                        object->name_ + " " +
-                                        object->patronymic_ + " успешно добавлен" << std::endl;
+            std::cout << key << " ";
         }
-        else if(utils::toLower(input) == "b" || utils::toLower(input) == "н")
+        std::cout << std::endl;
+        std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.)" << std::endl;
+        std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД" << std::endl;
+        std::cout << "Ввод: ";
+        try
         {
-            return;
+            std::string input;
+            std::cin >> input;
+            utils::tolower(input);
+            if (input == "b" || input == "н")
+            {
+                return;
+            }
+            else if (input == "esc" || input == "выход")
+            {
+                EXIT(object);
+            }
+            else
+            {
+                auto found = idPositions.find(utils::toUpperAndToLower(input));
+                if (found != idPositions.end())
+                {
+                    std::string position = found->first;
+                    auto object = objectFactory_.get(position)();
+                    object->position_ = position;
+                    object->fieldStatus_[FIELD_POSITION] = ST_OK;
+                    checkParameters(object);
+                    pushBack(*object);
+                }
+                else
+                {
+                    throw input;
+                }
+            }
         }
-        else if(utils::toLower(input) == "esc" || utils::toLower(input) == "выход")
+        catch (const std::string &exception)
         {
-            EXIT(object);
+            Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
+            std::cerr << "Вы ввели >> " << exception << " - неверная команда!" << std::endl;
         }
-        else
-        {
-            throw input;
-        }
-    }
-    catch (const std::string &exception)
-    {
-        Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
-        std::cerr << "Вы ввели >> " << exception
-                  << " - неверная команда! Попробуйте ввести заново: " << std::endl;
-        newEmployeeData(object);
-    }
-    catch(const std::exception &ex)
-    {
-        Logger::error << "Ошибка >> " << ex.what() << std::endl;
-        std::cerr << "Ошибка >> " << ex.what() << std::endl;
-    }
-    catch(...)
-    {
-        Logger::error << "Неизвестная ошибка!" << std::endl;
-        std::cerr << "Неизвестная ошибка!" << std::endl;
-        exit(0);
     }
 }
 
 void Data::setModeOutputData(const TradingCompany *object)
 {
-    std::cout << "Хотите изменить режим вывода данных?" << std::endl;
-    std::cout << "Режимы: 1 - TXT, 2 - XML ";
-    mode_ == TXT ? std::cout << "(по умолчанию TXT)" : std::cout << "(по умолчанию XML)";
-    std::cout << std::endl;
-    std::cout << "Хотите вернуться назад? - введите B: " << std::endl;
-    std::cout << "Хотите выйти из программы? - введите ESC: " << std::endl;
-    std::cout << "Ввод: ";
-    try
+    Logger::info << "************ Изменение режима данных вывода ************" << std::endl;
+    while (true)
     {
-        std::string input;
-        std::cin >> input;
-        switch (utils::str(input.c_str()))
+        std::cout << std::endl;
+        std::cout << "************ Изменение режима данных вывода ************" << std::endl;
+        mode_ == TXT ? std::cout << "По умолчанию режим - TXT" : std::cout << "По умолчанию режим - XML";
+        std::cout << std::endl;
+        std::cout << "Изменить на TXT - нажмите 1" << std::endl;
+        std::cout << "Изменить на XML - нажмите 2" << std::endl;
+        std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.)" << std::endl;
+        std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД" << std::endl;
+        std::cout << "Ввод: ";
+        try
         {
-            case utils::str("1") :
-                mode_ = TXT;
-                Logger::info << "Установлен режим вывода данных >> TXT" << std::endl;
-                std::cout << "Установлен режим вывода данных >> TXT" << std::endl;
-                break;
+            std::string input;
+            std::cin >> input;
+            utils::tolower(input);
+            switch (utils::str(input.c_str()))
+            {
+                case utils::str("1") :
+                    mode_ = TXT;
+                    Logger::info << "Установлен режим вывода данных >> TXT" << std::endl;
+                    std::cout << "Установлен режим вывода данных >> TXT" << std::endl;
+                    return;
 
-            case utils::str("2") :
-                mode_ = XML;
-                Logger::info << "Установлен режим вывода данных >> XML" << std::endl;
-                std::cout << "Установлен режим вывода данных >> XML" << std::endl;
-                break;
+                case utils::str("2") :
+                    mode_ = XML;
+                    Logger::info << "Установлен режим вывода данных >> XML" << std::endl;
+                    std::cout << "Установлен режим вывода данных >> XML" << std::endl;
+                    return;
 
-            case utils::str("b") :
-                return;
+                case utils::str("b") :
+                case utils::str("н") :
+                    return;
 
-            case utils::str("esc") :
-                EXIT(object);
+                case utils::str("esc") :
+                case utils::str("выход") :
+                    EXIT(object);
 
-            default:
-                throw input;
+                default:
+                    throw input;
+            }
         }
-    }
-    catch (const std::string &exception)
-    {
-        Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
-        std::cerr << "Вы ввели >> " << exception
-                  << " - неверная команда! Попробуйте ввести заново: " << std::endl;
-        setModeOutputData(object);
-    }
-    catch(const std::exception &ex)
-    {
-        Logger::error << "Ошибка >> " << ex.what() << std::endl;
-        std::cerr << "Ошибка >> " << ex.what() << std::endl;
-    }
-    catch(...)
-    {
-        Logger::error << "Неизвестная ошибка!" << std::endl;
-        std::cerr << "Неизвестная ошибка!" << std::endl;
-        std::exit(0);
+        catch (const std::string &exception)
+        {
+            Logger::error << "Введена >> " << exception << " - неверная команда!" << std::endl;
+            std::cerr << "Вы ввели >> " << exception << " - неверная команда!" << std::endl;
+        }
     }
 }
 
@@ -1046,17 +1083,9 @@ Data::~Data()
                 throw mode_;
         }
     }
-    catch(const Mode &mode)
+    catch (const Mode &mode)
     {
         Logger::error << "Неверный режим вывода >> " + std::to_string(mode) << std::endl;
-    }
-    
-    catch(const std::exception &ex)
-    {
-        Logger::error << "Ошибка >> " << ex.what() << std::endl;
-    }
-    catch(...)
-    {
-        Logger::error << "Неизвестная ошибка!" << std::endl;
+        std::cerr << "Неверный режим вывода >> " + std::to_string(mode) << std::endl;
     }
 }
