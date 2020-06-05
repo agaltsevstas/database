@@ -13,7 +13,8 @@
 enum Mode
 {
     TXT = 1,
-    XML
+    XML,
+    ALL
 };
 
 const std::map<std::string, uint> idPositions =

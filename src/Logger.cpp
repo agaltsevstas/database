@@ -3,6 +3,15 @@
 #include "Logger.h"
 #include "TradingCompany.h"
 
+Logger* Logger::logger_ = nullptr;
+Logger::DebugLevel Logger::debugLevel_ = Logger::DebugLevel::DEBUG_LEVEL_DISABLED;
+std::ofstream Logger::logFile_;
+std::string Logger::infoBuffer_;
+std::string Logger::warningBuffer_;
+std::string Logger::errorBuffer_;
+std::string Logger::allMessagesBuffer_;
+std::mutex mutex;
+
 /// creates logger that will write to log.txt
 void Logger::createInstance()
 {
@@ -108,9 +117,8 @@ void Logger::writeToBuffer(const std::string &message, MessageType messageType)
 /// Add message directly to the end of a file
 void Logger::writeToFile(const std::string &message)
 {
-    mutex_.lock();
+    std::lock_guard<std::mutex> guard(mutex);
     logFile_ << message << std::flush;
-    mutex_.unlock();
 }
 
 void Logger::printInfo()
@@ -262,12 +270,4 @@ int Logger::Streamer::StringBuffer::sync()
     }
     return 0;
 };
-
-Logger* Logger::logger_ = nullptr;
-Logger::DebugLevel Logger::debugLevel_ = Logger::DebugLevel::DEBUG_LEVEL_DISABLED;
-std::ofstream Logger::logFile_;
-std::string Logger::infoBuffer_;
-std::string Logger::warningBuffer_;
-std::string Logger::errorBuffer_;
-std::string Logger::allMessagesBuffer_;
 

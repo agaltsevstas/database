@@ -2,45 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../data/&#x411;&#x443;&#x445;&#x433;&#x430;&#x43b;&#x442;&#x435;&#x440;.txt">
-   </FileRef>
-   <FileRef
-      location = "group:../data/&#x412;&#x43e;&#x434;&#x438;&#x442;&#x435;&#x43b;&#x44c;.txt">
-   </FileRef>
-   <FileRef
-      location = "group:../data/&#x413;&#x43b;&#x430;&#x432;&#x43d;&#x44b;&#x438;&#x306;_&#x431;&#x443;&#x445;&#x433;&#x430;&#x43b;&#x442;&#x435;&#x440;.txt">
-   </FileRef>
-   <FileRef
-      location = "group:../data/&#x413;&#x43b;&#x430;&#x432;&#x43d;&#x44b;&#x438;&#x306;_&#x44e;&#x440;&#x438;&#x441;&#x442;-&#x43a;&#x43e;&#x43d;&#x441;&#x443;&#x43b;&#x44c;&#x442;&#x430;&#x43d;&#x442;.txt">
-   </FileRef>
-   <FileRef
-      location = "group:../data/&#x414;&#x438;&#x440;&#x435;&#x43a;&#x442;&#x43e;&#x440;.txt">
-   </FileRef>
-   <FileRef
-      location = "group:../data/&#x41a;&#x430;&#x441;&#x441;&#x438;&#x440;.txt">
-   </FileRef>
-   <FileRef
-      location = "group:../data/&#x41b;&#x43e;&#x433;&#x438;&#x441;&#x442;.txt">
-   </FileRef>
-   <FileRef
-      location = "group:../data/&#x41c;&#x435;&#x43d;&#x435;&#x434;&#x436;&#x435;&#x440;_&#x43f;&#x43e;_&#x437;&#x430;&#x43a;&#x443;&#x43f;&#x43a;&#x430;&#x43c;.txt">
-   </FileRef>
-   <FileRef
-      location = "group:../data/&#x41c;&#x435;&#x43d;&#x435;&#x434;&#x436;&#x435;&#x440;_&#x43f;&#x43e;_&#x43f;&#x435;&#x440;&#x441;&#x43e;&#x43d;&#x430;&#x43b;&#x443;.txt">
-   </FileRef>
-   <FileRef
-      location = "group:../data/&#x41c;&#x435;&#x43d;&#x435;&#x434;&#x436;&#x435;&#x440;_&#x43f;&#x43e;_&#x43f;&#x440;&#x43e;&#x434;&#x430;&#x436;&#x430;&#x43c;.txt">
-   </FileRef>
-   <FileRef
-      location = "group:../data/&#x41d;&#x430;&#x447;&#x430;&#x43b;&#x44c;&#x43d;&#x438;&#x43a;_&#x43e;&#x442;&#x434;&#x435;&#x43b;&#x430;_&#x437;&#x430;&#x43a;&#x443;&#x43f;&#x43e;&#x43a;.txt">
-   </FileRef>
-   <FileRef
-      location = "group:../data/&#x41d;&#x430;&#x447;&#x430;&#x43b;&#x44c;&#x43d;&#x438;&#x43a;_&#x441;&#x43a;&#x43b;&#x430;&#x434;&#x430;.txt">
-   </FileRef>
-   <FileRef
-      location = "group:../data/&#x42e;&#x440;&#x438;&#x441;&#x442;.txt">
-   </FileRef>
-   <FileRef
       location = "self:database.xcodeproj">
    </FileRef>
 </Workspace>

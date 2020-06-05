@@ -74,7 +74,6 @@ private:
     static std::string errorBuffer_;
     static std::string allMessagesBuffer_;
     std::thread thread_;
-    std::mutex mutex_;
     
     static DebugLevel debugLevel_;
     static Logger* logger_;

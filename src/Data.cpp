@@ -16,6 +16,8 @@
 #include "Utils.h"
 #include "tinyxml2.h"
 
+#include <chrono>
+
 Data &Data::instance()
 {
     static Data data;
@@ -951,10 +953,13 @@ void Data::setModeOutputData(const TradingCompany *object)
     {
         std::cout << std::endl;
         std::cout << "************ Изменение режима данных вывода ************" << std::endl;
-        mode_ == TXT ? std::cout << "По умолчанию режим - TXT" : std::cout << "По умолчанию режим - XML";
+        mode_ == TXT ? std::cout << "По умолчанию режим - TXT" :
+        mode_ == XML ? std::cout << "По умолчанию режим - XML" :
+                       std::cout << "По умолчанию режим - ALL";
         std::cout << std::endl;
         std::cout << "Изменить на TXT - нажмите 1" << std::endl;
         std::cout << "Изменить на XML - нажмите 2" << std::endl;
+        std::cout << "Изменить на ALL (использование всех режимов: TXT, XML) - нажмите 3" << std::endl;
         std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.)" << std::endl;
         std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД" << std::endl;
         std::cout << "Ввод: ";
@@ -975,6 +980,12 @@ void Data::setModeOutputData(const TradingCompany *object)
                     mode_ = XML;
                     Logger::info << "Установлен режим вывода данных >> XML" << std::endl;
                     std::cout << "Установлен режим вывода данных >> XML" << std::endl;
+                    return;
+                    
+                case utils::str("3") :
+                    mode_ = ALL;
+                    Logger::info << "Установлен режим вывода данных >> ALL" << std::endl;
+                    std::cout << "Установлен режим вывода данных >> ALL" << std::endl;
                     return;
 
                 case utils::str("b") :
@@ -1075,10 +1086,24 @@ Data::~Data()
                 writeToTxtFile();
                 break;
                 
-            case XML:
+            case XML :
                 writeToXmlFile();
                 break;
-            
+                
+            case ALL :
+            {
+                std::thread threadTxt = std::thread([this]()
+                {
+                    this->writeToTxtFile();
+                });
+                std::thread threadXml = std::thread([this]()
+                {
+                    this->writeToXmlFile();
+                });
+                threadTxt.join();
+                threadXml.join();
+                break;
+            }
             default:
                 throw mode_;
         }
