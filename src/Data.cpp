@@ -16,8 +16,6 @@
 #include "Utils.h"
 #include "tinyxml2.h"
 
-#include <chrono>
-
 Data &Data::instance()
 {
     static Data data;
