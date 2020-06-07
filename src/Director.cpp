@@ -3,11 +3,6 @@
 
 Director::Director() : data_(&Data::instance()) {}
 
-Director::~Director()
-{
-//    delete data_;
-}
-
 const Director& Director::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

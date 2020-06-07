@@ -3,11 +3,6 @@
 
 Accountant::Accountant() : data_(&Data::instance()) {}
 
-Accountant::~Accountant()
-{
-//    delete data_;
-}
-
 const Accountant& Accountant::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

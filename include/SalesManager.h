@@ -9,7 +9,6 @@ class SalesManager : public TradingCompany
 {
 public:
     SalesManager();
-    ~SalesManager();
     const SalesManager& operator = (const TradingCompany &object);
     void functional() override;
     

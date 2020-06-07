@@ -3,11 +3,6 @@
 
 HeadOfProcurement::HeadOfProcurement() : data_(&Data::instance()) {}
 
-HeadOfProcurement::~HeadOfProcurement()
-{
-//    delete data_;
-}
-
 const HeadOfProcurement& HeadOfProcurement::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

@@ -9,7 +9,6 @@ class Director : public TradingCompany
 {
 public:
     Director();
-    ~Director();
     const Director& operator = (const TradingCompany &object);
     void addNewEmployeeData();
     void functional() override;

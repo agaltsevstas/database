@@ -114,10 +114,8 @@ private:
     };
 
 public:
-//    TradingCompany() {}
     virtual ~TradingCompany() {}
     virtual void functional() = 0;
-//    ~TradingCompany();
     std::string getPosition() const;
     std::string getSurname() const;
     std::string getName() const;

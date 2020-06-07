@@ -9,7 +9,6 @@ class ChiefLegalCounsel : public TradingCompany
 {
 public:
     ChiefLegalCounsel();
-    ~ChiefLegalCounsel();
     const ChiefLegalCounsel& operator = (const TradingCompany &object);
     void functional() override;
     

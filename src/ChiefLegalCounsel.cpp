@@ -3,11 +3,6 @@
 
 ChiefLegalCounsel::ChiefLegalCounsel() : data_(&Data::instance()) {}
 
-ChiefLegalCounsel::~ChiefLegalCounsel()
-{
-//    delete data_;
-}
-
 const ChiefLegalCounsel& ChiefLegalCounsel::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

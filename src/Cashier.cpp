@@ -3,11 +3,6 @@
 
 Cashier::Cashier() : data_(&Data::instance()) {}
 
-Cashier::~Cashier()
-{
-//    delete data_;
-}
-
 const Cashier& Cashier::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

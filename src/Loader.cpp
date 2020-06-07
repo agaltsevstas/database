@@ -3,11 +3,6 @@
 
 Loader::Loader() : data_(&Data::instance()) {}
 
-Loader::~Loader()
-{
-//    delete data_;
-}
-
 const Loader& Loader::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

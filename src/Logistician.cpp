@@ -3,11 +3,6 @@
 
 Logistician::Logistician() : data_(&Data::instance()) {}
 
-Logistician::~Logistician()
-{
-//    delete data_;
-}
-
 const Logistician& Logistician::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

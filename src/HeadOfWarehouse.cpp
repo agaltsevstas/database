@@ -3,11 +3,6 @@
 
 HeadOfWarehouse::HeadOfWarehouse() : data_(&Data::instance()) {}
 
-HeadOfWarehouse::~HeadOfWarehouse()
-{
-//    delete data_;
-}
-
 const HeadOfWarehouse& HeadOfWarehouse::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

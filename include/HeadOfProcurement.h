@@ -9,7 +9,6 @@ class HeadOfProcurement : public TradingCompany
 {
 public:
     HeadOfProcurement();
-    ~HeadOfProcurement();
     const HeadOfProcurement& operator = (const TradingCompany &object);
     void functional() override;
     

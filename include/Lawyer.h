@@ -9,9 +9,7 @@ class Lawyer : public TradingCompany
 {
 public:
     Lawyer();
-    ~Lawyer();
     const Lawyer& operator = (const TradingCompany &object);
-
     void functional() override;
     
 private:

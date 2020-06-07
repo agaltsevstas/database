@@ -3,11 +3,6 @@
 
 Lawyer::Lawyer() : data_(&Data::instance()) {}
 
-Lawyer::~Lawyer()
-{
-//    delete data_;
-}
-
 const Lawyer& Lawyer::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

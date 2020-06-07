@@ -3,11 +3,6 @@
 
 PurchasingManager::PurchasingManager() : data_(&Data::instance()) {}
 
-PurchasingManager::~PurchasingManager()
-{
-//    delete data_;
-}
-
 const PurchasingManager& PurchasingManager::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

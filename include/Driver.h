@@ -9,7 +9,6 @@ class Driver : public TradingCompany
 {
 public:
     Driver();
-    ~Driver();
     const Driver& operator = (const TradingCompany &object);
     void functional() override;
     

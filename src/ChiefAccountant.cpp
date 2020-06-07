@@ -3,11 +3,6 @@
 
 ChiefAccountant::ChiefAccountant() : data_(&Data::instance()) {}
 
-ChiefAccountant::~ChiefAccountant()
-{
-//    delete data_;
-}
-
 const ChiefAccountant& ChiefAccountant::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

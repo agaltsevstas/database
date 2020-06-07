@@ -9,7 +9,6 @@ class ChiefAccountant : public TradingCompany
 {
 public:
     ChiefAccountant();
-    ~ChiefAccountant();
     const ChiefAccountant& operator = (const TradingCompany &object);
     void functional() override;
     

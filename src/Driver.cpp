@@ -3,11 +3,6 @@
 
 Driver::Driver() : data_(&Data::instance()) {}
 
-Driver::~Driver()
-{
-//    delete data_;
-}
-
 const Driver& Driver::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

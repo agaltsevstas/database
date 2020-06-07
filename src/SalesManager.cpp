@@ -3,11 +3,6 @@
 
 SalesManager::SalesManager() : data_(&Data::instance()) {}
 
-SalesManager::~SalesManager()
-{
-//    delete data_;
-}
-
 const SalesManager& SalesManager::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);

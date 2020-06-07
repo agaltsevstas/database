@@ -3,11 +3,6 @@
 
 HRManager::HRManager() : data_(&Data::instance()) {}
 
-HRManager::~HRManager()
-{
-    //    delete data_;
-}
-
 const HRManager& HRManager::operator = (const TradingCompany &object)
 {
     TradingCompany::operator=(object);
