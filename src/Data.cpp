@@ -978,32 +978,32 @@ void Data::setModeOutputData(const TradingCompany *object)
             std::string input;
             std::cin >> input;
             utils::tolower(input);
-            switch (utils::str(input.c_str()))
+            switch (utils::hash(input.c_str()))
             {
-                case utils::str("1") :
+                case utils::hash("1") :
                     mode_ = TXT;
                     Logger::info << "Установлен режим вывода данных >> TXT" << std::endl;
                     std::cout << "Установлен режим вывода данных >> TXT" << std::endl;
                     return;
 
-                case utils::str("2") :
+                case utils::hash("2") :
                     mode_ = XML;
                     Logger::info << "Установлен режим вывода данных >> XML" << std::endl;
                     std::cout << "Установлен режим вывода данных >> XML" << std::endl;
                     return;
                     
-                case utils::str("3") :
+                case utils::hash("3") :
                     mode_ = ALL;
                     Logger::info << "Установлен режим вывода данных >> ALL" << std::endl;
                     std::cout << "Установлен режим вывода данных >> ALL" << std::endl;
                     return;
 
-                case utils::str("b") :
-                case utils::str("н") :
+                case utils::hash("b") :
+                case utils::hash("н") :
                     return;
 
-                case utils::str("esc") :
-                case utils::str("выход") :
+                case utils::hash("esc") :
+                case utils::hash("выход") :
                     EXIT(object);
 
                 default:

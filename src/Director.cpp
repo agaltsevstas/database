@@ -38,50 +38,50 @@ void Director::functional()
             std::string input;
             std::cin >> input;
             utils::tolower(input);
-            switch (utils::str(input.c_str()))
+            switch (utils::hash(input.c_str()))
             {
-                case utils::str("1") :
+                case utils::hash("1") :
                     data_->printPersonalData(this);
                     break;
                     
-                case utils::str("2") :
+                case utils::hash("2") :
                     data_->changeData(this);
                     break;
                     
-                case utils::str("3") :
+                case utils::hash("3") :
                     data_->getAllOtherData();
                     break;
                     
-                case utils::str("4") :
+                case utils::hash("4") :
                     data_->find(this);
                     break;
                     
-                case utils::str("5") :
+                case utils::hash("5") :
                     data_->changeOtherData(this);
                     break;
                     
-                case utils::str("6") :
+                case utils::hash("6") :
                     data_->newEmployeeData(this);
                     break;
                     
-                case utils::str("7") :
+                case utils::hash("7") :
                     data_->deleteEmployeeData(this);
                     break;
                     
-                case utils::str("8") :
+                case utils::hash("8") :
                     data_->setModeOutputData(this);
                     break;
                     
-                case utils::str("9") :
+                case utils::hash("9") :
                     Logger::printLog(this);
                     break;
                     
-                case utils::str("b") :
-                case utils::str("н") :
+                case utils::hash("b") :
+                case utils::hash("н") :
                     return;
 
-                case utils::str("esc") :
-                case utils::str("выход") :
+                case utils::hash("esc") :
+                case utils::hash("выход") :
                     EXIT(this);
 
                 default:

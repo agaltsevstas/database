@@ -97,9 +97,9 @@ namespace utils
      * @param source - Исходный текст
      * @return Готовый текст
      */
-    inline unsigned constexpr str(const char *source)
+    inline unsigned constexpr hash(const char *source)
     {
-        return *source ? static_cast<unsigned int>(*source) + 33 * str(source + 1) : 5381;
+        return *source ? static_cast<unsigned int>(*source) + 33 * hash(source + 1) : 5381;
     }
 
     /*!

@@ -183,34 +183,34 @@ void Logger::printLog(const TradingCompany *object)
         {
             std::string input;
             std::cin >> input;
-            switch (utils::str(input.c_str()))
+            switch (utils::hash(input.c_str()))
             {
-                case utils::str("1") :
+                case utils::hash("1") :
                     printInfo();
                     Logger::info << ">> Вывод всех информационных сообщений <<" << std::endl;
                     break;
 
-                case utils::str("2") :
+                case utils::hash("2") :
                     printWarning();
                     Logger::info << ">> Вывод всех предупреждений << " << std::endl;
                     break;
 
-                case utils::str("3") :
+                case utils::hash("3") :
                     printError();
                     Logger::info << ">> Вывод всех ошибок <<" << std::endl;
                     break;
 
-                case utils::str("4") :
+                case utils::hash("4") :
                     printAllMessages();
                     Logger::info << ">> Вывод всех сообщений <<" << std::endl;
                     break;
 
-                case utils::str("b") :
-                case utils::str("н") :
+                case utils::hash("b") :
+                case utils::hash("н") :
                     return;
 
-                case utils::str("esc") :
-                case utils::str("выход") :
+                case utils::hash("esc") :
+                case utils::hash("выход") :
                     EXIT(object);
 
                 default:

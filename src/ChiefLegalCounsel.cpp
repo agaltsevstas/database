@@ -26,22 +26,22 @@ void ChiefLegalCounsel::functional()
             std::string input;
             std::cin >> input;
             utils::tolower(input);
-            switch (utils::str(input.c_str()))
+            switch (utils::hash(input.c_str()))
             {
-                case utils::str("1") :
+                case utils::hash("1") :
                     data_->printPersonalData(this);
                     break;
                     
-                case utils::str("2") :
+                case utils::hash("2") :
                     data_->changeData(this);
                     break;
                     
-                case utils::str("b") :
-                case utils::str("н") :
+                case utils::hash("b") :
+                case utils::hash("н") :
                     return;
 
-                case utils::str("esc") :
-                case utils::str("выход") :
+                case utils::hash("esc") :
+                case utils::hash("выход") :
                     EXIT(this);
 
                 default:
