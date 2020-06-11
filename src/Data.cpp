@@ -18,15 +18,15 @@
 
 Data &Data::instance()
 {
-    static Data data;
+    static Data data; // Объект-одиночка
     return data;
 }
 
 template<typename T> void Data::readingTxtFile(const T &filePath, uint id)
 {
     std::string line;
-    const std::string fileName = filePath.filename().c_str();
-    const std::string name = filePath.stem().c_str();
+    const std::string fileName = filePath.filename().c_str(); // Получение имени с расширением
+    const std::string name = filePath.stem().c_str(); // Получение имени без расширения
     try
     {
         std::ifstream file(filePath.c_str());
@@ -39,21 +39,21 @@ template<typename T> void Data::readingTxtFile(const T &filePath, uint id)
             while (getline(file, line))
             {
                 Logger::info << "************* Считывание данных сотрудника *************" << std::endl;
-                auto object = objectFactory_.get(name)();
+                auto object = objectFactory_.get(name)(); // Получение определенного объекта из фабрики объектов
                 object->setId(std::to_string(id));
-                line >> *object;
-                auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
+                line >> *object; // Запись данных в поля объекта
+                auto result = find_if(vectorObjects_.begin(), vectorObjects_.end(),
                                       [&object](std::shared_ptr<TradingCompany> &tradingCompanyObject)
                                       {
                                           return *object == *tradingCompanyObject;
                                       });
-                if (result != tradingCompanyObjects_.end())
+                if (result != vectorObjects_.end())
                 {
                     Logger::warning << "[DELETION] Запись-дубликат" << std::endl;
                     delete object;
                     continue;
                 }
-                tradingCompanyObjects_.push_back(std::shared_ptr<TradingCompany>(object));
+                vectorObjects_.push_back(std::shared_ptr<TradingCompany>(object));
                 ++id;
             }
         }
@@ -64,56 +64,58 @@ template<typename T> void Data::readingTxtFile(const T &filePath, uint id)
     }
     catch (const std::string &exception)
     {
-        Logger::info << std::setfill('*') << std::setw(56) << "" << std::left << std::endl;
+        Logger::info << std::setfill('*') << std::setw(56) << "" << std::left << std::endl; // Ограничительная линия
         Logger::error << exception << std::endl;
     }
 }
 template<typename T> void Data::readingXmlFile(const T &filePath, uint id)
 {
     const char *tag = "tradingCompany";
-    const std::string fileName = filePath.filename().c_str();
-    const std::string name = filePath.stem().c_str();
+    const std::string fileName = filePath.filename().c_str(); // Получение имени с расширением
+    const std::string name = filePath.stem().c_str(); // Получение имени без расширения
     const char *className = utils::getClassName(*objectFactory_.get(name)()).c_str();
-    tinyxml2::XMLDocument doc;
+    tinyxml2::XMLDocument doc; // Инициализация документа
     try
     {
-        tinyxml2::XMLError eResult = doc.LoadFile(filePath.c_str());
+        tinyxml2::XMLError eResult = doc.LoadFile(filePath.c_str()); // Проверка на успешность загрузки файла в документ
 
         if (eResult == tinyxml2::XML_SUCCESS)
         {
-            tinyxml2::XMLNode *node = doc.FirstChildElement(tag); // корневой элемент xml документа
+            // Корневой узел с меткой, хранящий список дочерних элементов.
+            // Необходим для обхода элементов в документе
+            tinyxml2::XMLNode *node = doc.FirstChildElement(tag);
             if (node == nullptr)
             {
                 throw std::string("Неверный тег файла!");
             }
-            doc.InsertFirstChild(node);            
 
-            for (const auto *element = node->FirstChildElement(className); element != nullptr; element = element->NextSiblingElement()) // элемент найденного объекта
+            // Прохождение по списку элементов корневого узла
+            for (const auto *element = node->FirstChildElement(className); element != nullptr; element = element->NextSiblingElement())
             {
                 Logger::info << "************* Считывание данных сотрудника *************" << std::endl;
-                auto object = objectFactory_.get(name)();
+                auto object = objectFactory_.get(name)(); // Получение определенного объекта из фабрики объектов
                 object->setId(std::to_string(id));
-                for (const auto &[key, value]: object->setParameters_)
+                for (const auto &[parameter, setParameter]: object->setParameters_)
                 {
-                    if (value != nullptr)
+                    if (setParameter != nullptr)
                     {
                         std::string input;
-                        input = element->Attribute(key.c_str());
-                        value(*object, input);
+                        input = element->Attribute(parameter.c_str()); // Получение значения поля по параметру
+                        setParameter(*object, input); // Инициализация поля
                     }
                 }
-                auto result = find_if(tradingCompanyObjects_.begin(), tradingCompanyObjects_.end(),
+                auto result = find_if(vectorObjects_.begin(), vectorObjects_.end(),
                                       [&object](std::shared_ptr<TradingCompany> &tradingCompanyObject)
                                       {
                                           return *object == *tradingCompanyObject;
                                       });
-                if (result != tradingCompanyObjects_.end())
+                if (result != vectorObjects_.end())
                 {
                     Logger::warning << "[DELETION] Запись-дубликат" << std::endl;
                     delete object;
                     continue;
                 }
-                tradingCompanyObjects_.push_back(std::shared_ptr<TradingCompany>(object));
+                vectorObjects_.push_back(std::shared_ptr<TradingCompany>(object));
                 ++id;
             }
         }
@@ -124,14 +126,14 @@ template<typename T> void Data::readingXmlFile(const T &filePath, uint id)
     }
     catch (const std::string &exception)
     {
-        Logger::info << std::setfill('*') << std::setw(56) << "" << std::left << std::endl;
+        Logger::info << std::setfill('*') << std::setw(56) << "" << std::left << std::endl; // Ограничительная линия
         Logger::error << exception << std::endl;
     }
 }
 
 void Data::sort()
 {
-    stable_sort(std::begin(tradingCompanyObjects_), std::end(tradingCompanyObjects_), []
+    stable_sort(std::begin(vectorObjects_), std::end(vectorObjects_), []
                 (const auto &first, const auto &second)
     {
         return first->id_ < second->id_;
@@ -143,6 +145,7 @@ void Data::loadDatabase(const std::string &directoryPath)
     namespace bs = boost::filesystem;
     
     directoryPath_ = directoryPath;
+    // Добавление классов в фабрику объектов
     objectFactory_.add<Accountant>("Бухгалтер");
     objectFactory_.add<Driver>("Водитель");
     objectFactory_.add<ChiefAccountant>("Главный_бухгалтер");
@@ -163,16 +166,16 @@ void Data::loadDatabase(const std::string &directoryPath)
     {
         try
         {
-            const std::string fileName =  utils::toUpperAndToLower(filePath.filename().c_str());
-            const std::string name = filePath.stem().c_str();
-            const std::string extension = filePath.extension().c_str();
+            const std::string fileName = utils::toUpperAndToLower(filePath.filename().c_str()); // Получение имени с расширением
+            const std::string name = filePath.stem().c_str(); // Получение имени без расширения
+            const std::string extension = filePath.extension().c_str(); // Получение расширения
             auto found = idPositions.find(name);
             if (found != idPositions.end())
             {
                 uint id = found->second;
                 if (extension == ".txt" || extension == ".xml")
                 {
-                    Logger::info << std::setfill('*') << std::setw(56) << "" << std::left << std::endl;
+                    Logger::info << std::setfill('*') << std::setw(56) << "" << std::left << std::endl; // Ограничительная линия
                     Logger::info << "Считывание данных из файла >> " << fileName << std::endl;
                     if (extension == ".txt")
                     {
@@ -197,14 +200,14 @@ void Data::loadDatabase(const std::string &directoryPath)
         }
         catch (const std::string &exception)
         {
-            Logger::info << std::setfill('*') << std::setw(56) << "" << std::left << std::endl;
+            Logger::info << std::setfill('*') << std::setw(56) << "" << std::left << std::endl; // Ограничительная линия
             Logger::error << "Неверное название файла >> " << exception << std::endl;
         }
     }
     Logger::info << "------- Конец считывания всех данных сотрудников -------" << std::endl;
     Logger::info << std::endl;
     
-    if (tradingCompanyObjects_.empty())
+    if (vectorObjects_.empty())
     {
         Logger::warning << "$$$$$$$$$$$$$ Пустая база данных $$$$$$$$$$$$$" << std::endl;
         Logger::info << "Выход из программы" << std::endl;
@@ -214,7 +217,7 @@ void Data::loadDatabase(const std::string &directoryPath)
     sort();
 }
 
-void Data::inputPassword()
+void Data::accountLogin()
 {
     std::cout << "Введите почту или логин и пароль от почты или закончите выполнение программы, введя ESC или ВЫХОД: " << std::endl;
     bool isLoginFound = false;
@@ -223,11 +226,11 @@ void Data::inputPassword()
         std::cout << "Логин или почта: ";
         std::string login;
         std::cin >> login;
-        for (const auto &object: tradingCompanyObjects_)
+        for (const auto &object: vectorObjects_)
         {
             std::string emailCheck, loginCheck;
             emailCheck = loginCheck = object->email_;
-            loginCheck.erase(loginCheck.find('@'), loginCheck.size());
+            loginCheck.erase(loginCheck.find('@'), loginCheck.size()); // Получение логина от почты
             if (login == emailCheck || login == loginCheck)
             {
                 isLoginFound = true;
@@ -246,7 +249,7 @@ void Data::inputPassword()
         std::cin >> password;
         std::cout << std::endl;
         Logger::info << std::setfill('.') << std::setw(56) << "" << std::left << std::endl;
-        for (auto object: tradingCompanyObjects_)
+        for (auto object: vectorObjects_)
         {
             if (isLoginFound && password == object->password_)
             {
@@ -255,7 +258,7 @@ void Data::inputPassword()
                 object->functional();
                 LOGOUT(object);
                 
-                inputPassword();
+                accountLogin(); // Рекурсия
             }
         }
         if (utils::toLower(password) == "esc" || utils::toLower(password) == "выход")
@@ -274,13 +277,13 @@ void Data::inputPassword()
         Logger::info << "---------- Попытка войти в аккаунт ----------" << std::endl;
         Logger::error << "Введен >> " << exception << " - неверный логин или пароль!" << std::endl;
         std::cerr << "Вы ввели >> " << exception << " - неверный логин или пароль!" << std::endl;
-        inputPassword();
+        accountLogin();
     }
 }
 
 template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
 {
-    auto getUintParameter = boost::get<std::function<uint(TradingCompany&)>>(&parameter.getParameter);
+    auto getUint32Parameter = boost::get<std::function<uint32_t(TradingCompany&)>>(&parameter.getParameter);
     auto getUint64Parameter = boost::get<std::function<uint64_t(TradingCompany&)>>(&parameter.getParameter);
     auto getStringParameter = boost::get<std::function<std::string(TradingCompany&)>>(&parameter.getParameter);
     auto checkParameter = parameter.checkParameter;
@@ -290,30 +293,35 @@ template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
     
     checkParameter();
     
+    // Проверка полей, которые имеют высший приоритет, на дублирование данных
     if (isMatchCheck)
     {
-        for (auto it = std::begin(tradingCompanyObjects_); it != std::end(tradingCompanyObjects_);)
+        for (auto it = std::begin(vectorObjects_); it != std::end(vectorObjects_);)
         {
-            if (getUintParameter != nullptr && it->get() != object &&
-                (*getUintParameter)(*(*it)) == (*getUintParameter)(*object))
+            // 1. Используется только один указатель, который != nullptr.
+            // 2. Объект не должен совпадать ни с один из объектов вектора.
+            // 3. Возвращаемое значение поля объекта должно совпадать со значением поля одного из объектов вектора
+            // 4. После изменения значения поля объекта, цикл начинается заново
+            if (getUint32Parameter != nullptr && it->get() != object &&
+                (*getUint32Parameter)(*(*it)) == (*getUint32Parameter)(*object))
             {
                 changeStatusParameter();
                 checkParameter();
-                it = tradingCompanyObjects_.begin();
+                it = vectorObjects_.begin();
             }
             else if (getUint64Parameter != nullptr && it->get() != object &&
                      (*getUint64Parameter)(*(*it)) == (*getUint64Parameter)(*object))
             {
                 changeStatusParameter();
                 checkParameter();
-                it = tradingCompanyObjects_.begin();
+                it = vectorObjects_.begin();
             }
             else if (getStringParameter != nullptr && it->get() != object &&
                      (*getStringParameter)(*(*it)) == (*getStringParameter)(*object))
             {
                 changeStatusParameter();
                 checkParameter();
-                it = tradingCompanyObjects_.begin();
+                it = vectorObjects_.begin();
             }
             else
             {
@@ -323,7 +331,7 @@ template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
     }
 }
 
-template<class Class> Data::Parameter<Class> Data::selectParameter(const Field &field,
+template<class Class> Data::Parameter<Class> Data::selectParameter(const Field field,
                                                                    Class *object,
                                                                    const std::string &message)
 {
@@ -387,7 +395,7 @@ template<class Class> Data::Parameter<Class> Data::selectParameter(const Field &
                         std::bind(&TradingCompany::changeStatusWorkingHours, object), object};
 
             case FIELD_SALARY :
-                return {std::function<uint(TradingCompany&)>{&TradingCompany::getSalary},
+                return {std::function<uint32_t(TradingCompany&)>{&TradingCompany::getSalary},
                         std::bind(&TradingCompany::checkSalary, object, message),
                         std::bind(&TradingCompany::changeStatusSalary, object), object};
 
@@ -404,7 +412,7 @@ template<class Class> Data::Parameter<Class> Data::selectParameter(const Field &
         Logger::error << "Невернное значение >> " << exception << std::endl;
         std::cerr << "Невернное значение >> " << exception << std::endl;
     }
-    catch (const Field &field)
+    catch (const Field field)
     {
         Logger::error << "Неверный параметр поля >> " + std::to_string(field) << std::endl;
         std::cerr << "Неверный параметр поля >> " + std::to_string(field) << std::endl;
@@ -438,12 +446,12 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
 {
     bool isDirector = false;
     std::string message;
-    if (typeid(*object) == typeid(Director))
+    if (typeid(*object) == typeid(Director)) // Изменять чужие данные имеет полномочия Director
     {
         isDirector = true;
     }
     
-    if (otherObject && otherObject != object)
+    if (otherObject != nullptr && otherObject != object)
     {
         message = "************** Измение данных сотрудника ***************\n>> " +
                   otherObject->position_ + " " +
@@ -506,20 +514,18 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
                     std::string position;
                     std::cin >> position;
                     utils::toupperandtolower(position);
-                    auto found = idPositions.find(position);
+                    auto found = idPositions.find(position); // Поиск класса с определенной должностью
                     if (found != idPositions.end())
                     {
-                        auto newObject = objectFactory_.get(position)();
-                        *newObject = *otherObject;
+                        auto newObject = objectFactory_.get(position)(); // Получение определенного объекта из фабрики объектов
                         newObject->setPosition(position);
-                        std::for_each(newObject->fieldStatus_.begin(), newObject->fieldStatus_.end(),
-                                      [&newObject](auto &field){ newObject->fieldStatus_[field.first] = ST_OK; });
+                        *newObject = *otherObject; // Запись данных из одного объекта одного класса в другой объект другого класса
                         deleteObject(otherObject);
                         pushBack(*newObject);
-                        if (object == otherObject)
+                        if (object == otherObject) // После удаления личных данных происходит выход из аккаунта
                         {
                             LOGOUT(object);
-                            inputPassword();
+                            accountLogin();
                         }
                         Logger::info << message << std::endl;
                     }
@@ -675,9 +681,11 @@ TradingCompany *Data::find(TradingCompany *object)
             }
             else
             {
+                // Вектор объектов, в котором хранятся найденные объекты по определенным полям
                 std::vector<std::shared_ptr<TradingCompany>> foundObjects;
-                for (const auto &object: tradingCompanyObjects_)
+                for (const auto &object: vectorObjects_)
                 {
+                    // Вектор значений полей объекта с учетом верхнего и нижнего регистра букв
                     std::vector<std::pair<std::string, bool>> parameters = {
                         { std::to_string(object->id_), false },
                         { object->position_, true },
@@ -698,7 +706,6 @@ TradingCompany *Data::find(TradingCompany *object)
                     {
                         parameter = isUpperAndToLower ? utils::toUpperAndToLower(parameter) : parameter;
                         std::size_t found = param.find(parameter);
-                        std::string lol = param;
                         if (found != std::string::npos)
                         {
                             foundObjects.push_back(object);
@@ -706,12 +713,14 @@ TradingCompany *Data::find(TradingCompany *object)
                         }
                     }
                 }
+                // Один найденный объект
                 if (foundObjects.size() == 1)
                 {
                     std::cout << "Найденный сотрудник: " << std::endl;
                     std::cout << *foundObjects.at(0) << std::endl;
                     return foundObjects.at(0).get();
                 }
+                // Больше одного найденного объекта
                 else if (foundObjects.size() > 1)
                 {
                     std::cout << "Найденные сотрудники: " << std::endl;
@@ -725,7 +734,7 @@ TradingCompany *Data::find(TradingCompany *object)
                     std::cin >> input;
                     for (const auto &object: foundObjects)
                     {
-                        if (input == std::to_string(object->id_))
+                        if (input == std::to_string(object->id_)) // Поиск по ID
                         {
                             std::cout << "Найденный сотрудник: " << std::endl;
                             std::cout << *object << std::endl;
@@ -771,7 +780,7 @@ void Data::deleteEmployeeData(TradingCompany *object)
         try
         {
             auto foundObject = find(object);
-            if (foundObject == nullptr)
+            if (foundObject == nullptr) // Объект не найден, тогда возврат
             {
                 return;
             }
@@ -788,10 +797,10 @@ void Data::deleteEmployeeData(TradingCompany *object)
             if (input == "yes" || input == "да")
             {
                 deleteObject(foundObject);
-                if (object == foundObject)
+                if (object == foundObject) // После удаления личных данных происходит выход из аккаунта
                 {
                     LOGOUT(object);
-                    inputPassword();
+                    accountLogin();
                 }
                 else
                 {
@@ -820,7 +829,7 @@ void Data::getAllOtherData() const
     Logger::info << "************ Вывод данных всех сотрудников *************" << std::endl;
     std::cout << std::endl;
     std::cout << "************ Вывод данных всех сотрудников *************" << std::endl;
-    for (const auto &object: tradingCompanyObjects_)
+    for (const auto &object: vectorObjects_)
     {
         std::cout << *object << std::endl;
     }
@@ -834,8 +843,10 @@ template<class C> void Data::pushBack(C &object)
     std::string position = object.position_;
     uint maxId = idPositions.find(position)->second - 1;
     std::vector<std::shared_ptr<TradingCompany>>::iterator it;
-    for (it = begin(tradingCompanyObjects_); it != end(tradingCompanyObjects_); ++it)
+    for (it = begin(vectorObjects_); it != end(vectorObjects_); ++it)
     {
+        // Проверка двух объектов на то, что они от одного класса
+        // Поиск макс ID среди объектов одного класса
         if ((typeid(*it->get()) == typeid(object)) && (*it)->id_ > maxId)
         {
             maxId = (*it)->id_;
@@ -843,7 +854,7 @@ template<class C> void Data::pushBack(C &object)
     }
     std::string maxIdString = std::to_string(++maxId);
     object.setId(maxIdString);
-    tradingCompanyObjects_.insert(it, std::shared_ptr<TradingCompany>(&object));
+    vectorObjects_.insert(it, std::shared_ptr<TradingCompany>(&object));
     Logger::info << "Сотрудник << " + object.position_ +   " " +
                                       object.surname_ +    " " +
                                       object.name_ +       " " +
@@ -860,12 +871,12 @@ template<class C> void Data::deleteObject(C *object)
     std::cout << std::endl;
     std::cout << "*********************** Удаление ***********************" << std::endl;
     uint deletedId = object->id_;
-    std::string typeObject = typeid(*object).name();
-    for (size_t i = 0; i < tradingCompanyObjects_.size(); ++i)
+    std::string typeObject = typeid(*object).name(); // Получение типа объекта
+    for (size_t i = 0; i < vectorObjects_.size(); ++i)
     {
-        if (tradingCompanyObjects_[i].get() == object)
+        if (vectorObjects_[i].get() == object)
         {
-            tradingCompanyObjects_.erase(tradingCompanyObjects_.begin() + i);
+            vectorObjects_.erase(vectorObjects_.begin() + i);
             Logger::info << "Cотрудник << " + object->position_ +   " " +
                                               object->surname_ +    " " +
                                               object->name_ +       " " +
@@ -875,8 +886,9 @@ template<class C> void Data::deleteObject(C *object)
                                            object->name_ +       " " +
                                            object->patronymic_ + " >> успешно удален!" << std::endl;
             
-            for (const auto &element: tradingCompanyObjects_)
+            for (const auto &element: vectorObjects_)
             {
+                // Изменение ID всех объектов определенного класса, которые стояли после удаляемого объекта
                 if (typeid(*element.get()).name() == typeObject && element->id_ > deletedId)
                 {
                     element->id_ = deletedId;
@@ -920,11 +932,11 @@ void Data::newEmployeeData(const TradingCompany *object)
             }
             else
             {
-                auto found = idPositions.find(utils::toUpperAndToLower(input));
+                auto found = idPositions.find(utils::toUpperAndToLower(input)); // Поиск класса с определенной должностью
                 if (found != idPositions.end())
                 {
                     std::string position = found->first;
-                    auto object = objectFactory_.get(position)();
+                    auto object = objectFactory_.get(position)(); // Получение определенного объекта из фабрики объектов
                     object->position_ = position;
                     object->fieldStatus_[FIELD_POSITION] = ST_OK;
                     checkParameters(object);
@@ -1008,7 +1020,7 @@ void Data::setModeOutputData(const TradingCompany *object)
 
 void Data::writeToTxtFile()
 {
-    for (const auto &object: tradingCompanyObjects_)
+    for (const auto &object: vectorObjects_)
     {
         std::ofstream out(directoryPath_ + object->position_ + ".txt", std::ios_base::app);
         out << "id: "           << "\"" << object->id_           << "\" ";
@@ -1033,22 +1045,25 @@ void Data::writeToXmlFile()
 {
     const char *tag = "tradingCompany";
     std::string previosPosition;
-    auto it = std::end(tradingCompanyObjects_) - 1;
-    tinyxml2::XMLDocument *doc = new tinyxml2::XMLDocument(); // документ xml
-    tinyxml2::XMLNode *node = doc->NewElement(tag); // корневой элемент xml документа
-    doc->InsertFirstChild(node);
+    auto lastObject = std::end(vectorObjects_) - 1;
+    tinyxml2::XMLDocument *doc = new tinyxml2::XMLDocument(); // Инициализация документа
+    tinyxml2::XMLNode *node = doc->NewElement(tag); // Корневой узел с меткой
+    doc->InsertFirstChild(node); // Прикрепление корневого узла к документу
 
-    for (const auto &object: tradingCompanyObjects_)
+    for (const auto &object: vectorObjects_)
     {
-        if ((previosPosition != object->position_ && !previosPosition.empty()) || *object == *it->get())
+        // Проверка на изменение должности и на конец вектора
+        if ((previosPosition != object->position_ && !previosPosition.empty()) || *object == *lastObject->get())
         {
             doc->SaveFile((directoryPath_ + previosPosition + ".xml").c_str());
             doc->Clear();
-            node = doc->NewElement(tag); // корневой элемент xml документа
+            // После очищения идет новое создание корневого узла и приклепление к документу
+            node = doc->NewElement(tag);
             doc->InsertFirstChild(node);
         }
-        const char *classname = utils::getClassName(*object).c_str();
-        tinyxml2::XMLElement *element = doc->NewElement(classname); // элемент найденного объекта
+        const char *className = utils::getClassName(*object).c_str();
+        // Список элементов с меткой, которая должна совпадать с названием определенного класса
+        tinyxml2::XMLElement *element = doc->NewElement(className);
         element->SetAttribute("id", object->id_);
         element->SetAttribute("position", object->position_.c_str());
         element->SetAttribute("surname", object->surname_.c_str());
@@ -1063,7 +1078,7 @@ void Data::writeToXmlFile()
         element->SetAttribute("workingHours", object->workingHours_.c_str());
         element->SetAttribute("salary", object->salary_);
         element->SetAttribute("password", object->password_.c_str());
-        node->InsertEndChild(element);
+        node->InsertEndChild(element); // Прикрепление списка элементов к корневому узлу
         previosPosition = object->position_;
     }
     delete doc;
@@ -1071,6 +1086,7 @@ void Data::writeToXmlFile()
 
 Data::~Data()
 {
+    // Удаление ранних файлов с данными
     for (const auto &filePath: filePaths_)
     {
         std::remove(filePath.c_str());
@@ -1090,23 +1106,20 @@ Data::~Data()
                 
             case ALL :
             {
-                std::thread threadTxt = std::thread([this]()
+                // Запись txt и xml в разных потоках
+                std::thread thread = std::thread([this]()
                 {
                     this->writeToTxtFile();
                 });
-                std::thread threadXml = std::thread([this]()
-                {
-                    this->writeToXmlFile();
-                });
-                threadTxt.join();
-                threadXml.join();
+                this->writeToXmlFile();
+                thread.join();
                 break;
             }
             default:
                 throw mode_;
         }
     }
-    catch (const Mode &mode)
+    catch (const Mode mode)
     {
         Logger::error << "Неверный режим вывода >> " + std::to_string(mode) << std::endl;
         std::cerr << "Неверный режим вывода >> " + std::to_string(mode) << std::endl;

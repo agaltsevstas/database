@@ -17,6 +17,7 @@
 
 #include "Logger.h"
 
+/// Номера полей класса TradingCompany
 enum Field
 {
     FIELD_ID = 0,
@@ -35,12 +36,13 @@ enum Field
     FIELD_PASSWORD,
 };
 
+/// Статус данных
 enum Status
 {
     /// Успех
     ST_OK = 0,
     
-    // Перезаписывание данных
+    /// Перезаписывание данных
     ST_OVERWRITEDATA,
 
     /// Пусто
@@ -53,29 +55,38 @@ enum Status
     ST_DUBLICATE
 };
 
+/*!
+ * @brief Абстрактный класс
+ */
 class TradingCompany
 {
     friend class Data;
     friend class Director;
     
 private:
-    /*
-     * Внутренняя структура параметра
+    /*!
+     * @brief Структура данных
      */
     struct Type
     {
         /// Статус данных
         Status status;
+
+        /*!
+         * @brief Тип данных
+         */
         
-        /// Целочисленное значение
-        uint uintValue = 0;
+        /// 32-разрядное целое значение без знака
+        uint32_t uintValue = 0;
         
+        /// 64-разрядное целое значение без знака
         uint64_t uint64Value = 0;
         
         /// Строковое значение
         std::string stringValue;
     };
     
+    /// Карта параметров и оберток инициализаций полей
     const std::map<std::string, std::function<void(TradingCompany&, std::string&)>> setParameters_ =
     {
         {"id",           nullptr},
@@ -94,7 +105,7 @@ private:
         {"password",     &TradingCompany::setPassword}
     };
     
-    /// Карта параметров
+    /// Карта полей с их статусом
     std::map<Field, Status> fieldStatus_
     {
         {FIELD_ID,             ST_EMPTY},
@@ -115,19 +126,59 @@ private:
 
 public:
     virtual ~TradingCompany() {}
+
+    /*!
+     * @brief Перегрузка оператора = (присваивания).
+     * Запись данных из одного объекта в другой
+     * @param object - объект
+     * @return Измененный объект
+     */
+    const TradingCompany& operator = (const TradingCompany &object);
+
+    /*!
+     * @brief Перегрузка оператора >> (ввода).
+     * Запись данных в поля объекта
+     * @param line - строка
+     * @param object - объект
+     */
+    friend void operator >> (const std::string &line, TradingCompany &object);
+
+    /*!
+     * @brief Перегрузка оператора << (вывода).
+     * Вывод полей объекта
+     * @param out - поток вывода
+     * @param object - объект
+     * @return Поток вывода
+     */
+    friend std::ostream& operator << (std::ostream &out, const TradingCompany &object);
+
+    /*!
+     * @brief Перегрузка оператора == (сравнения).
+     * Сравнение двух объектов на равенство
+     * @param first - первый объект
+     * @param second - второй объект
+     * @return Логическое значение
+     */
+    friend bool operator == (const TradingCompany &first, const TradingCompany &second);
+
+    /// Функционал каждого производного класса
     virtual void functional() = 0;
+
+    /*!
+     * @brief Получение значений полей
+     * @return Значение поля
+     */
     std::string getPosition() const;
     std::string getSurname() const;
     std::string getName() const;
     std::string getPatronymic() const;
     
-    const TradingCompany& operator = (const TradingCompany &object);
-    friend void operator >> (const std::string &line, TradingCompany &tradingCompany);
-    friend std::ostream& operator << (std::ostream &out, const TradingCompany &tradingCompany);
-    friend bool operator == (const TradingCompany &first, const TradingCompany &second);
-    
 protected:
-    uint        getId() const;
+    /*!
+     * @brief Получение значений полей
+     * @return Значение поля
+     */
+    uint32_t    getId() const;
     std::string getSex() const;
     std::string getDateOfBirth() const;
     uint64_t    getPassport() const;
@@ -135,27 +186,29 @@ protected:
     std::string getEmail() const;
     std::string getDateOfHiring() const;
     std::string getWorkingHours() const;
-    uint        getSalary() const;
+    uint32_t    getSalary() const;
     std::string getPassword() const;
-    uint        getPremium() const;
-    uint        getFine() const;
 
 private:
-    uint        id_ = 0;
-    std::string position_;
-    std::string surname_;
-    std::string name_;
-    std::string patronymic_;
-    std::string sex_;
-    std::string dateOfBirth_;
-    uint64_t    passport_ = 0;
-    uint64_t    phone_ = 0;
-    std::string email_;
-    std::string dateOfHiring_;
-    std::string workingHours_;
-    uint        salary_ = 0;
-    std::string password_;
+    uint32_t    id_ = 0;       /// ID
+    std::string position_;     /// Должность
+    std::string surname_;      /// Фамилия
+    std::string name_;         /// Имя
+    std::string patronymic_;   /// Отчество
+    std::string sex_;          /// Пол
+    std::string dateOfBirth_;  /// Дата рождения
+    uint64_t    passport_ = 0; /// Паспорт
+    uint64_t    phone_ = 0;    /// Телефон
+    std::string email_;        /// Почта
+    std::string dateOfHiring_; /// Дата принятия на работу
+    std::string workingHours_; /// Часы работы
+    uint32_t    salary_ = 0;   /// Зарплата
+    std::string password_;     /// Пароль
     
+    /*!
+     * @brief Инициализация полей
+     * @param Значение поля
+     */
     void setId(const std::string &id);
     void setPosition(const std::string &position);
     void setSurname(const std::string &surname);
@@ -164,12 +217,18 @@ private:
     void setSex(const std::string &sex);
     void setDateOfBirth(const std::string &dateOfBirth);
     void setPhone(const std::string &phone);
-    void setEmail(const std::string &phone);
+    void setEmail(const std::string &email);
     void setDateOfHiring(const std::string &dateOfHiring);
     void setWorkingHours(const std::string &workingHours);
     void setPassport(const std::string &passport);
     void setSalary(const std::string &salary);
     void setPassword(const std::string &password);
+
+    /*!
+     * @brief Проверка полей на повреждение/перезапись данных
+     * @param warning - Предупреждение о невалидности данных поля
+     */
+    void checkId(const std::string &warning = {}); /// Не используется!
     void checkPosition(const std::string &warning = {});
     void checkSurname(const std::string &warning = {});
     void checkName(const std::string &warning = {});
@@ -183,28 +242,82 @@ private:
     void checkWorkingHours(const std::string &warning = {});
     void checkSalary(const std::string &warning = {});
     void checkPassword(const std::string &warning = {});
-    void changePersonalData();
+
+    /*!
+     * @brief Изменение статуса полей на перезапись/дублирование данных
+     */
     void changeStatusPosition();
     void changeStatusSurname();
     void changeStatusName();
     void changeStatusPatronymic();
     void changeStatusSex();
     void changeStatusDateOfBirth();
+    /// @param canOverwrite - true-перезапись/false-дублирование
     void changeStatusPassport(const bool canOverwrite = false);
+    /// @param canOverwrite - true-перезапись/false-дублирование
     void changeStatusPhone(const bool canOverwrite = false);
+    /// @param canOverwrite - true-перезапись/false-дублирование
     void changeStatusEmail(const bool canOverwrite);
     void changeStatusDateOfHiring();
     void changeStatusWorkingHours();
     void changeStatusSalary();
     void changeStatusPassword();
-    void checkId(const std::string &warning = {});
-    void recursion(const Field &field,
+
+    /*!
+     * @brief Рекурсия, которая вызывается в случае неверного введения данных.
+     * Валидация ввода данных
+     * @param field - Номер поля
+     * @param setParameter - Инициализация одного из полей
+     * @param message - Сообщение, которое подказывает в каком формате вводить данные
+     */
+    void recursion(const Field field,
                    std::function<void(TradingCompany&, std::string&)> setParameter,
                    const std::string &message);
+    /*!
+     * @brief Получение определенного типа данных (uint32_t/uint64_t/string)
+     * @param field - Номер поля
+     * @param value - Значение поля
+     * @return Значение поля с определенным типом (uint32_t/uint64_t/string)
+     */
     template<typename T> T get(const std::string &value, const Field field);
-    /// Пустое поле для возврата в качестве отсутствия результата поиска
+
+    /// Пустая структура для возврата из метода в случае неудачи (затычка)
     const Type empty = Type();
-    const Type checkField(std::string value, const Field &numberField);
+
+    /*!
+     * @details Валидация данных.
+     * Проверка данных каждого поля в соответствии с требованиями
+     * в зависимости от номера поля. Значение поля устанавливается
+     * в одно из полей струтуры данных (uint32_t/uint64_t/string).
+     * Устанавливается статус поля (ST_EMPTY/ST_WRONGDATA/ST_OK)
+     * @param value - Значение поля
+     * @param field - Номер поля
+     * @return Структура данных
+     */
+    const Type checkField(std::string value, const Field field);
+
+    /*!
+     * @TODO: Установление премии
+     * @param premium - Премия
+     */
+    void setPremium(int premium);
+
+    /*!
+     * @TODO: Установление штрафа
+     * @param fine - Штраф
+     */
+    void setFine(int fine);
+
+    /*!
+     * @TODO: Получение премии
+     * @return Премия
+     */
+    uint getPremium() const;
+    /*!
+     * @TODO: Получение штрафа
+     * @return Штраф
+     */
+    uint getFine() const;
 };
 
 #endif // TradingCompany_h

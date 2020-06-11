@@ -26,6 +26,9 @@ DEFINES += DEBUG_BUILD
 
 INCLUDEPATH += include/
 HEADERS += \
+    include/SalesManager.h \
+    include/TradingCompany.h \
+    include/Utils.h \
     include/Accountant.h \
     include/Cashier.h \
     include/ChiefAccountant.h \
@@ -35,15 +38,12 @@ HEADERS += \
     include/Driver.h \
     include/HeadOfProcurement.h \
     include/HeadOfWarehouse.h \
-    include/HRManager.h \
+    include/Hrmanager.h \
     include/Lawyer.h \
     include/Loader.h \
     include/Logger.h \
     include/Logistician.h \
     include/PurchasingManager.h \
-    include/SalesManager.h \
-    include/TradingCompany.h \
-    include/Utils.h \
     include/tinyxml2.h
 
 SOURCES += \

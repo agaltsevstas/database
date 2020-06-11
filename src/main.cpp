@@ -5,32 +5,36 @@
 
 int main(int argc, char *argv[])
 {
-    std::srand(static_cast<uint>(time(0)));
-    setlocale(LC_ALL,"ru_RU.UTF-8");
-    Logger::createInstance();
-    std::string directory = "data/"; // Путь к модулям
+    std::srand(static_cast<uint>(time(0))); // Инициализация генератора случайных чисел rand
+    setlocale(LC_ALL,"ru_RU.UTF-8"); // Инициализация русских символов
+    Logger::instance();
+    std::string directory = "data/"; // Каталог с базой данных по умолчанию
     if (argc > 1)
     {
         std::string parameter;
-        boost::program_options::options_description desc("Требуемые опции");
-        desc.add_options() 
+        // Описание допустимых аргументов командной строки, пример:
+        // --directory=data/
+        boost::program_options::options_description options_description("Требуемые опции");
+        options_description.add_options()
                 ("help,h", "Помощь")
-                ("directory,d", boost::program_options::value<std::string>(&parameter), "Путь к модулям");
+                ("directory,d", boost::program_options::value<std::string>(&parameter), "Путь к базе данных");
         try
         {
-            boost::program_options::variables_map vm;
-            store(parse_command_line(argc, argv, desc), vm);
-            notify(vm);
+            boost::program_options::variables_map variables_map; // Словарь аргументов командной строки
+            store(parse_command_line(argc, argv, options_description), variables_map); // Сохранение аргументов в словарь
+            notify(variables_map); // Объединение аргументов в словаре
 
-            if (vm.count("help"))
+            // Вывод справочной информации
+            if (variables_map.count("help"))
             {
-                std::cout << desc << std::endl;
+                std::cout << options_description << std::endl;
                 return 0;
             }
 
-            if (vm.count("directory"))
+            // Считывание пути к каталогу
+            if (variables_map.count("directory"))
             {
-                directory = vm["directory"].as<std::string>();
+                directory = variables_map["directory"].as<std::string>();
                 std::cout << "Выбран путь к модулям >> " << directory << std::endl;
             }
             else
@@ -51,7 +55,8 @@ int main(int argc, char *argv[])
             Logger::error << "Неизвестная ошибка!" << std::endl;
         }
     }
-    replace(directory.begin(), directory.end(), '\\', '/');
+    replace(directory.begin(), directory.end(), '\\', '/'); // Изменение в пути к каталогу косой черты в другую сторону
+    // Добавление в конце косой черты
     if (*directory.rbegin() != '/')
     {
         directory += "/";
@@ -60,7 +65,7 @@ int main(int argc, char *argv[])
     try
     {
         data.loadDatabase(directory);
-        data.inputPassword();
+        data.accountLogin();
     }
     catch (const std::exception &ex)
     {
@@ -73,7 +78,6 @@ int main(int argc, char *argv[])
         std::cerr << "Неизвестная ошибка!" << std::endl;
         exit(0);
     }
-    Logger::deleteInstance();
 
     return 0;
 }

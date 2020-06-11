@@ -40,6 +40,7 @@
 
 namespace utils
 {
+    // Карта перевода из кириллицы в латиницу
     const std::map<std::string, std::string> translitSymbols =
     {
         {"а", "a"},
@@ -77,56 +78,119 @@ namespace utils
         {"я", "ja"},
     };
     
-    std::string translit(const std::string &textRussian);
+    /*!
+     * @brief Перевод кирилицы латинскими буквами
+     * @param textRussian - Кириллица
+     * @return Латиница
+     */
+    std::string translit(const std::string &textCyrillic);
     
+    /*!
+     * @brief Создание почты, используя фамилию, имя и отчество
+     * @param anthroponym - Вектор антропононимов
+     * @return Готовая почта
+     */
     std::string createEmail(const std::vector<std::string> &anthroponym);
     
-    inline unsigned constexpr str(const char *input)
+    /*!
+     * @brief Хэширование текста
+     * @param source - Исходный текст
+     * @return Готовый текст
+     */
+    inline unsigned constexpr str(const char *source)
     {
-        return *input ? static_cast<unsigned int>(*input) + 33 * str(input + 1) : 5381;
+        return *source ? static_cast<unsigned int>(*source) + 33 * str(source + 1) : 5381;
     }
 
-    inline std::string toLower(std::string str)
+    /*!
+     * @brief Конвертирование прописных букв в строчные
+     * @param source - Исходный текст
+     * @return Готовый текст
+     */
+    inline std::string toLower(std::string source)
     {
-        std::transform(str.begin(), str.end(), str.begin(), ::tolower);
-        return str;
+        std::transform(source.begin(), source.end(), source.begin(), ::tolower);
+        return source;
     }
 
-    inline void tolower(std::string &str)
+    /*!
+     * @brief Конвертирование прописных букв в строчные
+     * @param source - Исходный текст
+     */
+    inline void tolower(std::string &source)
     {
-        std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+        std::transform(source.begin(), source.end(), source.begin(), ::tolower);
     }
 
+    /*!
+     * @brief Разбиение текста на части
+     * @param source - Исходный текст
+     */
     std::vector<std::string> splitString(std::string source, std::string delim);
 
+    /*!
+     * @brief Получение текущей даты
+     * @return - Текущая дата
+     */
     std::string date();
     
+    /*!
+     * @brief Получение возраста
+     * @param data - Вектор, хранящий текущую дату (день, месяц, год)
+     * @param dateOfBirth - Вектор, хранящий дату рождения (день, месяц, год)
+     * @return - Найденный возраст
+     */
     std::vector<uint> findAge(std::vector<std::string> &data, std::vector<std::string> &dateOfBirth);
 
-    // convert wstd::string to UTF-8 std::string
-    inline std::string wstringToUtf8(const std::wstring &str)
+    /*!
+     * @brief Конвертирование wstd::string в UTF-8 std::string
+     * @param source - Исходный текст
+     * @return Готовый текст
+     */
+    inline std::string wstringToUtf8(const std::wstring &source)
     {
         std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
-        return convert.to_bytes(str);
+        return convert.to_bytes(source);
     }
 
-    // convert UTF-8 std::string to wstd::string
-    inline std::wstring utf8ToWstring(const std::string &str)
+    /*!
+     * @brief Конвертирование UTF-8 std::string в wstd::string
+     * @param source - Исходный текст
+     * @return Готовый текст
+     */
+    inline std::wstring utf8ToWstring(const std::string &source)
     {
         std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
-        return convert.from_bytes(str);
+        return convert.from_bytes(source);
     }
 
-    std::string toUpperAndToLower(std::string str, uint numberUpper = 1);
+    /*!
+     * @brief Конвертирование текста в прописные и строчные буквы
+     * @param source - Исходный текст
+     * @param numberUpper - Кол-во прописных букв в начале текста, остальные буквы переводятся в строчные
+     * @return Готовый текст
+     */
+    std::string toUpperAndToLower(std::string source, uint numberUpper = 1);
 
-    void toupperandtolower(std::string &str, uint numberUpper = 1);
+    /*!
+     * @brief Конвертирование текста в прописные и строчные буквы
+     * @param source - Исходный текст
+     * @param numberUpper - Кол-во прописных букв в начале текста, остальные буквы переводятся в строчные
+     */
+    void toupperandtolower(std::string &source, uint numberUpper = 1);
 
+    /*!
+     * @brief Получение имени класса в строковом виде
+     * @param object - Объект класса
+     * @return Имя класса
+     */
     template <class C>
     inline std::string getClassName(const C &object)
     {
-        std::string str = typeid(object).name();
-        str.erase(std::remove_if(std::begin(str), std::end(str), [](auto c) { return std::isdigit(c); }), str.end());
-        return str;
+        std::string source = typeid(object).name();
+        // Удаление числа, которое указывает на кол-во символов
+        source.erase(std::remove_if(std::begin(source), std::end(source), [](auto c) { return std::isdigit(c); }), source.end());
+        return source;
     }
 }
 

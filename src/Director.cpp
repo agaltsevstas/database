@@ -96,14 +96,5 @@ void Director::functional()
     }
 }
 
-void Director::setPremium(int premium)
-{
-    salary_ += premium;
-}
-void Director::setFine(int fine)
-{
-    salary_ -= fine;
-}
-
 
 

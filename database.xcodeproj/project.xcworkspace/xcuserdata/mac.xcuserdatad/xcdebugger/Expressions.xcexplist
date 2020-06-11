@@ -113,10 +113,18 @@
          contextName = "Data::inputPassword():Data.cpp">
       </ContextState>
       <ContextState
-         contextName = "void Data::pushBack&lt;Director&gt;(Director&amp;):Data.h">
+         contextName = "Logger::Streamer::StringBuffer::sync():Logger.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "tradingCompanyVector_">
+               value = "str">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Data::find(TradingCompany*):Data.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "param">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -154,10 +162,10 @@
          contextName = "void Data::pushBack&lt;TradingCompany&gt;(TradingCompany&amp;):Data.cpp">
       </ContextState>
       <ContextState
-         contextName = "Data::find(TradingCompany*):Data.cpp">
+         contextName = "void Data::pushBack&lt;Director&gt;(Director&amp;):Data.h">
          <PersistentStrings>
             <PersistentString
-               value = "param">
+               value = "tradingCompanyVector_">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

@@ -3,83 +3,90 @@
 #include "Logger.h"
 #include "TradingCompany.h"
 
-Logger* Logger::logger_ = nullptr;
-Logger::DebugLevel Logger::debugLevel_ = Logger::DebugLevel::DEBUG_LEVEL_DISABLED;
-std::ofstream Logger::logFile_;
-std::string Logger::infoBuffer_;
-std::string Logger::warningBuffer_;
-std::string Logger::errorBuffer_;
-std::string Logger::allMessagesBuffer_;
-std::mutex mutex;
+Logger* Logger::logger_ = nullptr;                                                 // Определение уровня подробности лога
+Logger::DebugLevel Logger::debugLevel_ = Logger::DebugLevel::DEBUG_LEVEL_DISABLED; // Определение уровня подробности лога
+std::ofstream Logger::logFile_;                                                    // Определение выходного файлового потока
+Logger::Streamer Logger::info(Logger::MESSAGE_INFO);                               // Определение поля информационного сообщения для Logger
+Logger::Streamer Logger::warning(Logger::MESSAGE_WARNING);                         // Определение поля предупреждения для Logger
+Logger::Streamer Logger::error(Logger::MESSAGE_ERROR);                             // Определение поля ошибки для Logger
+std::string Logger::infoBuffer_;                                                   // Определение буфер хранения информационных сообщений
+std::string Logger::warningBuffer_;                                                // Определение буфер хранения предупреждений
+std::string Logger::errorBuffer_;                                                  // Определение буфер хранения ошибок
+std::string Logger::allMessagesBuffer_;                                            // Определение буфер хранения всех видов сообщений
 
-/// creates logger that will write to log.txt
-void Logger::createInstance()
+
+void Logger::instance()
 {
     namespace bs = boost::filesystem;
     
-    delete logger_;
+    delete logger_; // Очищение указателя на случай двойной инициализации
     logger_ = new Logger;
     debugLevel_ = DEBUG_LEVEL_INFO;
     
     uint number = 0;
     bs::path fileName = "log_0.txt";
-    bs::path path = "log/";
-    bs::create_directory(path);
-    while (bs::is_regular_file(path.string() + fileName.string()))
+    bs::path directory = "log/";
+    bs::create_directory(directory); // Проверка на существование каталога. В случае отсутсвия, создается каталог
+    // Проверка на существование файла. В случае наличия, создается новый файл с новым именем
+    while (bs::is_regular_file(directory.string() + fileName.string()))
     {
         fileName = "log_" + std::to_string(number) + ".txt";
         ++number;
     }
-    logFile_.open(path.string() + fileName.string());
+    std::string filePath = directory.string() + fileName.string();
+    logFile_.open(filePath);
 }
 
-/// deletes instance of logger and closes log file ('log.txt')
-void Logger::deleteInstance()
-{
-    delete logger_;
-    logFile_.flush();
-    logFile_.close();
-}
-
-/// Can set the Debug Level
 void Logger::setDebugLevel(Logger::DebugLevel debugLevel)
 {
     debugLevel_ = debugLevel;
 }
 
-/// can signify errors while writing message
-void Logger::writeError(const std::string &message)
+Logger::Streamer::Streamer(Logger::MessageType messageType)
+: std::ostream(new StringBuffer(messageType))
 {
-    // if level of error is greator than set debug level
-    if (debugLevel_ >= DEBUG_LEVEL_ERROR)
-    {
-        // type out [Error]
-        const std::string type = "[Error] ";
-        std::string str = type + message;
-        // write out message
-        thread_ = std::thread([this, &str]() { this->writeToFile(str); });
-        writeToBuffer(message, MessageType::MESSAGE_ERROR);
-        thread_.join();
-    }
 }
 
-/// can signify warning while writing message
-void Logger::writeWarning(const std::string &message)
+Logger::Streamer::~Streamer()
 {
-    // if level of warning is greator than set debug level
-    if (debugLevel_ >= DEBUG_LEVEL_WARNING)
-    {
-        // type out [Error]
-        const std::string type = "[Warning] ";
-        std::string str = type + message;
-        // write out message
-        thread_ = std::thread([this, &str]() { this->writeToFile(str); });
-        writeToBuffer(message, MessageType::MESSAGE_WARNING);
-        thread_.join();
-    }
+    delete rdbuf();
 }
 
-/// Write out message to logger of type MESSAGE_INFO if debug level allows it
+Logger::Streamer::StringBuffer::StringBuffer(Logger::MessageType messageType)
+: messageType_(messageType)
+{
+}
+
+Logger::Streamer::StringBuffer::~StringBuffer()
+{
+    pubsync();
+}
+
+int Logger::Streamer::StringBuffer::sync()
+{
+    std::string text(str()); // Получение текста из буфера
+    if (Logger::logger_ == nullptr || text.empty())
+    {
+        return 0;
+    }
+    str(""); // Очищение буфера
+    switch (messageType_)
+    {
+        case MESSAGE_INFO:
+            Logger::logger_->writeInfo(text);
+            break;
+            
+        case MESSAGE_WARNING:
+            Logger::logger_->writeWarning(text);
+            break;
+            
+        case MESSAGE_ERROR:
+            Logger::logger_->writeError(text);
+            break;
+    }
+    return 0;
+};
+
 void Logger::writeInfo(const std::string &message)
 {
     if (debugLevel_ >= DEBUG_LEVEL_INFO)
@@ -90,13 +97,32 @@ void Logger::writeInfo(const std::string &message)
     }
 }
 
-/// Write out message to logger with the inputted message type
+void Logger::writeWarning(const std::string &message)
+{
+    if (debugLevel_ >= DEBUG_LEVEL_WARNING)
+    {
+        const std::string type = "[Warning] ";
+        std::string str = type + message;
+        thread_ = std::thread([this, &str]() { this->writeToFile(str); });
+        writeToBuffer(message, MessageType::MESSAGE_WARNING);
+        thread_.join();
+    }
+}
+
+void Logger::writeError(const std::string &message)
+{
+    if (debugLevel_ >= DEBUG_LEVEL_ERROR)
+    {
+        const std::string type = "[Error] ";
+        std::string str = type + message;
+        thread_ = std::thread([this, &str]() { this->writeToFile(str); });
+        writeToBuffer(message, MessageType::MESSAGE_ERROR);
+        thread_.join();
+    }
+}
+
 void Logger::writeToBuffer(const std::string &message, MessageType messageType)
 {
-    // std::replace(message.begin(), message.end(), '\n', ' '); // Fix it later
-    // Send message to standard console out
-    // std::cout << message;
-    // add message to end of buffer
     allMessagesBuffer_ += message;
     switch (messageType)
     {
@@ -114,11 +140,9 @@ void Logger::writeToBuffer(const std::string &message, MessageType messageType)
     }
 }
 
-/// Add message directly to the end of a file
 void Logger::writeToFile(const std::string &message)
 {
-    std::lock_guard<std::mutex> guard(mutex);
-    logFile_ << message << std::flush;
+    logFile_ << message << std::flush; // Принудительный сброс буфера
 }
 
 void Logger::printInfo()
@@ -148,7 +172,7 @@ void Logger::printLog(const TradingCompany *object)
     {
         std::cout << std::endl;
         std::cout << "*********************** Logger *************************" << std::endl;
-        std::cout << "Хотите вывести все сообщения - нажмите 1" << std::endl;
+        std::cout << "Хотите вывести все информационные сообщения - нажмите 1" << std::endl;
         std::cout << "Хотите вывести все предупреждения - нажмите 2" << std::endl;
         std::cout << "Хотите вывести все ошибки - нажмите 3" << std::endl;
         std::cout << "Хотите вывести весь лог - нажмите 4" << std::endl;
@@ -163,7 +187,7 @@ void Logger::printLog(const TradingCompany *object)
             {
                 case utils::str("1") :
                     printInfo();
-                    Logger::info << ">> Вывод обычной информации <<" << std::endl;
+                    Logger::info << ">> Вывод всех информационных сообщений <<" << std::endl;
                     break;
 
                 case utils::str("2") :
@@ -212,62 +236,10 @@ void Logger::printLog(const TradingCompany *object)
     }
 }
 
-/// Constructor - must send in message type
-Logger::Streamer::Streamer(Logger::MessageType messageType)
-: std::ostream(new StringBuffer(messageType))
+Logger::~Logger()
 {
+    delete logger_;
+    logFile_.flush();
+    logFile_.close();
 }
-
-/// Deconstructor - deletes stream buffer
-Logger::Streamer::~Streamer()
-{
-    delete rdbuf();
-}
-
-/// Constructor for StinrgBuffer- must send in message type
-Logger::Streamer::StringBuffer::StringBuffer(Logger::MessageType messageType)
-: messageType(messageType)
-{
-}
-
-/// Writes out any unwritten characters to output if std::string buffers not synchronized, else does nothing
-Logger::Streamer::StringBuffer::~StringBuffer()
-{
-    pubsync();
-}
-
-// Creates message, warning and error variables for Logger
-Logger::Streamer Logger::info(Logger::MESSAGE_INFO);
-Logger::Streamer Logger::warning(Logger::MESSAGE_WARNING);
-Logger::Streamer Logger::error(Logger::MESSAGE_ERROR);
-
-/// Checks to make sure Logger instance is in sync with correct message type
-int Logger::Streamer::StringBuffer::sync()
-{
-    if (Logger::logger_ == NULL)
-    {
-        return 0;
-    }
-    std::string text(str());
-    if (text.empty())
-    {
-        return 0;
-    }
-    str("");
-    switch (messageType)
-    {
-        case MESSAGE_INFO:
-            Logger::logger_->writeInfo(text);
-            break;
-            
-        case MESSAGE_WARNING:
-            Logger::logger_->writeWarning(text);
-            break;
-            
-        case MESSAGE_ERROR:
-            Logger::logger_->writeError(text);
-            break;
-    }
-    return 0;
-};
 

@@ -4,22 +4,43 @@
 #include <iostream>
 #include <map>
 
+/*!
+ * @brief Фабрика объектов
+ * Требуется для создания объектов классов
+ */
 template<class ID, class Base> class ObjectFactory
 {
 private:
-    typedef Base* (*fInstantiator)();
+    typedef Base* (*fInstantiator)(); /// Указатель на функцию, возвращающий указатель на объект типа Base
+    
+    /*!
+     * @brief Создание объекта определенного класса
+     * @return Созданный объект определенного класса
+     */
     template<class Derived> static Base* instantiator()
     {
         return new Derived();
     }
-    std::map<ID, fInstantiator> classes;
+    std::map<ID, fInstantiator> classes; /// Карта классов
     
 public:
     ObjectFactory() {}
+    
+    /*!
+     * @brief Добавление классов в карту классов.
+     * Derived - Определенный класс, который фабрике необходимо зарегистрировать
+     * @param id - Строка-идентификатор определенного класса
+     */
     template<class Derived> void add(ID id)
     {
         classes[id] = &instantiator<Derived>;
     }
+    
+    /*!
+     * @brief Получение объекта определенного класса
+     * @param id - Строка-идентификатор определенного класса
+     * @return Найденный объект по идентификатору определенного класса
+     */
     fInstantiator get(ID id)
     {
         return classes[id];
