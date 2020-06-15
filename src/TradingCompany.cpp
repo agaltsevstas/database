@@ -436,9 +436,9 @@ const TradingCompany::Type TradingCompany::checkField(std::string value, const F
                     std::vector<std::string> data = utils::splitString(utils::date(), " .-");
                     std::vector<std::string> dateOfBirth = utils::splitString(value, " .-");
                     auto age = utils::findAge(data, dateOfBirth);
-                    uint year = age[0];
-                    uint month = age[1];
-                    uint day = age[2];
+                    int year = age[0];
+                    int month = age[1];
+                    int day = age[2];
                     if (year < 18)
                     {
                         type.status = ST_WRONGDATA;

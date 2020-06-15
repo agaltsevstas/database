@@ -126,7 +126,13 @@ namespace utils
      * @brief Разбиение текста на части
      * @param source - Исходный текст
      */
-    std::vector<std::string> splitString(std::string source, std::string delim);
+    std::vector<std::string> splitString(std::string source, const std::string &delim);
+
+    /*!
+     * @brief Получение локального времени
+     * @return - Локальное время
+     */
+    std::string localTime();
 
     /*!
      * @brief Получение текущей даты
@@ -140,7 +146,7 @@ namespace utils
      * @param dateOfBirth - Вектор, хранящий дату рождения (день, месяц, год)
      * @return - Найденный возраст
      */
-    std::vector<uint> findAge(std::vector<std::string> &data, std::vector<std::string> &dateOfBirth);
+    std::vector<int> findAge(const std::vector<std::string> &data, const std::vector<std::string> &dateOfBirth);
 
     /*!
      * @brief Конвертирование wstd::string в UTF-8 std::string

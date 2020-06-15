@@ -37,13 +37,22 @@ namespace utils
         return email += "@tradingcompany.ru";
     }
     
-    std::vector<std::string> splitString(std::string source, std::string delim)
+    std::vector<std::string> splitString(std::string source, const std::string &delim)
     {
         std::vector<std::string> result;
 
         source.erase(remove(source.begin(), source.end(), ' '), source.end()); // Удаление пробелов
         boost::split(result, source, boost::is_any_of(delim));
         return result;
+    }
+
+    std::string localTime()
+    {
+        std::stringstream ss;
+        time_t t = std::time(nullptr);
+        auto tm = *localtime(&t);
+        ss << std::put_time(&tm, "%d.%m.%Y_%H:%M:%S");
+        return ss.str();
     }
 
     std::string date()
@@ -55,7 +64,7 @@ namespace utils
         return ss.str();
     }
 
-    std::vector<uint> findAge(std::vector<std::string> &data, std::vector<std::string> &dateOfBirth)
+    std::vector<int> findAge(const std::vector<std::string> &data, const std::vector<std::string> &dateOfBirth)
     {
         uint currentDay = atoi(data[0].c_str());
         uint currentMonth = atoi(data[1].c_str());
@@ -64,21 +73,22 @@ namespace utils
         uint birthMonth = atoi(dateOfBirth[1].c_str());
         uint birthYear = atoi(dateOfBirth[2].c_str());
 
-        int month[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }; // Кол-во дней в 12 месяцах
+        const uint february = ((birthYear % 4) == 0) && (((birthYear % 100) != 0) || ((birthYear % 400) == 0)) ? 29 : 28;
+        uint month[12] = { 31, february, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }; // Кол-во дней в 12 месяцах
         if (birthDay > currentDay)
         {
-            currentDay = currentDay + month[birthMonth - 1];
-            currentMonth = currentMonth - 1;
+            currentDay += month[birthMonth - 1];
+            currentMonth -= 1;
         }
         if (birthMonth > currentMonth)
         {
-            currentYear = currentYear - 1;
-            currentMonth = currentMonth + 12;
+            currentYear -= 1;
+            currentMonth += 12;
         }
-        uint calculatedDay = currentDay - birthDay;
-        uint calculatedMonth = currentMonth - birthMonth;
-        uint calculatedYear = currentYear - birthYear;
-        std::vector<uint> age = { calculatedYear, calculatedMonth, calculatedDay };
+        int calculatedDay = currentDay - birthDay;
+        int calculatedMonth = currentMonth - birthMonth;
+        int calculatedYear = currentYear - birthYear;
+        const std::vector<int> age = { calculatedYear, calculatedMonth, calculatedDay };
         return age;
     }
 

@@ -73,13 +73,8 @@ LIBS += -L/usr/lib/x86_64-linux-gnu \
         -lboost_filesystem \
         -lboost_system \
         -lboost_program_options \
-        -lboost_log \
-        -lboost_log_setup \
-        -lboost_thread \
         -lboost_regex \
-        -lboost_unit_test_framework \
-        -lpthread \
-        -ldl -fPIC
+        -lpthread
 
 DISTFILES += \
     data/accountant.txt \

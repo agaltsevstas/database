@@ -23,16 +23,9 @@ void Logger::instance()
     logger_ = new Logger;
     debugLevel_ = DEBUG_LEVEL_INFO;
     
-    uint number = 0;
-    bs::path fileName = "log_0.txt";
+    bs::path fileName = utils::localTime() + ".log";
     bs::path directory = "log/";
     bs::create_directory(directory); // Проверка на существование каталога. В случае отсутсвия, создается каталог
-    // Проверка на существование файла. В случае наличия, создается новый файл с новым именем
-    while (bs::is_regular_file(directory.string() + fileName.string()))
-    {
-        fileName = "log_" + std::to_string(number) + ".txt";
-        ++number;
-    }
     std::string filePath = directory.string() + fileName.string();
     logFile_.open(filePath);
 }
@@ -91,8 +84,10 @@ void Logger::writeInfo(const std::string &message)
 {
     if (debugLevel_ >= DEBUG_LEVEL_INFO)
     {
-        thread_ = std::thread([this, &message]() { this->writeToFile(message); });
-        writeToBuffer(message, MessageType::MESSAGE_INFO);
+        const std::string localTime = "[" + utils::localTime() + "] ";
+        const std::string str = localTime + message;
+        thread_ = std::thread([this, &str]() { this->writeToFile(str); });
+        writeToBuffer(str, MessageType::MESSAGE_INFO);
         thread_.join();
     }
 }
@@ -101,10 +96,11 @@ void Logger::writeWarning(const std::string &message)
 {
     if (debugLevel_ >= DEBUG_LEVEL_WARNING)
     {
+        const std::string localTime = "[" + utils::localTime() + "] ";
         const std::string type = "[Warning] ";
-        std::string str = type + message;
+        const std::string str = localTime + type + message;
         thread_ = std::thread([this, &str]() { this->writeToFile(str); });
-        writeToBuffer(message, MessageType::MESSAGE_WARNING);
+        writeToBuffer(str, MessageType::MESSAGE_WARNING);
         thread_.join();
     }
 }
@@ -113,10 +109,11 @@ void Logger::writeError(const std::string &message)
 {
     if (debugLevel_ >= DEBUG_LEVEL_ERROR)
     {
+        const std::string localTime = "[" + utils::localTime() + "] ";
         const std::string type = "[Error] ";
-        std::string str = type + message;
+        const std::string str = localTime + type + message;
         thread_ = std::thread([this, &str]() { this->writeToFile(str); });
-        writeToBuffer(message, MessageType::MESSAGE_ERROR);
+        writeToBuffer(str, MessageType::MESSAGE_ERROR);
         thread_.join();
     }
 }

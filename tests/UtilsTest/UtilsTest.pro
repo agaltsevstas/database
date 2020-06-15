@@ -30,13 +30,19 @@ SOURCES += \
 # Доп. файлы для тестирования
 INCLUDEPATH += ../../include
 HEADERS += \
+    ../../include/Logger.h \
+    ../../include/TradingCompany.h \
     ../../include/Utils.h
 
 SOURCES += \
+    ../../src/Logger.cpp \
+    ../../src/TradingCompany.cpp \
     ../../src/Utils.cpp
 
 # Boost
 LIBS += -L/usr/lib/x86_64-linux-gnu \
         -lboost_filesystem \
         -lboost_system \
+        -lboost_regex \
         -lboost_unit_test_framework \
+        -lpthread

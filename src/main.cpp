@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
             if (variables_map.count("directory"))
             {
                 directory = variables_map["directory"].as<std::string>();
-                std::cout << "Выбран путь к модулям >> " << directory << std::endl;
+                std::cout << "Выбран путь к базе данных >> " << directory << std::endl;
             }
             else
             {
