@@ -1,0 +1,31 @@
+image: ubuntu:18.04 # Образ из которого собирать контейнер
+variables:
+  REPO_NAME: gitlab.com/agaltsev.stas/database # Переменные окружения, в данном случае мы указываем имя репозитория
+before_script: # Вспомогательные команды, которые будут запущены перед запуском тестов
+  - echo $CI_BUILD_REF # Коммит для которого был запущен паплайнc
+  - echo $CI_PROJECT_DIR # Директория куда был выкачен проект.
+  - apt-get update && apt-get install -y apt-utils 
+  - apt-get update && apt-get install -y make gcc g++ qt5-default git
+  - apt-get update && apt-get install -y libboost-all-dev cmake
+  - apt-get update && apt-get upgrade -y
+stages: # Шаги / Стадии 
+  - build
+  - unit-tests # В нашем случае мы запускаем только один шаг
+ build:
+   stage: build
+   script:
+     - cd ~ && cd $CI_PROJECT_DIR
+     - qmake database.pro
+     - make
+     - cd ~ && cd $CI_PROJECT_DIR/bin/release
+     - ./database
+     - echo END build
+unit-tests:
+  stage: unit-tests
+  script:
+    - cd ~ && cd $CI_PROJECT_DIR/tests/UtilsTest
+    - qmake UtilsTest.pro
+    - make
+    - cd ~ && cd $CI_PROJECT_DIR/bin/tests
+    - ./UtilsTest # Запускаем тесты!
+    - echo END UtilsTest
