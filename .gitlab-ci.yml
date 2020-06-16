@@ -11,15 +11,15 @@ before_script: # Вспомогательные команды, которые �
 stages: # Шаги / Стадии 
   - build
   - unit-tests # В нашем случае мы запускаем только один шаг
- build:
-   stage: build
-   script:
-     - cd ~ && cd $CI_PROJECT_DIR
-     - qmake database.pro
-     - make
-     - cd ~ && cd $CI_PROJECT_DIR/bin/release
-     - ./database
-     - echo END build
+build:
+  stage: build
+  script:
+    - cd ~ && cd $CI_PROJECT_DIR
+    - qmake database.pro
+    - make
+    - cd ~ && cd $CI_PROJECT_DIR/bin/release
+    - ./database
+    - echo END build
 unit-tests:
   stage: unit-tests
   script:
