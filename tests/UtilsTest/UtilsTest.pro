@@ -3,6 +3,8 @@ CONFIG += console c++14
 CONFIG -= app_bundle
 CONFIG -= qt
 
+DESTDIR = $$PWD/../../bin/tests/
+
 #Отключить "теневую сборку" в криейторе!
 CONFIG(release, debug|release) {
 
