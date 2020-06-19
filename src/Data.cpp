@@ -478,7 +478,7 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
             std::cout << "Изменить дату рождения - нажмите 6" << std::endl;
             std::cout << "Изменить номер паспорта - нажмите 7" << std::endl;
         }
-        std::cout << "Изменить свой номер телефона - нажмите 8" << std::endl;
+        std::cout << "Изменить номер телефона - нажмите 8" << std::endl;
         if (isDirector)
         {
             std::cout << "Изменить почту - нажмите 9" << std::endl;
@@ -486,7 +486,7 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
             std::cout << "Изменить часы работы - нажмите 11" << std::endl;
             std::cout << "Изменить зарплату - нажмите 12" << std::endl;
         }
-        std::cout << "Изменить пароль к доступу - нажмите 13" << std::endl;
+        std::cout << "Изменить пароль - нажмите 13" << std::endl;
         std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.)" << std::endl;
         std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД" << std::endl;
         std::cout << "Ввод: ";
