@@ -80,7 +80,7 @@ namespace utils
     
     /*!
      * @brief Перевод кирилицы латинскими буквами
-     * @param textRussian - Кириллица
+     * @param textCyrillic - Кириллица
      * @return Латиница
      */
     std::string translit(const std::string &textCyrillic);

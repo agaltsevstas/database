@@ -3,28 +3,26 @@ CONFIG += c++17
 CONFIG -= app_bundle
 CONFIG -= qt
 
+DESTDIR = $$PWD/bin/
+
 #Отключить "теневую сборку" в криейторе!
 CONFIG(release, debug|release) {
 
 message(Project $$TARGET (Release))
 
-DESTDIR = $$PWD/bin/release
-
-OBJECTS_DIR = build/release
-MOC_DIR = build/release
-RCC_DIR = build/release
-UI_DIR = build/release
+OBJECTS_DIR = build/
+MOC_DIR = build/
+RCC_DIR = build/
+UI_DIR = build/
 }
 CONFIG(debug, debug|release) {
 
 message(Project $$TARGET (Debug))
 
-DESTDIR = $$PWD/bin/debug
-
-OBJECTS_DIR = build/debug
-MOC_DIR = build/debug
-RCC_DIR = build/debug
-UI_DIR = build/debug
+OBJECTS_DIR = build/
+MOC_DIR = build/
+RCC_DIR = build/
+UI_DIR = build/
 DEFINES += DEBUG_BUILD
 }
 
