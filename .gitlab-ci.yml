@@ -17,7 +17,7 @@ build:
     - cd ~ && cd $CI_PROJECT_DIR
     - qmake database.pro
     - make
-    - cd ~ && cd $CI_PROJECT_DIR/bin/release
+    - cd ~ && cd $CI_PROJECT_DIR/bin/
     - ./database
     - echo END build
 unit-tests:
