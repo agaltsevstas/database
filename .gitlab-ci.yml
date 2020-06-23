@@ -10,7 +10,7 @@ variables:
 #  - apt-get update && apt-get upgrade -y
 stages: # Шаги / Стадии 
   - build
-  - unit-tests # В нашем случае мы запускаем только один шаг
+  - test # В нашем случае мы запускаем только один шаг
 build:
   stage: build
   script:
@@ -21,7 +21,7 @@ build:
     - ./database
     - echo END build
 unit-tests:
-  stage: unit-tests
+  stage: test
   script:
     - cd ~ && cd $CI_PROJECT_DIR/tests/UtilsTest
     - qmake UtilsTest.pro
