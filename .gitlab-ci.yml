@@ -6,6 +6,8 @@ stages: # Шаги / Стадии
   - test 
   - deploy
 build:
+  tags:
+    - unit-tests # Тег раннера, на котором будет запущен job
   stage: build
   script:
     - cd ~ && cd $CI_PROJECT_DIR
@@ -15,6 +17,8 @@ build:
     - ./database
     - echo END build
 unit-tests:
+  tags:
+    - unit-tests # Тег раннера, на котором будет запущен job
   stage: test
   script:
     - cd ~ && cd $CI_PROJECT_DIR/tests/UtilsTest
@@ -24,6 +28,8 @@ unit-tests:
     - ./UtilsTest # Запускаем тесты!
     - echo END UtilsTest
 production:
+  tags:
+    - unit-tests # Тег раннера, на котором будет запущен job
   stage: deploy
   script:
     - cd ~ && cd $CI_PROJECT_DIR/
