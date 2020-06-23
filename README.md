@@ -1,7 +1,8 @@
 # Аннотация
 Кроссплатформенный консольный проект, содержащий базу данных сотрудников торговой компании. Каждый сотрудник имеет определенную должность. У каждой должности есть свой ряд полномочий. Более подробно представлено на рисунке.
 <p align="center">
-<img src="images/database.png" align="center"/></p>
+<img src="images/database.png"/>
+</p>
 
 ## Поддерживаемые платформы
 * Linux 
@@ -70,14 +71,42 @@ cd ../../bin/tests/
 ```
 ```<path>``` - путь к базе данных. Пример входа в программу привиден на рисунке.
 <p align="center">
-<img src="images/accountlogin.png" align="center"/></p>
+<img src="images/accountlogin.png"/>
+</p>
 
 Данные каждой должности находится в отдельном файле. Пример файла хранения данных c должностью "Директор".
 <p align="center">
-<img src="images/director.png" align="center"/></p>
+<img src="images/director.png"/>
+</p>
 
 ## Используемые паттерны:
 * Фабрика объектов
 * Фасад
 * Декоратор
 * Синглтон
+
+# Continuous Integration — CI (интеграция с разными системами)
+
+## Runner
+GitLab Runner — это агент, который используется для запуска определенных задач (jobs), их выполнения и отправки результатов обратно в GitLab. занимается выполнением инструкций из специального файла .gitlab-ci.yml.
+
+Задачи совершенно различными способами: локально, в docker-контейнерах, в различных облаках или через ssh-коннект к какому либо серверу.
+<p align="center">
+<img src="images/runner.png"/>
+</p>
+
+## Container registry
+Container Registry — это безопасный приватный реестр для хранения образов (images) Docker. При помощи GitLab Container Registry можно использовать готовые Docker-образы для GitLab CI (интеграция с разными системами).
+<p align="center">
+<img src="images/containerregistry.png"/>
+</p>
+
+## Pipeline
+<p align="center">
+<img src="images/pipeline.png"/>
+</p>
+
+## CI
+<p align="center">
+<img src="images/ci.png"/>
+</p>
