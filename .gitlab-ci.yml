@@ -33,6 +33,5 @@ production:
   stage: deploy
   script:
     - cd ~ && cd $CI_PROJECT_DIR/
-    - git merge master
     - echo READY!!!
 
