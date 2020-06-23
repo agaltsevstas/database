@@ -88,25 +88,28 @@ cd ../../bin/tests/
 # Continuous Integration — CI (интеграция с разными системами)
 
 ## Runner
-GitLab Runner — это агент, который используется для запуска определенных задач (jobs), их выполнения и отправки результатов обратно в GitLab. занимается выполнением инструкций из специального файла .gitlab-ci.yml.
-
-Задачи совершенно различными способами: локально, в docker-контейнерах, в различных облаках или через ssh-коннект к какому либо серверу.
+Runner — это агент, который используется для запуска определенных задач (jobs), их выполнения и отправки результатов обратно в GitLab. Задачи описаны в специальном файле .gitlab-ci.yml. 
 <p align="center">
 <img src="images/runner.png"/>
 </p>
 
-## Container registry
-Container Registry — это безопасный приватный реестр для хранения образов (images) Docker. При помощи GitLab Container Registry можно использовать готовые Docker-образы для GitLab CI (интеграция с разными системами).
+## Container Registry
+Container Registry — это безопасный приватный реестр для хранения images (образов) docker. При помощи Runner можно использовать готовые docker-образы для CI.
 <p align="center">
 <img src="images/containerregistry.png"/>
 </p>
 
 ## Pipeline
+Pipeline - это последовательность выполнения stages (стадий), каждая из которых включает jobs (задачи). От момента внесения изменений в код до выхода в production (производство) приложение по очереди проходит все этапы — подобному тому, как это происходит на конвейере.
 <p align="center">
 <img src="images/pipeline.png"/>
 </p>
+Краткие пояснения по стадиям:
+Build — сборка приложения
+Test — юнит-тесты
+Deploy - развёртывание на production
 
-## CI
+## CI (интеграция с разными системами)
 <p align="center">
 <img src="images/ci.png"/>
 </p>
