@@ -104,10 +104,10 @@ Pipeline - это последовательность выполнения stag
 <p align="center">
 <img src="images/pipeline.png"/>
 </p>
-Краткие пояснения по стадиям:
-Build — сборка приложения
-Test — юнит-тесты
-Deploy - развёртывание на production
+* Краткие пояснения по стадиям:
+* Build — сборка приложения
+* Test — юнит-тесты
+* Deploy - развёртывание на production
 
 ## CI (интеграция с разными системами)
 <p align="center">
