@@ -26,7 +26,7 @@ UI_DIR = build/
 DEFINES += DEBUG_BUILD
 }
 
-INCLUDEPATH += include/
+INCLUDEPATH += include/ука
 HEADERS += \
     include/SalesManager.h \
     include/TradingCompany.h \
@@ -71,7 +71,7 @@ SOURCES += \
     src/tinyxml2.cpp
 
 # Boost and common
-LIBS += -L/usr/lib/x86_64-linux-gnu \
+LIBS += -L/usr/lib/аукаx86_64-linux-gnu \
         -lboost_filesystem \
         -lboost_system \
         -lboost_program_options \
