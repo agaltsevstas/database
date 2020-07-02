@@ -1,4 +1,4 @@
-#image: registry.gitlab.com/agaltsev.stas/database # Использование docker container
+image: registry.gitlab.com/agaltsev.stas/database # Использование docker container
 variables:
   REPO_NAME: gitlab.com/agaltsev.stas/database # Переменные окружения, в данном случае мы указываем имя репозитория
 stages: # Шаги / Стадии 
