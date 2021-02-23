@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include <boost/filesystem.hpp>
 #include <boost/variant.hpp>
 
 #include "ObjectFactory.h"
@@ -153,7 +154,7 @@ private:
      * @param filePath - Путь к txt файлу
      * @param id - ID должности в соответствии с названием файла
      */
-    template<typename T> void readingTxtFile(const T &filePath, uint id);
+    void readingTxtFile(const boost::filesystem::path &filePath, uint id);
     
     /*!
      * @brief Чтение xml файла. Происходит считывание файла.
@@ -162,7 +163,7 @@ private:
      * @param filePath - Путь к txt файлу
      * @param id - ID должности в соответствии с названием файла
      */
-    template<typename T> void readingXmlFile(const T &filePath, uint id);
+    void readingXmlFile(const boost::filesystem::path &filePath, uint id);
     
     /*!
      * @brief Сортировка вектора объектов по ID в порядке возрастания

@@ -1,5 +1,3 @@
-#include <boost/filesystem.hpp>
-
 #include "ChiefAccountant.h"
 #include "ChiefLegalCounsel.h"
 #include "Loader.h"
@@ -22,7 +20,7 @@ Data &Data::instance()
     return data;
 }
 
-template<typename T> void Data::readingTxtFile(const T &filePath, uint id)
+void Data::readingTxtFile(const boost::filesystem::path &filePath, uint id)
 {
     std::string line;
     const std::string fileName = filePath.filename().c_str(); // Получение имени с расширением
@@ -68,7 +66,8 @@ template<typename T> void Data::readingTxtFile(const T &filePath, uint id)
         Logger::error << exception << std::endl;
     }
 }
-template<typename T> void Data::readingXmlFile(const T &filePath, uint id)
+
+void Data::readingXmlFile(const boost::filesystem::path &filePath, uint id)
 {
     const char *tag = "tradingCompany";
     const std::string fileName = filePath.filename().c_str(); // Получение имени с расширением
