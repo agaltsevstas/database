@@ -68,7 +68,7 @@
 		044C14BC248A530C00B2A0B5 /* tinyxml2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml2.cpp; sourceTree = "<group>"; };
 		044C14BD248A530C00B2A0B5 /* Director.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Director.cpp; sourceTree = "<group>"; };
 		044C14BE248A530C00B2A0B5 /* HeadOfProcurement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HeadOfProcurement.cpp; sourceTree = "<group>"; };
-		044C14BF248A530C00B2A0B5 /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Data.cpp; sourceTree = "<group>"; };
+		044C14BF248A530C00B2A0B5 /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Data.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		044C14C0248A530D00B2A0B5 /* SalesManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SalesManager.cpp; sourceTree = "<group>"; };
 		044C14C1248A530D00B2A0B5 /* Accountant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Accountant.cpp; sourceTree = "<group>"; };
 		044C14C2248A530D00B2A0B5 /* ChiefLegalCounsel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChiefLegalCounsel.cpp; sourceTree = "<group>"; };
