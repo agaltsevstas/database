@@ -736,7 +736,7 @@ void TradingCompany::checkSex(const std::string &warning)
 
 void TradingCompany::checkDateOfBirth(const std::string &warning)
 {
-    const std::string message = "Введите дату рождения (например, 16.12.1995)";
+    const std::string message = "Введите дату рождения (например, 16.12.1995 или 16/12/1995 или 16-12-1995)";
     recursion(FIELD_DATE_OF_BIRTH, &TradingCompany::setDateOfBirth, warning + message);
 }
 

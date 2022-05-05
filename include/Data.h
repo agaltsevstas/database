@@ -11,14 +11,6 @@
 #include "Director.h"
 #include "HRManager.h"
 
-/// Номера режимов записи в файл
-enum Mode
-{
-    TXT = 1,
-    XML,
-    ALL
-};
-
 /// Карта ID должностей
 const std::map<std::string, uint> idPositions =
 {
@@ -65,6 +57,15 @@ class Data
     friend class Director;
     
 private:
+    /// Режимы записи данных
+    enum Mode
+    {
+        TXT = 1,
+        XML,
+        Postgres,
+        ALL
+    };
+    
     /*!
      * @brief Структура, предназначенная для проверки полей объекта
      * getParameter - Получение значения поля с типом (uint32_t/uint64_t/string)
@@ -245,14 +246,19 @@ private:
     void setModeOutputData(const TradingCompany *object);
     
     /*!
-     * @brief Запись данных всех полей вектора объектов в txt файлы
+     * @brief Запись всех данных в txt файлы
      */
     void writeToTxtFile();
     
     /*!
-     * @brief Запись данных всех полей вектора объектов в xml файлы
+     * @brief Запись всех данных в xml файлы
      */
     void writeToXmlFile();
+    
+    /*!
+     * @brief Запись всех данных в PostgresSQL
+     */
+    void writeToPostgresSQL();
 };
 
 #endif // Data_h

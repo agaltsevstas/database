@@ -14,13 +14,9 @@ namespace utils
             std::string letter = textCyrillic.substr(i, 2); // Кириллица = 2 байта
             // Пробелы по-особенному считывает
             if (space == ' ')
-            {
                 textLatin += " ";
-            }
             else if (translitSymbols.find(letter) != translitSymbols.end())
-            {
                 textLatin += translitSymbols.find(letter)->second;
-            }
         }
         return textLatin;
     }
@@ -40,7 +36,6 @@ namespace utils
     std::vector<std::string> splitString(std::string source, const std::string &delim)
     {
         std::vector<std::string> result;
-
         source.erase(remove(source.begin(), source.end(), ' '), source.end()); // Удаление пробелов
         boost::split(result, source, boost::is_any_of(delim));
         return result;
@@ -95,15 +90,12 @@ namespace utils
     std::string toUpperAndToLower(std::string source, uint numberUpper)
     {
         if (source.empty())
-        {
-            return std::string();
-        }
+            return {};
+        
         // Конвертирование кириллицы в wstd::string, чтобы перевести буквы нижнего регистра в верхний или обратно
         std::wstring wstr = utf8ToWstring(source);
         for (size_t i = 0; i < numberUpper; ++i)
-        {
             wstr[i] = towupper(wstr[i]);
-        }
         transform(wstr.begin() + numberUpper, wstr.end(), wstr.begin() + numberUpper, std::towlower);
         // Обратное конвертирование кириллицы в std::string
         source = wstringToUtf8(wstr);
@@ -113,17 +105,27 @@ namespace utils
     void toupperandtolower(std::string &source, uint numberUpper)
     {
         if (source.empty())
-        {
             return;
-        }
+        
         // Конвертирование кириллицы в wstd::string, чтобы перевести буквы нижнего регистра в верхний или обратно
         std::wstring wstr = utf8ToWstring(source);
         for (size_t i = 0; i < numberUpper; ++i)
-        {
             wstr[i] = towupper(wstr[i]);
-        }
         transform(wstr.begin() + numberUpper, wstr.end(), wstr.begin() + numberUpper, std::towlower);
         // Обратное конвертирование кириллицы в std::string
         source = wstringToUtf8(wstr);
+    }
+
+    std::string formatDateToPostgres(std::string &iData)
+    {
+        if (iData.empty())
+            return {};
+        
+        const char* delimiters = "./-";
+        std::string day = std::strtok(iData.data(), delimiters);
+        std::string month = std::strtok(nullptr, delimiters);
+        std::string year = std::strtok(nullptr, delimiters);
+    
+        return year + "-" + month + "-" + day;
     }
 }

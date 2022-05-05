@@ -1,4 +1,5 @@
 #include <iostream>
+#include <filesystem>
 #include <boost/program_options.hpp>
 
 #include "Data.h"
@@ -9,7 +10,7 @@ int main(int argc, char *argv[])
     setlocale(LC_ALL,"ru_RU.UTF-8"); // Инициализация русских символов
     Logger::instance();
     std::string directory = "data/"; // Каталог с базой данных по умолчанию
-    if (argc > 1)
+            if (argc > 1)
     {
         std::string parameter;
         // Описание допустимых аргументов командной строки, пример:

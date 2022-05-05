@@ -13,6 +13,8 @@
 #include "Data.h"
 #include "Utils.h"
 #include "tinyxml2.h"
+#include <pqxx/pqxx>
+#include <pqxx/transaction>
 
 Data &Data::instance()
 {
@@ -964,11 +966,13 @@ void Data::setModeOutputData(const TradingCompany *object)
         std::cout << "************ Изменение режима данных вывода ************" << std::endl;
         mode_ == TXT ? std::cout << "По умолчанию режим - TXT" :
         mode_ == XML ? std::cout << "По умолчанию режим - XML" :
+        mode_ == Postgres ? std::cout << "По умолчанию режим - Postgres" :
                        std::cout << "По умолчанию режим - ALL";
         std::cout << std::endl;
         std::cout << "Изменить на TXT - нажмите 1" << std::endl;
         std::cout << "Изменить на XML - нажмите 2" << std::endl;
-        std::cout << "Изменить на ALL (использование всех режимов: TXT, XML) - нажмите 3" << std::endl;
+        std::cout << "Изменить на Postgres - нажмите 3" << std::endl;
+        std::cout << "Изменить на ALL (использование всех режимов: TXT, XML, Postgres) - нажмите 4" << std::endl;
         std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.)" << std::endl;
         std::cout << "Хотите выйти из программы? - введите ESC или ВЫХОД" << std::endl;
         std::cout << "Ввод: ";
@@ -992,6 +996,12 @@ void Data::setModeOutputData(const TradingCompany *object)
                     return;
                     
                 case utils::hash("3") :
+                    mode_ = Postgres;
+                    Logger::info << "Установлен режим вывода данных >> Postgres" << std::endl;
+                    std::cout << "Установлен режим вывода данных >> Postgres" << std::endl;
+                    return;
+                    
+                case utils::hash("4") :
                     mode_ = ALL;
                     Logger::info << "Установлен режим вывода данных >> ALL" << std::endl;
                     std::cout << "Установлен режим вывода данных >> ALL" << std::endl;
@@ -1083,6 +1093,73 @@ void Data::writeToXmlFile()
     delete doc;
 }
 
+void Data::writeToPostgresSQL()
+{
+    try
+    {
+        pqxx::connection connection("dbname=database host=localhost user=agaltsevstas password="); // Соединение с PostgresSQL
+        if (connection.is_open())
+        {
+            std::cout << "Пользователь " << connection.username() << " сохраняет данные." << std::endl;
+            std::cout << "Выполнено подключение к " << connection.dbname() << std::endl;
+            pqxx::work work(connection);
+//            pqxx::result result = work.exec_prepared("insert_into_table", "test_data");
+//            pqxx::subtransaction sx(work);
+//                    try {
+//                        // We expect this to fail because the table already has a row with i=1
+//                        sx.exec_prepared("TEST", 1, "Foo");
+//                        // If you comment the above line and use this instead it works as expected
+//                        // sx.exec("INSERT INTO TEST(i,t) VALUES (1, 'Foo')");
+//                        sx.commit();
+//                    } catch (pqxx::unique_violation &e) {
+//                        std::cout << e.what() << std::endl;
+//                        std::cout << "Rollback" << std::endl;
+//                    }
+//            work.exec_params(<#zview query#>, <#Args &&args...#>)stas.agaltsev.sergeevich
+
+            // Обработка запроса
+            std::string query("insert into employee(position, surname, name, patronymic, sex, dateofbirth, passport, phone, email, dateofhiring, workinghours, salary, password)                                values('Директор', 'Агальцев', 'Станислав', 'Сергеевич', 'Муж', '1995-12-16', 4516560001, 9032697963, 'stas.agaltsev.sergeevich@tradingcompany.ru', '2018-01-01', 'Понедельник-Пятница=09:00-18:00', 200000, '1Director');");
+            try
+            {
+//                pqxx::result result = work.exec(query);
+//                if (result.empty())
+//                    throw query;
+                
+                connection.prepare("insert_to_employee", "insert into employee (position, surname, name, patronymic, sex, dateofbirth, passport, phone, email, dateofhiring, workinghours, salary, password)                                values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);");
+                
+                for (const auto &object: vectorObjects_)
+                {
+                    work.exec_prepared("insert_to_employee", object->position_, object->surname_, object->name_, object->patronymic_, object->sex_, utils::formatDateToPostgres(object->dateOfBirth_), object->passport_, object->phone_, object->email_, utils::formatDateToPostgres(object->dateOfHiring_), object->workingHours_, object->salary_, object->password_);
+                    work.commit();
+                }
+            }
+            catch(const std::exception &ex)
+            {
+                work.abort();
+                std::cerr << "Неверные данные в запросе >> " << ex.what() << std::endl;
+            }
+            catch(...)
+            {
+                work.abort();
+                Logger::error << "Неизвестная ошибка!" << std::endl;
+            }
+        }
+        connection.close();
+    }
+    catch (pqxx::broken_connection &exception)
+    {
+        Logger::error << "Ошибка при подключении к " << exception.what() << std::endl;
+    }
+    catch(const std::exception &ex)
+    {
+        Logger::error << "Неверный запрос >> " << ex.what() << std::endl;
+    }
+    catch(...)
+    {
+        Logger::error << "Неизвестная ошибка!" << std::endl;
+    }
+}
+
 Data::~Data()
 {
     // Удаление ранних файлов с данными
@@ -1101,6 +1178,10 @@ Data::~Data()
                 
             case XML :
                 writeToXmlFile();
+                break;
+                
+            case Postgres:
+                writeToPostgresSQL();
                 break;
                 
             case ALL :

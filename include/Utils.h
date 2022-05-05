@@ -186,6 +186,13 @@ namespace utils
     void toupperandtolower(std::string &source, uint numberUpper = 1);
 
     /*!
+     * @brief Конвертирование даты в Postgres
+     * @param iData - Исходная дата
+     * @return Конвертированная дата
+     */
+    std::string formatDateToPostgres(std::string &iData);
+
+    /*!
      * @brief Получение имени класса в строковом виде
      * @param object - Объект класса
      * @return Имя класса
