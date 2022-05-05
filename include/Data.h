@@ -11,14 +11,6 @@
 #include "Director.h"
 #include "HRManager.h"
 
-/// Номера режимов записи в файл
-enum Mode
-{
-    TXT = 1,
-    XML,
-    ALL
-};
-
 /// Карта ID должностей
 const std::map<std::string, uint> idPositions =
 {
@@ -65,6 +57,16 @@ class Data
     friend class Director;
     
 private:
+    
+    /// Режимы записи данных
+    enum Mode
+    {
+        TXT = 1,
+        XML,
+        Postgres,
+        ALL
+    };
+
     /*!
      * @brief Структура, предназначенная для проверки полей объекта
      * getParameter - Получение значения поля с типом (uint32_t/uint64_t/string)
@@ -89,39 +91,39 @@ public:
     /*!
      * @brief Создание единственного объекта
      */
-    static Data &instance();
+    static Data &Instance();
 
     /*!
      * @brief Загрузка базы данных.
      * Считывание данных из txt/xml файлов
      * @param directoryPath - Путь к каталогу, где хранятся файлы
      */
-    void loadDatabase(const std::string &directoryPath);
+    void LoadDatabase(const std::string &directoryPath);
 
     /*!
      * @brief Вход в аккаунт.
      * Требуется ввести почту/логин и пароль
      */
-    void accountLogin();
+    void AccountLogin();
 
     /*!
      * @brief Вывод личных данных на экран
      * @param object - Объект, который в данный момент используется
      */
-    void printPersonalData(TradingCompany *object);
+    void PrintPersonalData(TradingCompany *object);
 
     /*!
      * @brief Изменение личных/чужих данных
      * @param object - Объект, который в данный момент используется
      * @param otherObject - Чужой объект, в котором изменяются данные
      */
-    void changeData(TradingCompany *object, TradingCompany *otherObject = nullptr);
+    void ChangeData(TradingCompany *object, TradingCompany *otherObject = nullptr);
     
     /*!
      * @brief Обертка для добавления нового сотрудника
      */
-    friend void Director::addNewEmployeeData();
-    friend void HRManager::addNewEmployeeData();
+    friend void Director::AddNewEmployeeData();
+    friend void HRManager::AddNewEmployeeData();
     
 private:
     Mode mode_ = TXT; /// Режим записи данных
@@ -154,7 +156,7 @@ private:
      * @param filePath - Путь к txt файлу
      * @param id - ID должности в соответствии с названием файла
      */
-    void readingTxtFile(const boost::filesystem::path &filePath, uint id);
+    void ReadingTxtFile(const boost::filesystem::path &filePath, uint id);
     
     /*!
      * @brief Чтение xml файла. Происходит считывание файла.
@@ -163,19 +165,19 @@ private:
      * @param filePath - Путь к txt файлу
      * @param id - ID должности в соответствии с названием файла
      */
-    void readingXmlFile(const boost::filesystem::path &filePath, uint id);
+    void ReadingXmlFile(const boost::filesystem::path &filePath, uint id);
     
     /*!
      * @brief Сортировка вектора объектов по ID в порядке возрастания
      */
-    void sort();
+    void Sort();
     
     /*!
      * @brief Проверка полей на повреждение/перезапись/дублирование данных.
      * Каждое поле проверяется отдельно.
      * @param parameter - Структура, предназначенная для проверки полей объекта
      */
-    template<class Class> void checkParameter(Parameter<Class> &parameter);
+    template<class Class> void CheckParameter(Parameter<Class> &parameter);
     
     /*!
      * @brief Проверка поля на повреждение/перезапись/дублирование данных.
@@ -185,7 +187,7 @@ private:
      * @param message - Передаваемое сообщение
      * @return Структура, предназначенная для проверки полей объекта
      */
-    template<class Class> Parameter<Class> selectParameter(const Field field,
+    template<class Class> Parameter<Class> SelectParameter(const Field field,
                                                            Class *object,
                                                            const std::string &message = {});
     
@@ -194,65 +196,65 @@ private:
      * @param object - Объект, который в данный момент используется
      * @param isWarning - Передаваемое предупреждение о невалидности данных поля
      */
-    template<class C> void checkParameters(C *object, const bool isWarning = false);
+    template<class C> void CheckParameters(C *object, const bool isWarning = false);
     
     /*!
      * @brief Поиск объекта по одному из полей
      * @param object - Объект, который в данный момент используется
      * @return Найденный объект
      */
-    TradingCompany *find(TradingCompany *object);
+    TradingCompany *Find(TradingCompany *object);
     
     /*!
      * @brief Обертка для изменения чужих данных
      * @param object - Объект, который в данный момент используется
      */
-    void changeOtherData(TradingCompany *object);
+    void ChangeOtherData(TradingCompany *object);
     
     /*!
      * @brief Обертка для удаления данных сотрудника
      * @param object - Объект, который в данный момент используется
      */
-    void deleteEmployeeData(TradingCompany *object);
+    void DeleteEmployeeData(TradingCompany *object);
     
     /*!
      * @brief Вывод всех данных из вектора объектов на экран
      */
-    void getAllOtherData() const;
+    void GetAllOtherData() const;
     
     /*!
      * @brief Добавление объекта в вектор объектов
      * @param object - Добавляемый объект
      */
-    template<class C> void pushBack(C &object);
+    template<class C> void PushBack(C &object);
     
     /*!
      * @brief Удаление объекта из вектора объектов
      * @param object - Удаляемый объект
      */
-    template<class C> void deleteObject(C *object);
+    template<class C> void DeleteObject(C *object);
     
     /*!
      * @brief Добавление нового сотрудника. Заполнение полей нового объекта
      * @param object - Объект, который в данный момент используется
      */
-    void newEmployeeData(const TradingCompany *object);
+    void NewEmployeeData(const TradingCompany *object);
     
     /*!
      * @brief Установление режима записи данных
      * @param object - Объект, который в данный момент используется
      */
-    void setModeOutputData(const TradingCompany *object);
+    void SetModeOutputData(const TradingCompany *object);
     
     /*!
-     * @brief Запись данных всех полей вектора объектов в txt файлы
+     * @brief Запись всех данных в txt файлы
      */
-    void writeToTxtFile();
+    void WriteToTxtFile();
     
     /*!
-     * @brief Запись данных всех полей вектора объектов в xml файлы
+     * @brief Запись всех данных в xml файлы
      */
-    void writeToXmlFile();
+    void WriteToXmlFile();
 };
 
 #endif // Data_h

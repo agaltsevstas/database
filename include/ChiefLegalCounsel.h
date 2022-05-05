@@ -10,7 +10,7 @@ class ChiefLegalCounsel : public TradingCompany
 public:
     ChiefLegalCounsel();
     const ChiefLegalCounsel& operator = (const TradingCompany &object);
-    void functional() override;
+    void Functional() override;
     
 private:
     Data* data_ = nullptr;

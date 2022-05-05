@@ -10,7 +10,7 @@ class SalesManager : public TradingCompany
 public:
     SalesManager();
     const SalesManager& operator = (const TradingCompany &object);
-    void functional() override;
+    void Functional() override;
     
 private:
     Data* data_ = nullptr;

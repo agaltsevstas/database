@@ -1,7 +1,7 @@
 #include "PurchasingManager.h"
 #include "Data.h"
 
-PurchasingManager::PurchasingManager() : data_(&Data::instance()) {}
+PurchasingManager::PurchasingManager() : data_(&Data::Instance()) {}
 
 const PurchasingManager& PurchasingManager::operator = (const TradingCompany &object)
 {
@@ -9,7 +9,7 @@ const PurchasingManager& PurchasingManager::operator = (const TradingCompany &ob
     return *this;
 }
 
-void PurchasingManager::functional()
+void PurchasingManager::Functional()
 {
     Logger::info << "******************** Личный кабинет ********************" << std::endl;
     while (true)
@@ -25,23 +25,23 @@ void PurchasingManager::functional()
         {
             std::string input;
             std::cin >> input;
-            utils::tolower(input);
-            switch (utils::hash(input.c_str()))
+            Utils::tolower(input);
+            switch (Utils::Hash(input.c_str()))
             {
-                case utils::hash("1") :
-                    data_->printPersonalData(this);
+                case Utils::Hash("1") :
+                    data_->PrintPersonalData(this);
                     break;
                     
-                case utils::hash("2") :
-                    data_->changeData(this);
+                case Utils::Hash("2") :
+                    data_->ChangeData(this);
                     break;
                     
-                case utils::hash("b") :
-                case utils::hash("н") :
+                case Utils::Hash("b") :
+                case Utils::Hash("н") :
                     return;
 
-                case utils::hash("esc") :
-                case utils::hash("выход") :
+                case Utils::Hash("esc") :
+                case Utils::Hash("выход") :
                     EXIT(this);
 
                 default:

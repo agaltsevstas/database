@@ -17,7 +17,7 @@ private:
      * @brief Создание объекта определенного класса
      * @return Созданный объект определенного класса
      */
-    template<class Derived> static Base* instantiator()
+    template<class Derived> static Base* Instantiator()
     {
         return new Derived();
     }
@@ -31,9 +31,9 @@ public:
      * Derived - Определенный класс, который фабрике необходимо зарегистрировать
      * @param id - Строка-идентификатор определенного класса
      */
-    template<class Derived> void add(ID id)
+    template<class Derived> void Add(ID id)
     {
-        classes[id] = &instantiator<Derived>;
+        classes[id] = &Instantiator<Derived>;
     }
     
     /*!
@@ -41,7 +41,7 @@ public:
      * @param id - Строка-идентификатор определенного класса
      * @return Найденный объект по идентификатору определенного класса
      */
-    fInstantiator get(ID id)
+    fInstantiator Get(ID id)
     {
         return classes[id];
     }

@@ -15,7 +15,7 @@ std::string Logger::errorBuffer_;                                               
 std::string Logger::allMessagesBuffer_;                                            // Определение буфер хранения всех видов сообщений
 
 
-void Logger::instance()
+void Logger::Instance()
 {
     namespace bs = boost::filesystem;
     
@@ -23,14 +23,14 @@ void Logger::instance()
     logger_ = new Logger;
     debugLevel_ = DEBUG_LEVEL_INFO;
     
-    bs::path fileName = utils::localTime() + ".log";
+    bs::path fileName = Utils::LocalTime() + ".log";
     bs::path directory = "log/";
     bs::create_directory(directory); // Проверка на существование каталога. В случае отсутсвия, создается каталог
     std::string filePath = directory.string() + fileName.string();
     logFile_.open(filePath);
 }
 
-void Logger::setDebugLevel(Logger::DebugLevel debugLevel)
+void Logger::SetDebugLevel(Logger::DebugLevel debugLevel)
 {
     debugLevel_ = debugLevel;
 }
@@ -55,7 +55,7 @@ Logger::Streamer::StringBuffer::~StringBuffer()
     pubsync();
 }
 
-int Logger::Streamer::StringBuffer::sync()
+int Logger::Streamer::StringBuffer::Sync()
 {
     std::string text(str()); // Получение текста из буфера
     if (Logger::logger_ == nullptr || text.empty())
@@ -66,59 +66,59 @@ int Logger::Streamer::StringBuffer::sync()
     switch (messageType_)
     {
         case MESSAGE_INFO:
-            Logger::logger_->writeInfo(text);
+            Logger::logger_->WriteInfo(text);
             break;
             
         case MESSAGE_WARNING:
-            Logger::logger_->writeWarning(text);
+            Logger::logger_->WriteWarning(text);
             break;
             
         case MESSAGE_ERROR:
-            Logger::logger_->writeError(text);
+            Logger::logger_->WriteError(text);
             break;
     }
     return 0;
 };
 
-void Logger::writeInfo(const std::string &message)
+void Logger::WriteInfo(const std::string &message)
 {
     if (debugLevel_ >= DEBUG_LEVEL_INFO)
     {
-        const std::string localTime = "[" + utils::localTime() + "] ";
+        const std::string localTime = "[" + Utils::LocalTime() + "] ";
         const std::string str = localTime + message;
-        thread_ = std::thread([this, &str]() { this->writeToFile(str); });
-        writeToBuffer(str, MessageType::MESSAGE_INFO);
+        thread_ = std::thread([this, &str]() { this->WriteToFile(str); });
+        WriteToBuffer(str, MessageType::MESSAGE_INFO);
         thread_.join();
     }
 }
 
-void Logger::writeWarning(const std::string &message)
+void Logger::WriteWarning(const std::string &message)
 {
     if (debugLevel_ >= DEBUG_LEVEL_WARNING)
     {
-        const std::string localTime = "[" + utils::localTime() + "] ";
+        const std::string localTime = "[" + Utils::LocalTime() + "] ";
         const std::string type = "[Warning] ";
         const std::string str = localTime + type + message;
-        thread_ = std::thread([this, &str]() { this->writeToFile(str); });
-        writeToBuffer(str, MessageType::MESSAGE_WARNING);
+        thread_ = std::thread([this, &str]() { this->WriteToFile(str); });
+        WriteToBuffer(str, MessageType::MESSAGE_WARNING);
         thread_.join();
     }
 }
 
-void Logger::writeError(const std::string &message)
+void Logger::WriteError(const std::string &message)
 {
     if (debugLevel_ >= DEBUG_LEVEL_ERROR)
     {
-        const std::string localTime = "[" + utils::localTime() + "] ";
+        const std::string localTime = "[" + Utils::LocalTime() + "] ";
         const std::string type = "[Error] ";
         const std::string str = localTime + type + message;
-        thread_ = std::thread([this, &str]() { this->writeToFile(str); });
-        writeToBuffer(str, MessageType::MESSAGE_ERROR);
+        thread_ = std::thread([this, &str]() { this->WriteToFile(str); });
+        WriteToBuffer(str, MessageType::MESSAGE_ERROR);
         thread_.join();
     }
 }
 
-void Logger::writeToBuffer(const std::string &message, MessageType messageType)
+void Logger::WriteToBuffer(const std::string &message, MessageType messageType)
 {
     allMessagesBuffer_ += message;
     switch (messageType)
@@ -137,32 +137,32 @@ void Logger::writeToBuffer(const std::string &message, MessageType messageType)
     }
 }
 
-void Logger::writeToFile(const std::string &message)
+void Logger::WriteToFile(const std::string &message)
 {
     logFile_ << message << std::flush; // Принудительный сброс буфера
 }
 
-void Logger::printInfo()
+void Logger::PrintInfo()
 {
     infoBuffer_.empty() ? std::cout << "Cообщения отсутствуют" << std::endl : std::cout << infoBuffer_;
 }
 
-void Logger::printWarning()
+void Logger::PrintWarning()
 {
     warningBuffer_.empty() ? std::cout << "Предупреждения отсутствуют" << std::endl : std::cout << warningBuffer_;
 }
 
-void Logger::printError()
+void Logger::PrintError()
 {
     errorBuffer_.empty() ? std::cout << "Ошибки отсутствуют" << std::endl : std::cout << errorBuffer_;
 }
 
-void Logger::printAllMessages()
+void Logger::PrintAllMessages()
 {
     std::cout << allMessagesBuffer_ << std::endl;
 }
 
-void Logger::printLog(const TradingCompany *object)
+void Logger::PrintLog(const TradingCompany *object)
 {
     Logger::info << "*********************** Logger *************************" << std::endl;
     while (true)
@@ -180,34 +180,34 @@ void Logger::printLog(const TradingCompany *object)
         {
             std::string input;
             std::cin >> input;
-            switch (utils::hash(input.c_str()))
+            switch (Utils::Hash(input.c_str()))
             {
-                case utils::hash("1") :
-                    printInfo();
+                case Utils::Hash("1") :
+                    PrintInfo();
                     Logger::info << ">> Вывод всех информационных сообщений <<" << std::endl;
                     break;
 
-                case utils::hash("2") :
-                    printWarning();
+                case Utils::Hash("2") :
+                    PrintWarning();
                     Logger::info << ">> Вывод всех предупреждений << " << std::endl;
                     break;
 
-                case utils::hash("3") :
-                    printError();
+                case Utils::Hash("3") :
+                    PrintError();
                     Logger::info << ">> Вывод всех ошибок <<" << std::endl;
                     break;
 
-                case utils::hash("4") :
-                    printAllMessages();
+                case Utils::Hash("4") :
+                    PrintAllMessages();
                     Logger::info << ">> Вывод всех сообщений <<" << std::endl;
                     break;
 
-                case utils::hash("b") :
-                case utils::hash("н") :
+                case Utils::Hash("b") :
+                case Utils::Hash("н") :
                     return;
 
-                case utils::hash("esc") :
-                case utils::hash("выход") :
+                case Utils::Hash("esc") :
+                case Utils::Hash("выход") :
                     EXIT(object);
 
                 default:

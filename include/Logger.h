@@ -57,18 +57,18 @@ public:
     /*!
      * @brief Создание единственного объекта
      */
-    static void instance();
+    static void Instance();
     
     /*!
      * @brief Удаление объекта и закрытия лог файла
      */
-    static void delet();
+    static void Delete();
     
     /*!
      * @TODO: Установление уровня подробности лога
      * @param level - Уровень лога
      */
-    static void setDebugLevel(DebugLevel level);
+    static void SetDebugLevel(DebugLevel level);
     
     /*!
      * @details Производный класс от класссов стандартной библиотеки.
@@ -112,7 +112,7 @@ public:
             /*!
              * @brief Синхронизация строкового буфера потока
              */
-            virtual int sync();
+            virtual int Sync();
             
         private:
             Logger::MessageType messageType_;
@@ -152,21 +152,21 @@ private:
      * Запись производится одновременно в файл и буфер в двух потоках
      * @param message - Записываемое сообщение
      */
-    void writeInfo(const std::string &message);
+    void WriteInfo(const std::string &message);
     
     /*!
      * @brief Запись предупреждений.
      * Запись производится одновременно в файл и буфер в двух потоках
      * @param message - Записываемое сообщение
      */
-    void writeWarning(const std::string &message);
+    void WriteWarning(const std::string &message);
     
     /*!
      * @brief Запись ошибок.
      * Запись производится одновременно в файл и буфер в двух потоках
      * @param message - Записываемое сообщение
      */
-    void writeError(const std::string &message);
+    void WriteError(const std::string &message);
     
     /*!
      * @brief Запись в буфер.
@@ -174,39 +174,39 @@ private:
      * @param message - Записываемое сообщение
      * @param messageType - Уровень вида сообщений
      */
-    static void writeToBuffer(const std::string &message, MessageType messageType);
+    static void WriteToBuffer(const std::string &message, MessageType messageType);
     
     /*!
      * @brief Запись в файл
      * @param message - Записываемое сообщение
      */
-    void writeToFile(const std::string &message);
+    void WriteToFile(const std::string &message);
     
     /*!
      * @brief Вывод информационных сообщений на экран
      */
-    static void printInfo();
+    static void PrintInfo();
     
     /*!
      * @brief Вывод предупреждений на экран
      */
-    static void printWarning();
+    static void PrintWarning();
     
     /*!
      * @brief Вывод ошибок на экран
      */
-    static void printError();
+    static void PrintError();
     
     /*!
      * @brief Вывод всех сообщений (информационные сообщений, предупреждения, ошибки) на экран
      */
-    static void printAllMessages();
+    static void PrintAllMessages();
     
     /*!
      * @brief Обертка для вывода разных видов сообщений
      * @param object - Объект, который в данный момент используется
      */
-    static void printLog(const TradingCompany *object);
+    static void PrintLog(const TradingCompany *object);
 };
 
 #endif /* Logger_h */

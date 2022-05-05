@@ -1,7 +1,7 @@
 #include "HRManager.h"
 #include "Data.h"
 
-HRManager::HRManager() : data_(&Data::instance()) {}
+HRManager::HRManager() : data_(&Data::Instance()) {}
 
 const HRManager& HRManager::operator = (const TradingCompany &object)
 {
@@ -9,12 +9,12 @@ const HRManager& HRManager::operator = (const TradingCompany &object)
     return *this;
 }
 
-void HRManager::addNewEmployeeData()
+void HRManager::AddNewEmployeeData()
 {
-    data_->newEmployeeData(this);
+    data_->NewEmployeeData(this);
 }
 
-void HRManager::functional()
+void HRManager::Functional()
 {
     Logger::info << "******************** Личный кабинет ********************" << std::endl;
     while (true)
@@ -31,27 +31,27 @@ void HRManager::functional()
         {
             std::string input;
             std::cin >> input;
-            utils::tolower(input);
-            switch (utils::hash(input.c_str()))
+            Utils::tolower(input);
+            switch (Utils::Hash(input.c_str()))
             {
-                case utils::hash("1") :
-                    data_->printPersonalData(this);
+                case Utils::Hash("1") :
+                    data_->PrintPersonalData(this);
                     break;
                     
-                case utils::hash("2") :
-                    data_->changeData(this);
+                case Utils::Hash("2") :
+                    data_->ChangeData(this);
                     break;
                     
-                case utils::hash("3") :
-                    addNewEmployeeData();
+                case Utils::Hash("3") :
+                    AddNewEmployeeData();
                     break;
                     
-                case utils::hash("b") :
-                case utils::hash("н") :
+                case Utils::Hash("b") :
+                case Utils::Hash("н") :
                     return;
 
-                case utils::hash("esc") :
-                case utils::hash("выход") :
+                case Utils::Hash("esc") :
+                case Utils::Hash("выход") :
                     EXIT(this);
 
                 default:

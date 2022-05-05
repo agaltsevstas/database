@@ -1,7 +1,7 @@
 #include "Director.h"
 #include "Data.h"
 
-Director::Director() : data_(&Data::instance()) {}
+Director::Director() : data_(&Data::Instance()) {}
 
 const Director& Director::operator = (const TradingCompany &object)
 {
@@ -9,12 +9,12 @@ const Director& Director::operator = (const TradingCompany &object)
     return *this;
 }
 
-void Director::addNewEmployeeData()
+void Director::AddNewEmployeeData()
 {
-    data_->newEmployeeData(this);
+    data_->NewEmployeeData(this);
 }
 
-void Director::functional()
+void Director::Functional()
 {
     Logger::info << "******************** Личный кабинет ********************" << std::endl;
     while (true)
@@ -37,51 +37,51 @@ void Director::functional()
         {
             std::string input;
             std::cin >> input;
-            utils::tolower(input);
-            switch (utils::hash(input.c_str()))
+            Utils::tolower(input);
+            switch (Utils::Hash(input.c_str()))
             {
-                case utils::hash("1") :
-                    data_->printPersonalData(this);
+                case Utils::Hash("1") :
+                    data_->PrintPersonalData(this);
                     break;
                     
-                case utils::hash("2") :
-                    data_->changeData(this);
+                case Utils::Hash("2") :
+                    data_->ChangeData(this);
                     break;
                     
-                case utils::hash("3") :
-                    data_->getAllOtherData();
+                case Utils::Hash("3") :
+                    data_->GetAllOtherData();
                     break;
                     
-                case utils::hash("4") :
-                    data_->find(this);
+                case Utils::Hash("4") :
+                    data_->Find(this);
                     break;
                     
-                case utils::hash("5") :
-                    data_->changeOtherData(this);
+                case Utils::Hash("5") :
+                    data_->ChangeOtherData(this);
                     break;
                     
-                case utils::hash("6") :
-                    data_->newEmployeeData(this);
+                case Utils::Hash("6") :
+                    data_->NewEmployeeData(this);
                     break;
                     
-                case utils::hash("7") :
-                    data_->deleteEmployeeData(this);
+                case Utils::Hash("7") :
+                    data_->DeleteEmployeeData(this);
                     break;
                     
-                case utils::hash("8") :
-                    data_->setModeOutputData(this);
+                case Utils::Hash("8") :
+                    data_->SetModeOutputData(this);
                     break;
                     
-                case utils::hash("9") :
-                    Logger::printLog(this);
+                case Utils::Hash("9") :
+                    Logger::PrintLog(this);
                     break;
                     
-                case utils::hash("b") :
-                case utils::hash("н") :
+                case Utils::Hash("b") :
+                case Utils::Hash("н") :
                     return;
 
-                case utils::hash("esc") :
-                case utils::hash("выход") :
+                case Utils::Hash("esc") :
+                case Utils::Hash("выход") :
                     EXIT(this);
 
                 default:

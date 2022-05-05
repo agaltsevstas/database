@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     std::srand(static_cast<uint>(time(0))); // Инициализация генератора случайных чисел rand
     setlocale(LC_ALL,"ru_RU.UTF-8"); // Инициализация русских символов
-    Logger::instance();
+    Logger::Instance();
     std::string directory = "data/"; // Каталог с базой данных по умолчанию
     if (argc > 1)
     {
@@ -61,11 +61,11 @@ int main(int argc, char *argv[])
     {
         directory += "/";
     }
-    Data &data = Data::instance();
+    Data &data = Data::Instance();
     try
     {
-        data.loadDatabase(directory);
-        data.accountLogin();
+        data.LoadDatabase(directory);
+        data.AccountLogin();
     }
     catch (const std::exception &ex)
     {

@@ -10,7 +10,7 @@ class HeadOfWarehouse : public TradingCompany
 public:
     HeadOfWarehouse();
     const HeadOfWarehouse& operator = (const TradingCompany &object);
-    void functional() override;
+    void Functional() override;
     
 private:
     Data* data_ = nullptr;

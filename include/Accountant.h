@@ -10,12 +10,12 @@ class Accountant : public TradingCompany
 public:
     Accountant();
     const Accountant& operator = (const TradingCompany &object);
-    void functional() override;
+    void Functional() override;
     
 private:
     Data* data_ = nullptr;
     
-    void changePersonalData();
+    void ChangePersonalData();
 };
 
 #endif // Accountant_h

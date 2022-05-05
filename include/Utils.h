@@ -12,33 +12,33 @@
 #include <iomanip>
 #include <codecvt>
 
-#define LOGIN(object) Logger::info << "Вход в аккаунт >> " << object->getPosition()   << " "        \
-                                                           << object->getSurname()    << " "        \
-                                                           << object->getName()       << " "        \
-                                                           << object->getPatronymic() << std::endl; \
-                      std::cout << "Вы зашли за " << object->getPosition() << "'a. " << std::endl;  \
-                      std::cout << "Приветствуем вас, " << object->getSurname()    << " "           \
-                                                        << object->getName()       << " "           \
-                                                        << object->getPatronymic() << "!"           \
+#define LOGIN(object) Logger::info << "Вход в аккаунт >> " << object->GetPosition()   << " "        \
+                                                           << object->GetSurname()    << " "        \
+                                                           << object->GetName()       << " "        \
+                                                           << object->GetPatronymic() << std::endl; \
+                      std::cout << "Вы зашли за " << object->GetPosition() << "'a. " << std::endl;  \
+                      std::cout << "Приветствуем вас, " << object->GetSurname()    << " "           \
+                                                        << object->GetName()       << " "           \
+                                                        << object->GetPatronymic() << "!"           \
                                                         << std::endl;
  
-#define LOGOUT(object) Logger::info << "Выход из аккаунта << " << object->getPosition()   << " "        \
-                                                               << object->getSurname()    << " "        \
-                                                               << object->getName()       << " "        \
-                                                               << object->getPatronymic() << std::endl; \
+#define LOGOUT(object) Logger::info << "Выход из аккаунта << " << object->GetPosition()   << " "        \
+                                                               << object->GetSurname()    << " "        \
+                                                               << object->GetName()       << " "        \
+                                                               << object->GetPatronymic() << std::endl; \
                        std::cout << std::endl << "Вы вышли из аккаунта" << std::endl;
 
-#define EXIT(object) Logger::info << "Выход из аккаунта << " << object->getPosition()   << " "        \
-                                                             << object->getSurname()    << " "        \
-                                                             << object->getName()       << " "        \
-                                                             << object->getPatronymic() << std::endl; \
+#define EXIT(object) Logger::info << "Выход из аккаунта << " << object->GetPosition()   << " "        \
+                                                             << object->GetSurname()    << " "        \
+                                                             << object->GetName()       << " "        \
+                                                             << object->GetPatronymic() << std::endl; \
                      Logger::info << "Выход из программы" << std::endl;                               \
                      std::cout << std::endl;                                                          \
                      std::cout << "Вы вышли из аккаунта" << std::endl;                                \
                      std::cout << "Вы вышли из программы" << std::endl;                               \
                      exit(0);
 
-namespace utils
+namespace Utils
 {
     // Карта перевода из кириллицы в латиницу
     const std::map<std::string, std::string> translitSymbols =
@@ -83,23 +83,23 @@ namespace utils
      * @param textCyrillic - Кириллица
      * @return Латиница
      */
-    std::string translit(const std::string &textCyrillic);
+    std::string Translit(const std::string &textCyrillic);
     
     /*!
      * @brief Создание почты, используя фамилию, имя и отчество
      * @param anthroponym - Вектор антропононимов
      * @return Готовая почта
      */
-    std::string createEmail(const std::vector<std::string> &anthroponym);
+    std::string CreateEmail(const std::vector<std::string> &anthroponym);
     
     /*!
      * @brief Хэширование текста
      * @param source - Исходный текст
      * @return Готовый текст
      */
-    inline unsigned constexpr hash(const char *source)
+    inline unsigned constexpr Hash(const char *source)
     {
-        return *source ? static_cast<unsigned int>(*source) + 33 * hash(source + 1) : 5381;
+        return *source ? static_cast<unsigned int>(*source) + 33 * Hash(source + 1) : 5381;
     }
 
     /*!
@@ -126,19 +126,19 @@ namespace utils
      * @brief Разбиение текста на части
      * @param source - Исходный текст
      */
-    std::vector<std::string> splitString(std::string source, const std::string &delim);
+    std::vector<std::string> SplitString(std::string source, const std::string &delim);
 
     /*!
      * @brief Получение локального времени
      * @return - Локальное время
      */
-    std::string localTime();
+    std::string LocalTime();
 
     /*!
      * @brief Получение текущей даты
      * @return - Текущая дата
      */
-    std::string date();
+    std::string Date();
     
     /*!
      * @brief Получение возраста
@@ -146,14 +146,14 @@ namespace utils
      * @param dateOfBirth - Вектор, хранящий дату рождения (день, месяц, год)
      * @return - Найденный возраст
      */
-    std::vector<int> findAge(const std::vector<std::string> &data, const std::vector<std::string> &dateOfBirth);
+    std::vector<int> FindAge(const std::vector<std::string> &data, const std::vector<std::string> &dateOfBirth);
 
     /*!
      * @brief Конвертирование wstd::string в UTF-8 std::string
      * @param source - Исходный текст
      * @return Готовый текст
      */
-    inline std::string wstringToUtf8(const std::wstring &source)
+    inline std::string WstringToUtf8(const std::wstring &source)
     {
         std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
         return convert.to_bytes(source);
@@ -164,7 +164,7 @@ namespace utils
      * @param source - Исходный текст
      * @return Готовый текст
      */
-    inline std::wstring utf8ToWstring(const std::string &source)
+    inline std::wstring UTF8ToWstring(const std::string &source)
     {
         std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
         return convert.from_bytes(source);
@@ -176,14 +176,14 @@ namespace utils
      * @param numberUpper - Кол-во прописных букв в начале текста, остальные буквы переводятся в строчные
      * @return Готовый текст
      */
-    std::string toUpperAndToLower(std::string source, uint numberUpper = 1);
+    std::string ToUpperAndToLower(std::string source, uint numberUpper = 1);
 
     /*!
      * @brief Конвертирование текста в прописные и строчные буквы
      * @param source - Исходный текст
      * @param numberUpper - Кол-во прописных букв в начале текста, остальные буквы переводятся в строчные
      */
-    void toupperandtolower(std::string &source, uint numberUpper = 1);
+    void ToUpperandtolower(std::string &source, uint numberUpper = 1);
 
     /*!
      * @brief Получение имени класса в строковом виде
@@ -191,7 +191,7 @@ namespace utils
      * @return Имя класса
      */
     template <class C>
-    inline std::string getClassName(const C &object)
+    inline std::string GetClassName(const C &object)
     {
         std::string source = typeid(object).name();
         // Удаление числа, которое указывает на кол-во символов

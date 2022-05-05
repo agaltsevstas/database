@@ -14,13 +14,13 @@
 #include "Utils.h"
 #include "tinyxml2.h"
 
-Data &Data::instance()
+Data &Data::Instance()
 {
     static Data data; // Объект-одиночка
     return data;
 }
 
-void Data::readingTxtFile(const boost::filesystem::path &filePath, uint id)
+void Data::ReadingTxtFile(const boost::filesystem::path &filePath, uint id)
 {
     std::string line;
     const std::string fileName = filePath.filename().c_str(); // Получение имени с расширением
@@ -37,8 +37,8 @@ void Data::readingTxtFile(const boost::filesystem::path &filePath, uint id)
             while (getline(file, line))
             {
                 Logger::info << "************* Считывание данных сотрудника *************" << std::endl;
-                auto object = objectFactory_.get(name)(); // Получение определенного объекта из фабрики объектов
-                object->setId(std::to_string(id));
+                auto object = objectFactory_.Get(name)(); // Получение определенного объекта из фабрики объектов
+                object->SetId(std::to_string(id));
                 line >> *object; // Запись данных в поля объекта
                 auto result = find_if(vectorObjects_.begin(), vectorObjects_.end(),
                                       [&object](std::shared_ptr<TradingCompany> &tradingCompanyObject)
@@ -67,12 +67,12 @@ void Data::readingTxtFile(const boost::filesystem::path &filePath, uint id)
     }
 }
 
-void Data::readingXmlFile(const boost::filesystem::path &filePath, uint id)
+void Data::ReadingXmlFile(const boost::filesystem::path &filePath, uint id)
 {
     const char *tag = "tradingCompany";
     const std::string fileName = filePath.filename().c_str(); // Получение имени с расширением
     const std::string name = filePath.stem().c_str(); // Получение имени без расширения
-    const char *className = utils::getClassName(*objectFactory_.get(name)()).c_str();
+    const char *className = Utils::GetClassName(*objectFactory_.Get(name)()).c_str();
     tinyxml2::XMLDocument doc; // Инициализация документа
     try
     {
@@ -92,8 +92,8 @@ void Data::readingXmlFile(const boost::filesystem::path &filePath, uint id)
             for (const auto *element = node->FirstChildElement(className); element != nullptr; element = element->NextSiblingElement())
             {
                 Logger::info << "************* Считывание данных сотрудника *************" << std::endl;
-                auto object = objectFactory_.get(name)(); // Получение определенного объекта из фабрики объектов
-                object->setId(std::to_string(id));
+                auto object = objectFactory_.Get(name)(); // Получение определенного объекта из фабрики объектов
+                object->SetId(std::to_string(id));
                 for (const auto &[parameter, setParameter]: object->setParameters_)
                 {
                     if (setParameter != nullptr)
@@ -130,7 +130,7 @@ void Data::readingXmlFile(const boost::filesystem::path &filePath, uint id)
     }
 }
 
-void Data::sort()
+void Data::Sort()
 {
     stable_sort(std::begin(vectorObjects_), std::end(vectorObjects_), []
                 (const auto &first, const auto &second)
@@ -139,33 +139,33 @@ void Data::sort()
     });
 }
 
-void Data::loadDatabase(const std::string &directoryPath)
+void Data::LoadDatabase(const std::string &directoryPath)
 {
     namespace bs = boost::filesystem;
     
     directoryPath_ = directoryPath;
     // Добавление классов в фабрику объектов
-    objectFactory_.add<Accountant>("Бухгалтер");
-    objectFactory_.add<Driver>("Водитель");
-    objectFactory_.add<ChiefAccountant>("Главный_бухгалтер");
-    objectFactory_.add<ChiefLegalCounsel>("Главный_юрист-консультант");
-    objectFactory_.add<Loader>("Грузчик");
-    objectFactory_.add<Director>("Директор");
-    objectFactory_.add<Logistician>("Логист");
-    objectFactory_.add<PurchasingManager>("Менеджер_по_закупкам");
-    objectFactory_.add<SalesManager>("Менеджер_по_продажам");
-    objectFactory_.add<Cashier>("Кассир");
-    objectFactory_.add<HeadOfProcurement>("Начальник_отдела_закупок");
-    objectFactory_.add<HeadOfWarehouse>("Начальник_склада");
-    objectFactory_.add<HRManager>("Менеджер_по_персоналу");
-    objectFactory_.add<Lawyer>("Юрист");
+    objectFactory_.Add<Accountant>("Бухгалтер");
+    objectFactory_.Add<Driver>("Водитель");
+    objectFactory_.Add<ChiefAccountant>("Главный_бухгалтер");
+    objectFactory_.Add<ChiefLegalCounsel>("Главный_юрист-консультант");
+    objectFactory_.Add<Loader>("Грузчик");
+    objectFactory_.Add<Director>("Директор");
+    objectFactory_.Add<Logistician>("Логист");
+    objectFactory_.Add<PurchasingManager>("Менеджер_по_закупкам");
+    objectFactory_.Add<SalesManager>("Менеджер_по_продажам");
+    objectFactory_.Add<Cashier>("Кассир");
+    objectFactory_.Add<HeadOfProcurement>("Начальник_отдела_закупок");
+    objectFactory_.Add<HeadOfWarehouse>("Начальник_склада");
+    objectFactory_.Add<HRManager>("Менеджер_по_персоналу");
+    objectFactory_.Add<Lawyer>("Юрист");
     
     Logger::info << "---------- Считывание данных всех сотрудников ----------" << std::endl;
     for (const bs::path &filePath: bs::directory_iterator(directoryPath_))
     {
         try
         {
-            const std::string fileName = utils::toUpperAndToLower(filePath.filename().c_str()); // Получение имени с расширением
+            const std::string fileName = Utils::ToUpperAndToLower(filePath.filename().c_str()); // Получение имени с расширением
             const std::string name = filePath.stem().c_str(); // Получение имени без расширения
             const std::string extension = filePath.extension().c_str(); // Получение расширения
             auto found = idPositions.find(name);
@@ -178,12 +178,12 @@ void Data::loadDatabase(const std::string &directoryPath)
                     Logger::info << "Считывание данных из файла >> " << fileName << std::endl;
                     if (extension == ".txt")
                     {
-                        readingTxtFile(filePath, id);
+                        ReadingTxtFile(filePath, id);
                         filePaths_.push_back(filePath.c_str());
                     }
                     else if (extension == ".xml")
                     {
-                        readingXmlFile(filePath, id);
+                        ReadingXmlFile(filePath, id);
                         filePaths_.push_back(filePath.c_str());
                     }
                 }
@@ -213,10 +213,10 @@ void Data::loadDatabase(const std::string &directoryPath)
         std::cout << "Вы вышли из программы" << std::endl;
         exit(0);
     }
-    sort();
+    Sort();
 }
 
-void Data::accountLogin()
+void Data::AccountLogin()
 {
     std::cout << "Введите почту или логин и пароль от почты или закончите выполнение программы, введя ESC или ВЫХОД: " << std::endl;
     bool isLoginFound = false;
@@ -236,7 +236,7 @@ void Data::accountLogin()
                 break;
             }
         }
-        if (utils::toLower(login) == "esc" || utils::toLower(login) == "выход")
+        if (Utils::toLower(login) == "esc" || Utils::toLower(login) == "выход")
         {
             Logger::info << "Выход из программы" << std::endl;
             std::cout << "Вы вышли из программы" << std::endl;
@@ -253,14 +253,14 @@ void Data::accountLogin()
             if (isLoginFound && password == object->password_)
             {
                 LOGIN(object);
-                checkParameters(object.get(), true);
-                object->functional();
+                CheckParameters(object.get(), true);
+                object->Functional();
                 LOGOUT(object);
                 
-                accountLogin(); // Рекурсия
+                AccountLogin(); // Рекурсия
             }
         }
-        if (utils::toLower(password) == "esc" || utils::toLower(password) == "выход")
+        if (Utils::toLower(password) == "esc" || Utils::toLower(password) == "выход")
         {
             Logger::info << "Выход из программы" << std::endl;
             std::cout << "Вы вышли из программы" << std::endl;
@@ -276,11 +276,11 @@ void Data::accountLogin()
         Logger::info << "---------- Попытка войти в аккаунт ----------" << std::endl;
         Logger::error << "Введен >> " << exception << " - неверный логин или пароль!" << std::endl;
         std::cerr << "Вы ввели >> " << exception << " - неверный логин или пароль!" << std::endl;
-        accountLogin();
+        AccountLogin();
     }
 }
 
-template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
+template<class Class> void Data::CheckParameter(Parameter<Class> &parameter)
 {
     auto getUint32Parameter = boost::get<std::function<uint32_t(TradingCompany&)>>(&parameter.getParameter);
     auto getUint64Parameter = boost::get<std::function<uint64_t(TradingCompany&)>>(&parameter.getParameter);
@@ -330,7 +330,7 @@ template<class Class> void Data::checkParameter(Parameter<Class> &parameter)
     }
 }
 
-template<class Class> Data::Parameter<Class> Data::selectParameter(const Field field,
+template<class Class> Data::Parameter<Class> Data::SelectParameter(const Field field,
                                                                    Class *object,
                                                                    const std::string &message)
 {
@@ -339,69 +339,69 @@ template<class Class> Data::Parameter<Class> Data::selectParameter(const Field f
         switch (field)
         {
             case FIELD_POSITION :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getPosition},
-                        std::bind(&TradingCompany::checkPosition, object, message),
-                        std::bind(&TradingCompany::changeStatusPosition, object), object};
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetPosition},
+                        std::bind(&TradingCompany::CheckPosition, object, message),
+                        std::bind(&TradingCompany::ChangeStatusPosition, object), object};
 
             case FIELD_SURNAME :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getSurname},
-                        std::bind(&TradingCompany::checkSurname, object, message),
-                        std::bind(&TradingCompany::changeStatusSurname, object), object};
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetSurname},
+                        std::bind(&TradingCompany::CheckSurname, object, message),
+                        std::bind(&TradingCompany::ChangeStatusSurname, object), object};
 
             case FIELD_NAME :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getName},
-                        std::bind(&TradingCompany::checkName, object, message),
-                        std::bind(&TradingCompany::changeStatusName, object), object};
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetName},
+                        std::bind(&TradingCompany::CheckName, object, message),
+                        std::bind(&TradingCompany::ChangeStatusName, object), object};
 
             case FIELD_PATRONYMIC :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getPatronymic},
-                        std::bind(&TradingCompany::checkPatronymic, object, message),
-                        std::bind(&TradingCompany::changeStatusPatronymic, object), object};
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetPatronymic},
+                        std::bind(&TradingCompany::CheckPatronymic, object, message),
+                        std::bind(&TradingCompany::ChangeStatusPatronymic, object), object};
 
             case FIELD_SEX :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getSex},
-                        std::bind(&TradingCompany::checkSex, object, message),
-                        std::bind(&TradingCompany::changeStatusSex, object), object};
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetSex},
+                        std::bind(&TradingCompany::CheckSex, object, message),
+                        std::bind(&TradingCompany::ChangeStatusSex, object), object};
 
             case FIELD_DATE_OF_BIRTH :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfBirth},
-                        std::bind(&TradingCompany::checkDateOfBirth, object, message),
-                        std::bind(&TradingCompany::changeStatusDateOfBirth, object), object};
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetDateOfBirth},
+                        std::bind(&TradingCompany::CheckDateOfBirth, object, message),
+                        std::bind(&TradingCompany::ChangeStatusDateOfBirth, object), object};
 
             case FIELD_PASSPORT :
-                return {std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPassport},
-                        std::bind(&TradingCompany::checkPassport, object, message),
-                        std::bind(&TradingCompany::changeStatusPassport, object, false), object, true};
+                return {std::function<uint64_t(TradingCompany&)>{&TradingCompany::GetPassport},
+                        std::bind(&TradingCompany::CheckPassport, object, message),
+                        std::bind(&TradingCompany::ChangeStatusPassport, object, false), object, true};
 
             case FIELD_PHONE :
-                return {std::function<uint64_t(TradingCompany&)>{&TradingCompany::getPhone},
-                        std::bind(&TradingCompany::checkPhone, object, message),
-                        std::bind(&TradingCompany::changeStatusPhone, object, false), object, true};
+                return {std::function<uint64_t(TradingCompany&)>{&TradingCompany::GetPhone},
+                        std::bind(&TradingCompany::CheckPhone, object, message),
+                        std::bind(&TradingCompany::ChangeStatusPhone, object, false), object, true};
 
             case FIELD_EMAIL :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getEmail},
-                        std::bind(&TradingCompany::checkEmail, object, message),
-                        std::bind(&TradingCompany::changeStatusEmail, object, false), object, true};
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetEmail},
+                        std::bind(&TradingCompany::CheckEmail, object, message),
+                        std::bind(&TradingCompany::ChangeStatusEmail, object, false), object, true};
 
             case FIELD_DATE_OF_HIRING :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getDateOfHiring},
-                        std::bind(&TradingCompany::checkDateOfHiring, object, message),
-                        std::bind(&TradingCompany::changeStatusDateOfHiring, object), object};
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetDateOfHiring},
+                        std::bind(&TradingCompany::CheckDateOfHiring, object, message),
+                        std::bind(&TradingCompany::ChangeStatusDateOfHiring, object), object};
 
             case FIELD_WORKING_HOURS :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getWorkingHours},
-                        std::bind(&TradingCompany::checkWorkingHours, object, message),
-                        std::bind(&TradingCompany::changeStatusWorkingHours, object), object};
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetWorkingHours},
+                        std::bind(&TradingCompany::CheckWorkingHours, object, message),
+                        std::bind(&TradingCompany::ChangeStatusWorkingHours, object), object};
 
             case FIELD_SALARY :
-                return {std::function<uint32_t(TradingCompany&)>{&TradingCompany::getSalary},
-                        std::bind(&TradingCompany::checkSalary, object, message),
-                        std::bind(&TradingCompany::changeStatusSalary, object), object};
+                return {std::function<uint32_t(TradingCompany&)>{&TradingCompany::GetSalary},
+                        std::bind(&TradingCompany::CheckSalary, object, message),
+                        std::bind(&TradingCompany::ChangeStatusSalary, object), object};
 
             case FIELD_PASSWORD :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::getPassword},
-                        std::bind(&TradingCompany::checkPassword, object, message),
-                        std::bind(&TradingCompany::changeStatusPassword, object), object};
+                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetPassword},
+                        std::bind(&TradingCompany::CheckPassword, object, message),
+                        std::bind(&TradingCompany::ChangeStatusPassword, object), object};
             default:
                 throw field;
         }
@@ -419,7 +419,7 @@ template<class Class> Data::Parameter<Class> Data::selectParameter(const Field f
     return Parameter<Class>();
 }
 
-template<class C> void Data::checkParameters(C *object, const bool isWarning)
+template<class C> void Data::CheckParameters(C *object, const bool isWarning)
 {
     std::string message;
     for (size_t field = FIELD_POSITION; field != FIELD_PASSWORD + 1; ++field)
@@ -428,12 +428,12 @@ template<class C> void Data::checkParameters(C *object, const bool isWarning)
         {
             message = warnings[field];
         }
-        auto parameter = selectParameter(static_cast<Field>(field), object, message);
-        checkParameter(parameter);
+        auto parameter = SelectParameter(static_cast<Field>(field), object, message);
+        CheckParameter(parameter);
     }
 }
 
-void Data::printPersonalData(TradingCompany *object)
+void Data::PrintPersonalData(TradingCompany *object)
 {
     Logger::info << "***************** Вывод личных данных ******************" << std::endl;
     std::cout << std::endl;
@@ -441,7 +441,7 @@ void Data::printPersonalData(TradingCompany *object)
     std::cout << *object << std::endl;
 }
 
-void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
+void Data::ChangeData(TradingCompany *object, TradingCompany *otherObject)
 {
     bool isDirector = false;
     std::string message;
@@ -493,14 +493,14 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
         {
             std::string input;
             std::cin >> input;
-            utils::tolower(input);
+            Utils::tolower(input);
             if (isDirector && input == "1")
             {
                 std::cout << "При изменении должности теряются полномочия" << std::endl;
                 std::cout << "Введите yes или да - для продолжения, no или нет - для отмены" << std::endl;
                 std::cout << "Ввод: ";
                 std::cin >> input;
-                utils::tolower(input);
+                Utils::tolower(input);
                 if (input == "yes" || input == "да")
                 {
                     std::cout << "Выберите одну из предложенных должностей: " << std::endl;
@@ -512,19 +512,19 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
                     std::cout << "Ввод: ";
                     std::string position;
                     std::cin >> position;
-                    utils::toupperandtolower(position);
+                    Utils::ToUpperandtolower(position);
                     auto found = idPositions.find(position); // Поиск класса с определенной должностью
                     if (found != idPositions.end())
                     {
-                        auto newObject = objectFactory_.get(position)(); // Получение определенного объекта из фабрики объектов
-                        newObject->setPosition(position);
+                        auto newObject = objectFactory_.Get(position)(); // Получение определенного объекта из фабрики объектов
+                        newObject->SetPosition(position);
                         *newObject = *otherObject; // Запись данных из одного объекта одного класса в другой объект другого класса
-                        deleteObject(otherObject);
-                        pushBack(*newObject);
+                        DeleteObject(otherObject);
+                        PushBack(*newObject);
                         if (object == otherObject) // После удаления личных данных происходит выход из аккаунта
                         {
                             LOGOUT(object);
-                            accountLogin();
+                            AccountLogin();
                         }
                         Logger::info << message << std::endl;
                     }
@@ -545,86 +545,86 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
             else if (isDirector && input == "2")
             {
                 std::cout << "Текущая фамилия: " << otherObject->surname_ << std::endl;
-                otherObject->changeStatusSurname();
-                auto parameter = selectParameter(FIELD_SURNAME, otherObject, "");
-                checkParameter(parameter);
+                otherObject->ChangeStatusSurname();
+                auto parameter = SelectParameter(FIELD_SURNAME, otherObject, "");
+                CheckParameter(parameter);
             }
             else if (isDirector && input == "3")
             {
                 std::cout << "Текущее имя: " << otherObject->name_ << std::endl;
-                otherObject->changeStatusName();
-                auto parameter = selectParameter(FIELD_NAME, otherObject, "");
-                checkParameter(parameter);
+                otherObject->ChangeStatusName();
+                auto parameter = SelectParameter(FIELD_NAME, otherObject, "");
+                CheckParameter(parameter);
             }
             else if (isDirector && input == "4")
             {
                 std::cout << "Текущее отчество: " << otherObject->patronymic_ << std::endl;
-                otherObject->changeStatusPatronymic();
-                auto parameter = selectParameter(FIELD_PATRONYMIC, otherObject, "");
-                checkParameter(parameter);
+                otherObject->ChangeStatusPatronymic();
+                auto parameter = SelectParameter(FIELD_PATRONYMIC, otherObject, "");
+                CheckParameter(parameter);
             }
             else if (isDirector && input == "5")
             {
                 std::cout << "Текущий пол: " << otherObject->sex_ << std::endl;
-                otherObject->changeStatusSex();
-                auto parameter = selectParameter(FIELD_SEX, otherObject, "");
-                checkParameter(parameter);
+                otherObject->ChangeStatusSex();
+                auto parameter = SelectParameter(FIELD_SEX, otherObject, "");
+                CheckParameter(parameter);
             }
             else if (isDirector && input == "6")
             {
                 std::cout << "Текущая дата рождения: " << otherObject->dateOfBirth_ << std::endl;
-                otherObject->changeStatusDateOfBirth();
-                auto parameter = selectParameter(FIELD_DATE_OF_BIRTH, otherObject, "");
-                checkParameter(parameter);
+                otherObject->ChangeStatusDateOfBirth();
+                auto parameter = SelectParameter(FIELD_DATE_OF_BIRTH, otherObject, "");
+                CheckParameter(parameter);
             }
             else if (isDirector && input == "7")
             {
                 std::cout << "Текущий паспорт: " << otherObject->passport_ << std::endl;
-                otherObject->changeStatusPassport(true);
-                auto parameter = selectParameter(FIELD_PASSPORT, otherObject, "");
-                checkParameter(parameter);
+                otherObject->ChangeStatusPassport(true);
+                auto parameter = SelectParameter(FIELD_PASSPORT, otherObject, "");
+                CheckParameter(parameter);
             }
             else if (input == "8")
             {
                 std::cout << "Текущий телефон: " << otherObject->phone_ << std::endl;
-                otherObject->changeStatusPhone(true);
-                auto parameter = selectParameter(FIELD_PHONE, otherObject, "");
-                checkParameter(parameter);
+                otherObject->ChangeStatusPhone(true);
+                auto parameter = SelectParameter(FIELD_PHONE, otherObject, "");
+                CheckParameter(parameter);
             }
             else if (isDirector && input == "9")
             {
                 std::cout << "Текущая почта: " << otherObject->email_ << std::endl;
-                otherObject->changeStatusEmail(true);
-                auto parameter = selectParameter(FIELD_EMAIL, otherObject, "");
-                checkParameter(parameter);
+                otherObject->ChangeStatusEmail(true);
+                auto parameter = SelectParameter(FIELD_EMAIL, otherObject, "");
+                CheckParameter(parameter);
             }
             else if (isDirector && input == "10")
             {
                 std::cout << "Текущее дата принятия на работу: " << otherObject->dateOfHiring_ << std::endl;
-                otherObject->changeStatusDateOfHiring();
-                auto parameter = selectParameter(FIELD_DATE_OF_HIRING, otherObject, "");
-                checkParameter(parameter);
+                otherObject->ChangeStatusDateOfHiring();
+                auto parameter = SelectParameter(FIELD_DATE_OF_HIRING, otherObject, "");
+                CheckParameter(parameter);
             }
             else if (isDirector && input == "11")
             {
                 std::cout << "Текущие часы работы: " << otherObject->workingHours_ << std::endl;
-                otherObject->changeStatusWorkingHours();
-                auto parameter = selectParameter(FIELD_WORKING_HOURS, otherObject, "");
-                checkParameter(parameter);
+                otherObject->ChangeStatusWorkingHours();
+                auto parameter = SelectParameter(FIELD_WORKING_HOURS, otherObject, "");
+                CheckParameter(parameter);
             }
             else if (isDirector && input == "12")
             {
                 std::cout << "Текущая зарплата: " << otherObject->salary_ << std::endl;
-                otherObject->changeStatusSalary();
-                auto parameter = selectParameter(FIELD_SALARY, otherObject, "");
-                checkParameter(parameter);
+                otherObject->ChangeStatusSalary();
+                auto parameter = SelectParameter(FIELD_SALARY, otherObject, "");
+                CheckParameter(parameter);
             }
             else if (input == "13")
             {
                 std::cout << "Текущий пароль: " << otherObject->password_ << std::endl;
-                otherObject->changeStatusPassword();
-                auto parameter = selectParameter(FIELD_PASSWORD, otherObject, "");
-                checkParameter(parameter);
+                otherObject->ChangeStatusPassword();
+                auto parameter = SelectParameter(FIELD_PASSWORD, otherObject, "");
+                CheckParameter(parameter);
             }
             else if (input == "b" || input == "н")
             {
@@ -647,7 +647,7 @@ void Data::changeData(TradingCompany *object, TradingCompany *otherObject)
     }
 }
 
-TradingCompany *Data::find(TradingCompany *object)
+TradingCompany *Data::Find(TradingCompany *object)
 {
     Logger::info << "************************ Поиск *************************" << std::endl;
     while (true)
@@ -669,7 +669,7 @@ TradingCompany *Data::find(TradingCompany *object)
             std::string input;
             std::cin >> input;
             std::string parameter = input;
-            utils::tolower(input);
+            Utils::tolower(input);
             if (input == "b" || input == "н")
             {
                 return nullptr;
@@ -703,7 +703,7 @@ TradingCompany *Data::find(TradingCompany *object)
                     };
                     for (const auto &[param, isUpperAndToLower]: parameters)
                     {
-                        parameter = isUpperAndToLower ? utils::toUpperAndToLower(parameter) : parameter;
+                        parameter = isUpperAndToLower ? Utils::ToUpperAndToLower(parameter) : parameter;
                         std::size_t found = param.find(parameter);
                         if (found != std::string::npos)
                         {
@@ -762,23 +762,22 @@ TradingCompany *Data::find(TradingCompany *object)
     return nullptr;
 }
 
-void Data::changeOtherData(TradingCompany *object)
+void Data::ChangeOtherData(TradingCompany *object)
 {
-    auto foundObject = find(object);
+    auto foundObject = Find(object);
     if (foundObject == nullptr)
-    {
         return;
-    }
-    changeData(object, foundObject);
+    
+    ChangeData(object, foundObject);
 }
 
-void Data::deleteEmployeeData(TradingCompany *object)
+void Data::DeleteEmployeeData(TradingCompany *object)
 {
     while (true)
     {
         try
         {
-            auto foundObject = find(object);
+            auto foundObject = Find(object);
             if (foundObject == nullptr) // Объект не найден, тогда возврат
             {
                 return;
@@ -792,14 +791,14 @@ void Data::deleteEmployeeData(TradingCompany *object)
             std::cout << "Ввод: ";
             std::string input;
             std::cin >> input;
-            utils::tolower(input);
+            Utils::tolower(input);
             if (input == "yes" || input == "да")
             {
-                deleteObject(foundObject);
+                DeleteObject(foundObject);
                 if (object == foundObject) // После удаления личных данных происходит выход из аккаунта
                 {
                     LOGOUT(object);
-                    accountLogin();
+                    AccountLogin();
                 }
                 else
                 {
@@ -823,18 +822,16 @@ void Data::deleteEmployeeData(TradingCompany *object)
     }
 }
 
-void Data::getAllOtherData() const
+void Data::GetAllOtherData() const
 {
     Logger::info << "************ Вывод данных всех сотрудников *************" << std::endl;
     std::cout << std::endl;
     std::cout << "************ Вывод данных всех сотрудников *************" << std::endl;
     for (const auto &object: vectorObjects_)
-    {
         std::cout << *object << std::endl;
-    }
 }
 
-template<class C> void Data::pushBack(C &object)
+template<class C> void Data::PushBack(C &object)
 {
     Logger::info << "************* Добавление нового сотрудника *************" << std::endl;
     std::cout << std::endl;
@@ -852,7 +849,7 @@ template<class C> void Data::pushBack(C &object)
         }
     }
     std::string maxIdString = std::to_string(++maxId);
-    object.setId(maxIdString);
+    object.SetId(maxIdString);
     vectorObjects_.insert(it, std::shared_ptr<TradingCompany>(&object));
     Logger::info << "Сотрудник << " + object.position_ +   " " +
                                       object.surname_ +    " " +
@@ -864,7 +861,7 @@ template<class C> void Data::pushBack(C &object)
                                    object.patronymic_ + " >> успешно добавлен!" << std::endl;
 }
 
-template<class C> void Data::deleteObject(C *object)
+template<class C> void Data::DeleteObject(C *object)
 {
     Logger::info << "*********************** Удаление ***********************" << std::endl;
     std::cout << std::endl;
@@ -894,13 +891,13 @@ template<class C> void Data::deleteObject(C *object)
                     ++deletedId;
                 }
             }
-            sort();
+            Sort();
             return;
         }
     }
 }
 
-void Data::newEmployeeData(const TradingCompany *object)
+void Data::NewEmployeeData(const TradingCompany *object)
 {
     Logger::info << "************* Добавление данных сотрудника *************" << std::endl;
     while (true)
@@ -920,7 +917,7 @@ void Data::newEmployeeData(const TradingCompany *object)
         {
             std::string input;
             std::cin >> input;
-            utils::tolower(input);
+            Utils::tolower(input);
             if (input == "b" || input == "н")
             {
                 return;
@@ -931,15 +928,15 @@ void Data::newEmployeeData(const TradingCompany *object)
             }
             else
             {
-                auto found = idPositions.find(utils::toUpperAndToLower(input)); // Поиск класса с определенной должностью
+                auto found = idPositions.find(Utils::ToUpperAndToLower(input)); // Поиск класса с определенной должностью
                 if (found != idPositions.end())
                 {
                     std::string position = found->first;
-                    auto object = objectFactory_.get(position)(); // Получение определенного объекта из фабрики объектов
+                    auto object = objectFactory_.Get(position)(); // Получение определенного объекта из фабрики объектов
                     object->position_ = position;
                     object->fieldStatus_[FIELD_POSITION] = ST_OK;
-                    checkParameters(object);
-                    pushBack(*object);
+                    CheckParameters(object);
+                    PushBack(*object);
                 }
                 else
                 {
@@ -955,7 +952,7 @@ void Data::newEmployeeData(const TradingCompany *object)
     }
 }
 
-void Data::setModeOutputData(const TradingCompany *object)
+void Data::SetModeOutputData(const TradingCompany *object)
 {
     Logger::info << "************ Изменение режима данных вывода ************" << std::endl;
     while (true)
@@ -976,33 +973,33 @@ void Data::setModeOutputData(const TradingCompany *object)
         {
             std::string input;
             std::cin >> input;
-            utils::tolower(input);
-            switch (utils::hash(input.c_str()))
+            Utils::tolower(input);
+            switch (Utils::Hash(input.c_str()))
             {
-                case utils::hash("1") :
+                case Utils::Hash("1") :
                     mode_ = TXT;
                     Logger::info << "Установлен режим вывода данных >> TXT" << std::endl;
                     std::cout << "Установлен режим вывода данных >> TXT" << std::endl;
                     return;
 
-                case utils::hash("2") :
+                case Utils::Hash("2") :
                     mode_ = XML;
                     Logger::info << "Установлен режим вывода данных >> XML" << std::endl;
                     std::cout << "Установлен режим вывода данных >> XML" << std::endl;
                     return;
                     
-                case utils::hash("3") :
+                case Utils::Hash("3") :
                     mode_ = ALL;
                     Logger::info << "Установлен режим вывода данных >> ALL" << std::endl;
                     std::cout << "Установлен режим вывода данных >> ALL" << std::endl;
                     return;
 
-                case utils::hash("b") :
-                case utils::hash("н") :
+                case Utils::Hash("b") :
+                case Utils::Hash("н") :
                     return;
 
-                case utils::hash("esc") :
-                case utils::hash("выход") :
+                case Utils::Hash("esc") :
+                case Utils::Hash("выход") :
                     EXIT(object);
 
                 default:
@@ -1017,7 +1014,7 @@ void Data::setModeOutputData(const TradingCompany *object)
     }
 }
 
-void Data::writeToTxtFile()
+void Data::WriteToTxtFile()
 {
     for (const auto &object: vectorObjects_)
     {
@@ -1040,7 +1037,7 @@ void Data::writeToTxtFile()
     }
 }
 
-void Data::writeToXmlFile()
+void Data::WriteToXmlFile()
 {
     const char *tag = "tradingCompany";
     std::string previosPosition;
@@ -1060,7 +1057,7 @@ void Data::writeToXmlFile()
             node = doc->NewElement(tag);
             doc->InsertFirstChild(node);
         }
-        const char *className = utils::getClassName(*object).c_str();
+        const char *className = Utils::GetClassName(*object).c_str();
         // Список элементов с меткой, которая должна совпадать с названием определенного класса
         tinyxml2::XMLElement *element = doc->NewElement(className);
         element->SetAttribute("id", object->id_);
@@ -1096,11 +1093,11 @@ Data::~Data()
         switch (mode_)
         {
             case TXT :
-                writeToTxtFile();
+                WriteToTxtFile();
                 break;
                 
             case XML :
-                writeToXmlFile();
+                WriteToXmlFile();
                 break;
                 
             case ALL :
@@ -1108,9 +1105,9 @@ Data::~Data()
                 // Запись txt и xml в разных потоках
                 std::thread thread = std::thread([this]()
                 {
-                    this->writeToTxtFile();
+                    this->WriteToTxtFile();
                 });
-                this->writeToXmlFile();
+                this->WriteToXmlFile();
                 thread.join();
                 break;
             }

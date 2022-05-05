@@ -3,9 +3,9 @@
 
 #include "Utils.h"
 
-namespace utils
+namespace Utils
 {
-    std::string translit(const std::string &textCyrillic)
+    std::string Translit(const std::string &textCyrillic)
     {
         std::string textLatin;
         for (size_t i = 0; i <= textCyrillic.length(); ++i)
@@ -14,39 +14,34 @@ namespace utils
             std::string letter = textCyrillic.substr(i, 2); // Кириллица = 2 байта
             // Пробелы по-особенному считывает
             if (space == ' ')
-            {
                 textLatin += " ";
-            }
             else if (translitSymbols.find(letter) != translitSymbols.end())
-            {
                 textLatin += translitSymbols.find(letter)->second;
-            }
         }
         return textLatin;
     }
     
-    std::string createEmail(const std::vector<std::string> &anthroponym)
+    std::string CreateEmail(const std::vector<std::string> &anthroponym)
     {
         std::string email;
         for (auto part: anthroponym) // Фамилия, имя, отчество
         {
-            toupperandtolower(part, 0);
-            email += translit(part) + ".";
+            ToUpperandtolower(part, 0);
+            email += Translit(part) + ".";
         }
         email.pop_back(); // Удаление лишней точки в конце
         return email += "@tradingcompany.ru";
     }
     
-    std::vector<std::string> splitString(std::string source, const std::string &delim)
+    std::vector<std::string> SplitString(std::string source, const std::string &delim)
     {
         std::vector<std::string> result;
-
         source.erase(remove(source.begin(), source.end(), ' '), source.end()); // Удаление пробелов
         boost::split(result, source, boost::is_any_of(delim));
         return result;
     }
 
-    std::string localTime()
+    std::string LocalTime()
     {
         std::stringstream ss;
         time_t t = std::time(nullptr);
@@ -55,7 +50,7 @@ namespace utils
         return ss.str();
     }
 
-    std::string date()
+    std::string Date()
     {
         std::stringstream ss;
         time_t t = std::time(nullptr);
@@ -64,7 +59,7 @@ namespace utils
         return ss.str();
     }
 
-    std::vector<int> findAge(const std::vector<std::string> &data, const std::vector<std::string> &dateOfBirth)
+    std::vector<int> FindAge(const std::vector<std::string> &data, const std::vector<std::string> &dateOfBirth)
     {
         uint currentDay = atoi(data[0].c_str());
         uint currentMonth = atoi(data[1].c_str());
@@ -92,38 +87,32 @@ namespace utils
         return age;
     }
 
-    std::string toUpperAndToLower(std::string source, uint numberUpper)
+    std::string ToUpperAndToLower(std::string source, uint numberUpper)
     {
         if (source.empty())
-        {
-            return std::string();
-        }
+            return {};
+        
         // Конвертирование кириллицы в wstd::string, чтобы перевести буквы нижнего регистра в верхний или обратно
-        std::wstring wstr = utf8ToWstring(source);
+        std::wstring wstr = UTF8ToWstring(source);
         for (size_t i = 0; i < numberUpper; ++i)
-        {
             wstr[i] = towupper(wstr[i]);
-        }
         transform(wstr.begin() + numberUpper, wstr.end(), wstr.begin() + numberUpper, std::towlower);
         // Обратное конвертирование кириллицы в std::string
-        source = wstringToUtf8(wstr);
+        source = WstringToUtf8(wstr);
         return source;
     }
 
-    void toupperandtolower(std::string &source, uint numberUpper)
+    void ToUpperandtolower(std::string &source, uint numberUpper)
     {
         if (source.empty())
-        {
             return;
-        }
+        
         // Конвертирование кириллицы в wstd::string, чтобы перевести буквы нижнего регистра в верхний или обратно
-        std::wstring wstr = utf8ToWstring(source);
+        std::wstring wstr = UTF8ToWstring(source);
         for (size_t i = 0; i < numberUpper; ++i)
-        {
             wstr[i] = towupper(wstr[i]);
-        }
         transform(wstr.begin() + numberUpper, wstr.end(), wstr.begin() + numberUpper, std::towlower);
         // Обратное конвертирование кириллицы в std::string
-        source = wstringToUtf8(wstr);
+        source = WstringToUtf8(wstr);
     }
 }
