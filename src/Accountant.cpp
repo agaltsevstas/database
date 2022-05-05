@@ -1,7 +1,7 @@
 #include "Accountant.h"
 #include "Data.h"
 
-Accountant::Accountant() : data_(&Data::Instance()) {}
+Accountant::Accountant() : _data(&Data::Instance()) {}
 
 const Accountant& Accountant::operator = (const TradingCompany &object)
 {
@@ -29,11 +29,11 @@ void Accountant::Functional()
             switch (Utils::Hash(input.c_str()))
             {
                 case Utils::Hash("1") :
-                    data_->PrintPersonalData(this);
+                    _data->PrintPersonalData(this);
                     break;
                     
                 case Utils::Hash("2") :
-                    data_->ChangeData(this);
+                    _data->ChangeData(this);
                     break;
                     
                 case Utils::Hash("b") :

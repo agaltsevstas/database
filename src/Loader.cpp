@@ -1,7 +1,7 @@
 #include "Loader.h"
 #include "Data.h"
 
-Loader::Loader() : data_(&Data::Instance()) {}
+Loader::Loader() : _data(&Data::Instance()) {}
 
 const Loader& Loader::operator = (const TradingCompany &object)
 {
@@ -29,11 +29,11 @@ void Loader::Functional()
             switch (Utils::Hash(input.c_str()))
             {
                 case Utils::Hash("1") :
-                    data_->PrintPersonalData(this);
+                    _data->PrintPersonalData(this);
                     break;
                     
                 case Utils::Hash("2") :
-                    data_->ChangeData(this);
+                    _data->ChangeData(this);
                     break;
                     
                 case Utils::Hash("b") :

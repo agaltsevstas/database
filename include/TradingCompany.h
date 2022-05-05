@@ -87,7 +87,7 @@ private:
     };
     
     /// Карта параметров и оберток инициализаций полей
-    const std::map<std::string, std::function<void(TradingCompany&, std::string&)>> setParameters_ =
+    const std::map<std::string, std::function<void(TradingCompany&, std::string&)>> _setParameters =
     {
         {"id",           nullptr},
         {"position",     &TradingCompany::SetPosition},
@@ -106,7 +106,7 @@ private:
     };
     
     /// Карта полей с их статусом
-    std::map<Field, Status> fieldStatus_
+    std::map<Field, Status> _fieldStatus
     {
         {FIELD_ID,             ST_EMPTY},
         {FIELD_POSITION,       ST_EMPTY},
@@ -138,19 +138,19 @@ public:
     /*!
      * @brief Перегрузка оператора >> (ввода).
      * Запись данных в поля объекта
-     * @param line - строка
+     * @param iLine - строка
      * @param object - объект
      */
-    friend void operator >> (const std::string &line, TradingCompany &object);
+    friend void operator >> (const std::string &iLine, TradingCompany &object);
 
     /*!
      * @brief Перегрузка оператора << (вывода).
      * Вывод полей объекта
-     * @param out - поток вывода
+     * @param ioOut - поток вывода
      * @param object - объект
      * @return Поток вывода
      */
-    friend std::ostream& operator << (std::ostream &out, const TradingCompany &object);
+    friend std::ostream& operator << (std::ostream &ioOut, const TradingCompany &object);
 
     /*!
      * @brief Перегрузка оператора == (сравнения).
@@ -190,58 +190,58 @@ protected:
     std::string GetPassword() const;
 
 private:
-    uint32_t    id_ = 0;       /// ID
-    std::string position_;     /// Должность
-    std::string surname_;      /// Фамилия
-    std::string name_;         /// Имя
-    std::string patronymic_;   /// Отчество
-    std::string sex_;          /// Пол
-    std::string dateOfBirth_;  /// Дата рождения
-    uint64_t    passport_ = 0; /// Паспорт
-    uint64_t    phone_ = 0;    /// Телефон
-    std::string email_;        /// Почта
-    std::string dateOfHiring_; /// Дата принятия на работу
-    std::string workingHours_; /// Часы работы
-    uint32_t    salary_ = 0;   /// Зарплата
-    std::string password_;     /// Пароль
+    uint32_t    _id = 0;       /// ID
+    std::string _position;     /// Должность
+    std::string _surname;      /// Фамилия
+    std::string _name;         /// Имя
+    std::string _patronymic;   /// Отчество
+    std::string _sex;          /// Пол
+    std::string _dateOfBirth;  /// Дата рождения
+    uint64_t    _passport = 0; /// Паспорт
+    uint64_t    _phone = 0;    /// Телефон
+    std::string _email;        /// Почта
+    std::string _dateOfHiring; /// Дата принятия на работу
+    std::string _workingHours; /// Часы работы
+    uint32_t    _salary = 0;   /// Зарплата
+    std::string _password;     /// Пароль
     
     /*!
      * @brief Инициализация полей
      * @param Значение поля
      */
-    void SetId(const std::string &id);
-    void SetPosition(const std::string &position);
-    void SetSurname(const std::string &surname);
-    void SetName(const std::string &name);
-    void SetPatronymic(const std::string &patronymic);
-    void SetSex(const std::string &sex);
-    void SetDateOfBirth(const std::string &dateOfBirth);
-    void SetPhone(const std::string &phone);
-    void SetEmail(const std::string &email);
-    void SetDateOfHiring(const std::string &dateOfHiring);
-    void SetWorkingHours(const std::string &workingHours);
-    void SetPassport(const std::string &passport);
-    void SetSalary(const std::string &salary);
-    void SetPassword(const std::string &password);
+    void SetId(const std::string &iID);
+    void SetPosition(const std::string &iPosition);
+    void SetSurname(const std::string &iSurname);
+    void SetName(const std::string &iName);
+    void SetPatronymic(const std::string &iPatronymic);
+    void SetSex(const std::string &iSex);
+    void SetDateOfBirth(const std::string &iDateOfBirth);
+    void SetPhone(const std::string &iPhone);
+    void SetEmail(const std::string &iEmail);
+    void SetDateOfHiring(const std::string &iDateOfHiring);
+    void SetWorkingHours(const std::string &iWorkingHours);
+    void SetPassport(const std::string &iPassport);
+    void SetSalary(const std::string &iSalary);
+    void SetPassword(const std::string &iPassword);
 
     /*!
      * @brief Проверка полей на повреждение/перезапись данных
-     * @param warning - Предупреждение о невалидности данных поля
+     * @param iWarning - Предупреждение о невалидности данных поля
      */
-    void CheckId(const std::string &warning = {}); /// Не используется!
-    void CheckPosition(const std::string &warning = {});
-    void CheckSurname(const std::string &warning = {});
-    void CheckName(const std::string &warning = {});
-    void CheckPatronymic(const std::string &warning = {});
-    void CheckSex(const std::string &warning = {});
-    void CheckDateOfBirth(const std::string &warning = {});
-    void CheckPassport(const std::string &warning = {});
-    void CheckPhone(const std::string &warning = {});
-    void CheckEmail(const std::string &warning = {});
-    void CheckDateOfHiring(const std::string &warning = {});
-    void CheckWorkingHours(const std::string &warning = {});
-    void CheckSalary(const std::string &warning = {});
-    void CheckPassword(const std::string &warning = {});
+    void CheckId(const std::string &iWarning = {}); /// Не используется!
+    void CheckPosition(const std::string &iWarning = {});
+    void CheckSurname(const std::string &iWarning = {});
+    void CheckName(const std::string &iWarning = {});
+    void CheckPatronymic(const std::string &iWarning = {});
+    void CheckSex(const std::string &iWarning = {});
+    void CheckDateOfBirth(const std::string &iWarning = {});
+    void CheckPassport(const std::string &iWarning = {});
+    void CheckPhone(const std::string &iWarning = {});
+    void CheckEmail(const std::string &iWarning = {});
+    void CheckDateOfHiring(const std::string &iWarning = {});
+    void CheckWorkingHours(const std::string &iWarning = {});
+    void CheckSalary(const std::string &iWarning = {});
+    void CheckPassword(const std::string &iWarning = {});
 
     /*!
      * @brief Изменение статуса полей на перезапись/дублирование данных
@@ -266,20 +266,20 @@ private:
     /*!
      * @brief Рекурсия, которая вызывается в случае неверного введения данных.
      * Валидация ввода данных
-     * @param field - Номер поля
+     * @param iField - Номер поля
      * @param setParameter - Инициализация одного из полей
-     * @param message - Сообщение, которое подказывает в каком формате вводить данные
+     * @param iMessage - Сообщение, которое подказывает в каком формате вводить данные
      */
-    void Recursion(const Field field,
+    void Recursion(const Field iField,
                    std::function<void(TradingCompany&, std::string&)> setParameter,
-                   const std::string &message);
+                   const std::string &iMessage);
     /*!
      * @brief Получение определенного типа данных (uint32_t/uint64_t/string)
-     * @param field - Номер поля
-     * @param value - Значение поля
+     * @param iValue - Значение поля
+     * @param iField - Номер поля
      * @return Значение поля с определенным типом (uint32_t/uint64_t/string)
      */
-    template<typename T> T Get(const std::string &value, const Field field);
+    template<typename T> T Get(const std::string &iValue, const Field iField);
 
     /// Пустая структура для возврата из метода в случае неудачи (затычка)
     const Type empty = Type();
@@ -290,11 +290,11 @@ private:
      * в зависимости от номера поля. Значение поля устанавливается
      * в одно из полей струтуры данных (uint32_t/uint64_t/string).
      * Устанавливается статус поля (ST_EMPTY/ST_WRONGDATA/ST_OK)
-     * @param value - Значение поля
-     * @param field - Номер поля
+     * @param iValue - Значение поля
+     * @param iField - Номер поля
      * @return Структура данных
      */
-    const Type CheckField(std::string value, const Field field);
+    const Type CheckField(std::string iValue, const Field iField);
 
     /*!
      * @TODO: Установление премии

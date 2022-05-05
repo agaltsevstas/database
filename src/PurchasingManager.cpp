@@ -1,7 +1,7 @@
 #include "PurchasingManager.h"
 #include "Data.h"
 
-PurchasingManager::PurchasingManager() : data_(&Data::Instance()) {}
+PurchasingManager::PurchasingManager() : _data(&Data::Instance()) {}
 
 const PurchasingManager& PurchasingManager::operator = (const TradingCompany &object)
 {
@@ -29,11 +29,11 @@ void PurchasingManager::Functional()
             switch (Utils::Hash(input.c_str()))
             {
                 case Utils::Hash("1") :
-                    data_->PrintPersonalData(this);
+                    _data->PrintPersonalData(this);
                     break;
                     
                 case Utils::Hash("2") :
-                    data_->ChangeData(this);
+                    _data->ChangeData(this);
                     break;
                     
                 case Utils::Hash("b") :

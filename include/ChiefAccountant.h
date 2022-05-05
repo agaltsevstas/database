@@ -13,6 +13,6 @@ public:
     void Functional() override;
     
 private:
-    Data* data_ = nullptr;
+    Data* _data = nullptr;
 };
 #endif // ChiefAccoutant_h

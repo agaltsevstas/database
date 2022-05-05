@@ -96,9 +96,9 @@ public:
     /*!
      * @brief Загрузка базы данных.
      * Считывание данных из txt/xml файлов
-     * @param directoryPath - Путь к каталогу, где хранятся файлы
+     * @param iDirectoryPath - Путь к каталогу, где хранятся файлы
      */
-    void LoadDatabase(const std::string &directoryPath);
+    void LoadDatabase(const std::string &iDirectoryPath);
 
     /*!
      * @brief Вход в аккаунт.
@@ -108,16 +108,16 @@ public:
 
     /*!
      * @brief Вывод личных данных на экран
-     * @param object - Объект, который в данный момент используется
+     * @param iObject - Объект, который в данный момент используется
      */
-    void PrintPersonalData(TradingCompany *object);
+    void PrintPersonalData(TradingCompany *iObject);
 
     /*!
      * @brief Изменение личных/чужих данных
-     * @param object - Объект, который в данный момент используется
-     * @param otherObject - Чужой объект, в котором изменяются данные
+     * @param iObject - Объект, который в данный момент используется
+     * @param ioOtherObject - Чужой объект, в котором изменяются данные
      */
-    void ChangeData(TradingCompany *object, TradingCompany *otherObject = nullptr);
+    void ChangeData(TradingCompany *iObject, TradingCompany *ioOtherObject = nullptr);
     
     /*!
      * @brief Обертка для добавления нового сотрудника
@@ -126,11 +126,11 @@ public:
     friend void HRManager::AddNewEmployeeData();
     
 private:
-    Mode mode_ = TXT; /// Режим записи данных
-    std::string directoryPath_; /// Путь к каталогу с файлами
-    std::list<std::string> filePaths_; /// Список путей к файлам
-    ObjectFactory<std::string, TradingCompany> objectFactory_; /// Фабрика объектов производных классов от TradingCompany
-    std::vector<std::shared_ptr<TradingCompany>> vectorObjects_; /// Вектор объектов производных классов от TradingCompany
+    Mode _mode = TXT; /// Режим записи данных
+    std::string _directoryPath; /// Путь к каталогу с файлами
+    std::list<std::string> _filePaths; /// Список путей к файлам
+    ObjectFactory<std::string, TradingCompany> _objectFactory; /// Фабрика объектов производных классов от TradingCompany
+    std::vector<std::shared_ptr<TradingCompany>> _vectorObjects; /// Вектор объектов производных классов от TradingCompany
     
     Data() {}
 
@@ -153,19 +153,19 @@ private:
      * @brief Чтение txt файла. Происходит построковое считывание файла.
      * Поля объекта заполняются данными, после объект добавляется в вектор объектов.
      * В случае дубликата, объект удалется.
-     * @param filePath - Путь к txt файлу
-     * @param id - ID должности в соответствии с названием файла
+     * @param iFilePath - Путь к txt файлу
+     * @param iID - ID должности в соответствии с названием файла
      */
-    void ReadingTxtFile(const boost::filesystem::path &filePath, uint id);
+    void ReadingTxtFile(const boost::filesystem::path &iFilePath, uint iID);
     
     /*!
      * @brief Чтение xml файла. Происходит считывание файла.
      * Поля объекта заполняются данными, после объект добавляется в вектор объектов.
      * В случае дубликата, объект удалется.
-     * @param filePath - Путь к txt файлу
-     * @param id - ID должности в соответствии с названием файла
+     * @param iFilePath - Путь к txt файлу
+     * @param iID - ID должности в соответствии с названием файла
      */
-    void ReadingXmlFile(const boost::filesystem::path &filePath, uint id);
+    void ReadingXmlFile(const boost::filesystem::path &iFilePath, uint iID);
     
     /*!
      * @brief Сортировка вектора объектов по ID в порядке возрастания
@@ -175,47 +175,47 @@ private:
     /*!
      * @brief Проверка полей на повреждение/перезапись/дублирование данных.
      * Каждое поле проверяется отдельно.
-     * @param parameter - Структура, предназначенная для проверки полей объекта
+     * @param iParameter - Структура, предназначенная для проверки полей объекта
      */
-    template<class Class> void CheckParameter(Parameter<Class> &parameter);
+    template<class Class> void CheckParameter(Parameter<Class> &iParameter);
     
     /*!
      * @brief Проверка поля на повреждение/перезапись/дублирование данных.
      * Каждое поле проверяется отдельно.
-     * @param field - Номер поля
-     * @param object - Проверяемый объект
-     * @param message - Передаваемое сообщение
+     * @param iField - Номер поля
+     * @param iObject - Проверяемый объект
+     * @param iMessage - Передаваемое сообщение
      * @return Структура, предназначенная для проверки полей объекта
      */
-    template<class Class> Parameter<Class> SelectParameter(const Field field,
-                                                           Class *object,
-                                                           const std::string &message = {});
+    template<class Class> Parameter<Class> SelectParameter(const Field iField,
+                                                           Class *iObject,
+                                                           const std::string &iMessage = {});
     
     /*!
      * @brief Обертка для проверки всех полей на повреждение/перезапись/дублирование данных
-     * @param object - Объект, который в данный момент используется
-     * @param isWarning - Передаваемое предупреждение о невалидности данных поля
+     * @param iObject - Объект, который в данный момент используется
+     * @param iWarning - Передаваемое предупреждение о невалидности данных поля
      */
-    template<class C> void CheckParameters(C *object, const bool isWarning = false);
+    template<class C> void CheckParameters(C *iObject, const bool iWarning = false);
     
     /*!
      * @brief Поиск объекта по одному из полей
-     * @param object - Объект, который в данный момент используется
+     * @param iObject - Объект, который в данный момент используется
      * @return Найденный объект
      */
-    TradingCompany *Find(TradingCompany *object);
+    TradingCompany *Find(TradingCompany *iObject);
     
     /*!
      * @brief Обертка для изменения чужих данных
-     * @param object - Объект, который в данный момент используется
+     * @param iObject - Объект, который в данный момент используется
      */
-    void ChangeOtherData(TradingCompany *object);
+    void ChangeOtherData(TradingCompany *iObject);
     
     /*!
      * @brief Обертка для удаления данных сотрудника
-     * @param object - Объект, который в данный момент используется
+     * @param iObject - Объект, который в данный момент используется
      */
-    void DeleteEmployeeData(TradingCompany *object);
+    void DeleteEmployeeData(TradingCompany *iObject);
     
     /*!
      * @brief Вывод всех данных из вектора объектов на экран
@@ -224,27 +224,27 @@ private:
     
     /*!
      * @brief Добавление объекта в вектор объектов
-     * @param object - Добавляемый объект
+     * @param iObject - Добавляемый объект
      */
-    template<class C> void PushBack(C &object);
+    template<class C> void PushBack(C &iObject);
     
     /*!
      * @brief Удаление объекта из вектора объектов
-     * @param object - Удаляемый объект
+     * @param iObject - Удаляемый объект
      */
-    template<class C> void DeleteObject(C *object);
+    template<class C> void DeleteObject(C *iObject);
     
     /*!
      * @brief Добавление нового сотрудника. Заполнение полей нового объекта
-     * @param object - Объект, который в данный момент используется
+     * @param iObject - Объект, который в данный момент используется
      */
-    void NewEmployeeData(const TradingCompany *object);
+    void NewEmployeeData(const TradingCompany *iObject);
     
     /*!
      * @brief Установление режима записи данных
-     * @param object - Объект, который в данный момент используется
+     * @param iObject - Объект, который в данный момент используется
      */
-    void SetModeOutputData(const TradingCompany *object);
+    void SetModeOutputData(const TradingCompany *iObject);
     
     /*!
      * @brief Запись всех данных в txt файлы

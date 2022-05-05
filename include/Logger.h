@@ -66,9 +66,9 @@ public:
     
     /*!
      * @TODO: Установление уровня подробности лога
-     * @param level - Уровень лога
+     * @param iLevel - Уровень лога
      */
-    static void SetDebugLevel(DebugLevel level);
+    static void SetDebugLevel(DebugLevel iLevel);
     
     /*!
      * @details Производный класс от класссов стандартной библиотеки.
@@ -82,9 +82,9 @@ public:
     public:
         /*!
          * @brief Консруктор для связывания потока вывода со строковым буфером
-         * @param messageType - Тип сообщения
+         * @param iMessageType - Тип сообщения
          */
-        Streamer(Logger::MessageType messageType);
+        Streamer(Logger::MessageType iMessageType);
         
         /*!
          * @brief Деструктор для удаление потока буфера
@@ -98,9 +98,9 @@ public:
             
             /*!
              * @brief Конструктор для отправление типа сообщения
-             * @param messageType - Тип сообщения
+             * @param iMessageType - Тип сообщения
              */
-            StringBuffer(Logger::MessageType messageType);
+            StringBuffer(Logger::MessageType iMessageType);
             
             /*!
              * @brief Деструктор.
@@ -138,49 +138,49 @@ protected:
     Logger& operator=(Logger&) = delete;
     
 private:
-    static std::string infoBuffer_;        /// Буфер для хранения информационных сообщений
-    static std::string warningBuffer_;     /// Буфер для хранения предупреждений
-    static std::string errorBuffer_;       /// Буфер для хранения ошибок
-    static std::string allMessagesBuffer_; /// Буфер для хранения всех видов сообщений
-    static Logger *logger_;                /// Объект-одиночка
-    static DebugLevel debugLevel_;         /// Уровень подробности лога
-    static std::ofstream logFile_;         /// Выходной файловый поток
-    std::thread thread_;                   /// Отдельный поток, в котром осуществляется запись в файл
+    static std::string _infoBuffer;        /// Буфер для хранения информационных сообщений
+    static std::string _warningBuffer;     /// Буфер для хранения предупреждений
+    static std::string _errorBuffer;       /// Буфер для хранения ошибок
+    static std::string _allMessagesBuffer; /// Буфер для хранения всех видов сообщений
+    static Logger *_logger;                /// Объект-одиночка
+    static DebugLevel _debugLevel;         /// Уровень подробности лога
+    static std::ofstream _logFile;         /// Выходной файловый поток
+    std::thread _thread;                   /// Отдельный поток, в котром осуществляется запись в файл
     
     /*!
      * @brief Запись информационных сообщений.
      * Запись производится одновременно в файл и буфер в двух потоках
-     * @param message - Записываемое сообщение
+     * @param iMessage - Записываемое сообщение
      */
-    void WriteInfo(const std::string &message);
+    void WriteInfo(const std::string &iMessage);
     
     /*!
      * @brief Запись предупреждений.
      * Запись производится одновременно в файл и буфер в двух потоках
-     * @param message - Записываемое сообщение
+     * @param iMessage - Записываемое сообщение
      */
-    void WriteWarning(const std::string &message);
+    void WriteWarning(const std::string &iMessage);
     
     /*!
      * @brief Запись ошибок.
      * Запись производится одновременно в файл и буфер в двух потоках
-     * @param message - Записываемое сообщение
+     * @param iMessage - Записываемое сообщение
      */
-    void WriteError(const std::string &message);
+    void WriteError(const std::string &iMessage);
     
     /*!
      * @brief Запись в буфер.
      * Запись производится в определенный буфер в зависимости от уровня вида сообщения
-     * @param message - Записываемое сообщение
-     * @param messageType - Уровень вида сообщений
+     * @param iMessage - Записываемое сообщение
+     * @param iMessageType - Уровень вида сообщений
      */
-    static void WriteToBuffer(const std::string &message, MessageType messageType);
+    static void WriteToBuffer(const std::string &iMessage, MessageType iMessageType);
     
     /*!
      * @brief Запись в файл
-     * @param message - Записываемое сообщение
+     * @param iMessage - Записываемое сообщение
      */
-    void WriteToFile(const std::string &message);
+    void WriteToFile(const std::string &iMessage);
     
     /*!
      * @brief Вывод информационных сообщений на экран
@@ -204,9 +204,9 @@ private:
     
     /*!
      * @brief Обертка для вывода разных видов сообщений
-     * @param object - Объект, который в данный момент используется
+     * @param iObject - Объект, который в данный момент используется
      */
-    static void PrintLog(const TradingCompany *object);
+    static void PrintLog(const TradingCompany *iObject);
 };
 
 #endif /* Logger_h */

@@ -1,7 +1,7 @@
 #include "HRManager.h"
 #include "Data.h"
 
-HRManager::HRManager() : data_(&Data::Instance()) {}
+HRManager::HRManager() : _data(&Data::Instance()) {}
 
 const HRManager& HRManager::operator = (const TradingCompany &object)
 {
@@ -11,7 +11,7 @@ const HRManager& HRManager::operator = (const TradingCompany &object)
 
 void HRManager::AddNewEmployeeData()
 {
-    data_->NewEmployeeData(this);
+    _data->NewEmployeeData(this);
 }
 
 void HRManager::Functional()
@@ -35,11 +35,11 @@ void HRManager::Functional()
             switch (Utils::Hash(input.c_str()))
             {
                 case Utils::Hash("1") :
-                    data_->PrintPersonalData(this);
+                    _data->PrintPersonalData(this);
                     break;
                     
                 case Utils::Hash("2") :
-                    data_->ChangeData(this);
+                    _data->ChangeData(this);
                     break;
                     
                 case Utils::Hash("3") :

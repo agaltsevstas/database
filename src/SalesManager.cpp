@@ -1,7 +1,7 @@
 #include "SalesManager.h"
 #include "Data.h"
 
-SalesManager::SalesManager() : data_(&Data::Instance()) {}
+SalesManager::SalesManager() : _data(&Data::Instance()) {}
 
 const SalesManager& SalesManager::operator = (const TradingCompany &object)
 {
@@ -29,11 +29,11 @@ void SalesManager::Functional()
             switch (Utils::Hash(input.c_str()))
             {
                 case Utils::Hash("1") :
-                    data_->PrintPersonalData(this);
+                    _data->PrintPersonalData(this);
                     break;
                     
                 case Utils::Hash("2") :
-                    data_->ChangeData(this);
+                    _data->ChangeData(this);
                     break;
                     
                 case Utils::Hash("b") :

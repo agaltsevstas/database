@@ -1,7 +1,7 @@
 #include "Logistician.h"
 #include "Data.h"
 
-Logistician::Logistician() : data_(&Data::Instance()) {}
+Logistician::Logistician() : _data(&Data::Instance()) {}
 
 const Logistician& Logistician::operator = (const TradingCompany &object)
 {
@@ -29,11 +29,11 @@ void Logistician::Functional()
             switch (Utils::Hash(input.c_str()))
             {
                 case Utils::Hash("1") :
-                    data_->PrintPersonalData(this);
+                    _data->PrintPersonalData(this);
                     break;
                     
                 case Utils::Hash("2") :
-                    data_->ChangeData(this);
+                    _data->ChangeData(this);
                     break;
                     
                 case Utils::Hash("b") :

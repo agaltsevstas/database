@@ -1,7 +1,7 @@
 #include "Cashier.h"
 #include "Data.h"
 
-Cashier::Cashier() : data_(&Data::Instance()) {}
+Cashier::Cashier() : _data(&Data::Instance()) {}
 
 const Cashier& Cashier::operator = (const TradingCompany &object)
 {
@@ -29,11 +29,11 @@ void Cashier::Functional()
             switch (Utils::Hash(input.c_str()))
             {
                 case Utils::Hash("1") :
-                    data_->PrintPersonalData(this);
+                    _data->PrintPersonalData(this);
                     break;
                     
                 case Utils::Hash("2") :
-                    data_->ChangeData(this);
+                    _data->ChangeData(this);
                     break;
                     
                 case Utils::Hash("b") :

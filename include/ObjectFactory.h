@@ -21,7 +21,7 @@ private:
     {
         return new Derived();
     }
-    std::map<ID, fInstantiator> classes; /// Карта классов
+    std::map<ID, fInstantiator> _classes; /// Карта классов
     
 public:
     ObjectFactory() {}
@@ -29,21 +29,21 @@ public:
     /*!
      * @brief Добавление классов в карту классов.
      * Derived - Определенный класс, который фабрике необходимо зарегистрировать
-     * @param id - Строка-идентификатор определенного класса
+     * @param iID - Строка-идентификатор определенного класса
      */
-    template<class Derived> void Add(ID id)
+    template<class Derived> void Add(ID iID)
     {
-        classes[id] = &Instantiator<Derived>;
+        _classes[iID] = &Instantiator<Derived>;
     }
     
     /*!
      * @brief Получение объекта определенного класса
-     * @param id - Строка-идентификатор определенного класса
+     * @param iID - Строка-идентификатор определенного класса
      * @return Найденный объект по идентификатору определенного класса
      */
-    fInstantiator Get(ID id)
+    fInstantiator Get(ID iID)
     {
-        return classes[id];
+        return _classes[iID];
     }
 };
 #endif /* ObjectFactory_h */

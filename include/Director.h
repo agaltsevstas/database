@@ -14,7 +14,7 @@ public:
     void Functional() override;
     
 private:    
-    Data* data_ = nullptr;
+    Data* _data = nullptr;
     
     void SetPremium(int premium);
     void SetFine(int fine);

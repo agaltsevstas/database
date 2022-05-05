@@ -1,7 +1,7 @@
 #include "Director.h"
 #include "Data.h"
 
-Director::Director() : data_(&Data::Instance()) {}
+Director::Director() : _data(&Data::Instance()) {}
 
 const Director& Director::operator = (const TradingCompany &object)
 {
@@ -11,7 +11,7 @@ const Director& Director::operator = (const TradingCompany &object)
 
 void Director::AddNewEmployeeData()
 {
-    data_->NewEmployeeData(this);
+    _data->NewEmployeeData(this);
 }
 
 void Director::Functional()
@@ -41,35 +41,35 @@ void Director::Functional()
             switch (Utils::Hash(input.c_str()))
             {
                 case Utils::Hash("1") :
-                    data_->PrintPersonalData(this);
+                    _data->PrintPersonalData(this);
                     break;
                     
                 case Utils::Hash("2") :
-                    data_->ChangeData(this);
+                    _data->ChangeData(this);
                     break;
                     
                 case Utils::Hash("3") :
-                    data_->GetAllOtherData();
+                    _data->GetAllOtherData();
                     break;
                     
                 case Utils::Hash("4") :
-                    data_->Find(this);
+                    _data->Find(this);
                     break;
                     
                 case Utils::Hash("5") :
-                    data_->ChangeOtherData(this);
+                    _data->ChangeOtherData(this);
                     break;
                     
                 case Utils::Hash("6") :
-                    data_->NewEmployeeData(this);
+                    _data->NewEmployeeData(this);
                     break;
                     
                 case Utils::Hash("7") :
-                    data_->DeleteEmployeeData(this);
+                    _data->DeleteEmployeeData(this);
                     break;
                     
                 case Utils::Hash("8") :
-                    data_->SetModeOutputData(this);
+                    _data->SetModeOutputData(this);
                     break;
                     
                 case Utils::Hash("9") :
