@@ -30,7 +30,7 @@ namespace Utils
             email += Translit(part) + ".";
         }
         email.pop_back(); // Удаление лишней точки в конце
-        return email += "@Employee.ru";
+        return email += "@tradingcompany.ru";
     }
     
     std::vector<std::string> SplitString(std::string iSource, const std::string &iDelim)

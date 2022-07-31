@@ -69,7 +69,7 @@ void Data::ReadingTxtFile(const boost::filesystem::path &iFilePath, uint iID)
 
 void Data::ReadingXmlFile(const boost::filesystem::path &iFilePath, uint iID)
 {
-    const char *tag = "Employee";
+    const char *tag = "tradingCompany";
     const std::string fileName = iFilePath.filename().c_str(); // Получение имени с расширением
     const std::string name = iFilePath.stem().c_str(); // Получение имени без расширения
     const char *className = Utils::GetClassName(*_objectFactory.Get(name)()).c_str();
