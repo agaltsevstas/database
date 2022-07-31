@@ -3,9 +3,9 @@
 
 HRManager::HRManager() : _data(&Data::Instance()) {}
 
-const HRManager& HRManager::operator = (const TradingCompany &object)
+const HRManager& HRManager::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

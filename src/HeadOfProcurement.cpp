@@ -3,9 +3,9 @@
 
 HeadOfProcurement::HeadOfProcurement() : _data(&Data::Instance()) {}
 
-const HeadOfProcurement& HeadOfProcurement::operator = (const TradingCompany &object)
+const HeadOfProcurement& HeadOfProcurement::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

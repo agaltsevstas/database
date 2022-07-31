@@ -1,15 +1,15 @@
 #ifndef HRManager_h
 #define HRManager_h
 
-#include "TradingCompany.h"
+#include "Employee.h"
 
 class Data;
 
-class HRManager : public TradingCompany
+class HRManager : public Employee
 {
 public:
     HRManager();
-    const HRManager& operator = (const TradingCompany &object);
+    const HRManager& operator = (const Employee &object);
     void AddNewEmployeeData();
     void Functional() override;
     

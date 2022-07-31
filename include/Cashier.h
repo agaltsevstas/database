@@ -1,15 +1,15 @@
 #ifndef Cashier_h
 #define Cashier_h
 
-#include "TradingCompany.h"
+#include "Employee.h"
 
 class Data;
 
-class Cashier : public TradingCompany
+class Cashier : public Employee
 {
 public:
     Cashier();
-    const Cashier& operator = (const TradingCompany &object);
+    const Cashier& operator = (const Employee &object);
     void Functional() override;
     
 private:

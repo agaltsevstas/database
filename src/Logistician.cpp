@@ -3,9 +3,9 @@
 
 Logistician::Logistician() : _data(&Data::Instance()) {}
 
-const Logistician& Logistician::operator = (const TradingCompany &object)
+const Logistician& Logistician::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

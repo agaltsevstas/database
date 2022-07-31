@@ -1,8 +1,8 @@
 #include <boost/regex.hpp>
 
-#include "TradingCompany.h"
+#include "Employee.h"
 
-const TradingCompany& TradingCompany::operator = (const TradingCompany &object)
+const Employee& Employee::operator = (const Employee &object)
 {
     _surname = object._surname;
     _name = object._name;
@@ -26,7 +26,7 @@ const TradingCompany& TradingCompany::operator = (const TradingCompany &object)
     return *this;
 }
 
-void operator >> (const std::string &iLine, TradingCompany &object)
+void operator >> (const std::string &iLine, Employee &object)
 {
     std::string input;
     std::stringstream is(iLine);
@@ -68,7 +68,7 @@ void operator >> (const std::string &iLine, TradingCompany &object)
     }
 }
 
-std::ostream& operator << (std::ostream &ioOut, const TradingCompany &object)
+std::ostream& operator << (std::ostream &ioOut, const Employee &object)
 {
     ioOut << "ID: "                      << object._id           << ", ";
     ioOut << "Должность: "               << object._position     << ", ";
@@ -87,171 +87,171 @@ std::ostream& operator << (std::ostream &ioOut, const TradingCompany &object)
     return ioOut;
 }
 
-bool operator == (const TradingCompany &first, const TradingCompany &second)
+bool operator == (const Employee &first, const Employee &second)
 {
     return (first._email == second._email) &&
            (first._password == second._password);
 }
 
 template<>
-uint TradingCompany::Get<uint>(const std::string &iValue, const Field iField)
+uint Employee::Get<uint>(const std::string &iValue, const Field iField)
 {
     return CheckField(iValue, iField).uintValue;
 }
 
 template<>
-uint64_t TradingCompany::Get<uint64_t>(const std::string &iValue, const Field iField)
+uint64_t Employee::Get<uint64_t>(const std::string &iValue, const Field iField)
 {
     return CheckField(iValue, iField).uint64Value;
 }
 
 template<>
-std::string TradingCompany::Get<std::string>(const std::string &iValue, const Field iField)
+std::string Employee::Get<std::string>(const std::string &iValue, const Field iField)
 {
     return CheckField(iValue, iField).stringValue;
 }
 
-void TradingCompany::SetId(const std::string &iID)
+void Employee::SetId(const std::string &iID)
 {
     _id = Get<uint>(iID, FIELD_ID);
 }
 
-void TradingCompany::SetPosition(const std::string &iPosition)
+void Employee::SetPosition(const std::string &iPosition)
 {
     _position = Get<std::string>(iPosition, FIELD_POSITION);
 }
 
-void TradingCompany::SetSurname(const std::string &iSurname)
+void Employee::SetSurname(const std::string &iSurname)
 {
     _surname = Get<std::string>(iSurname, FIELD_SURNAME);
 }
 
-void TradingCompany::SetName(const std::string &iName)
+void Employee::SetName(const std::string &iName)
 {
     _name = Get<std::string>(iName, FIELD_NAME);
 }
 
-void TradingCompany::SetPatronymic(const std::string &iPatronymic)
+void Employee::SetPatronymic(const std::string &iPatronymic)
 {
     _patronymic = Get<std::string>(iPatronymic, FIELD_PATRONYMIC);
 }
 
-void TradingCompany::SetSex(const std::string &iSex)
+void Employee::SetSex(const std::string &iSex)
 {
     _sex = Get<std::string>(iSex, FIELD_SEX);
 }
 
-void TradingCompany::SetDateOfBirth(const std::string &iDateOfBirth)
+void Employee::SetDateOfBirth(const std::string &iDateOfBirth)
 {
     _dateOfBirth = Get<std::string>(iDateOfBirth, FIELD_DATE_OF_BIRTH);
 }
 
-void TradingCompany::SetPassport(const std::string &iPassport)
+void Employee::SetPassport(const std::string &iPassport)
 {
     _passport = Get<uint64_t>(iPassport, FIELD_PASSPORT);
 }
 
-void TradingCompany::SetPhone(const std::string &iPhone)
+void Employee::SetPhone(const std::string &iPhone)
 {
     _phone = Get<uint64_t>(iPhone, FIELD_PHONE);
 }
 
-void TradingCompany::SetEmail(const std::string &iEmail)
+void Employee::SetEmail(const std::string &iEmail)
 {
     _email = Get<std::string>(iEmail, FIELD_EMAIL);
 }
 
-void TradingCompany::SetDateOfHiring(const std::string &iDateOfHiring)
+void Employee::SetDateOfHiring(const std::string &iDateOfHiring)
 {
     _dateOfHiring = Get<std::string>(iDateOfHiring, FIELD_DATE_OF_HIRING);
 }
 
-void TradingCompany::SetWorkingHours(const std::string &iWorkingHours)
+void Employee::SetWorkingHours(const std::string &iWorkingHours)
 {
     _workingHours = Get<std::string>(iWorkingHours, FIELD_WORKING_HOURS);
 }
 
-void TradingCompany::SetSalary(const std::string &iSalary)
+void Employee::SetSalary(const std::string &iSalary)
 {
     _salary = Get<uint>(iSalary, FIELD_SALARY);
 }
 
-void TradingCompany::SetPassword(const std::string &iPassword)
+void Employee::SetPassword(const std::string &iPassword)
 {
     _password = Get<std::string>(iPassword, FIELD_PASSWORD);
 }
 
-uint TradingCompany::GetId() const
+uint Employee::GetId() const
 {
     return _id;
 }
 
-std::string TradingCompany::GetPosition() const
+std::string Employee::GetPosition() const
 {
     return _position;
 }
 
-std::string TradingCompany::GetSurname() const
+std::string Employee::GetSurname() const
 {
     return _surname;
 }
 
-std::string TradingCompany::GetName() const
+std::string Employee::GetName() const
 {
     return _name;
 }
 
-std::string TradingCompany::GetPatronymic() const
+std::string Employee::GetPatronymic() const
 {
     return _patronymic;
 }
 
-std::string TradingCompany::GetSex() const
+std::string Employee::GetSex() const
 {
     return _sex;
 }
 
-std::string TradingCompany::GetDateOfBirth() const
+std::string Employee::GetDateOfBirth() const
 {
     return _dateOfBirth;
 }
 
-uint64_t TradingCompany::GetPassport() const
+uint64_t Employee::GetPassport() const
 {
     return _passport;
 }
 
-uint64_t TradingCompany::GetPhone() const
+uint64_t Employee::GetPhone() const
 {
     return _phone;
 }
 
-std::string TradingCompany::GetEmail() const
+std::string Employee::GetEmail() const
 {
     return _email;
 }
 
-std::string TradingCompany::GetDateOfHiring() const
+std::string Employee::GetDateOfHiring() const
 {
     return _dateOfHiring;
 }
 
-std::string TradingCompany::GetWorkingHours() const
+std::string Employee::GetWorkingHours() const
 {
     return _workingHours;
 }
 
-uint TradingCompany::GetSalary() const
+uint Employee::GetSalary() const
 {
     return _salary;
 }
 
-std::string TradingCompany::GetPassword() const
+std::string Employee::GetPassword() const
 {
     return _password;
 }
 
-const TradingCompany::Type TradingCompany::CheckField(std::string iValue, const Field iField)
+const Employee::Type Employee::CheckField(std::string iValue, const Field iField)
 {
     Type type;
 
@@ -673,11 +673,11 @@ const TradingCompany::Type TradingCompany::CheckField(std::string iValue, const 
     {
         Logger::error << "Неверный параметр поля >> " + std::to_string(field) << std::endl;
     }
-    return TradingCompany::empty;
+    return Employee::empty;
 }
 
-void TradingCompany::Recursion(const Field iField,
-                               std::function<void(TradingCompany&, std::string&)> setParameter,
+void Employee::Recursion(const Field iField,
+                               std::function<void(Employee&, std::string&)> setParameter,
                                const std::string &iMessage)
 {
     if (_fieldStatus[iField] != ST_OK)
@@ -698,61 +698,61 @@ void TradingCompany::Recursion(const Field iField,
     }
 }
 
-void TradingCompany::CheckId(const std::string &iWarning)
+void Employee::CheckId(const std::string &iWarning)
 {
     const std::string message = "Введите ID (например, 100)";
-    Recursion(FIELD_ID, &TradingCompany::SetId, iWarning + message);
+    Recursion(FIELD_ID, &Employee::SetId, iWarning + message);
 }
 
-void TradingCompany::CheckPosition(const std::string &iWarning)
+void Employee::CheckPosition(const std::string &iWarning)
 {
     const std::string message = "Введите должность";
-    Recursion(FIELD_POSITION, &TradingCompany::SetPosition, iWarning + message);
+    Recursion(FIELD_POSITION, &Employee::SetPosition, iWarning + message);
 }
 
-void TradingCompany::CheckSurname(const std::string &iWarning)
+void Employee::CheckSurname(const std::string &iWarning)
 {
     const std::string message = "Введите фамилию";
-    Recursion(FIELD_SURNAME, &TradingCompany::SetSurname, iWarning + message);
+    Recursion(FIELD_SURNAME, &Employee::SetSurname, iWarning + message);
 }
 
-void TradingCompany::CheckName(const std::string &iWarning)
+void Employee::CheckName(const std::string &iWarning)
 {
     const std::string message = "Введите имя";
-    Recursion(FIELD_NAME, &TradingCompany::SetName, iWarning + message);
+    Recursion(FIELD_NAME, &Employee::SetName, iWarning + message);
 }
 
-void TradingCompany::CheckPatronymic(const std::string &iWarning)
+void Employee::CheckPatronymic(const std::string &iWarning)
 {
     const std::string message = "Введите отчество";
-    Recursion(FIELD_PATRONYMIC, &TradingCompany::SetPatronymic, iWarning + message);
+    Recursion(FIELD_PATRONYMIC, &Employee::SetPatronymic, iWarning + message);
 }
 
-void TradingCompany::CheckSex(const std::string &iWarning)
+void Employee::CheckSex(const std::string &iWarning)
 {
     const std::string message = "Введите пол (например, Муж)";
-    Recursion(FIELD_SEX, &TradingCompany::SetSex, iWarning + message);
+    Recursion(FIELD_SEX, &Employee::SetSex, iWarning + message);
 }
 
-void TradingCompany::CheckDateOfBirth(const std::string &iWarning)
+void Employee::CheckDateOfBirth(const std::string &iWarning)
 {
     const std::string message = "Введите дату рождения (например, 16.12.1995 или 16/12/1995 или 16-12-1995)";
-    Recursion(FIELD_DATE_OF_BIRTH, &TradingCompany::SetDateOfBirth, iWarning + message);
+    Recursion(FIELD_DATE_OF_BIRTH, &Employee::SetDateOfBirth, iWarning + message);
 }
 
-void TradingCompany::CheckPassport(const std::string &iWarning)
+void Employee::CheckPassport(const std::string &iWarning)
 {
     const std::string message = "Введите номер паспорта (например, 4516561974)";
-    Recursion(FIELD_PASSPORT, &TradingCompany::SetPassport, iWarning + message);
+    Recursion(FIELD_PASSPORT, &Employee::SetPassport, iWarning + message);
 }
 
-void TradingCompany::CheckPhone(const std::string &iWarning)
+void Employee::CheckPhone(const std::string &iWarning)
 {
     const std::string message = "Введите номер телефона (например, 9032697963)";
-    Recursion(FIELD_PHONE, &TradingCompany::SetPhone, iWarning + message);
+    Recursion(FIELD_PHONE, &Employee::SetPhone, iWarning + message);
 }
 
-void TradingCompany::CheckEmail(const std::string &iWarning)
+void Employee::CheckEmail(const std::string &iWarning)
 {
     // Создание почты автоматически из фамилии, имени и отчества
     if (_fieldStatus[FIELD_EMAIL] == ST_EMPTY || _fieldStatus[FIELD_EMAIL] == ST_WRONGDATA)
@@ -764,7 +764,7 @@ void TradingCompany::CheckEmail(const std::string &iWarning)
     else if (_fieldStatus[FIELD_EMAIL] == ST_OVERWRITEDATA)
     {
         const std::string message = "Введите почту (например, surname.name.patronymic@tradingcompany.ru)";
-        Recursion(FIELD_EMAIL, &TradingCompany::SetEmail, iWarning + message);
+        Recursion(FIELD_EMAIL, &Employee::SetEmail, iWarning + message);
     }
     // Добавление доп. числа (от 0 до 100) к существующей почте
     if (_fieldStatus[FIELD_EMAIL] == ST_DUBLICATE)
@@ -792,72 +792,72 @@ void TradingCompany::CheckEmail(const std::string &iWarning)
     }
 }
 
-void TradingCompany::CheckDateOfHiring(const std::string &iWarning)
+void Employee::CheckDateOfHiring(const std::string &iWarning)
 {
     const std::string message = "Введите дату принятия на работу (например, 16.04.2018 или 16/04/2018 или 16-04-2018)";
-    Recursion(FIELD_DATE_OF_HIRING, &TradingCompany::SetDateOfHiring, iWarning + message);
+    Recursion(FIELD_DATE_OF_HIRING, &Employee::SetDateOfHiring, iWarning + message);
 }
 
-void TradingCompany::CheckWorkingHours(const std::string &iWarning)
+void Employee::CheckWorkingHours(const std::string &iWarning)
 {
     const std::string message = "Введите время работы (например, Понедельник=09:00-18:00 или "
                                                                 "Понедельник-Пятница=09:00-18:00 или "
                                                                 "Понедельник=09:00-18:00;Пятница=09:00-18:00)";
-    Recursion(FIELD_WORKING_HOURS, &TradingCompany::SetWorkingHours, iWarning + message);
+    Recursion(FIELD_WORKING_HOURS, &Employee::SetWorkingHours, iWarning + message);
 }
 
-void TradingCompany::CheckSalary(const std::string &iWarning)
+void Employee::CheckSalary(const std::string &iWarning)
 {
     const std::string message = "Введите зарплату (в рублях)";
-    Recursion(FIELD_SALARY, &TradingCompany::SetSalary, iWarning + message);
+    Recursion(FIELD_SALARY, &Employee::SetSalary, iWarning + message);
 }
 
-void TradingCompany::CheckPassword(const std::string &iWarning)
+void Employee::CheckPassword(const std::string &iWarning)
 {
     const std::string message = "Введите новый пароль (пароль должен содержать:\n-не менее 6 символов\n"
                                 "-хотя бы одну прописную латинскую букву\n"
                                 "-хотя бы одну строчную латинскую букву\n"
                                 "-хотя бы одну цифру)";
-    Recursion(FIELD_PASSWORD, &TradingCompany::SetPassword, iWarning + message);
+    Recursion(FIELD_PASSWORD, &Employee::SetPassword, iWarning + message);
 }
 
-void TradingCompany::ChangeStatusPosition()
+void Employee::ChangeStatusPosition()
 {
     _fieldStatus[FIELD_POSITION] = ST_OVERWRITEDATA;
     Logger::info << "Перезапись должности >> " << _position << std::endl;
 }
 
-void TradingCompany::ChangeStatusSurname()
+void Employee::ChangeStatusSurname()
 {
     _fieldStatus[FIELD_SURNAME] = ST_OVERWRITEDATA;
     Logger::info << "Перезапись фамилии >> " << _surname << std::endl;
 }
 
-void TradingCompany::ChangeStatusName()
+void Employee::ChangeStatusName()
 {
     _fieldStatus[FIELD_NAME] = ST_OVERWRITEDATA;
     Logger::info << "Перезапись имени >> " << _name << std::endl;
 }
 
-void TradingCompany::ChangeStatusPatronymic()
+void Employee::ChangeStatusPatronymic()
 {
     _fieldStatus[FIELD_PATRONYMIC] = ST_OVERWRITEDATA;
     Logger::info << "Перезапись отчества >> " << _patronymic << std::endl;
 }
 
-void TradingCompany::ChangeStatusSex()
+void Employee::ChangeStatusSex()
 {
     _fieldStatus[FIELD_SEX] = ST_OVERWRITEDATA;
     Logger::info << "Перезапись пола >> " << _sex << std::endl;
 }
 
-void TradingCompany::ChangeStatusDateOfBirth()
+void Employee::ChangeStatusDateOfBirth()
 {
     _fieldStatus[FIELD_DATE_OF_BIRTH] = ST_OVERWRITEDATA;
     Logger::info << "Перезапись даты рождения >> " << _dateOfBirth << std::endl;
 }
 
-void TradingCompany::ChangeStatusPassport(const bool canOverwrite)
+void Employee::ChangeStatusPassport(const bool canOverwrite)
 {
     if (canOverwrite)
     {
@@ -873,7 +873,7 @@ void TradingCompany::ChangeStatusPassport(const bool canOverwrite)
     }
 }
 
-void TradingCompany::ChangeStatusPhone(const bool canOverwrite)
+void Employee::ChangeStatusPhone(const bool canOverwrite)
 {
     if (canOverwrite)
     {
@@ -889,7 +889,7 @@ void TradingCompany::ChangeStatusPhone(const bool canOverwrite)
     }
 }
 
-void TradingCompany::ChangeStatusEmail(const bool canOverwrite)
+void Employee::ChangeStatusEmail(const bool canOverwrite)
 {
     if (canOverwrite)
     {
@@ -903,25 +903,25 @@ void TradingCompany::ChangeStatusEmail(const bool canOverwrite)
     }
 }
 
-void TradingCompany::ChangeStatusDateOfHiring()
+void Employee::ChangeStatusDateOfHiring()
 {
     _fieldStatus[FIELD_DATE_OF_HIRING] = ST_OVERWRITEDATA;
     Logger::info << "Перезапись даты принятия на работу >> " << _dateOfHiring << std::endl;
 }
 
-void TradingCompany::ChangeStatusWorkingHours()
+void Employee::ChangeStatusWorkingHours()
 {
     _fieldStatus[FIELD_WORKING_HOURS] = ST_OVERWRITEDATA;
     Logger::info << "Перезапись часов работы >> " << _workingHours << std::endl;
 }
 
-void TradingCompany::ChangeStatusSalary()
+void Employee::ChangeStatusSalary()
 {
     _fieldStatus[FIELD_SALARY] = ST_OVERWRITEDATA;
     Logger::info << "Перезапись зарплаты >> " << _salary << std::endl;
 }
 
-void TradingCompany::ChangeStatusPassword()
+void Employee::ChangeStatusPassword()
 {
     _fieldStatus[FIELD_PASSWORD] = ST_OVERWRITEDATA;
     Logger::info << "Перезапись пароля >> " << _password << std::endl;

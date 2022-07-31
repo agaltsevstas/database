@@ -1,15 +1,15 @@
 #ifndef Director_h
 #define Director_h
 
-#include "TradingCompany.h"
+#include "Employee.h"
 
 class Data;
 
-class Director : public TradingCompany
+class Director : public Employee
 {
 public:
     Director();
-    const Director& operator = (const TradingCompany &object);
+    const Director& operator = (const Employee &object);
     void AddNewEmployeeData();
     void Functional() override;
     

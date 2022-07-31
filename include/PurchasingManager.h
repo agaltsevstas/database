@@ -1,15 +1,15 @@
 #ifndef PurchasingManager_h
 #define PurchasingManager_h
 
-#include "TradingCompany.h"
+#include "Employee.h"
 
 class Data;
 
-class PurchasingManager : public TradingCompany
+class PurchasingManager : public Employee
 {
 public:
     PurchasingManager();
-    const PurchasingManager& operator = (const TradingCompany &object);
+    const PurchasingManager& operator = (const Employee &object);
     void Functional() override;
     
 private:

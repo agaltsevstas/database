@@ -1,7 +1,7 @@
 #include <boost/filesystem.hpp>
 
 #include "Logger.h"
-#include "TradingCompany.h"
+#include "Employee.h"
 
 Logger* Logger::_logger = nullptr;                                                 // Определение уровня подробности лога
 Logger::DebugLevel Logger::_debugLevel = Logger::DebugLevel::DEBUG_LEVEL_DISABLED; // Определение уровня подробности лога
@@ -162,7 +162,7 @@ void Logger::PrintAllMessages()
     std::cout << _allMessagesBuffer << std::endl;
 }
 
-void Logger::PrintLog(const TradingCompany *iObject)
+void Logger::PrintLog(const Employee *iObject)
 {
     Logger::info << "*********************** Logger *************************" << std::endl;
     while (true)

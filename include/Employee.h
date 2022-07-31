@@ -1,5 +1,5 @@
-#ifndef TradingCompany_h
-#define TradingCompany_h
+#ifndef Employee_h
+#define Employee_h
 
 #pragma once
 
@@ -17,7 +17,7 @@
 
 #include "Logger.h"
 
-/// Номера полей класса TradingCompany
+/// Номера полей класса Employee
 enum Field
 {
     FIELD_ID = 0,
@@ -58,7 +58,7 @@ enum Status
 /*!
  * @brief Абстрактный класс
  */
-class TradingCompany
+class Employee
 {
     friend class Data;
     friend class Director;
@@ -87,22 +87,22 @@ private:
     };
     
     /// Карта параметров и оберток инициализаций полей
-    const std::map<std::string, std::function<void(TradingCompany&, std::string&)>> _setParameters =
+    const std::map<std::string, std::function<void(Employee&, std::string&)>> _setParameters =
     {
         {"id",           nullptr},
-        {"position",     &TradingCompany::SetPosition},
-        {"surname",      &TradingCompany::SetSurname},
-        {"name",         &TradingCompany::SetName},
-        {"patronymic",   &TradingCompany::SetPatronymic},
-        {"sex",          &TradingCompany::SetSex},
-        {"dateOfBirth",  &TradingCompany::SetDateOfBirth},
-        {"passport",     &TradingCompany::SetPassport},
-        {"phone",        &TradingCompany::SetPhone},
-        {"email",        &TradingCompany::SetEmail},
-        {"dateOfHiring", &TradingCompany::SetDateOfHiring},
-        {"workingHours", &TradingCompany::SetWorkingHours},
-        {"salary",       &TradingCompany::SetSalary},
-        {"password",     &TradingCompany::SetPassword}
+        {"position",     &Employee::SetPosition},
+        {"surname",      &Employee::SetSurname},
+        {"name",         &Employee::SetName},
+        {"patronymic",   &Employee::SetPatronymic},
+        {"sex",          &Employee::SetSex},
+        {"dateOfBirth",  &Employee::SetDateOfBirth},
+        {"passport",     &Employee::SetPassport},
+        {"phone",        &Employee::SetPhone},
+        {"email",        &Employee::SetEmail},
+        {"dateOfHiring", &Employee::SetDateOfHiring},
+        {"workingHours", &Employee::SetWorkingHours},
+        {"salary",       &Employee::SetSalary},
+        {"password",     &Employee::SetPassword}
     };
     
     /// Карта полей с их статусом
@@ -125,7 +125,7 @@ private:
     };
 
 public:
-    virtual ~TradingCompany() {}
+    virtual ~Employee() {}
 
     /*!
      * @brief Перегрузка оператора = (присваивания).
@@ -133,7 +133,7 @@ public:
      * @param object - объект
      * @return Измененный объект
      */
-    const TradingCompany& operator = (const TradingCompany &object);
+    const Employee& operator = (const Employee &object);
 
     /*!
      * @brief Перегрузка оператора >> (ввода).
@@ -141,7 +141,7 @@ public:
      * @param iLine - строка
      * @param object - объект
      */
-    friend void operator >> (const std::string &iLine, TradingCompany &object);
+    friend void operator >> (const std::string &iLine, Employee &object);
 
     /*!
      * @brief Перегрузка оператора << (вывода).
@@ -150,7 +150,7 @@ public:
      * @param object - объект
      * @return Поток вывода
      */
-    friend std::ostream& operator << (std::ostream &ioOut, const TradingCompany &object);
+    friend std::ostream& operator << (std::ostream &ioOut, const Employee &object);
 
     /*!
      * @brief Перегрузка оператора == (сравнения).
@@ -159,7 +159,7 @@ public:
      * @param second - второй объект
      * @return Логическое значение
      */
-    friend bool operator == (const TradingCompany &first, const TradingCompany &second);
+    friend bool operator == (const Employee &first, const Employee &second);
 
     /// Функционал каждого производного класса
     virtual void Functional() = 0;
@@ -271,7 +271,7 @@ private:
      * @param iMessage - Сообщение, которое подказывает в каком формате вводить данные
      */
     void Recursion(const Field iField,
-                   std::function<void(TradingCompany&, std::string&)> setParameter,
+                   std::function<void(Employee&, std::string&)> setParameter,
                    const std::string &iMessage);
     /*!
      * @brief Получение определенного типа данных (uint32_t/uint64_t/string)
@@ -320,4 +320,4 @@ private:
     uint GetFine() const;
 };
 
-#endif // TradingCompany_h
+#endif // Employee_h

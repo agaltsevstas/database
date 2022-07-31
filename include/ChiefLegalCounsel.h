@@ -1,15 +1,15 @@
 #ifndef ChiefLegalCouncel_h
 #define ChiefLegalCouncel_h
 
-#include "TradingCompany.h"
+#include "Employee.h"
 
 class Data;
 
-class ChiefLegalCounsel : public TradingCompany
+class ChiefLegalCounsel : public Employee
 {
 public:
     ChiefLegalCounsel();
-    const ChiefLegalCounsel& operator = (const TradingCompany &object);
+    const ChiefLegalCounsel& operator = (const Employee &object);
     void Functional() override;
     
 private:

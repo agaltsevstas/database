@@ -1,15 +1,15 @@
 #ifndef HeadOfWarehouse_h
 #define HeadOfWarehouse_h
 
-#include "TradingCompany.h"
+#include "Employee.h"
 
 class Data;
 
-class HeadOfWarehouse : public TradingCompany
+class HeadOfWarehouse : public Employee
 {
 public:
     HeadOfWarehouse();
-    const HeadOfWarehouse& operator = (const TradingCompany &object);
+    const HeadOfWarehouse& operator = (const Employee &object);
     void Functional() override;
     
 private:

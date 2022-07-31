@@ -3,9 +3,9 @@
 
 PurchasingManager::PurchasingManager() : _data(&Data::Instance()) {}
 
-const PurchasingManager& PurchasingManager::operator = (const TradingCompany &object)
+const PurchasingManager& PurchasingManager::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

@@ -3,9 +3,9 @@
 
 Driver::Driver() : _data(&Data::Instance()) {}
 
-const Driver& Driver::operator = (const TradingCompany &object)
+const Driver& Driver::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

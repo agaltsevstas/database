@@ -3,9 +3,9 @@
 
 SalesManager::SalesManager() : _data(&Data::Instance()) {}
 
-const SalesManager& SalesManager::operator = (const TradingCompany &object)
+const SalesManager& SalesManager::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

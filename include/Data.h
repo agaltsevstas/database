@@ -7,7 +7,7 @@
 #include <boost/variant.hpp>
 
 #include "ObjectFactory.h"
-#include "TradingCompany.h"
+#include "Employee.h"
 #include "Director.h"
 #include "HRManager.h"
 
@@ -30,7 +30,7 @@ const std::map<std::string, uint> idPositions =
     {"Юрист", 1100}
 };
 
-/// Вектор предупреждений, номер элемента соответствует номеру поля класса TradingCompany
+/// Вектор предупреждений, номер элемента соответствует номеру поля класса Employee
 const std::vector<std::string> warnings
 {
     "Ваш id не удовлетворяет требованиям!\n",
@@ -50,7 +50,7 @@ const std::vector<std::string> warnings
 };
 
 /*!
- * @brief Класс-синглтон, предназначенный для чтения/записи/хранения объектов производных классов от TradingCompany
+ * @brief Класс-синглтон, предназначенный для чтения/записи/хранения объектов производных классов от Employee
  */
 class Data
 {
@@ -78,9 +78,9 @@ private:
     template <class Class>
     struct Parameter
     {
-        boost::variant<std::function<uint(TradingCompany&)>,
-                       std::function<uint64_t(TradingCompany&)>,
-                       std::function<std::string(TradingCompany&)>> getParameter;
+        boost::variant<std::function<uint(Employee&)>,
+                       std::function<uint64_t(Employee&)>,
+                       std::function<std::string(Employee&)>> getParameter;
         std::function<void()> checkParameter = nullptr;
         std::function<void()> changeStatusParameter = nullptr;
         Class *object = nullptr;
@@ -110,14 +110,14 @@ public:
      * @brief Вывод личных данных на экран
      * @param iObject - Объект, который в данный момент используется
      */
-    void PrintPersonalData(TradingCompany *iObject);
+    void PrintPersonalData(Employee *iObject);
 
     /*!
      * @brief Изменение личных/чужих данных
      * @param iObject - Объект, который в данный момент используется
      * @param ioOtherObject - Чужой объект, в котором изменяются данные
      */
-    void ChangeData(TradingCompany *iObject, TradingCompany *ioOtherObject = nullptr);
+    void ChangeData(Employee *iObject, Employee *ioOtherObject = nullptr);
     
     /*!
      * @brief Обертка для добавления нового сотрудника
@@ -129,8 +129,8 @@ private:
     Mode _mode = TXT; /// Режим записи данных
     std::string _directoryPath; /// Путь к каталогу с файлами
     std::list<std::string> _filePaths; /// Список путей к файлам
-    ObjectFactory<std::string, TradingCompany> _objectFactory; /// Фабрика объектов производных классов от TradingCompany
-    std::vector<std::shared_ptr<TradingCompany>> _vectorObjects; /// Вектор объектов производных классов от TradingCompany
+    ObjectFactory<std::string, Employee> _objectFactory; /// Фабрика объектов производных классов от Employee
+    std::vector<std::shared_ptr<Employee>> _vectorObjects; /// Вектор объектов производных классов от Employee
     
     Data() {}
 
@@ -203,19 +203,19 @@ private:
      * @param iObject - Объект, который в данный момент используется
      * @return Найденный объект
      */
-    TradingCompany *Find(TradingCompany *iObject);
+    Employee *Find(Employee *iObject);
     
     /*!
      * @brief Обертка для изменения чужих данных
      * @param iObject - Объект, который в данный момент используется
      */
-    void ChangeOtherData(TradingCompany *iObject);
+    void ChangeOtherData(Employee *iObject);
     
     /*!
      * @brief Обертка для удаления данных сотрудника
      * @param iObject - Объект, который в данный момент используется
      */
-    void DeleteEmployeeData(TradingCompany *iObject);
+    void DeleteEmployeeData(Employee *iObject);
     
     /*!
      * @brief Вывод всех данных из вектора объектов на экран
@@ -238,13 +238,13 @@ private:
      * @brief Добавление нового сотрудника. Заполнение полей нового объекта
      * @param iObject - Объект, который в данный момент используется
      */
-    void NewEmployeeData(const TradingCompany *iObject);
+    void NewEmployeeData(const Employee *iObject);
     
     /*!
      * @brief Установление режима записи данных
      * @param iObject - Объект, который в данный момент используется
      */
-    void SetModeOutputData(const TradingCompany *iObject);
+    void SetModeOutputData(const Employee *iObject);
     
     /*!
      * @brief Запись всех данных в txt файлы

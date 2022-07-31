@@ -3,9 +3,9 @@
 
 Accountant::Accountant() : _data(&Data::Instance()) {}
 
-const Accountant& Accountant::operator = (const TradingCompany &object)
+const Accountant& Accountant::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

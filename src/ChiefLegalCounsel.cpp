@@ -3,9 +3,9 @@
 
 ChiefLegalCounsel::ChiefLegalCounsel() : _data(&Data::Instance()) {}
 
-const ChiefLegalCounsel& ChiefLegalCounsel::operator = (const TradingCompany &object)
+const ChiefLegalCounsel& ChiefLegalCounsel::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

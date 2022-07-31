@@ -3,9 +3,9 @@
 
 Cashier::Cashier() : _data(&Data::Instance()) {}
 
-const Cashier& Cashier::operator = (const TradingCompany &object)
+const Cashier& Cashier::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

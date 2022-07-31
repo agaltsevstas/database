@@ -3,9 +3,9 @@
 
 HeadOfWarehouse::HeadOfWarehouse() : _data(&Data::Instance()) {}
 
-const HeadOfWarehouse& HeadOfWarehouse::operator = (const TradingCompany &object)
+const HeadOfWarehouse& HeadOfWarehouse::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

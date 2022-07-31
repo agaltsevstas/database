@@ -1,15 +1,15 @@
 #ifndef Loader_h
 #define Loader_h
 
-#include "TradingCompany.h"
+#include "Employee.h"
 
 class Data;
 
-class Loader : public TradingCompany
+class Loader : public Employee
 {
 public:
     Loader();
-    const Loader& operator = (const TradingCompany &object);
+    const Loader& operator = (const Employee &object);
     void Functional() override;
     
 private:

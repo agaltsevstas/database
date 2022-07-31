@@ -3,9 +3,9 @@
 
 ChiefAccountant::ChiefAccountant() : _data(&Data::Instance()) {}
 
-const ChiefAccountant& ChiefAccountant::operator = (const TradingCompany &object)
+const ChiefAccountant& ChiefAccountant::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

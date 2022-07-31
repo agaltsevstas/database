@@ -1,15 +1,15 @@
 #ifndef HeadOfProcurement_h
 #define HeadOfProcurement_h
 
-#include "TradingCompany.h"
+#include "Employee.h"
 
 class Data;
 
-class HeadOfProcurement : public TradingCompany
+class HeadOfProcurement : public Employee
 {
 public:
     HeadOfProcurement();
-    const HeadOfProcurement& operator = (const TradingCompany &object);
+    const HeadOfProcurement& operator = (const Employee &object);
     void Functional() override;
     
 private:

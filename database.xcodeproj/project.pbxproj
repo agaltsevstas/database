@@ -20,7 +20,7 @@
 		044C14D7248A530E00B2A0B5 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 044C14C3248A530D00B2A0B5 /* Utils.cpp */; };
 		044C14D8248A530E00B2A0B5 /* Loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 044C14C4248A530D00B2A0B5 /* Loader.cpp */; };
 		044C14D9248A530E00B2A0B5 /* HeadOfWarehouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 044C14C5248A530D00B2A0B5 /* HeadOfWarehouse.cpp */; };
-		044C14DA248A530E00B2A0B5 /* TradingCompany.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 044C14C6248A530D00B2A0B5 /* TradingCompany.cpp */; };
+		044C14DA248A530E00B2A0B5 /* Employee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 044C14C6248A530D00B2A0B5 /* Employee.cpp */; };
 		044C14DB248A530E00B2A0B5 /* ChiefAccountant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 044C14C7248A530D00B2A0B5 /* ChiefAccountant.cpp */; };
 		044C14DC248A530E00B2A0B5 /* Driver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 044C14C8248A530D00B2A0B5 /* Driver.cpp */; };
 		044C14DD248A530E00B2A0B5 /* Cashier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 044C14C9248A530D00B2A0B5 /* Cashier.cpp */; };
@@ -43,7 +43,7 @@
 
 /* Begin PBXFileReference section */
 		044C14A5248A52A500B2A0B5 /* Loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Loader.h; sourceTree = "<group>"; };
-		044C14A6248A52A500B2A0B5 /* TradingCompany.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradingCompany.h; sourceTree = "<group>"; };
+		044C14A6248A52A500B2A0B5 /* Employee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Employee.h; sourceTree = "<group>"; };
 		044C14A7248A52A500B2A0B5 /* ChiefLegalCounsel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChiefLegalCounsel.h; sourceTree = "<group>"; };
 		044C14A8248A52A500B2A0B5 /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		044C14A9248A52A600B2A0B5 /* SalesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesManager.h; sourceTree = "<group>"; };
@@ -75,7 +75,7 @@
 		044C14C3248A530D00B2A0B5 /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
 		044C14C4248A530D00B2A0B5 /* Loader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Loader.cpp; sourceTree = "<group>"; };
 		044C14C5248A530D00B2A0B5 /* HeadOfWarehouse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HeadOfWarehouse.cpp; sourceTree = "<group>"; };
-		044C14C6248A530D00B2A0B5 /* TradingCompany.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TradingCompany.cpp; sourceTree = "<group>"; };
+		044C14C6248A530D00B2A0B5 /* Employee.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Employee.cpp; sourceTree = "<group>"; };
 		044C14C7248A530D00B2A0B5 /* ChiefAccountant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChiefAccountant.cpp; sourceTree = "<group>"; };
 		044C14C8248A530D00B2A0B5 /* Driver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Driver.cpp; sourceTree = "<group>"; };
 		044C14C9248A530D00B2A0B5 /* Cashier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cashier.cpp; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 				044C14AF248A52A600B2A0B5 /* PurchasingManager.h */,
 				044C14A9248A52A600B2A0B5 /* SalesManager.h */,
 				044C14B3248A52A700B2A0B5 /* tinyxml2.h */,
-				044C14A6248A52A500B2A0B5 /* TradingCompany.h */,
+				044C14A6248A52A500B2A0B5 /* Employee.h */,
 				044C14B0248A52A700B2A0B5 /* Utils.h */,
 			);
 			path = include;
@@ -195,7 +195,7 @@
 				044C14CC248A530D00B2A0B5 /* PurchasingManager.cpp */,
 				044C14C0248A530D00B2A0B5 /* SalesManager.cpp */,
 				044C14BC248A530C00B2A0B5 /* tinyxml2.cpp */,
-				044C14C6248A530D00B2A0B5 /* TradingCompany.cpp */,
+				044C14C6248A530D00B2A0B5 /* Employee.cpp */,
 				044C14C3248A530D00B2A0B5 /* Utils.cpp */,
 			);
 			path = src;
@@ -270,7 +270,7 @@
 				044C14D6248A530E00B2A0B5 /* ChiefLegalCounsel.cpp in Sources */,
 				044C14D4248A530E00B2A0B5 /* SalesManager.cpp in Sources */,
 				044C14D2248A530E00B2A0B5 /* HeadOfProcurement.cpp in Sources */,
-				044C14DA248A530E00B2A0B5 /* TradingCompany.cpp in Sources */,
+				044C14DA248A530E00B2A0B5 /* Employee.cpp in Sources */,
 				044C14E0248A530E00B2A0B5 /* PurchasingManager.cpp in Sources */,
 				044C14DF248A530E00B2A0B5 /* main.cpp in Sources */,
 				044C14D7248A530E00B2A0B5 /* Utils.cpp in Sources */,

@@ -1,15 +1,15 @@
 #ifndef Driver_h
 #define Driver_h
 
-#include "TradingCompany.h"
+#include "Employee.h"
 
 class Data;
 
-class Driver : public TradingCompany
+class Driver : public Employee
 {
 public:
     Driver();
-    const Driver& operator = (const TradingCompany &object);
+    const Driver& operator = (const Employee &object);
     void Functional() override;
     
 private:

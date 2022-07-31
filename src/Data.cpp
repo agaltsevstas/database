@@ -41,9 +41,9 @@ void Data::ReadingTxtFile(const boost::filesystem::path &iFilePath, uint iID)
                 object->SetId(std::to_string(iID));
                 line >> *object; // Запись данных в поля объекта
                 auto result = find_if(_vectorObjects.begin(), _vectorObjects.end(),
-                                      [&object](std::shared_ptr<TradingCompany> &tradingCompanyObject)
+                                      [&object](std::shared_ptr<Employee> &EmployeeObject)
                                       {
-                                          return *object == *tradingCompanyObject;
+                                          return *object == *EmployeeObject;
                                       });
                 if (result != _vectorObjects.end())
                 {
@@ -51,7 +51,7 @@ void Data::ReadingTxtFile(const boost::filesystem::path &iFilePath, uint iID)
                     delete object;
                     continue;
                 }
-                _vectorObjects.push_back(std::shared_ptr<TradingCompany>(object));
+                _vectorObjects.push_back(std::shared_ptr<Employee>(object));
                 ++iID;
             }
         }
@@ -69,7 +69,7 @@ void Data::ReadingTxtFile(const boost::filesystem::path &iFilePath, uint iID)
 
 void Data::ReadingXmlFile(const boost::filesystem::path &iFilePath, uint iID)
 {
-    const char *tag = "tradingCompany";
+    const char *tag = "Employee";
     const std::string fileName = iFilePath.filename().c_str(); // Получение имени с расширением
     const std::string name = iFilePath.stem().c_str(); // Получение имени без расширения
     const char *className = Utils::GetClassName(*_objectFactory.Get(name)()).c_str();
@@ -104,9 +104,9 @@ void Data::ReadingXmlFile(const boost::filesystem::path &iFilePath, uint iID)
                     }
                 }
                 auto result = find_if(_vectorObjects.begin(), _vectorObjects.end(),
-                                      [&object](std::shared_ptr<TradingCompany> &tradingCompanyObject)
+                                      [&object](std::shared_ptr<Employee> &EmployeeObject)
                                       {
-                                          return *object == *tradingCompanyObject;
+                                          return *object == *EmployeeObject;
                                       });
                 if (result != _vectorObjects.end())
                 {
@@ -114,7 +114,7 @@ void Data::ReadingXmlFile(const boost::filesystem::path &iFilePath, uint iID)
                     delete object;
                     continue;
                 }
-                _vectorObjects.push_back(std::shared_ptr<TradingCompany>(object));
+                _vectorObjects.push_back(std::shared_ptr<Employee>(object));
                 ++iID;
             }
         }
@@ -282,9 +282,9 @@ void Data::AccountLogin()
 
 template<class Class> void Data::CheckParameter(Parameter<Class> &iParameter)
 {
-    auto getUint32Parameter = boost::get<std::function<uint32_t(TradingCompany&)>>(&iParameter.getParameter);
-    auto getUint64Parameter = boost::get<std::function<uint64_t(TradingCompany&)>>(&iParameter.getParameter);
-    auto getStringParameter = boost::get<std::function<std::string(TradingCompany&)>>(&iParameter.getParameter);
+    auto getUint32Parameter = boost::get<std::function<uint32_t(Employee&)>>(&iParameter.getParameter);
+    auto getUint64Parameter = boost::get<std::function<uint64_t(Employee&)>>(&iParameter.getParameter);
+    auto getStringParameter = boost::get<std::function<std::string(Employee&)>>(&iParameter.getParameter);
     auto checkParameter = iParameter.checkParameter;
     auto changeStatusParameter = iParameter.changeStatusParameter;
     auto object = iParameter.object;
@@ -339,69 +339,69 @@ template<class Class> Data::Parameter<Class> Data::SelectParameter(const Field i
         switch (iField)
         {
             case FIELD_POSITION :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetPosition},
-                        std::bind(&TradingCompany::CheckPosition, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusPosition, iObject), iObject};
+                return {std::function<std::string(Employee&)>{&Employee::GetPosition},
+                        std::bind(&Employee::CheckPosition, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusPosition, iObject), iObject};
 
             case FIELD_SURNAME :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetSurname},
-                        std::bind(&TradingCompany::CheckSurname, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusSurname, iObject), iObject};
+                return {std::function<std::string(Employee&)>{&Employee::GetSurname},
+                        std::bind(&Employee::CheckSurname, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusSurname, iObject), iObject};
 
             case FIELD_NAME :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetName},
-                        std::bind(&TradingCompany::CheckName, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusName, iObject), iObject};
+                return {std::function<std::string(Employee&)>{&Employee::GetName},
+                        std::bind(&Employee::CheckName, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusName, iObject), iObject};
 
             case FIELD_PATRONYMIC :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetPatronymic},
-                        std::bind(&TradingCompany::CheckPatronymic, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusPatronymic, iObject), iObject};
+                return {std::function<std::string(Employee&)>{&Employee::GetPatronymic},
+                        std::bind(&Employee::CheckPatronymic, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusPatronymic, iObject), iObject};
 
             case FIELD_SEX :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetSex},
-                        std::bind(&TradingCompany::CheckSex, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusSex, iObject), iObject};
+                return {std::function<std::string(Employee&)>{&Employee::GetSex},
+                        std::bind(&Employee::CheckSex, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusSex, iObject), iObject};
 
             case FIELD_DATE_OF_BIRTH :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetDateOfBirth},
-                        std::bind(&TradingCompany::CheckDateOfBirth, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusDateOfBirth, iObject), iObject};
+                return {std::function<std::string(Employee&)>{&Employee::GetDateOfBirth},
+                        std::bind(&Employee::CheckDateOfBirth, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusDateOfBirth, iObject), iObject};
 
             case FIELD_PASSPORT :
-                return {std::function<uint64_t(TradingCompany&)>{&TradingCompany::GetPassport},
-                        std::bind(&TradingCompany::CheckPassport, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusPassport, iObject, false), iObject, true};
+                return {std::function<uint64_t(Employee&)>{&Employee::GetPassport},
+                        std::bind(&Employee::CheckPassport, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusPassport, iObject, false), iObject, true};
 
             case FIELD_PHONE :
-                return {std::function<uint64_t(TradingCompany&)>{&TradingCompany::GetPhone},
-                        std::bind(&TradingCompany::CheckPhone, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusPhone, iObject, false), iObject, true};
+                return {std::function<uint64_t(Employee&)>{&Employee::GetPhone},
+                        std::bind(&Employee::CheckPhone, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusPhone, iObject, false), iObject, true};
 
             case FIELD_EMAIL :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetEmail},
-                        std::bind(&TradingCompany::CheckEmail, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusEmail, iObject, false), iObject, true};
+                return {std::function<std::string(Employee&)>{&Employee::GetEmail},
+                        std::bind(&Employee::CheckEmail, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusEmail, iObject, false), iObject, true};
 
             case FIELD_DATE_OF_HIRING :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetDateOfHiring},
-                        std::bind(&TradingCompany::CheckDateOfHiring, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusDateOfHiring, iObject), iObject};
+                return {std::function<std::string(Employee&)>{&Employee::GetDateOfHiring},
+                        std::bind(&Employee::CheckDateOfHiring, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusDateOfHiring, iObject), iObject};
 
             case FIELD_WORKING_HOURS :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetWorkingHours},
-                        std::bind(&TradingCompany::CheckWorkingHours, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusWorkingHours, iObject), iObject};
+                return {std::function<std::string(Employee&)>{&Employee::GetWorkingHours},
+                        std::bind(&Employee::CheckWorkingHours, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusWorkingHours, iObject), iObject};
 
             case FIELD_SALARY :
-                return {std::function<uint32_t(TradingCompany&)>{&TradingCompany::GetSalary},
-                        std::bind(&TradingCompany::CheckSalary, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusSalary, iObject), iObject};
+                return {std::function<uint32_t(Employee&)>{&Employee::GetSalary},
+                        std::bind(&Employee::CheckSalary, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusSalary, iObject), iObject};
 
             case FIELD_PASSWORD :
-                return {std::function<std::string(TradingCompany&)>{&TradingCompany::GetPassword},
-                        std::bind(&TradingCompany::CheckPassword, iObject, iMessage),
-                        std::bind(&TradingCompany::ChangeStatusPassword, iObject), iObject};
+                return {std::function<std::string(Employee&)>{&Employee::GetPassword},
+                        std::bind(&Employee::CheckPassword, iObject, iMessage),
+                        std::bind(&Employee::ChangeStatusPassword, iObject), iObject};
             default:
                 throw iField;
         }
@@ -433,7 +433,7 @@ template<class C> void Data::CheckParameters(C *iObject, const bool iWarning)
     }
 }
 
-void Data::PrintPersonalData(TradingCompany *iObject)
+void Data::PrintPersonalData(Employee *iObject)
 {
     Logger::info << "***************** Вывод личных данных ******************" << std::endl;
     std::cout << std::endl;
@@ -441,7 +441,7 @@ void Data::PrintPersonalData(TradingCompany *iObject)
     std::cout << *iObject << std::endl;
 }
 
-void Data::ChangeData(TradingCompany *iObject, TradingCompany *ioOtherObject)
+void Data::ChangeData(Employee *iObject, Employee *ioOtherObject)
 {
     bool isDirector = false;
     std::string message;
@@ -647,7 +647,7 @@ void Data::ChangeData(TradingCompany *iObject, TradingCompany *ioOtherObject)
     }
 }
 
-TradingCompany *Data::Find(TradingCompany *iObject)
+Employee *Data::Find(Employee *iObject)
 {
     Logger::info << "************************ Поиск *************************" << std::endl;
     while (true)
@@ -658,7 +658,7 @@ TradingCompany *Data::Find(TradingCompany *iObject)
         std::cout << "ID (например, 100), позиция (например, Директор), фамилия (например, Агальцев), "
                   << "имя (например, Стас), отчество (например, Сергеевич), пол (например, Муж), "
                   << "дата рождения (например, 16.12.1995), паспорт (например, 4516561974), "
-                  << "телефон (например, 9032697963), почта (например, surname.name.patronymic@tradingcompany.ru) "
+                  << "телефон (например, 9032697963), почта (например, surname.name.patronymic@Employee.ru) "
                   << "дата принятия на работу (например, 16.04.2018), время работы (например, Понедельник-Пятница=09:00-18:00) "
                   << "зарплата (в рублях), пароль" << std::endl;
         std::cout << "Хотите вернуться назад? - введите B(англ.) или Н(рус.)" << std::endl;
@@ -681,7 +681,7 @@ TradingCompany *Data::Find(TradingCompany *iObject)
             else
             {
                 // Вектор объектов, в котором хранятся найденные объекты по определенным полям
-                std::vector<std::shared_ptr<TradingCompany>> foundObjects;
+                std::vector<std::shared_ptr<Employee>> foundObjects;
                 for (const auto &object: _vectorObjects)
                 {
                     // Вектор значений полей объекта с учетом верхнего и нижнего регистра букв
@@ -762,7 +762,7 @@ TradingCompany *Data::Find(TradingCompany *iObject)
     return nullptr;
 }
 
-void Data::ChangeOtherData(TradingCompany *object)
+void Data::ChangeOtherData(Employee *object)
 {
     auto foundObject = Find(object);
     if (foundObject == nullptr)
@@ -771,7 +771,7 @@ void Data::ChangeOtherData(TradingCompany *object)
     ChangeData(object, foundObject);
 }
 
-void Data::DeleteEmployeeData(TradingCompany *iObject)
+void Data::DeleteEmployeeData(Employee *iObject)
 {
     while (true)
     {
@@ -838,7 +838,7 @@ template<class C> void Data::PushBack(C &iObject)
     std::cout << "************* Добавление нового сотрудника *************" << std::endl;
     std::string position = iObject._position;
     uint maxId = idPositions.find(position)->second - 1;
-    std::vector<std::shared_ptr<TradingCompany>>::iterator it;
+    std::vector<std::shared_ptr<Employee>>::iterator it;
     for (it = begin(_vectorObjects); it != end(_vectorObjects); ++it)
     {
         // Проверка двух объектов на то, что они от одного класса
@@ -850,7 +850,7 @@ template<class C> void Data::PushBack(C &iObject)
     }
     std::string maxIdString = std::to_string(++maxId);
     iObject.SetId(maxIdString);
-    _vectorObjects.insert(it, std::shared_ptr<TradingCompany>(&iObject));
+    _vectorObjects.insert(it, std::shared_ptr<Employee>(&iObject));
     Logger::info << "Сотрудник << " + iObject._position +   " " +
                                       iObject._surname +    " " +
                                       iObject._name +       " " +
@@ -897,7 +897,7 @@ template<class C> void Data::DeleteObject(C *iObject)
     }
 }
 
-void Data::NewEmployeeData(const TradingCompany *iObject)
+void Data::NewEmployeeData(const Employee *iObject)
 {
     Logger::info << "************* Добавление данных сотрудника *************" << std::endl;
     while (true)
@@ -952,7 +952,7 @@ void Data::NewEmployeeData(const TradingCompany *iObject)
     }
 }
 
-void Data::SetModeOutputData(const TradingCompany *iObject)
+void Data::SetModeOutputData(const Employee *iObject)
 {
     Logger::info << "************ Изменение режима данных вывода ************" << std::endl;
     while (true)
@@ -1039,7 +1039,7 @@ void Data::WriteToTxtFile()
 
 void Data::WriteToXmlFile()
 {
-    const char *tag = "tradingCompany";
+    const char *tag = "Employee";
     std::string previosPosition;
     auto lastObject = std::end(_vectorObjects) - 1;
     tinyxml2::XMLDocument *doc = new tinyxml2::XMLDocument(); // Инициализация документа

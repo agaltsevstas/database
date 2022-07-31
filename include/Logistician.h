@@ -1,15 +1,15 @@
 #ifndef Logistician_h
 #define Logistician_h
 
-#include "TradingCompany.h"
+#include "Employee.h"
 
 class Data;
 
-class Logistician : public TradingCompany
+class Logistician : public Employee
 {
 public:
     Logistician();
-    const Logistician& operator = (const TradingCompany &object);
+    const Logistician& operator = (const Employee &object);
     void Functional() override;
     
 private:

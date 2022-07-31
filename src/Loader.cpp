@@ -3,9 +3,9 @@
 
 Loader::Loader() : _data(&Data::Instance()) {}
 
-const Loader& Loader::operator = (const TradingCompany &object)
+const Loader& Loader::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

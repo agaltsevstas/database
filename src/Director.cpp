@@ -3,9 +3,9 @@
 
 Director::Director() : _data(&Data::Instance()) {}
 
-const Director& Director::operator = (const TradingCompany &object)
+const Director& Director::operator = (const Employee &object)
 {
-    TradingCompany::operator=(object);
+    Employee::operator=(object);
     return *this;
 }
 

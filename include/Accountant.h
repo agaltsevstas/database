@@ -1,15 +1,15 @@
 #ifndef Accountant_h
 #define Accountant_h
 
-#include "TradingCompany.h"
+#include "Employee.h"
 
 class Data;
 
-class Accountant : public TradingCompany
+class Accountant : public Employee
 {
 public:
     Accountant();
-    const Accountant& operator = (const TradingCompany &object);
+    const Accountant& operator = (const Employee &object);
     void Functional() override;
     
 private:
