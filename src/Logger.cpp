@@ -55,7 +55,7 @@ Logger::Streamer::StringBuffer::~StringBuffer()
     pubsync();
 }
 
-int Logger::Streamer::StringBuffer::Sync()
+int Logger::Streamer::StringBuffer::sync()
 {
     std::string text(str()); // Получение текста из буфера
     if (Logger::_logger == nullptr || text.empty())

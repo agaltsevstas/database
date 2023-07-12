@@ -112,7 +112,7 @@ public:
             /*!
              * @brief Синхронизация строкового буфера потока
              */
-            virtual int Sync();
+            int sync() override;
             
         private:
             Logger::MessageType messageType_;
