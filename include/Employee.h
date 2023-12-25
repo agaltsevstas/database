@@ -1,64 +1,16 @@
 #ifndef Employee_h
 #define Employee_h
 
-#pragma once
-
-#include <vector>
-#include <cstdlib>
-#include <ctime>
-#include <iomanip>
-#include <iterator>
-#include <algorithm>
-#include <cmath>
-#include <memory>
-#include <map>
-#include <list>
-#include <functional>
-
 #include "Logger.h"
+#include "IEmployee.h"
 
-/// Номера полей класса Employee
-enum Field
-{
-    FIELD_ID = 0,
-    FIELD_POSITION,
-    FIELD_SURNAME,
-    FIELD_NAME,
-    FIELD_PATRONYMIC,
-    FIELD_SEX,
-    FIELD_DATE_OF_BIRTH,
-    FIELD_PASSPORT,
-    FIELD_PHONE,
-    FIELD_EMAIL,
-    FIELD_DATE_OF_HIRING,
-    FIELD_WORKING_HOURS,
-    FIELD_SALARY,
-    FIELD_PASSWORD,
-};
 
-/// Статус данных
-enum Status
-{
-    /// Успех
-    ST_OK = 0,
-    
-    /// Перезаписывание данных
-    ST_OVERWRITEDATA,
-
-    /// Пусто
-    ST_EMPTY,
-
-    /// Проблема с данными
-    ST_WRONGDATA,
-
-    /// Дублирование данных
-    ST_DUBLICATE
-};
+#include <map>
 
 /*!
  * @brief Абстрактный класс
  */
-class Employee
+class Employee : public IEmployee
 {
     friend class Data;
     friend class Director;
@@ -85,109 +37,69 @@ private:
         /// Строковое значение
         std::string stringValue;
     };
-    
-    /// Карта параметров и оберток инициализаций полей
-    const std::map<std::string, std::function<void(Employee&, std::string&)>> _setParameters =
-    {
-        {"id",           nullptr},
-        {"position",     &Employee::SetPosition},
-        {"surname",      &Employee::SetSurname},
-        {"name",         &Employee::SetName},
-        {"patronymic",   &Employee::SetPatronymic},
-        {"sex",          &Employee::SetSex},
-        {"dateOfBirth",  &Employee::SetDateOfBirth},
-        {"passport",     &Employee::SetPassport},
-        {"phone",        &Employee::SetPhone},
-        {"email",        &Employee::SetEmail},
-        {"dateOfHiring", &Employee::SetDateOfHiring},
-        {"workingHours", &Employee::SetWorkingHours},
-        {"salary",       &Employee::SetSalary},
-        {"password",     &Employee::SetPassword}
-    };
-    
-    /// Карта полей с их статусом
-    std::map<Field, Status> _fieldStatus
-    {
-        {FIELD_ID,             ST_EMPTY},
-        {FIELD_POSITION,       ST_EMPTY},
-        {FIELD_SURNAME,        ST_EMPTY},
-        {FIELD_NAME,           ST_EMPTY},
-        {FIELD_PATRONYMIC,     ST_EMPTY},
-        {FIELD_SEX,            ST_EMPTY},
-        {FIELD_DATE_OF_BIRTH,  ST_EMPTY},
-        {FIELD_PASSPORT,       ST_EMPTY},
-        {FIELD_PHONE,          ST_EMPTY},
-        {FIELD_EMAIL,          ST_EMPTY},
-        {FIELD_DATE_OF_HIRING, ST_EMPTY},
-        {FIELD_WORKING_HOURS,  ST_EMPTY},
-        {FIELD_SALARY,         ST_EMPTY},
-        {FIELD_PASSWORD,       ST_EMPTY},
-    };
 
 public:
-    virtual ~Employee() {}
 
     /*!
      * @brief Перегрузка оператора = (присваивания).
      * Запись данных из одного объекта в другой
-     * @param object - объект
+     * @param other - объект
      * @return Измененный объект
      */
-    const Employee& operator = (const Employee &object);
+    const IEmployee& operator = (const IEmployee &other) override;
 
     /*!
      * @brief Перегрузка оператора >> (ввода).
      * Запись данных в поля объекта
      * @param iLine - строка
-     * @param object - объект
      */
-    friend void operator >> (const std::string &iLine, Employee &object);
+    void operator >> (const std::string &iLine) override;
 
     /*!
      * @brief Перегрузка оператора << (вывода).
      * Вывод полей объекта
      * @param ioOut - поток вывода
-     * @param object - объект
      * @return Поток вывода
      */
-    friend std::ostream& operator << (std::ostream &ioOut, const Employee &object);
+    std::ostream& operator << (std::ostream &ioOut) const noexcept override;
 
     /*!
      * @brief Перегрузка оператора == (сравнения).
      * Сравнение двух объектов на равенство
-     * @param first - первый объект
-     * @param second - второй объект
+     * @param other - сравниваемый объект
      * @return Логическое значение
      */
-    friend bool operator == (const Employee &first, const Employee &second);
-
-    /// Функционал каждого производного класса
-    virtual void Functional() = 0;
+    bool operator == (const IEmployee &other) const noexcept override;
 
     /*!
      * @brief Получение значений полей
      * @return Значение поля
      */
-    std::string GetPosition() const;
-    std::string GetSurname() const;
-    std::string GetName() const;
-    std::string GetPatronymic() const;
+    std::string GetPosition() const noexcept override;
+    std::string GetSurname() const noexcept override;
+    std::string GetName() const noexcept override;
+    std::string GetPatronymic() const noexcept override;
     
 protected:
     /*!
      * @brief Получение значений полей
      * @return Значение поля
      */
-    uint32_t    GetId() const;
-    std::string GetSex() const;
-    std::string GetDateOfBirth() const;
-    uint64_t    GetPassport() const;
-    uint64_t    GetPhone() const;
-    std::string GetEmail() const;
-    std::string GetDateOfHiring() const;
-    std::string GetWorkingHours() const;
-    uint32_t    GetSalary() const;
-    std::string GetPassword() const;
+    uint32_t    GetId() const noexcept override;
+    std::string GetSex() const noexcept override;
+    std::string GetDateOfBirth() const noexcept override;
+    uint64_t    GetPassport() const noexcept override;
+    uint64_t    GetPhone() const noexcept override;
+    std::string GetEmail() const noexcept override;
+    std::string GetDateOfHiring() const noexcept override;
+    std::string GetWorkingHours() const noexcept override;
+    uint32_t    GetSalary() const noexcept override;
+    std::string GetPassword() const noexcept override;
+    
+    /*!
+     * @brief Вывод личных данных на экран
+     */
+    virtual void PrintPersonalData() noexcept;
 
 private:
     uint32_t    _id = 0;       /// ID
@@ -209,59 +121,59 @@ private:
      * @brief Инициализация полей
      * @param Значение поля
      */
-    void SetId(const std::string &iID);
-    void SetPosition(const std::string &iPosition);
-    void SetSurname(const std::string &iSurname);
-    void SetName(const std::string &iName);
-    void SetPatronymic(const std::string &iPatronymic);
-    void SetSex(const std::string &iSex);
-    void SetDateOfBirth(const std::string &iDateOfBirth);
-    void SetPhone(const std::string &iPhone);
-    void SetEmail(const std::string &iEmail);
-    void SetDateOfHiring(const std::string &iDateOfHiring);
-    void SetWorkingHours(const std::string &iWorkingHours);
-    void SetPassport(const std::string &iPassport);
-    void SetSalary(const std::string &iSalary);
-    void SetPassword(const std::string &iPassword);
+    void SetId(const std::string &iID) override;
+    void SetPosition(const std::string &iPosition) override;
+    void SetSurname(const std::string &iSurname) override;
+    void SetName(const std::string &iName) override;
+    void SetPatronymic(const std::string &iPatronymic) override;
+    void SetSex(const std::string &iSex) override;
+    void SetDateOfBirth(const std::string &iDateOfBirth) override;
+    void SetPhone(const std::string &iPhone) override;
+    void SetEmail(const std::string &iEmail) override;
+    void SetDateOfHiring(const std::string &iDateOfHiring) override;
+    void SetWorkingHours(const std::string &iWorkingHours) override;
+    void SetPassport(const std::string &iPassport) override;
+    void SetSalary(const std::string &iSalary) override;
+    void SetPassword(const std::string &iPassword) override;
 
     /*!
      * @brief Проверка полей на повреждение/перезапись данных
      * @param iWarning - Предупреждение о невалидности данных поля
      */
-    void CheckId(const std::string &iWarning = {}); /// Не используется!
-    void CheckPosition(const std::string &iWarning = {});
-    void CheckSurname(const std::string &iWarning = {});
-    void CheckName(const std::string &iWarning = {});
-    void CheckPatronymic(const std::string &iWarning = {});
-    void CheckSex(const std::string &iWarning = {});
-    void CheckDateOfBirth(const std::string &iWarning = {});
-    void CheckPassport(const std::string &iWarning = {});
-    void CheckPhone(const std::string &iWarning = {});
-    void CheckEmail(const std::string &iWarning = {});
-    void CheckDateOfHiring(const std::string &iWarning = {});
-    void CheckWorkingHours(const std::string &iWarning = {});
-    void CheckSalary(const std::string &iWarning = {});
-    void CheckPassword(const std::string &iWarning = {});
+    void CheckId(const std::string &iWarning = {}) override; /// Не используется!
+    void CheckPosition(const std::string &iWarning = {}) override;
+    void CheckSurname(const std::string &iWarning = {}) override;
+    void CheckName(const std::string &iWarning = {}) override;
+    void CheckPatronymic(const std::string &iWarning = {}) override;
+    void CheckSex(const std::string &iWarning = {}) override;
+    void CheckDateOfBirth(const std::string &iWarning = {}) override;
+    void CheckPassport(const std::string &iWarning = {}) override;
+    void CheckPhone(const std::string &iWarning = {}) override;
+    void CheckEmail(const std::string &iWarning = {}) override;
+    void CheckDateOfHiring(const std::string &iWarning = {}) override;
+    void CheckWorkingHours(const std::string &iWarning = {}) override;
+    void CheckSalary(const std::string &iWarning = {}) override;
+    void CheckPassword(const std::string &iWarning = {}) override;
 
     /*!
      * @brief Изменение статуса полей на перезапись/дублирование данных
      */
-    void ChangeStatusPosition();
-    void ChangeStatusSurname();
-    void ChangeStatusName();
-    void ChangeStatusPatronymic();
-    void ChangeStatusSex();
-    void ChangeStatusDateOfBirth();
+    void ChangeStatusPosition() override;
+    void ChangeStatusSurname() override;
+    void ChangeStatusName() override;
+    void ChangeStatusPatronymic() override;
+    void ChangeStatusSex() override;
+    void ChangeStatusDateOfBirth() override;
     /// @param canOverwrite - true-перезапись/false-дублирование
-    void ChangeStatusPassport(const bool canOverwrite = false);
+    void ChangeStatusPassport(const bool canOverwrite = false) override;
     /// @param canOverwrite - true-перезапись/false-дублирование
-    void ChangeStatusPhone(const bool canOverwrite = false);
+    void ChangeStatusPhone(const bool canOverwrite = false) override;
     /// @param canOverwrite - true-перезапись/false-дублирование
-    void ChangeStatusEmail(const bool canOverwrite);
-    void ChangeStatusDateOfHiring();
-    void ChangeStatusWorkingHours();
-    void ChangeStatusSalary();
-    void ChangeStatusPassword();
+    void ChangeStatusEmail(const bool canOverwrite) override;
+    void ChangeStatusDateOfHiring() override;
+    void ChangeStatusWorkingHours() override;
+    void ChangeStatusSalary() override;
+    void ChangeStatusPassword() override;
 
     /*!
      * @brief Рекурсия, которая вызывается в случае неверного введения данных.
@@ -295,6 +207,9 @@ private:
      * @return Структура данных
      */
     const Type CheckField(std::string iValue, const Field iField);
+    
+    /// TODO:
+private:
 
     /*!
      * @TODO: Установление премии
@@ -312,12 +227,12 @@ private:
      * @TODO: Получение премии
      * @return Премия
      */
-    uint GetPremium() const;
+    uint GetPremium() const noexcept;
     /*!
      * @TODO: Получение штрафа
      * @return Штраф
      */
-    uint GetFine() const;
+    uint GetFine() const noexcept;
 };
 
 #endif // Employee_h

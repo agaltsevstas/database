@@ -2,6 +2,7 @@
 #include <boost/program_options.hpp>
 
 #include "Data.h"
+#include "Logger.h"
 
 int main(int argc, char *argv[])
 {
@@ -61,11 +62,11 @@ int main(int argc, char *argv[])
     {
         directory += "/";
     }
-    Data &data = Data::Instance();
+    
     try
     {
-        data.LoadDatabase(directory);
-        data.AccountLogin();
+        DataProxy::LoadDatabase(directory);
+        DataProxy::AccountLogin();
     }
     catch (const std::exception &ex)
     {

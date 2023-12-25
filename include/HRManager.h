@@ -3,18 +3,12 @@
 
 #include "Employee.h"
 
-class Data;
 
-class HRManager : public Employee
+class HRManager final : public Employee
 {
 public:
-    HRManager();
-    const HRManager& operator = (const Employee &object);
-    void AddNewEmployeeData();
+    HRManager() = default;
     void Functional() override;
-    
-private:
-    Data* _data = nullptr;
 };
 
 #endif /* HRManager_h */

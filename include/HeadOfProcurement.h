@@ -3,17 +3,12 @@
 
 #include "Employee.h"
 
-class Data;
 
-class HeadOfProcurement : public Employee
+class HeadOfProcurement final : public Employee
 {
 public:
-    HeadOfProcurement();
-    const HeadOfProcurement& operator = (const Employee &object);
+    HeadOfProcurement() = default;
     void Functional() override;
-    
-private:
-    Data* _data = nullptr;
 };
 
 #endif // HeadOfProcurement_h

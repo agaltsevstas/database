@@ -1,32 +1,33 @@
+#include "Employee.h"
+#include "Utils.h"
+
 #include <boost/regex.hpp>
 
-#include "Employee.h"
-
-const Employee& Employee::operator = (const Employee &object)
+const IEmployee& Employee::operator = (const IEmployee &other)
 {
-    _surname = object._surname;
-    _name = object._name;
-    _patronymic = object._patronymic;
-    _sex = object._sex;
-    _dateOfBirth = object._dateOfBirth;
-    _passport = object._passport;
-    _phone = object._phone;
-    _email = object._email;
-    _dateOfHiring = object._dateOfHiring;
-    _workingHours = object._workingHours;
-    _salary = object._salary;
-    _password = object._password;
+    _surname = static_cast<const Employee&>(other)._surname;
+    _name = static_cast<const Employee&>(other)._name;
+    _patronymic = static_cast<const Employee&>(other)._patronymic;
+    _sex = static_cast<const Employee&>(other)._sex;
+    _dateOfBirth = static_cast<const Employee&>(other)._dateOfBirth;
+    _passport = static_cast<const Employee&>(other)._passport;
+    _phone = static_cast<const Employee&>(other)._phone;
+    _email = static_cast<const Employee&>(other)._email;
+    _dateOfHiring = static_cast<const Employee&>(other)._dateOfHiring;
+    _salary = static_cast<const Employee&>(other)._salary;
+    _workingHours = static_cast<const Employee&>(other)._workingHours;
+    _password = static_cast<const Employee&>(other)._password;
 
-    // Передача статусов полей от объекта к *this
-    std::for_each(std::begin(_fieldStatus), std::end(_fieldStatus), [this, &object](auto &field)
+//     Передача статусов полей от объекта к *this
+    std::for_each(std::begin(_fieldStatus), std::end(_fieldStatus), [this, &other](auto &field)
     {
-        this->_fieldStatus[field.first] = object._fieldStatus.at(field.first);
+        this->_fieldStatus[field.first] = static_cast<const Employee&>(other)._fieldStatus.at(field.first);
     });
 
     return *this;
 }
 
-void operator >> (const std::string &iLine, Employee &object)
+void Employee::operator >> (const std::string &iLine)
 {
     std::string input;
     std::stringstream is(iLine);
@@ -36,9 +37,9 @@ void operator >> (const std::string &iLine, Employee &object)
         {
             // Удаление всех символов, кроме латинских букв
             std::string parameter = boost::regex_replace(input, boost::regex("[^A-Za-z]"), "");
-            auto found = object._setParameters.find(parameter); // Поиск обертки инициализации поля по параметру
+            auto found = _setParameters.find(parameter); // Поиск обертки инициализации поля по параметру
 
-            if (found != object._setParameters.end())
+            if (found != _setParameters.end())
             {
                 auto setParameter = found->second;
                 is >> input;
@@ -53,7 +54,7 @@ void operator >> (const std::string &iLine, Employee &object)
                     {
                         input = input.substr(1, input.length() - 2);
                     }
-                    setParameter(object, input); // Инициализация поля
+                    setParameter(*this, input); // Инициализация поля
                 }
             }
             else
@@ -68,29 +69,29 @@ void operator >> (const std::string &iLine, Employee &object)
     }
 }
 
-std::ostream& operator << (std::ostream &ioOut, const Employee &object)
+std::ostream& Employee::operator << (std::ostream &ioOut) const noexcept
 {
-    ioOut << "ID: "                      << object._id           << ", ";
-    ioOut << "Должность: "               << object._position     << ", ";
-    ioOut << "Фамилия: "                 << object._surname      << ", ";
-    ioOut << "Имя: "                     << object._name         << ", ";
-    ioOut << "Отчество: "                << object._patronymic   << ", ";
-    ioOut << "Пол: "                     << object._sex          << ", ";
-    ioOut << "Дата рождения: "           << object._dateOfBirth  << ", ";
-    ioOut << "Паспорт: "                 << object._passport     << ", ";
-    ioOut << "Телефон: "                 << object._phone        << ", ";
-    ioOut << "Почта: "                   << object._email        << ", ";
-    ioOut << "Дата принятия на работу: " << object._dateOfHiring << ", ";
-    ioOut << "Часы работы: "             << object._workingHours << ", ";
-    ioOut << "Зарплата: "                << object._salary       << ", ";
-    ioOut << "Пароль: "                  << object._password;
+    ioOut << "ID: "                      << _id           << ", ";
+    ioOut << "Должность: "               << _position     << ", ";
+    ioOut << "Фамилия: "                 << _surname      << ", ";
+    ioOut << "Имя: "                     << _name         << ", ";
+    ioOut << "Отчество: "                << _patronymic   << ", ";
+    ioOut << "Пол: "                     << _sex          << ", ";
+    ioOut << "Дата рождения: "           << _dateOfBirth  << ", ";
+    ioOut << "Паспорт: "                 << _passport     << ", ";
+    ioOut << "Телефон: "                 << _phone        << ", ";
+    ioOut << "Почта: "                   << _email        << ", ";
+    ioOut << "Дата принятия на работу: " << _dateOfHiring << ", ";
+    ioOut << "Часы работы: "             << _workingHours << ", ";
+    ioOut << "Зарплата: "                << _salary       << ", ";
+    ioOut << "Пароль: "                  << _password;
     return ioOut;
 }
 
-bool operator == (const Employee &first, const Employee &second)
+bool Employee::operator == (const IEmployee &other) const noexcept
 {
-    return (first._email == second._email) &&
-           (first._password == second._password);
+    return (_email == static_cast<const Employee&>(other)._email) &&
+           (_password == static_cast<const Employee&>(other)._password);
 }
 
 template<>
@@ -181,74 +182,82 @@ void Employee::SetPassword(const std::string &iPassword)
     _password = Get<std::string>(iPassword, FIELD_PASSWORD);
 }
 
-uint Employee::GetId() const
+uint Employee::GetId() const noexcept
 {
     return _id;
 }
 
-std::string Employee::GetPosition() const
+std::string Employee::GetPosition() const noexcept
 {
     return _position;
 }
 
-std::string Employee::GetSurname() const
+std::string Employee::GetSurname() const noexcept
 {
     return _surname;
 }
 
-std::string Employee::GetName() const
+std::string Employee::GetName() const noexcept
 {
     return _name;
 }
 
-std::string Employee::GetPatronymic() const
+std::string Employee::GetPatronymic() const noexcept
 {
     return _patronymic;
 }
 
-std::string Employee::GetSex() const
+std::string Employee::GetSex() const noexcept
 {
     return _sex;
 }
 
-std::string Employee::GetDateOfBirth() const
+std::string Employee::GetDateOfBirth() const noexcept
 {
     return _dateOfBirth;
 }
 
-uint64_t Employee::GetPassport() const
+uint64_t Employee::GetPassport() const noexcept
 {
     return _passport;
 }
 
-uint64_t Employee::GetPhone() const
+uint64_t Employee::GetPhone() const noexcept
 {
     return _phone;
 }
 
-std::string Employee::GetEmail() const
+std::string Employee::GetEmail() const noexcept
 {
     return _email;
 }
 
-std::string Employee::GetDateOfHiring() const
+std::string Employee::GetDateOfHiring() const noexcept
 {
     return _dateOfHiring;
 }
 
-std::string Employee::GetWorkingHours() const
+std::string Employee::GetWorkingHours() const noexcept
 {
     return _workingHours;
 }
 
-uint Employee::GetSalary() const
+uint Employee::GetSalary() const noexcept
 {
     return _salary;
 }
 
-std::string Employee::GetPassword() const
+std::string Employee::GetPassword() const noexcept
 {
     return _password;
+}
+
+void Employee::PrintPersonalData() noexcept
+{
+    Logger::info << "***************** Вывод личных данных ******************" << std::endl;
+    std::cout << std::endl;
+    std::cout << "***************** Вывод личных данных ******************" << std::endl;
+    std::cout << this << std::endl;
 }
 
 const Employee::Type Employee::CheckField(std::string iValue, const Field iField)
@@ -588,7 +597,7 @@ const Employee::Type Employee::CheckField(std::string iValue, const Field iField
                 boost::regex regular ("(((((Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье),*)+)|"
                                       "(Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье)-"
                                       "(Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье))="
-                                      "([0-1]?[0-9]|[2][0-3]]):([0-5][0-9])-([0-1]?[0-9]|[2][0-3]):([0-5][0-9]);*)+");
+                                      "([0-1]?[0-9]|[2][0-3]):([0-5][0-9])-([0-1]?[0-9]|[2][0-3]):([0-5][0-9]);*)+");
                 if (iValue.empty())
                 {
                     type.status = ST_EMPTY;

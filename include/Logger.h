@@ -2,14 +2,8 @@
 #define Logger_h
 
 #include <iostream>
-#include <string>
-#include <fstream>
-#include <streambuf>
-#include <sstream>
 #include <thread>
-#include <mutex>
-
-#include "Utils.h"
+#include <sstream>
 
 class Employee;
 
@@ -19,6 +13,7 @@ class Employee;
  */
 class Logger
 {
+    friend std::default_delete<Logger>;
     friend class Director;
     
 public:
@@ -68,7 +63,7 @@ public:
      * @TODO: Установление уровня подробности лога
      * @param iLevel - Уровень лога
      */
-    static void SetDebugLevel(DebugLevel iLevel);
+    static void SetDebugLevel(DebugLevel iLevel) noexcept;
     
     /*!
      * @details Производный класс от класссов стандартной библиотеки.
@@ -84,7 +79,7 @@ public:
          * @brief Консруктор для связывания потока вывода со строковым буфером
          * @param iMessageType - Тип сообщения
          */
-        Streamer(Logger::MessageType iMessageType);
+        Streamer(Logger::MessageType iMessageType) noexcept;
         
         /*!
          * @brief Деструктор для удаление потока буфера
@@ -100,7 +95,7 @@ public:
              * @brief Конструктор для отправление типа сообщения
              * @param iMessageType - Тип сообщения
              */
-            StringBuffer(Logger::MessageType iMessageType);
+            StringBuffer(Logger::MessageType iMessageType) noexcept;
             
             /*!
              * @brief Деструктор.
@@ -112,7 +107,7 @@ public:
             /*!
              * @brief Синхронизация строкового буфера потока
              */
-            int sync() override;
+            virtual int sync() override;
             
         private:
             Logger::MessageType messageType_;
@@ -123,7 +118,7 @@ public:
     static Streamer warning; /// Объект потока для предупреждений
     static Streamer error;   /// Объект потока для ошибок
     
-protected:
+private:
     Logger() {}
     ~Logger();
     
@@ -142,7 +137,7 @@ private:
     static std::string _warningBuffer;     /// Буфер для хранения предупреждений
     static std::string _errorBuffer;       /// Буфер для хранения ошибок
     static std::string _allMessagesBuffer; /// Буфер для хранения всех видов сообщений
-    static Logger *_logger;                /// Объект-одиночка
+    static std::unique_ptr<Logger> _logger;/// Объект-одиночка
     static DebugLevel _debugLevel;         /// Уровень подробности лога
     static std::ofstream _logFile;         /// Выходной файловый поток
     std::thread _thread;                   /// Отдельный поток, в котром осуществляется запись в файл
@@ -180,27 +175,27 @@ private:
      * @brief Запись в файл
      * @param iMessage - Записываемое сообщение
      */
-    void WriteToFile(const std::string &iMessage);
+    void WriteToFile(const std::string &iMessage) noexcept;
     
     /*!
      * @brief Вывод информационных сообщений на экран
      */
-    static void PrintInfo();
+    static void PrintInfo() noexcept;
     
     /*!
      * @brief Вывод предупреждений на экран
      */
-    static void PrintWarning();
+    static void PrintWarning() noexcept;
     
     /*!
      * @brief Вывод ошибок на экран
      */
-    static void PrintError();
+    static void PrintError() noexcept;
     
     /*!
      * @brief Вывод всех сообщений (информационные сообщений, предупреждения, ошибки) на экран
      */
-    static void PrintAllMessages();
+    static void PrintAllMessages() noexcept;
     
     /*!
      * @brief Обертка для вывода разных видов сообщений

@@ -1,9 +1,11 @@
-#include <boost/filesystem.hpp>
-
 #include "Logger.h"
+#include "Utils.h"
 #include "Employee.h"
 
-Logger* Logger::_logger = nullptr;                                                 // Определение уровня подробности лога
+#include <fstream>
+#include <boost/filesystem.hpp>
+
+std::unique_ptr<Logger> Logger::_logger = nullptr;                                                 // Определение уровня подробности лога
 Logger::DebugLevel Logger::_debugLevel = Logger::DebugLevel::DEBUG_LEVEL_DISABLED; // Определение уровня подробности лога
 std::ofstream Logger::_logFile;                                                    // Определение выходного файлового потока
 Logger::Streamer Logger::info(Logger::MESSAGE_INFO);                               // Определение поля информационного сообщения для Logger
@@ -19,8 +21,7 @@ void Logger::Instance()
 {
     namespace bs = boost::filesystem;
     
-    delete _logger; // Очищение указателя на случай двойной инициализации
-    _logger = new Logger;
+    _logger.reset(new Logger());
     _debugLevel = DEBUG_LEVEL_INFO;
     
     bs::path fileName = Utils::LocalTime() + ".log";
@@ -30,12 +31,12 @@ void Logger::Instance()
     _logFile.open(filePath);
 }
 
-void Logger::SetDebugLevel(Logger::DebugLevel iDebugLevel)
+void Logger::SetDebugLevel(Logger::DebugLevel iDebugLevel) noexcept
 {
     _debugLevel = iDebugLevel;
 }
 
-Logger::Streamer::Streamer(Logger::MessageType iMessageType)
+Logger::Streamer::Streamer(Logger::MessageType iMessageType) noexcept
 : std::ostream(new StringBuffer(iMessageType))
 {
 }
@@ -45,7 +46,7 @@ Logger::Streamer::~Streamer()
     delete rdbuf();
 }
 
-Logger::Streamer::StringBuffer::StringBuffer(Logger::MessageType iMessageType)
+Logger::Streamer::StringBuffer::StringBuffer(Logger::MessageType iMessageType) noexcept
 : messageType_(iMessageType)
 {
 }
@@ -77,6 +78,7 @@ int Logger::Streamer::StringBuffer::sync()
             Logger::_logger->WriteError(text);
             break;
     }
+    
     return 0;
 };
 
@@ -137,27 +139,27 @@ void Logger::WriteToBuffer(const std::string &message, MessageType iMessageType)
     }
 }
 
-void Logger::WriteToFile(const std::string &iMessage)
+void Logger::WriteToFile(const std::string &iMessage) noexcept
 {
     _logFile << iMessage << std::flush; // Принудительный сброс буфера
 }
 
-void Logger::PrintInfo()
+void Logger::PrintInfo() noexcept
 {
     _infoBuffer.empty() ? std::cout << "Cообщения отсутствуют" << std::endl : std::cout << _infoBuffer;
 }
 
-void Logger::PrintWarning()
+void Logger::PrintWarning() noexcept
 {
     _warningBuffer.empty() ? std::cout << "Предупреждения отсутствуют" << std::endl : std::cout << _warningBuffer;
 }
 
-void Logger::PrintError()
+void Logger::PrintError() noexcept
 {
     _errorBuffer.empty() ? std::cout << "Ошибки отсутствуют" << std::endl : std::cout << _errorBuffer;
 }
 
-void Logger::PrintAllMessages()
+void Logger::PrintAllMessages() noexcept
 {
     std::cout << _allMessagesBuffer << std::endl;
 }
@@ -235,7 +237,6 @@ void Logger::PrintLog(const Employee *iObject)
 
 Logger::~Logger()
 {
-    delete _logger;
     _logFile.flush();
     _logFile.close();
 }

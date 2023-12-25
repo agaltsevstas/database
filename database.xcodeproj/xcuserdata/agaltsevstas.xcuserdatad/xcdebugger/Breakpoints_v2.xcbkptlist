@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "A2318EDF-2FB8-4826-9BD9-D41288A77B1C"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6571F43A-00B7-4FF8-953C-1212958A69C9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Data.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "659"
+            endingLineNumber = "659"
+            landmarkName = "Data::ChangeData(iObject, ioOtherObject)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6571F43A-00B7-4FF8-953C-1212958A69C9 - 483cf2fcb262483f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Data::ChangeData(IEmployee const*, IEmployee*)"
+                  moduleName = "database"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/agaltsevstas/Yandex.Disk-agaltsev.stas.localized/%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%20SOSIMBA/Programming/database/src/Data.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "668"
+                  endingLineNumber = "668"
+                  offsetFromSymbolStart = "116">
+               </Location>
+               <Location
+                  uuid = "6571F43A-00B7-4FF8-953C-1212958A69C9 - 483cf2fcb2624f07"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Data::ChangeData(IEmployee const*, IEmployee*)"
+                  moduleName = "database"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/agaltsevstas/Yandex.Disk-agaltsev.stas.localized/%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%20SOSIMBA/Programming/database/src/Data.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "660"
+                  endingLineNumber = "660"
+                  offsetFromSymbolStart = "112">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

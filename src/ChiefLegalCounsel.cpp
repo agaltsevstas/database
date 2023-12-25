@@ -1,13 +1,7 @@
 #include "ChiefLegalCounsel.h"
 #include "Data.h"
+#include "Utils.h"
 
-ChiefLegalCounsel::ChiefLegalCounsel() : _data(&Data::Instance()) {}
-
-const ChiefLegalCounsel& ChiefLegalCounsel::operator = (const Employee &object)
-{
-    Employee::operator=(object);
-    return *this;
-}
 
 void ChiefLegalCounsel::Functional()
 {
@@ -29,11 +23,11 @@ void ChiefLegalCounsel::Functional()
             switch (Utils::Hash(input.c_str()))
             {
                 case Utils::Hash("1") :
-                    _data->PrintPersonalData(this);
+                    PrintPersonalData();
                     break;
                     
                 case Utils::Hash("2") :
-                    _data->ChangeData(this);
+                    DataProxy::ChangeData(this);
                     break;
                     
                 case Utils::Hash("b") :

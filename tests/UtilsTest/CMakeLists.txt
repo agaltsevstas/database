@@ -25,7 +25,7 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-unknown-pragmas")
 
 ############### Конфигурация компилятора ###############
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CXX_EXTENSIONS OFF)
 
@@ -45,7 +45,7 @@ include_directories(${PROJECT_SOURCE_DIR}/../../include/)
 # Исходники
 file(GLOB SRC_LIST ${PROJECT_SOURCE_DIR}/UtilsTest.cpp
                    ${PROJECT_SOURCE_DIR}/../../src/Logger.cpp
-		   ${PROJECT_SOURCE_DIR}/../../src/TradingCompany.cpp
+		   ${PROJECT_SOURCE_DIR}/../../src/Employee.cpp
 		   ${PROJECT_SOURCE_DIR}/../../src/Utils.cpp)
 
 # Удаление main.cpp

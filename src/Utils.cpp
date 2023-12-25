@@ -1,10 +1,53 @@
+#include "Utils.h"
+
+#include <iomanip>
+#include <map>
+#include <sstream>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 
-#include "Utils.h"
-
 namespace Utils
 {
+
+    // Карта перевода из кириллицы в латиницу
+    static const std::map<std::string, std::string> translitSymbols =
+    {
+        {"а", "a"},
+        {"б", "b"},
+        {"в", "v"},
+        {"г", "g"},
+        {"д", "d"},
+        {"е", "e"},
+        {"ё", "e"},
+        {"ж", "zh"},
+        {"з", "z"},
+        {"и", "i"},
+        {"й", "j"},
+        {"к", "k"},
+        {"л", "l"},
+        {"м", "m"},
+        {"н", "n"},
+        {"о", "o"},
+        {"п", "p"},
+        {"р", "r"},
+        {"с", "s"},
+        {"т", "t"},
+        {"у", "u"},
+        {"ф", "f"},
+        {"х", "h"},
+        {"ц", "ts"},
+        {"ч", "ch"},
+        {"ш", "sh"},
+        {"щ", "sch"},
+        {"ъ", ""},
+        {"ы", "j"},
+        {"ь", ""},
+        {"э", "e"},
+        {"ю", "ju"},
+        {"я", "ja"},
+    };
+
     std::string Translit(const std::string &iTextCyrillic)
     {
         std::string textLatin;

@@ -50,6 +50,12 @@
             ReferencedContainer = "container:database.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "--directory=&quot;/Users/agaltsevstas/Yandex.Disk-agaltsev.stas.localized/&#x41a;&#x43e;&#x43c;&#x43f;&#x44c;&#x44e;&#x442;&#x435;&#x440; SOSIMBA/Programming/database/data&quot;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

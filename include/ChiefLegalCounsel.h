@@ -3,17 +3,12 @@
 
 #include "Employee.h"
 
-class Data;
 
-class ChiefLegalCounsel : public Employee
+class ChiefLegalCounsel final : public Employee
 {
 public:
-    ChiefLegalCounsel();
-    const ChiefLegalCounsel& operator = (const Employee &object);
+    ChiefLegalCounsel() = default;
     void Functional() override;
-    
-private:
-    Data* _data = nullptr;
 };
 
 #endif // ChiefLegalCouncel_h

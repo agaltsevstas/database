@@ -1,13 +1,7 @@
 #include "SalesManager.h"
 #include "Data.h"
+#include "Utils.h"
 
-SalesManager::SalesManager() : _data(&Data::Instance()) {}
-
-const SalesManager& SalesManager::operator = (const Employee &object)
-{
-    Employee::operator=(object);
-    return *this;
-}
 
 void SalesManager::Functional()
 {
@@ -29,11 +23,11 @@ void SalesManager::Functional()
             switch (Utils::Hash(input.c_str()))
             {
                 case Utils::Hash("1") :
-                    _data->PrintPersonalData(this);
+                    PrintPersonalData();
                     break;
                     
                 case Utils::Hash("2") :
-                    _data->ChangeData(this);
+                    DataProxy::ChangeData(this);
                     break;
                     
                 case Utils::Hash("b") :

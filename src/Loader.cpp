@@ -1,13 +1,7 @@
 #include "Loader.h"
 #include "Data.h"
+#include "Utils.h"
 
-Loader::Loader() : _data(&Data::Instance()) {}
-
-const Loader& Loader::operator = (const Employee &object)
-{
-    Employee::operator=(object);
-    return *this;
-}
 
 void Loader::Functional()
 {
@@ -29,11 +23,11 @@ void Loader::Functional()
             switch (Utils::Hash(input.c_str()))
             {
                 case Utils::Hash("1") :
-                    _data->PrintPersonalData(this);
+                    PrintPersonalData();
                     break;
                     
                 case Utils::Hash("2") :
-                    _data->ChangeData(this);
+                    DataProxy::ChangeData(this);
                     break;
                     
                 case Utils::Hash("b") :

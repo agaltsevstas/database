@@ -1,13 +1,7 @@
 #include "Driver.h"
 #include "Data.h"
+#include "Utils.h"
 
-Driver::Driver() : _data(&Data::Instance()) {}
-
-const Driver& Driver::operator = (const Employee &object)
-{
-    Employee::operator=(object);
-    return *this;
-}
 
 void Driver::Functional()
 {
@@ -29,11 +23,11 @@ void Driver::Functional()
             switch (Utils::Hash(input.c_str()))
             {
                 case Utils::Hash("1") :
-                    _data->PrintPersonalData(this);
+                    PrintPersonalData();
                     break;
                     
                 case Utils::Hash("2") :
-                    _data->ChangeData(this);
+                    DataProxy::ChangeData(this);
                     break;
                     
                 case Utils::Hash("b") :

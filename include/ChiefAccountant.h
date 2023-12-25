@@ -3,16 +3,11 @@
 
 #include "Employee.h"
 
-class Data;
 
-class ChiefAccountant : public Employee
+class ChiefAccountant final : public Employee
 {
 public:
-    ChiefAccountant();
-    const ChiefAccountant& operator = (const Employee &object);
+    ChiefAccountant() = default;
     void Functional() override;
-    
-private:
-    Data* _data = nullptr;
 };
 #endif // ChiefAccoutant_h

@@ -3,17 +3,12 @@
 
 #include "Employee.h"
 
-class Data;
 
-class Loader : public Employee
+class Loader final : public Employee
 {
 public:
-    Loader();
-    const Loader& operator = (const Employee &object);
+    Loader() = default;
     void Functional() override;
-    
-private:
-    Data* _data = nullptr;
 };
 
 #endif // Loader_h

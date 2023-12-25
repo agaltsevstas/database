@@ -4,12 +4,6 @@
 #pragma once
 
 #include <iostream>
-#include <string>
-#include <map>
-#include <vector>
-#include <sstream>
-#include <algorithm>
-#include <iomanip>
 #include <codecvt>
 
 #define LOGIN(object) Logger::info << "Вход в аккаунт >> " << object->GetPosition()   << " "        \
@@ -40,44 +34,6 @@
 
 namespace Utils
 {
-    // Карта перевода из кириллицы в латиницу
-    const std::map<std::string, std::string> translitSymbols =
-    {
-        {"а", "a"},
-        {"б", "b"},
-        {"в", "v"},
-        {"г", "g"},
-        {"д", "d"},
-        {"е", "e"},
-        {"ё", "e"},
-        {"ж", "zh"},
-        {"з", "z"},
-        {"и", "i"},
-        {"й", "j"},
-        {"к", "k"},
-        {"л", "l"},
-        {"м", "m"},
-        {"н", "n"},
-        {"о", "o"},
-        {"п", "p"},
-        {"р", "r"},
-        {"с", "s"},
-        {"т", "t"},
-        {"у", "u"},
-        {"ф", "f"},
-        {"х", "h"},
-        {"ц", "ts"},
-        {"ч", "ch"},
-        {"ш", "sh"},
-        {"щ", "sch"},
-        {"ъ", ""},
-        {"ы", "j"},
-        {"ь", ""},
-        {"э", "e"},
-        {"ю", "ju"},
-        {"я", "ja"},
-    };
-    
     /*!
      * @brief Перевод кирилицы латинскими буквами
      * @param iTextCyrillic - Кириллица
@@ -97,7 +53,7 @@ namespace Utils
      * @param iSource - Исходный текст
      * @return Готовый текст
      */
-    inline unsigned constexpr Hash(const char *iSource)
+    inline unsigned constexpr Hash(const char *iSource) noexcept
     {
         return *iSource ? static_cast<unsigned int>(*iSource) + 33 * Hash(iSource + 1) : 5381;
     }
@@ -107,7 +63,7 @@ namespace Utils
      * @param iSource - Исходный текст
      * @return Готовый текст
      */
-    inline std::string toLower(std::string iSource)
+    inline std::string toLower(std::string iSource) noexcept
     {
         std::transform(iSource.begin(), iSource.end(), iSource.begin(), ::tolower);
         return iSource;
@@ -117,7 +73,7 @@ namespace Utils
      * @brief Конвертирование прописных букв в строчные
      * @param iSource - Исходный текст
      */
-    inline void tolower(std::string &iSource)
+    inline void tolower(std::string &iSource) noexcept
     {
         std::transform(iSource.begin(), iSource.end(), iSource.begin(), ::tolower);
     }

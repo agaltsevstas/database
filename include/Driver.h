@@ -3,17 +3,12 @@
 
 #include "Employee.h"
 
-class Data;
 
-class Driver : public Employee
+class Driver final : public Employee
 {
 public:
-    Driver();
-    const Driver& operator = (const Employee &object);
+    Driver() = default;
     void Functional() override;
-    
-private:
-    Data* _data = nullptr;
 };
 
 #endif // Driver_h
