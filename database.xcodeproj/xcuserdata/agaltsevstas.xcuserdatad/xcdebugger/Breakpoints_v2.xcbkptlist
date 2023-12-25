@@ -49,6 +49,21 @@
                   endingLineNumber = "660"
                   offsetFromSymbolStart = "112">
                </Location>
+               <Location
+                  uuid = "6571F43A-00B7-4FF8-953C-1212958A69C9 - 483cf2fcb2624ee0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Data::ChangeData(IEmployee const*, IEmployee*)"
+                  moduleName = "database"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/agaltsevstas/Yandex.Disk-agaltsev.stas.localized/%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%20SOSIMBA/Programming/database/src/Data.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "659"
+                  endingLineNumber = "659"
+                  offsetFromSymbolStart = "112">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

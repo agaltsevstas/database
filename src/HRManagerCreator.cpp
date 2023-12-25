@@ -1,7 +1,7 @@
 #include "HRManager.h"
 #include "AbstractFactory.h"
 
-class HRManagerCreator : public IAbstractFactory<std::string, IEmployee>
+class HRManagerCreator final : public IAbstractFactory<std::string, IEmployee>
 {
 public:
     HRManagerCreator();

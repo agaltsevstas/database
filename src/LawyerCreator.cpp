@@ -1,7 +1,7 @@
 #include "Lawyer.h"
 #include "AbstractFactory.h"
 
-class LawyerCreator : public IAbstractFactory<std::string, IEmployee>
+class LawyerCreator final : public IAbstractFactory<std::string, IEmployee>
 {
 public:
     LawyerCreator();

@@ -1,7 +1,7 @@
 #include "Director.h"
 #include "AbstractFactory.h"
 
-class DirectorCreator : public IAbstractFactory<std::string, IEmployee>
+class DirectorCreator final : public IAbstractFactory<std::string, IEmployee>
 {
 public:
     DirectorCreator();

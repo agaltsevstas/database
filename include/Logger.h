@@ -5,7 +5,7 @@
 #include <thread>
 #include <sstream>
 
-class Employee;
+class IEmployee;
 
 /*!
  * @brief Класс-синглтон, предназначенный для сбора и сохранения информации о работе программы.
@@ -201,7 +201,7 @@ private:
      * @brief Обертка для вывода разных видов сообщений
      * @param iObject - Объект, который в данный момент используется
      */
-    static void PrintLog(const Employee *iObject);
+    static void PrintLog(const IEmployee *iObject);
 };
 
 #endif /* Logger_h */

@@ -1,7 +1,7 @@
 #include "AbstractFactory.h"
 #include "Accountant.h"
 
-class AccountantCreator : public IAbstractFactory<std::string, IEmployee>
+class AccountantCreator final : public IAbstractFactory<std::string, IEmployee>
 {
 public:
     AccountantCreator();

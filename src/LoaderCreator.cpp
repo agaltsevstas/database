@@ -1,7 +1,7 @@
 #include "Loader.h"
 #include "AbstractFactory.h"
 
-class LoaderCreator : public IAbstractFactory<std::string, IEmployee>
+class LoaderCreator final : public IAbstractFactory<std::string, IEmployee>
 {
 public:
     LoaderCreator();

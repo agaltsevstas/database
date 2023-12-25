@@ -1,7 +1,7 @@
 #include "SalesManager.h"
 #include "AbstractFactory.h"
 
-class SalesManagerCreator : public IAbstractFactory<std::string, IEmployee>
+class SalesManagerCreator final : public IAbstractFactory<std::string, IEmployee>
 {
 public:
     SalesManagerCreator();

@@ -1,6 +1,6 @@
 #include "Logger.h"
 #include "Utils.h"
-#include "Employee.h"
+#include "IEmployee.h"
 
 #include <fstream>
 #include <boost/filesystem.hpp>
@@ -164,7 +164,7 @@ void Logger::PrintAllMessages() noexcept
     std::cout << _allMessagesBuffer << std::endl;
 }
 
-void Logger::PrintLog(const Employee *iObject)
+void Logger::PrintLog(const IEmployee *iObject)
 {
     Logger::info << "*********************** Logger *************************" << std::endl;
     while (true)

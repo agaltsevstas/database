@@ -1,7 +1,7 @@
 #include "Logistician.h"
 #include "AbstractFactory.h"
 
-class LogisticianCreator : public IAbstractFactory<std::string, IEmployee>
+class LogisticianCreator final : public IAbstractFactory<std::string, IEmployee>
 {
 public:
     LogisticianCreator();
