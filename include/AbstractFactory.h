@@ -17,7 +17,7 @@ class IAbstractFactory
 {
     using ClassUniquePtr = std::unique_ptr<Base>;
     using ClassSharedPtr = std::shared_ptr<Base>;
-    typedef ClassSharedPtr (*TBase)(const Args&...);
+    using TBase = std::function<ClassSharedPtr(const Args&...)>;
     using FactoryMap = std::map<ID, TBase>;
     
 protected:
