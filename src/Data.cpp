@@ -303,10 +303,10 @@ void Data::ReadingTxtFile(const boost::filesystem::path &iFilePath, uint iID)
 
 void Data::ReadingXmlFile(const boost::filesystem::path &iFilePath, uint iID)
 {
-    const char *tag = "tradingCompany";
+    const char *tag = "Employee";
     const std::string fileName = iFilePath.filename().c_str(); // Получение имени с расширением
     const std::string name = iFilePath.stem().c_str(); // Получение имени без расширения
-    const char *className = Utils::GetClassName(IAbstractFactory<std::string, IEmployee>::Get(name)()).c_str();
+    const char *className = Utils::GetClassName(*IAbstractFactory<std::string, IEmployee>::Get(name)()).c_str();
     tinyxml2::XMLDocument doc; // Инициализация документа
     try
     {
