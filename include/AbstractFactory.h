@@ -17,7 +17,7 @@ class IAbstractFactory
 {
     using ClassUniquePtr = std::unique_ptr<Base>;
     using ClassSharedPtr = std::shared_ptr<Base>;
-    using TBase = std::function<ClassSharedPtr(const Args&...)>;
+    using TBase = std::function<ClassSharedPtr(Args&&...)>;
     using FactoryMap = std::map<ID, TBase>;
     
 protected:
@@ -32,7 +32,7 @@ public:
      * @brief Удаление класса
      * @param iID - Идентификатор  класса
      */
-    static void Remove(ID iID) noexcept
+    static void Remove(const ID& iID) noexcept
     {
         typename FactoryMap::iterator it = _classes.find(iID);
         if (it != _classes.end())
@@ -44,7 +44,7 @@ public:
      * @param iID - Идентификатор  зарегистрированного класса
      * @return true - зарегистрированный класс найден, иначе - false
      */
-    static bool IsRegistered(ID iID) noexcept
+    static bool IsRegistered(const ID& iID) noexcept
     {
         return _classes.find(iID) != _classes.end();
     }
@@ -55,7 +55,7 @@ public:
      * @param iArgs - Аргументы зарегистрированного класса
      * @return Созданный объект зарегистрированного класса
      */
-    static std::shared_ptr<Base> Create(ID iID, const Args&... iArgs)
+    static std::shared_ptr<Base> Create(const ID& iID, Args&&... iArgs)
     {
         if (auto it = _classes.find(iID); it != _classes.end())
         {
@@ -83,10 +83,10 @@ protected:
      * @param iID - Идентификатор  класса
      */
     template<class Derived>
-    void Add(const ID& iID)
+    void Add(ID&& iID)
     {
         static_assert(std::is_base_of<Base, Derived>::value, "Factory::registerType doesn't accept this type because doesn't derive from base class"); // Проверка Derived на принадлежность к Base
-        _classes[iID] = &Register<Derived>; // Сохраняем адрес метода Register
+        _classes[std::forward<ID>(iID)] = &Register<Derived>; // Сохраняем адрес метода Register
     }
 
 private:
@@ -96,9 +96,9 @@ private:
      * @return Созданный объект класса
      */
     template<class Derived>
-    static ClassSharedPtr Register(const Args&... iArgs)
+    static ClassSharedPtr Register(Args&&... iArgs)
     {
-        return std::make_shared<Derived>(iArgs...);
+        return std::make_shared<Derived>(std::forward<Args>(iArgs)...);
     }
 
 private:

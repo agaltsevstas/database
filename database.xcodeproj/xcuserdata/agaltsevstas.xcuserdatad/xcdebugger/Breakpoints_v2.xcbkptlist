@@ -158,6 +158,36 @@
                   endingLineNumber = "364"
                   offsetFromSymbolStart = "1180">
                </Location>
+               <Location
+                  uuid = "D0F2FCAB-F043-4573-9995-45771FD5B2BE - 4535834ad51060ef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Data::ReadingXmlFile(boost::filesystem::path const&amp;, unsigned int)"
+                  moduleName = "database"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/agaltsevstas/Yandex.Disk-agaltsev.stas.localized/%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%20SOSIMBA/Programming/database/src/Data.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "364"
+                  endingLineNumber = "364"
+                  offsetFromSymbolStart = "1092">
+               </Location>
+               <Location
+                  uuid = "D0F2FCAB-F043-4573-9995-45771FD5B2BE - 4535834ad51060ef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Data::ReadingXmlFile(boost::filesystem::path const&amp;, unsigned int)"
+                  moduleName = "database"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/agaltsevstas/Yandex.Disk-agaltsev.stas.localized/%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%20SOSIMBA/Programming/database/src/Data.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "364"
+                  endingLineNumber = "364"
+                  offsetFromSymbolStart = "1132">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
