@@ -4,12 +4,9 @@
 #include "Logger.h"
 #include "IEmployee.h"
 
-
 #include <map>
 
-/*!
- * @brief Абстрактный класс
- */
+
 class Employee : public IEmployee
 {
     friend class Data;

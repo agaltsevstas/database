@@ -47,7 +47,7 @@ Logger::Streamer::~Streamer()
 }
 
 Logger::Streamer::StringBuffer::StringBuffer(Logger::MessageType iMessageType) noexcept
-: messageType_(iMessageType)
+: _messageType(iMessageType)
 {
 }
 
@@ -64,7 +64,7 @@ int Logger::Streamer::StringBuffer::sync()
         return 0;
     }
     str(""); // Очищение буфера
-    switch (messageType_)
+    switch (_messageType)
     {
         case MESSAGE_INFO:
             Logger::_logger->WriteInfo(text);

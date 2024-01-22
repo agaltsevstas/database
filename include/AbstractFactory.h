@@ -7,7 +7,6 @@
 #define CREATOR_REGISTRATION(className)\
         static className _instance##className;
 
-
 /*!
  * @brief Абстрактная Фабрика Классов
  * Требуется для создания объектов классов
@@ -22,7 +21,6 @@ class IAbstractFactory
     
 protected:
     IAbstractFactory() = default;
-    ~IAbstractFactory() = default;
     IAbstractFactory(const IAbstractFactory&) = delete;
     IAbstractFactory& operator =(const IAbstractFactory&) = delete;
 

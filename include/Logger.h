@@ -110,7 +110,7 @@ public:
             virtual int sync() override;
             
         private:
-            Logger::MessageType messageType_;
+            Logger::MessageType _messageType;
         };
     };
     
