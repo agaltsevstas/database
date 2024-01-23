@@ -115,10 +115,10 @@ public:
     
 private:
     
-    Mode _mode = TXT; /// Режим записи данных
-    std::string _directoryPath; /// Путь к каталогу с файлами
-    std::list<std::string> _filePaths; /// Список путей к файлам
-    std::vector<std::shared_ptr<IEmployee>> _vectorObjects; /// Вектор объектов производных классов от Employee
+    Mode _mode = TXT; // Режим записи данных
+    std::string _directoryPath; // Путь к каталогу с файлами
+    std::list<std::string> _filePaths; // Список путей к файлам
+    std::vector<std::shared_ptr<IEmployee>> _vectorObjects; // Вектор объектов производных классов от Employee
     
     Data() = default;
 

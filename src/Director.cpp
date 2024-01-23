@@ -3,11 +3,6 @@
 #include "Utils.h"
 
 
-void Director::AddNewEmployeeData()
-{
-//    _data->NewEmployeeData(std::make_shared<Director>(*this));
-}
-
 void Director::Functional()
 {
     Logger::info << "******************** Личный кабинет ********************" << std::endl;

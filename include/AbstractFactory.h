@@ -21,6 +21,7 @@ class IAbstractFactory
     
 protected:
     IAbstractFactory() = default;
+    ~IAbstractFactory() = default;
     IAbstractFactory(const IAbstractFactory&) = delete;
     IAbstractFactory& operator =(const IAbstractFactory&) = delete;
 

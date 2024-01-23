@@ -13,8 +13,3 @@ DirectorCreator::DirectorCreator()
 {
     Add<Director>("Директор");
 }
-
-
-
-
-
