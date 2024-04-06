@@ -14,7 +14,7 @@
  */
 
 
-std::unique_ptr<Logger> Logger::_logger = nullptr;
+std::unique_ptr<Logger> Logger::_logger = nullptr; // Определение объекта-одиночки
 std::ofstream Logger::_logFile; // Определение выходного файлового потока
 
 void Logger::Instance()
@@ -28,7 +28,6 @@ void Logger::Instance()
         const std::string currrentPath = std::filesystem::current_path().string();
         const std::string fileName = Utils::LocalTime() + ".log";
         const std::string directory = "/log/";
-        auto del = currrentPath + directory;
         std::filesystem::create_directory(currrentPath + directory); // Проверка на существование каталога. В случае отсутсвия, создается каталог
         std::string filePath = currrentPath + directory + fileName;
         _logFile.open(filePath);
