@@ -2,33 +2,39 @@
 #include "Utils.h"
 #include "IEmployee.h"
 
+#include <filesystem>
 #include <fstream>
-#include <boost/filesystem.hpp>
+#include <thread>
 
-std::unique_ptr<Logger> Logger::_logger = nullptr;                                                 // Определение уровня подробности лога
-Logger::DebugLevel Logger::_debugLevel = Logger::DebugLevel::DEBUG_LEVEL_DISABLED; // Определение уровня подробности лога
-std::ofstream Logger::_logFile;                                                    // Определение выходного файлового потока
-Logger::Streamer Logger::info(Logger::MESSAGE_INFO);                               // Определение поля информационного сообщения для Logger
-Logger::Streamer Logger::warning(Logger::MESSAGE_WARNING);                         // Определение поля предупреждения для Logger
-Logger::Streamer Logger::error(Logger::MESSAGE_ERROR);                             // Определение поля ошибки для Logger
-std::string Logger::_infoBuffer;                                                   // Определение буфер хранения информационных сообщений
-std::string Logger::_warningBuffer;                                                // Определение буфер хранения предупреждений
-std::string Logger::_errorBuffer;                                                  // Определение буфер хранения ошибок
-std::string Logger::_allMessagesBuffer;                                            // Определение буфер хранения всех видов сообщений
 
+/*
+ Сайты:  https://stackoverflow.com/questions/26143930/xcode-how-to-set-current-working-directory-to-a-relative-path-for-an-executable
+    
+ Установить путь к проекту: Xcode-> Product-> Scheme-> Edit Scheme-> Run-> Options -> Working Directory-> Use custom working-> $(SOURCE_ROOT)
+ */
+
+
+std::unique_ptr<Logger> Logger::_logger = nullptr;
+std::ofstream Logger::_logFile; // Определение выходного файлового потока
 
 void Logger::Instance()
 {
-    namespace bs = boost::filesystem;
-    
-    _logger.reset(new Logger());
-    _debugLevel = DEBUG_LEVEL_INFO;
-    
-    bs::path fileName = Utils::LocalTime() + ".log";
-    bs::path directory = "log/";
-    bs::create_directory(directory); // Проверка на существование каталога. В случае отсутсвия, создается каталог
-    std::string filePath = directory.string() + fileName.string();
-    _logFile.open(filePath);
+    if (!_logger)
+    {
+        _logger.reset(new Logger());
+        static Logger instance; // Объект-одиночка
+        _debugLevel = DEBUG_LEVEL_INFO;
+        
+        const std::string currrentPath = std::filesystem::current_path().string();
+        const std::string fileName = Utils::LocalTime() + ".log";
+        const std::string directory = "/log/";
+        auto del = currrentPath + directory;
+        std::filesystem::create_directory(currrentPath + directory); // Проверка на существование каталога. В случае отсутсвия, создается каталог
+        std::string filePath = currrentPath + directory + fileName;
+        _logFile.open(filePath);
+        if (!_logFile.is_open())
+            throw std::ofstream::failure("Невозможно открыть директорию >> " + currrentPath + directory);
+    }
 }
 
 void Logger::SetDebugLevel(Logger::DebugLevel iDebugLevel) noexcept
@@ -59,7 +65,7 @@ Logger::Streamer::StringBuffer::~StringBuffer()
 int Logger::Streamer::StringBuffer::sync()
 {
     std::string text(str()); // Получение текста из буфера
-    if (Logger::_logger == nullptr || text.empty())
+    if (text.empty())
     {
         return 0;
     }
@@ -88,9 +94,9 @@ void Logger::WriteInfo(const std::string &iMessage)
     {
         const std::string localTime = "[" + Utils::LocalTime() + "] ";
         const std::string str = localTime + iMessage;
-        _thread = std::thread([this, &str]() { this->WriteToFile(str); });
+        auto thread = std::thread([this, &str]() { this->WriteToFile(str); }); // Отдельный поток, в котром осуществляется запись в файл
         WriteToBuffer(str, MessageType::MESSAGE_INFO);
-        _thread.join();
+        thread.join();
     }
 }
 
@@ -101,9 +107,9 @@ void Logger::WriteWarning(const std::string &iMessage)
         const std::string localTime = "[" + Utils::LocalTime() + "] ";
         const std::string type = "[Warning] ";
         const std::string str = localTime + type + iMessage;
-        _thread = std::thread([this, &str]() { this->WriteToFile(str); });
+        auto thread = std::thread([this, &str]() { this->WriteToFile(str); }); // Отдельный поток, в котром осуществляется запись в файл
         WriteToBuffer(str, MessageType::MESSAGE_WARNING);
-        _thread.join();
+        thread.join();
     }
 }
 
@@ -114,9 +120,9 @@ void Logger::WriteError(const std::string &iMessage)
         const std::string localTime = "[" + Utils::LocalTime() + "] ";
         const std::string type = "[Error] ";
         const std::string str = localTime + type + iMessage;
-        _thread = std::thread([this, &str]() { this->WriteToFile(str); });
+        auto thread = std::thread([this, &str]() { this->WriteToFile(str); }); // Отдельный поток, в котром осуществляется запись в файл
         WriteToBuffer(str, MessageType::MESSAGE_ERROR);
-        _thread.join();
+        thread.join();
     }
 }
 

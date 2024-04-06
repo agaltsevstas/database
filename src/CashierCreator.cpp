@@ -1,6 +1,7 @@
 #include "Cashier.h"
 #include "AbstractFactory.h"
 
+
 class CashierCreator final : public IAbstractFactory<std::string, IEmployee>
 {
 public:

@@ -2,7 +2,6 @@
 #define Logger_h
 
 #include <iostream>
-#include <thread>
 #include <sstream>
 
 class IEmployee;
@@ -114,9 +113,9 @@ public:
         };
     };
     
-    static Streamer info;    /// Объект потока для информационных сообщений
-    static Streamer warning; /// Объект потока для предупреждений
-    static Streamer error;   /// Объект потока для ошибок
+    inline static Streamer info = Logger::MESSAGE_INFO;       /// Объект потока для информационных сообщений
+    inline static Streamer warning = Logger::MESSAGE_WARNING; /// Объект потока для предупреждений
+    inline static Streamer error = Logger::MESSAGE_ERROR;     /// Объект потока для ошибок
     
 private:
     Logger() {}
@@ -131,16 +130,6 @@ private:
      * @brief Запрет оператора присваивания
      */
     Logger& operator=(Logger&) = delete;
-    
-private:
-    static std::string _infoBuffer;        /// Буфер для хранения информационных сообщений
-    static std::string _warningBuffer;     /// Буфер для хранения предупреждений
-    static std::string _errorBuffer;       /// Буфер для хранения ошибок
-    static std::string _allMessagesBuffer; /// Буфер для хранения всех видов сообщений
-    static std::unique_ptr<Logger> _logger;/// Объект-одиночка
-    static DebugLevel _debugLevel;         /// Уровень подробности лога
-    static std::ofstream _logFile;         /// Выходной файловый поток
-    std::thread _thread;                   /// Отдельный поток, в котром осуществляется запись в файл
     
     /*!
      * @brief Запись информационных сообщений.
@@ -202,6 +191,15 @@ private:
      * @param iObject - Объект, который в данный момент используется
      */
     static void PrintLog(const IEmployee *iObject);
+    
+private:
+    inline static std::string _infoBuffer;        /// Буфер для хранения информационных сообщений
+    inline static std::string _warningBuffer;     /// Буфер для хранения предупреждений
+    inline static std::string _errorBuffer;       /// Буфер для хранения ошибок
+    inline static std::string _allMessagesBuffer; /// Буфер для хранения всех видов сообщений
+    inline static DebugLevel _debugLevel = DEBUG_LEVEL_DISABLED; /// Уровень подробности лога
+    static std::unique_ptr<Logger> _logger; /// Объект-одиночка
+    static std::ofstream _logFile;         /// Выходной файловый поток
 };
 
 #endif /* Logger_h */

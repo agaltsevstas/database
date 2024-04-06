@@ -3,6 +3,7 @@
 
 #include <boost/regex.hpp>
 
+
 const IEmployee& Employee::operator = (const IEmployee &other)
 {
     _surname = static_cast<const Employee&>(other)._surname;

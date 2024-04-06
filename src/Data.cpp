@@ -9,6 +9,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/variant.hpp>
 #include <fstream>
+#include <thread>
 
 
 /// Карта ID должностей

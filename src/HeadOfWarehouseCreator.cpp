@@ -1,6 +1,7 @@
 #include "HeadOfWarehouse.h"
 #include "AbstractFactory.h"
 
+
 class HeadOfWarehouseCreator final : public IAbstractFactory<std::string, IEmployee>
 {
 public:

@@ -1,6 +1,7 @@
 #include "HeadOfProcurement.h"
 #include "AbstractFactory.h"
 
+
 class HeadOfProcurementCreator final : public IAbstractFactory<std::string, IEmployee>
 {
 public:
