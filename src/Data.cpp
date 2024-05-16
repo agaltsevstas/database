@@ -79,9 +79,9 @@ private:
      */
     struct Parameter
     {
-        boost::variant<std::function<uint(IEmployee&)>,
-                       std::function<uint64_t(IEmployee&)>,
-                       std::function<std::string(IEmployee&)>> getParameter;
+        std::variant<std::function<uint(IEmployee&)>,
+                     std::function<uint64_t(IEmployee&)>,
+                     std::function<std::string(IEmployee&)>> getParameter;
         std::function<void()> checkParameter = nullptr;
         std::function<void()> changeStatusParameter = nullptr;
         IEmployee *object = nullptr;
@@ -501,9 +501,6 @@ void Data::AccountLogin()
 
 void Data::CheckParameter(Parameter &iParameter)
 {
-    auto getUint32Parameter = boost::get<std::function<uint32_t(IEmployee&)>>(&iParameter.getParameter);
-    auto getUint64Parameter = boost::get<std::function<uint64_t(IEmployee&)>>(&iParameter.getParameter);
-    auto getStringParameter = boost::get<std::function<std::string(IEmployee&)>>(&iParameter.getParameter);
     auto checkParameter = iParameter.checkParameter;
     auto changeStatusParameter = iParameter.changeStatusParameter;
     auto object = iParameter.object;
@@ -514,37 +511,50 @@ void Data::CheckParameter(Parameter &iParameter)
     // Проверка полей, которые имеют высший приоритет, на дублирование данных
     if (isMatchCheck)
     {
+        // 1. Объект не должен совпадать ни с один из объектов вектора.
+        // 2. Возвращаемое значение поля объекта должно совпадать со значением поля одного из объектов вектора
+        // 3. После изменения значения поля объекта, цикл начинается заново
         for (auto it = std::begin(_vectorObjects); it != std::end(_vectorObjects);)
         {
-            // 1. Используется только один указатель, который != nullptr.
-            // 2. Объект не должен совпадать ни с один из объектов вектора.
-            // 3. Возвращаемое значение поля объекта должно совпадать со значением поля одного из объектов вектора
-            // 4. После изменения значения поля объекта, цикл начинается заново
-            if (getUint32Parameter != nullptr && it->get() != object &&
-                (*getUint32Parameter)(*(*it)) == (*getUint32Parameter)(*object))
+            std::visit([&](auto&& getParameter)
             {
-                changeStatusParameter();
-                checkParameter();
-                it = _vectorObjects.begin();
-            }
-            else if (getUint64Parameter != nullptr && it->get() != object &&
-                     (*getUint64Parameter)(*(*it)) == (*getUint64Parameter)(*object))
-            {
-                changeStatusParameter();
-                checkParameter();
-                it = _vectorObjects.begin();
-            }
-            else if (getStringParameter != nullptr && it->get() != object &&
-                     (*getStringParameter)(*(*it)) == (*getStringParameter)(*object))
-            {
-                changeStatusParameter();
-                checkParameter();
-                it = _vectorObjects.begin();
-            }
-            else
-            {
-                ++it;
-            }
+                using T = std::decay_t<decltype(getParameter)>;
+                if constexpr (std::is_same_v<T, std::function<uint32_t(IEmployee&)>>)
+                {
+                    if (it->get() != object && getParameter(*(*it)) == getParameter(*object))
+                    {
+                        changeStatusParameter();
+                        checkParameter();
+                        it = _vectorObjects.begin();
+                    }
+                    else
+                        ++it;
+                }
+                else if constexpr (std::is_same_v<T, std::function<uint64_t(IEmployee&)>>)
+                {
+                    if (it->get() != object && getParameter(*(*it)) == getParameter(*object))
+                    {
+                        changeStatusParameter();
+                        checkParameter();
+                        it = _vectorObjects.begin();
+                    }
+                    else
+                        ++it;
+                }
+                else if constexpr (std::is_same_v<T, std::function<std::string(IEmployee&)>>)
+                {
+                    if (it->get() != object && getParameter(*(*it)) == getParameter(*object))
+                    {
+                        changeStatusParameter();
+                        checkParameter();
+                        it = _vectorObjects.begin();
+                    }
+                    else
+                        ++it;
+                }
+                else
+                    ++it;
+            }, iParameter.getParameter);
         }
     }
 }

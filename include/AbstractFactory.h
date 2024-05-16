@@ -59,7 +59,7 @@ public:
         if (auto it = _classes.find(iID); it != _classes.end())
         {
             auto& [_id, _class] = *it;
-            return _class(iArgs...); // Вызывается метод Register
+            return _class(std::forward<Args>(iArgs)...); // Вызывается метод Register
         }
 
         return nullptr;
